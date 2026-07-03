@@ -1,0 +1,803 @@
+{
+  "asset_id": "dextoolbench/eraser/flat_eraser",
+  "label": "flat_eraser",
+  "mesh_path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/eraser/flat_eraser/flat_eraser.obj",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser",
+  "positive_prompt": "flat eraser handle or side body",
+  "positive_prompt_variants": [
+    "flat eraser handle or side body",
+    "handle or side body",
+    "flat eraser handle",
+    "handle",
+    "side body"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "flat eraser handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "flat eraser handle or side body",
+      "prompt_variants": [
+        "flat eraser handle or side body",
+        "handle or side body",
+        "flat eraser handle",
+        "handle",
+        "side body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "flat eraser handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "flat eraser handle or side body",
+      "prompt_variants": [
+        "flat eraser handle or side body",
+        "handle or side body",
+        "flat eraser handle",
+        "handle",
+        "side body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "flat eraser handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "flat eraser handle or side body",
+      "prompt_variants": [
+        "flat eraser handle or side body",
+        "handle or side body",
+        "flat eraser handle",
+        "handle",
+        "side body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "flat eraser handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "flat eraser handle or side body",
+      "prompt_variants": [
+        "flat eraser handle or side body",
+        "handle or side body",
+        "flat eraser handle",
+        "handle",
+        "side body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "flat eraser handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "flat eraser handle or side body",
+      "prompt_variants": [
+        "flat eraser handle or side body",
+        "handle or side body",
+        "flat eraser handle",
+        "handle",
+        "side body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "flat eraser handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "flat eraser handle or side body",
+      "prompt_variants": [
+        "flat eraser handle or side body",
+        "handle or side body",
+        "flat eraser handle",
+        "handle",
+        "side body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7323518395423889
+          ],
+          "boxes_xyxy": [
+            [
+              62.58723449707031,
+              91.979736328125,
+              705.08349609375,
+              675.0228881835938
+            ]
+          ],
+          "mask_pixels": 216541
+        },
+        {
+          "prompt": "handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "flat eraser handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "side body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.6565870642662048
+          ],
+          "boxes_xyxy": [
+            [
+              62.64525604248047,
+              92.26105499267578,
+              705.37060546875,
+              675.0191650390625
+            ]
+          ],
+          "mask_pixels": 216429
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "score": 0.7323518395423889,
+          "mask_pixels": 216541,
+          "box_xyxy": [
+            62.58723449707031,
+            91.979736328125,
+            705.08349609375,
+            675.0228881835938
+          ]
+        }
+      ],
+      "best_score": 0.7323518395423889,
+      "mask_pixels": 216541,
+      "prompt": "flat eraser handle or side body",
+      "prompt_variants": [
+        "flat eraser handle or side body",
+        "handle or side body",
+        "flat eraser handle",
+        "handle",
+        "side body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 5100
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7257951498031616
+          ],
+          "boxes_xyxy": [
+            [
+              62.32740783691406,
+              86.57146453857422,
+              705.4432373046875,
+              680.3277587890625
+            ]
+          ],
+          "mask_pixels": 218452
+        },
+        {
+          "prompt": "handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "flat eraser handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "side body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.6522383093833923
+          ],
+          "boxes_xyxy": [
+            [
+              62.35095977783203,
+              86.95504760742188,
+              705.6153564453125,
+              680.19970703125
+            ]
+          ],
+          "mask_pixels": 218331
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "score": 0.7257951498031616,
+          "mask_pixels": 218452,
+          "box_xyxy": [
+            62.32740783691406,
+            86.57146453857422,
+            705.4432373046875,
+            680.3277587890625
+          ]
+        }
+      ],
+      "best_score": 0.7257951498031616,
+      "mask_pixels": 218452,
+      "prompt": "flat eraser handle or side body",
+      "prompt_variants": [
+        "flat eraser handle or side body",
+        "handle or side body",
+        "flat eraser handle",
+        "handle",
+        "side body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 4941
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7717857360839844
+          ],
+          "boxes_xyxy": [
+            [
+              62.056434631347656,
+              89.16627502441406,
+              705.3938598632812,
+              677.4542846679688
+            ]
+          ],
+          "mask_pixels": 218005
+        },
+        {
+          "prompt": "handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "flat eraser handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "side body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.6405685544013977
+          ],
+          "boxes_xyxy": [
+            [
+              62.12434387207031,
+              89.6070785522461,
+              705.6268920898438,
+              677.361572265625
+            ]
+          ],
+          "mask_pixels": 175500
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "score": 0.7717857360839844,
+          "mask_pixels": 218005,
+          "box_xyxy": [
+            62.056434631347656,
+            89.16627502441406,
+            705.3938598632812,
+            677.4542846679688
+          ]
+        }
+      ],
+      "best_score": 0.7717857360839844,
+      "mask_pixels": 218005,
+      "prompt": "flat eraser handle or side body",
+      "prompt_variants": [
+        "flat eraser handle or side body",
+        "handle or side body",
+        "flat eraser handle",
+        "handle",
+        "side body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 2921
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7465206384658813
+          ],
+          "boxes_xyxy": [
+            [
+              62.586158752441406,
+              86.92483520507812,
+              705.4041137695312,
+              679.7388305664062
+            ]
+          ],
+          "mask_pixels": 218197
+        },
+        {
+          "prompt": "handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "flat eraser handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "side body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7090415954589844
+          ],
+          "boxes_xyxy": [
+            [
+              62.48561096191406,
+              86.99336242675781,
+              705.69677734375,
+              679.5482177734375
+            ]
+          ],
+          "mask_pixels": 218080
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "score": 0.7465206384658813,
+          "mask_pixels": 218197,
+          "box_xyxy": [
+            62.586158752441406,
+            86.92483520507812,
+            705.4041137695312,
+            679.7388305664062
+          ]
+        }
+      ],
+      "best_score": 0.7465206384658813,
+      "mask_pixels": 218197,
+      "prompt": "flat eraser handle or side body",
+      "prompt_variants": [
+        "flat eraser handle or side body",
+        "handle or side body",
+        "flat eraser handle",
+        "handle",
+        "side body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 2966
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "flat eraser handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "flat eraser handle or side body",
+      "prompt_variants": [
+        "flat eraser handle or side body",
+        "handle or side body",
+        "flat eraser handle",
+        "handle",
+        "side body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.42306631803512573
+          ],
+          "boxes_xyxy": [
+            [
+              62.39550018310547,
+              248.49514770507812,
+              705.417724609375,
+              518.947021484375
+            ]
+          ],
+          "mask_pixels": 171287
+        },
+        {
+          "prompt": "handle or side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "flat eraser handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "side body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "flat eraser handle or side body",
+          "score": 0.42306631803512573,
+          "mask_pixels": 171287,
+          "box_xyxy": [
+            62.39550018310547,
+            248.49514770507812,
+            705.417724609375,
+            518.947021484375
+          ]
+        }
+      ],
+      "best_score": 0.42306631803512573,
+      "mask_pixels": 171287,
+      "prompt": "flat eraser handle or side body",
+      "prompt_variants": [
+        "flat eraser handle or side body",
+        "handle or side body",
+        "flat eraser handle",
+        "handle",
+        "side body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 5101
+    }
+  },
+  "num_vertices": 5434,
+  "raw_positive_vertices": 5215,
+  "connected_positive_vertices": 4767,
+  "filled_positive_vertices": 4932,
+  "kept_component_sizes": [
+    1534,
+    631,
+    401,
+    377,
+    352,
+    256,
+    256,
+    201,
+    179,
+    154,
+    150,
+    148,
+    128
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 4932,
+  "clean_v2_negative_vertices": 413,
+  "clean_v2_ignore_vertices": 89,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/flat_eraser/grasp_affordance_clean_v2.npz"
+}

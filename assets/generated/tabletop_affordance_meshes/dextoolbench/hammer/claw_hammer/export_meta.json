@@ -1,0 +1,37 @@
+{
+  "asset_id": "dextoolbench/hammer/claw_hammer",
+  "label_path": "/data1/linsixu/simtoolreal_lab/assets/affordance_labels/dextoolbench/hammer/claw_hammer/grasp_affordance_clean_v2.npz",
+  "obj_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/hammer/claw_hammer/claw_hammer.obj",
+  "mtl_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/hammer/claw_hammer/claw_hammer.mtl",
+  "urdf_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/hammer/claw_hammer/claw_hammer.urdf",
+  "vertex_count": 2012,
+  "face_count": 3138,
+  "material_face_counts": {
+    "aff_ignore": 2,
+    "aff_negative": 459,
+    "aff_neutral": 0,
+    "aff_positive": 2677
+  },
+  "mass": 0.1,
+  "source_bounds_min": [
+    -0.05237419903278351,
+    -0.03821463882923126,
+    -0.014438370242714882
+  ],
+  "source_bounds_max": [
+    0.14262492954730988,
+    0.04740918055176735,
+    0.013538779690861702
+  ],
+  "source_up_axis": "Z",
+  "target_size": [
+    0.195,
+    0.086,
+    0.032
+  ],
+  "scale": [
+    1.0000044688400045,
+    1.004393410872359,
+    1.1437905603671024
+  ]
+}

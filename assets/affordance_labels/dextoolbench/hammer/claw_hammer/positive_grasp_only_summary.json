@@ -1,0 +1,752 @@
+{
+  "asset_id": "dextoolbench/hammer/claw_hammer",
+  "label": "claw_hammer",
+  "mesh_path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/hammer/claw_hammer/claw_hammer.obj",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer",
+  "positive_prompt": "claw hammer handle",
+  "positive_prompt_variants": [
+    "claw hammer handle",
+    "handle"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "claw hammer handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.2784115672111511
+          ],
+          "boxes_xyxy": [
+            [
+              61.01312255859375,
+              350.7510681152344,
+              606.70458984375,
+              412.9071044921875
+            ]
+          ],
+          "mask_pixels": 29924
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.2784115672111511,
+          "mask_pixels": 29924,
+          "box_xyxy": [
+            61.01312255859375,
+            350.7510681152344,
+            606.70458984375,
+            412.9071044921875
+          ]
+        }
+      ],
+      "best_score": 0.2784115672111511,
+      "mask_pixels": 29924,
+      "prompt": "claw hammer handle",
+      "prompt_variants": [
+        "claw hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 491
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "claw hammer handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.4549930691719055
+          ],
+          "boxes_xyxy": [
+            [
+              149.1402587890625,
+              350.78643798828125,
+              706.3031005859375,
+              412.6392517089844
+            ]
+          ],
+          "mask_pixels": 30632
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.4549930691719055,
+          "mask_pixels": 30632,
+          "box_xyxy": [
+            149.1402587890625,
+            350.78643798828125,
+            706.3031005859375,
+            412.6392517089844
+          ]
+        }
+      ],
+      "best_score": 0.4549930691719055,
+      "mask_pixels": 30632,
+      "prompt": "claw hammer handle",
+      "prompt_variants": [
+        "claw hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 503
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "claw hammer handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "claw hammer handle",
+      "prompt_variants": [
+        "claw hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "claw hammer handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "claw hammer handle",
+      "prompt_variants": [
+        "claw hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "claw hammer handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.7170622944831848,
+            0.35590118169784546
+          ],
+          "boxes_xyxy": [
+            [
+              592.0026245117188,
+              243.5740966796875,
+              706.8341064453125,
+              525.522216796875
+            ],
+            [
+              60.79206848144531,
+              364.27801513671875,
+              619.178955078125,
+              439.47210693359375
+            ]
+          ],
+          "mask_pixels": 58023
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.7170622944831848,
+          "mask_pixels": 19589,
+          "box_xyxy": [
+            592.0026245117188,
+            243.5740966796875,
+            706.8341064453125,
+            525.522216796875
+          ]
+        }
+      ],
+      "best_score": 0.7170622944831848,
+      "mask_pixels": 19589,
+      "prompt": "claw hammer handle",
+      "prompt_variants": [
+        "claw hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 645
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "claw hammer handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.29353034496307373,
+            0.5614325404167175
+          ],
+          "boxes_xyxy": [
+            [
+              61.22083282470703,
+              329.38525390625,
+              619.1456298828125,
+              403.71533203125
+            ],
+            [
+              592.3798828125,
+              242.21209716796875,
+              706.3037109375,
+              524.764404296875
+            ]
+          ],
+          "mask_pixels": 57685
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.5614325404167175,
+          "mask_pixels": 19547,
+          "box_xyxy": [
+            592.3798828125,
+            242.21209716796875,
+            706.3037109375,
+            524.764404296875
+          ]
+        }
+      ],
+      "best_score": 0.5614325404167175,
+      "mask_pixels": 19547,
+      "prompt": "claw hammer handle",
+      "prompt_variants": [
+        "claw hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 633
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "claw hammer handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.626923680305481
+          ],
+          "boxes_xyxy": [
+            [
+              62.054054260253906,
+              288.59600830078125,
+              547.0885620117188,
+              585.1257934570312
+            ]
+          ],
+          "mask_pixels": 39671
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.25590649247169495,
+            0.8275691270828247,
+            0.2052958756685257
+          ],
+          "boxes_xyxy": [
+            [
+              403.44012451171875,
+              182.69381713867188,
+              650.2703857421875,
+              349.59918212890625
+            ],
+            [
+              62.07048797607422,
+              288.512451171875,
+              547.3817138671875,
+              584.949951171875
+            ],
+            [
+              601.0940551757812,
+              273.0284423828125,
+              706.7952880859375,
+              382.20184326171875
+            ]
+          ],
+          "mask_pixels": 72925
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.8275691270828247,
+          "mask_pixels": 39722,
+          "box_xyxy": [
+            62.07048797607422,
+            288.512451171875,
+            547.3817138671875,
+            584.949951171875
+          ]
+        }
+      ],
+      "best_score": 0.8275691270828247,
+      "mask_pixels": 39722,
+      "prompt": "claw hammer handle",
+      "prompt_variants": [
+        "claw hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 494
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "claw hammer handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.5989745855331421
+          ],
+          "boxes_xyxy": [
+            [
+              171.35928344726562,
+              163.5933837890625,
+              706.0980224609375,
+              509.9466552734375
+            ]
+          ],
+          "mask_pixels": 48424
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.8355061411857605,
+            0.21105533838272095
+          ],
+          "boxes_xyxy": [
+            [
+              171.1134033203125,
+              163.46231079101562,
+              706.26953125,
+              509.866455078125
+            ],
+            [
+              60.65028762817383,
+              350.2671813964844,
+              310.3470458984375,
+              599.650390625
+            ]
+          ],
+          "mask_pixels": 78061
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.8355061411857605,
+          "mask_pixels": 48456,
+          "box_xyxy": [
+            171.1134033203125,
+            163.46231079101562,
+            706.26953125,
+            509.866455078125
+          ]
+        }
+      ],
+      "best_score": 0.8355061411857605,
+      "mask_pixels": 48456,
+      "prompt": "claw hammer handle",
+      "prompt_variants": [
+        "claw hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 570
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "claw hammer handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.3037329316139221
+          ],
+          "boxes_xyxy": [
+            [
+              62.316810607910156,
+              276.85565185546875,
+              577.3240356445312,
+              601.2442626953125
+            ]
+          ],
+          "mask_pixels": 44509
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.229220449924469,
+            0.6886265277862549
+          ],
+          "boxes_xyxy": [
+            [
+              458.3780517578125,
+              167.07418823242188,
+              707.5012817382812,
+              418.9719543457031
+            ],
+            [
+              62.24400329589844,
+              276.9663391113281,
+              578.042724609375,
+              601.096435546875
+            ]
+          ],
+          "mask_pixels": 77296
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.6886265277862549,
+          "mask_pixels": 44537,
+          "box_xyxy": [
+            62.24400329589844,
+            276.9663391113281,
+            578.042724609375,
+            601.096435546875
+          ]
+        }
+      ],
+      "best_score": 0.6886265277862549,
+      "mask_pixels": 44537,
+      "prompt": "claw hammer handle",
+      "prompt_variants": [
+        "claw hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 501
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "claw hammer handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.6400632858276367
+          ],
+          "boxes_xyxy": [
+            [
+              61.52446746826172,
+              180.86802673339844,
+              566.5704345703125,
+              505.1981201171875
+            ]
+          ],
+          "mask_pixels": 42586
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.21331185102462769,
+            0.6655774116516113
+          ],
+          "boxes_xyxy": [
+            [
+              601.2755126953125,
+              388.4096374511719,
+              706.3049926757812,
+              495.6827087402344
+            ],
+            [
+              61.39109802246094,
+              180.6549072265625,
+              567.1546630859375,
+              505.24493408203125
+            ]
+          ],
+          "mask_pixels": 51087
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.6655774116516113,
+          "mask_pixels": 42622,
+          "box_xyxy": [
+            61.39109802246094,
+            180.6549072265625,
+            567.1546630859375,
+            505.24493408203125
+          ]
+        }
+      ],
+      "best_score": 0.6655774116516113,
+      "mask_pixels": 42622,
+      "prompt": "claw hammer handle",
+      "prompt_variants": [
+        "claw hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 561
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "claw hammer handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.33967825770378113,
+            0.49313387274742126
+          ],
+          "boxes_xyxy": [
+            [
+              61.33465576171875,
+              359.822021484375,
+              618.3297729492188,
+              433.241455078125
+            ],
+            [
+              590.983642578125,
+              255.7093963623047,
+              706.5316162109375,
+              512.70458984375
+            ]
+          ],
+          "mask_pixels": 58089
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.49313387274742126,
+          "mask_pixels": 20582,
+          "box_xyxy": [
+            590.983642578125,
+            255.7093963623047,
+            706.5316162109375,
+            512.70458984375
+          ]
+        }
+      ],
+      "best_score": 0.49313387274742126,
+      "mask_pixels": 20582,
+      "prompt": "claw hammer handle",
+      "prompt_variants": [
+        "claw hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 685
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "claw hammer handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.4209277629852295
+          ],
+          "boxes_xyxy": [
+            [
+              149.69561767578125,
+              334.1621398925781,
+              706.2261962890625,
+              405.8824768066406
+            ]
+          ],
+          "mask_pixels": 37301
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.278380423784256,
+            0.5468190908432007
+          ],
+          "boxes_xyxy": [
+            [
+              62.337425231933594,
+              255.43556213378906,
+              177.3541717529297,
+              511.22369384765625
+            ],
+            [
+              149.4590606689453,
+              334.2071533203125,
+              706.5072021484375,
+              405.9197998046875
+            ]
+          ],
+          "mask_pixels": 57854
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.5468190908432007,
+          "mask_pixels": 37162,
+          "box_xyxy": [
+            149.4590606689453,
+            334.2071533203125,
+            706.5072021484375,
+            405.9197998046875
+          ]
+        }
+      ],
+      "best_score": 0.5468190908432007,
+      "mask_pixels": 37162,
+      "prompt": "claw hammer handle",
+      "prompt_variants": [
+        "claw hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 548
+    }
+  },
+  "num_vertices": 2012,
+  "raw_positive_vertices": 1611,
+  "connected_positive_vertices": 1566,
+  "filled_positive_vertices": 1670,
+  "kept_component_sizes": [
+    182,
+    169,
+    158,
+    157,
+    157,
+    148,
+    88,
+    83,
+    65,
+    63,
+    57,
+    42,
+    42,
+    38,
+    35,
+    34,
+    25,
+    23
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 1670,
+  "clean_v2_negative_vertices": 317,
+  "clean_v2_ignore_vertices": 25,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/grasp_affordance_clean_v2.npz"
+}

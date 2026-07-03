@@ -1,0 +1,37 @@
+{
+  "asset_id": "domino20/kettle",
+  "label_path": "/data1/linsixu/simtoolreal_lab/assets/affordance_labels/domino20/kettle/grasp_affordance_clean_v2.npz",
+  "obj_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/kettle/kettle.obj",
+  "mtl_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/kettle/kettle.mtl",
+  "urdf_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/kettle/kettle.urdf",
+  "vertex_count": 19932,
+  "face_count": 34694,
+  "material_face_counts": {
+    "aff_ignore": 16067,
+    "aff_negative": 9189,
+    "aff_neutral": 0,
+    "aff_positive": 9438
+  },
+  "mass": 0.07,
+  "source_bounds_min": [
+    -0.6900680065155029,
+    0.0,
+    -0.9496809840202332
+  ],
+  "source_bounds_max": [
+    0.6902980208396912,
+    1.7582240104675293,
+    0.9472020268440247
+  ],
+  "source_up_axis": "Y",
+  "target_size": [
+    0.095,
+    0.075,
+    0.082
+  ],
+  "scale": [
+    0.068822325468283,
+    0.03953854801294704,
+    0.046637970765849905
+  ]
+}

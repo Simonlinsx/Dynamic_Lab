@@ -1,0 +1,583 @@
+{
+  "asset_id": "domino20/pill_bottle",
+  "label": "pill_bottle",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/080_pillbottle/visual/base1.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle",
+  "positive_prompt": "pill bottle body",
+  "positive_prompt_variants": [
+    "pill bottle body",
+    "body"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "pill bottle body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "pill bottle body",
+      "prompt_variants": [
+        "pill bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "pill bottle body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "pill bottle body",
+      "prompt_variants": [
+        "pill bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "pill bottle body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.387151300907135
+          ],
+          "boxes_xyxy": [
+            [
+              62.08271026611328,
+              234.41812133789062,
+              637.4215087890625,
+              532.544189453125
+            ]
+          ],
+          "mask_pixels": 155620
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "pill bottle body",
+          "score": 0.387151300907135,
+          "mask_pixels": 155620,
+          "box_xyxy": [
+            62.08271026611328,
+            234.41812133789062,
+            637.4215087890625,
+            532.544189453125
+          ]
+        }
+      ],
+      "best_score": 0.387151300907135,
+      "mask_pixels": 155620,
+      "prompt": "pill bottle body",
+      "prompt_variants": [
+        "pill bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 7590
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "pill bottle body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.247810497879982
+          ],
+          "boxes_xyxy": [
+            [
+              61.882118225097656,
+              234.69845581054688,
+              706.2122802734375,
+              533.7006225585938
+            ]
+          ],
+          "mask_pixels": 161410
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "pill bottle body",
+          "score": 0.247810497879982,
+          "mask_pixels": 161410,
+          "box_xyxy": [
+            61.882118225097656,
+            234.69845581054688,
+            706.2122802734375,
+            533.7006225585938
+          ]
+        }
+      ],
+      "best_score": 0.247810497879982,
+      "mask_pixels": 161410,
+      "prompt": "pill bottle body",
+      "prompt_variants": [
+        "pill bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 9009
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "pill bottle body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.5502334833145142
+          ],
+          "boxes_xyxy": [
+            [
+              232.3916473388672,
+              127.65254974365234,
+              535.5834350585938,
+              706.576416015625
+            ]
+          ],
+          "mask_pixels": 164560
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "pill bottle body",
+          "score": 0.5502334833145142,
+          "mask_pixels": 164560,
+          "box_xyxy": [
+            232.3916473388672,
+            127.65254974365234,
+            535.5834350585938,
+            706.576416015625
+          ]
+        }
+      ],
+      "best_score": 0.5502334833145142,
+      "mask_pixels": 164560,
+      "prompt": "pill bottle body",
+      "prompt_variants": [
+        "pill bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 9791
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "pill bottle body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.31285932660102844
+          ],
+          "boxes_xyxy": [
+            [
+              232.77886962890625,
+              61.65385437011719,
+              535.2813720703125,
+              647.8740844726562
+            ]
+          ],
+          "mask_pixels": 164548
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "pill bottle body",
+          "score": 0.31285932660102844,
+          "mask_pixels": 164548,
+          "box_xyxy": [
+            232.77886962890625,
+            61.65385437011719,
+            535.2813720703125,
+            647.8740844726562
+          ]
+        }
+      ],
+      "best_score": 0.31285932660102844,
+      "mask_pixels": 164548,
+      "prompt": "pill bottle body",
+      "prompt_variants": [
+        "pill bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 9556
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "pill bottle body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.46836057305336
+          ],
+          "boxes_xyxy": [
+            [
+              157.91189575195312,
+              170.85214233398438,
+              706.0870971679688,
+              638.0150146484375
+            ]
+          ],
+          "mask_pixels": 145882
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "pill bottle body",
+          "score": 0.46836057305336,
+          "mask_pixels": 145882,
+          "box_xyxy": [
+            157.91189575195312,
+            170.85214233398438,
+            706.0870971679688,
+            638.0150146484375
+          ]
+        }
+      ],
+      "best_score": 0.46836057305336,
+      "mask_pixels": 145882,
+      "prompt": "pill bottle body",
+      "prompt_variants": [
+        "pill bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 7498
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "pill bottle body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.6704064607620239
+          ],
+          "boxes_xyxy": [
+            [
+              157.83059692382812,
+              170.86648559570312,
+              705.7667236328125,
+              638.45703125
+            ]
+          ],
+          "mask_pixels": 146151
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "pill bottle body",
+          "score": 0.6704064607620239,
+          "mask_pixels": 146151,
+          "box_xyxy": [
+            157.83059692382812,
+            170.86648559570312,
+            705.7667236328125,
+            638.45703125
+          ]
+        }
+      ],
+      "best_score": 0.6704064607620239,
+      "mask_pixels": 146151,
+      "prompt": "pill bottle body",
+      "prompt_variants": [
+        "pill bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 7580
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "pill bottle body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "pill bottle body",
+      "prompt_variants": [
+        "pill bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "pill bottle body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.34879881143569946
+          ],
+          "boxes_xyxy": [
+            [
+              148.40567016601562,
+              130.862548828125,
+              705.048828125,
+              596.0194091796875
+            ]
+          ],
+          "mask_pixels": 161579
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "pill bottle body",
+          "score": 0.34879881143569946,
+          "mask_pixels": 161579,
+          "box_xyxy": [
+            148.40567016601562,
+            130.862548828125,
+            705.048828125,
+            596.0194091796875
+          ]
+        }
+      ],
+      "best_score": 0.34879881143569946,
+      "mask_pixels": 161579,
+      "prompt": "pill bottle body",
+      "prompt_variants": [
+        "pill bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 8613
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "pill bottle body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.21942201256752014
+          ],
+          "boxes_xyxy": [
+            [
+              226.3799285888672,
+              63.12718963623047,
+              541.3185424804688,
+              706.7191772460938
+            ]
+          ],
+          "mask_pixels": 164772
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "pill bottle body",
+          "score": 0.21942201256752014,
+          "mask_pixels": 164772,
+          "box_xyxy": [
+            226.3799285888672,
+            63.12718963623047,
+            541.3185424804688,
+            706.7191772460938
+          ]
+        }
+      ],
+      "best_score": 0.21942201256752014,
+      "mask_pixels": 164772,
+      "prompt": "pill bottle body",
+      "prompt_variants": [
+        "pill bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 10918
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "pill bottle body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "pill bottle body",
+      "prompt_variants": [
+        "pill bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 0
+    }
+  },
+  "num_vertices": 19913,
+  "raw_positive_vertices": 13025,
+  "connected_positive_vertices": 11937,
+  "filled_positive_vertices": 12120,
+  "kept_component_sizes": [
+    1676,
+    1673,
+    1658,
+    1440,
+    1426,
+    820,
+    806,
+    565,
+    272,
+    269,
+    246,
+    245,
+    236,
+    179,
+    154,
+    137,
+    135
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 12120,
+  "clean_v2_negative_vertices": 4462,
+  "clean_v2_ignore_vertices": 3331,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/pill_bottle/grasp_affordance_clean_v2.npz"
+}

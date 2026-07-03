@@ -1,0 +1,401 @@
+{
+  "asset_id": "domino20/sauce_can",
+  "label": "sauce_can",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/105_sauce-can/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can",
+  "positive_prompt": "sauce can body",
+  "positive_prompt_variants": [
+    "sauce can body",
+    "body"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "sauce can body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "sauce can body",
+      "prompt_variants": [
+        "sauce can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "sauce can body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "sauce can body",
+      "prompt_variants": [
+        "sauce can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "sauce can body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "sauce can body",
+      "prompt_variants": [
+        "sauce can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "sauce can body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "sauce can body",
+      "prompt_variants": [
+        "sauce can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "sauce can body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "sauce can body",
+      "prompt_variants": [
+        "sauce can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "sauce can body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.2051171511411667
+          ],
+          "boxes_xyxy": [
+            [
+              189.18763732910156,
+              62.20726776123047,
+              578.996826171875,
+              705.3455810546875
+            ]
+          ],
+          "mask_pixels": 236709
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "sauce can body",
+          "score": 0.2051171511411667,
+          "mask_pixels": 236709,
+          "box_xyxy": [
+            189.18763732910156,
+            62.20726776123047,
+            578.996826171875,
+            705.3455810546875
+          ]
+        }
+      ],
+      "best_score": 0.2051171511411667,
+      "mask_pixels": 236709,
+      "prompt": "sauce can body",
+      "prompt_variants": [
+        "sauce can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 13242
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "sauce can body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "sauce can body",
+      "prompt_variants": [
+        "sauce can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "sauce can body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "sauce can body",
+      "prompt_variants": [
+        "sauce can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "sauce can body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "sauce can body",
+      "prompt_variants": [
+        "sauce can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "sauce can body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "sauce can body",
+      "prompt_variants": [
+        "sauce can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "sauce can body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "sauce can body",
+      "prompt_variants": [
+        "sauce can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "sauce can body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "sauce can body",
+      "prompt_variants": [
+        "sauce can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 0
+    }
+  },
+  "num_vertices": 19739,
+  "raw_positive_vertices": 7233,
+  "connected_positive_vertices": 6182,
+  "filled_positive_vertices": 6536,
+  "kept_component_sizes": [
+    2208,
+    873,
+    865,
+    417,
+    379,
+    349,
+    311,
+    310,
+    275,
+    195
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 6536,
+  "clean_v2_negative_vertices": 3362,
+  "clean_v2_ignore_vertices": 9841,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/grasp_affordance_clean_v2.npz"
+}

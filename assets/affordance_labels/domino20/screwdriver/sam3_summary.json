@@ -1,0 +1,1567 @@
+{
+  "asset_id": "domino20/screwdriver",
+  "label": "screwdriver",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/032_screwdriver/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver",
+  "prompts": {
+    "positive_grasp": "screwdriver handle",
+    "negative_grasp": "screwdriver shaft or tip",
+    "tool_use_surface": "screwdriver tip"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "screwdriver handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "screwdriver handle",
+        "prompt_variants": [
+          "screwdriver handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "screwdriver shaft or tip",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "shaft or tip",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "screwdriver shaft",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "shaft",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "tip",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "screwdriver shaft or tip",
+        "prompt_variants": [
+          "screwdriver shaft or tip",
+          "shaft or tip",
+          "screwdriver shaft",
+          "shaft",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "screwdriver tip",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "tip",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "screwdriver tip",
+        "prompt_variants": [
+          "screwdriver tip",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "screwdriver handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "screwdriver handle",
+        "prompt_variants": [
+          "screwdriver handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "screwdriver shaft or tip",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "shaft or tip",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "screwdriver shaft",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "shaft",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "tip",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "screwdriver shaft or tip",
+        "prompt_variants": [
+          "screwdriver shaft or tip",
+          "shaft or tip",
+          "screwdriver shaft",
+          "shaft",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "screwdriver tip",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "tip",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "screwdriver tip",
+        "prompt_variants": [
+          "screwdriver tip",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8901659250259399
+            ],
+            "boxes_xyxy": [
+              [
+                41.471038818359375,
+                223.9755401611328,
+                259.1938171386719,
+                287.95074462890625
+              ]
+            ],
+            "prompt": "screwdriver handle",
+            "mask_pixels": 11284
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8655726313591003
+            ],
+            "boxes_xyxy": [
+              [
+                41.511940002441406,
+                223.8245391845703,
+                259.24853515625,
+                287.859619140625
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 11268
+          }
+        ],
+        "best_score": 0.8901659250259399,
+        "mask_pixels": 11284,
+        "prompt": "screwdriver handle",
+        "prompt_variants": [
+          "screwdriver handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 2913
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8010008335113525,
+              0.2657606899738312
+            ],
+            "boxes_xyxy": [
+              [
+                259.18505859375,
+                249.00491333007812,
+                457.3359375,
+                263.3435974121094
+              ],
+              [
+                41.279693603515625,
+                224.58753967285156,
+                470.9049987792969,
+                288.1773681640625
+              ]
+            ],
+            "prompt": "screwdriver shaft or tip",
+            "mask_pixels": 14472
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.7756618857383728,
+              0.6862950325012207
+            ],
+            "boxes_xyxy": [
+              [
+                259.3943176269531,
+                248.91419982910156,
+                466.5178527832031,
+                263.5047912597656
+              ],
+              [
+                454.01318359375,
+                250.39077758789062,
+                471.32080078125,
+                261.3746032714844
+              ]
+            ],
+            "prompt": "shaft or tip",
+            "mask_pixels": 2824
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6488118767738342,
+              0.2682768404483795
+            ],
+            "boxes_xyxy": [
+              [
+                259.2127685546875,
+                248.97348022460938,
+                455.74310302734375,
+                263.3194274902344
+              ],
+              [
+                41.30641174316406,
+                224.64437866210938,
+                470.9259033203125,
+                287.6601867675781
+              ]
+            ],
+            "prompt": "screwdriver shaft",
+            "mask_pixels": 14483
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8167637586593628,
+              0.2722322642803192
+            ],
+            "boxes_xyxy": [
+              [
+                259.25030517578125,
+                248.95509338378906,
+                456.2659912109375,
+                263.31170654296875
+              ],
+              [
+                40.991455078125,
+                223.25119018554688,
+                471.64599609375,
+                288.5394287109375
+              ]
+            ],
+            "prompt": "shaft",
+            "mask_pixels": 14430
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8262742161750793,
+              0.35971203446388245
+            ],
+            "boxes_xyxy": [
+              [
+                454.51202392578125,
+                250.30076599121094,
+                471.1702880859375,
+                261.65380859375
+              ],
+              [
+                41.195533752441406,
+                233.1701202392578,
+                55.86286163330078,
+                278.02685546875
+              ]
+            ],
+            "prompt": "tip",
+            "mask_pixels": 671
+          }
+        ],
+        "best_score": 0.8262742161750793,
+        "mask_pixels": 14510,
+        "prompt": "screwdriver shaft or tip",
+        "prompt_variants": [
+          "screwdriver shaft or tip",
+          "shaft or tip",
+          "screwdriver shaft",
+          "shaft",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 4859
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.734897792339325
+            ],
+            "boxes_xyxy": [
+              [
+                454.50341796875,
+                250.32373046875,
+                471.21807861328125,
+                261.5600891113281
+              ]
+            ],
+            "prompt": "screwdriver tip",
+            "mask_pixels": 146
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8262742161750793,
+              0.35971203446388245
+            ],
+            "boxes_xyxy": [
+              [
+                454.51202392578125,
+                250.30076599121094,
+                471.1702880859375,
+                261.65380859375
+              ],
+              [
+                41.195533752441406,
+                233.1701202392578,
+                55.86286163330078,
+                278.02685546875
+              ]
+            ],
+            "prompt": "tip",
+            "mask_pixels": 671
+          }
+        ],
+        "best_score": 0.8262742161750793,
+        "mask_pixels": 676,
+        "prompt": "screwdriver tip",
+        "prompt_variants": [
+          "screwdriver tip",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 322
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8975728154182434
+            ],
+            "boxes_xyxy": [
+              [
+                254.19876098632812,
+                223.836181640625,
+                470.4610290527344,
+                288.20880126953125
+              ]
+            ],
+            "prompt": "screwdriver handle",
+            "mask_pixels": 11300
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9019775986671448
+            ],
+            "boxes_xyxy": [
+              [
+                254.0404815673828,
+                223.7682342529297,
+                470.5628662109375,
+                288.1968994140625
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 11291
+          }
+        ],
+        "best_score": 0.9019775986671448,
+        "mask_pixels": 11301,
+        "prompt": "screwdriver handle",
+        "prompt_variants": [
+          "screwdriver handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 2930
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8237346410751343
+            ],
+            "boxes_xyxy": [
+              [
+                54.10840606689453,
+                248.80445861816406,
+                252.8499755859375,
+                263.37799072265625
+              ]
+            ],
+            "prompt": "screwdriver shaft or tip",
+            "mask_pixels": 2715
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.7271400690078735,
+              0.7653835415840149
+            ],
+            "boxes_xyxy": [
+              [
+                41.25798034667969,
+                248.56422424316406,
+                252.83348083496094,
+                263.4943542480469
+              ],
+              [
+                41.10675811767578,
+                250.07896423339844,
+                59.348411560058594,
+                261.4249572753906
+              ]
+            ],
+            "prompt": "shaft or tip",
+            "mask_pixels": 2841
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6819391250610352,
+              0.25696709752082825
+            ],
+            "boxes_xyxy": [
+              [
+                55.031654357910156,
+                248.7814483642578,
+                252.76132202148438,
+                263.3636779785156
+              ],
+              [
+                41.06449890136719,
+                224.5550079345703,
+                470.8363037109375,
+                288.0439147949219
+              ]
+            ],
+            "prompt": "screwdriver shaft",
+            "mask_pixels": 14420
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.251339316368103,
+              0.7928692102432251,
+              0.261078804731369
+            ],
+            "boxes_xyxy": [
+              [
+                256.05731201171875,
+                225.70188903808594,
+                469.92431640625,
+                286.8699951171875
+              ],
+              [
+                52.48279571533203,
+                248.7182159423828,
+                252.84036254882812,
+                263.298095703125
+              ],
+              [
+                40.79008483886719,
+                224.19461059570312,
+                471.14794921875,
+                288.6453552246094
+              ]
+            ],
+            "prompt": "shaft",
+            "mask_pixels": 14379
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.2935592234134674,
+              0.8606467843055725
+            ],
+            "boxes_xyxy": [
+              [
+                456.5240173339844,
+                233.81326293945312,
+                470.8105773925781,
+                278.8305969238281
+              ],
+              [
+                41.15794372558594,
+                250.05291748046875,
+                58.76255798339844,
+                261.6158752441406
+              ]
+            ],
+            "prompt": "tip",
+            "mask_pixels": 670
+          }
+        ],
+        "best_score": 0.8606467843055725,
+        "mask_pixels": 14438,
+        "prompt": "screwdriver shaft or tip",
+        "prompt_variants": [
+          "screwdriver shaft or tip",
+          "shaft or tip",
+          "screwdriver shaft",
+          "shaft",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 4800
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7769278883934021
+            ],
+            "boxes_xyxy": [
+              [
+                41.10041427612305,
+                250.0899200439453,
+                58.81467056274414,
+                261.5599670410156
+              ]
+            ],
+            "prompt": "screwdriver tip",
+            "mask_pixels": 157
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.2935592234134674,
+              0.8606467843055725
+            ],
+            "boxes_xyxy": [
+              [
+                456.5240173339844,
+                233.81326293945312,
+                470.8105773925781,
+                278.8305969238281
+              ],
+              [
+                41.15794372558594,
+                250.05291748046875,
+                58.76255798339844,
+                261.6158752441406
+              ]
+            ],
+            "prompt": "tip",
+            "mask_pixels": 670
+          }
+        ],
+        "best_score": 0.8606467843055725,
+        "mask_pixels": 673,
+        "prompt": "screwdriver tip",
+        "prompt_variants": [
+          "screwdriver tip",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 321
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8349543213844299
+            ],
+            "boxes_xyxy": [
+              [
+                223.41629028320312,
+                253.5399627685547,
+                288.5636901855469,
+                470.9615478515625
+              ]
+            ],
+            "prompt": "screwdriver handle",
+            "mask_pixels": 11252
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8289234042167664
+            ],
+            "boxes_xyxy": [
+              [
+                223.4553680419922,
+                255.02386474609375,
+                288.58502197265625,
+                471.0091552734375
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 11136
+          }
+        ],
+        "best_score": 0.8349543213844299,
+        "mask_pixels": 11253,
+        "prompt": "screwdriver handle",
+        "prompt_variants": [
+          "screwdriver handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 2868
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6781636476516724
+            ],
+            "boxes_xyxy": [
+              [
+                249.1051025390625,
+                41.62890625,
+                262.8024597167969,
+                252.87908935546875
+              ]
+            ],
+            "prompt": "screwdriver shaft or tip",
+            "mask_pixels": 2604
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6871041655540466,
+              0.6858766674995422
+            ],
+            "boxes_xyxy": [
+              [
+                249.15380859375,
+                41.51421356201172,
+                262.81939697265625,
+                252.7259521484375
+              ],
+              [
+                251.1278076171875,
+                40.98448944091797,
+                261.35430908203125,
+                59.66728210449219
+              ]
+            ],
+            "prompt": "shaft or tip",
+            "mask_pixels": 2599
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4628680348396301
+            ],
+            "boxes_xyxy": [
+              [
+                249.15086364746094,
+                42.208396911621094,
+                262.7308349609375,
+                252.69140625
+              ]
+            ],
+            "prompt": "screwdriver shaft",
+            "mask_pixels": 2594
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6710602641105652
+            ],
+            "boxes_xyxy": [
+              [
+                249.10455322265625,
+                41.52111053466797,
+                262.7706604003906,
+                252.74606323242188
+              ]
+            ],
+            "prompt": "shaft",
+            "mask_pixels": 2602
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8661896586418152
+            ],
+            "boxes_xyxy": [
+              [
+                250.92935180664062,
+                40.890106201171875,
+                261.3529357910156,
+                59.53584289550781
+              ]
+            ],
+            "prompt": "tip",
+            "mask_pixels": 125
+          }
+        ],
+        "best_score": 0.8661896586418152,
+        "mask_pixels": 2624,
+        "prompt": "screwdriver shaft or tip",
+        "prompt_variants": [
+          "screwdriver shaft or tip",
+          "shaft or tip",
+          "screwdriver shaft",
+          "shaft",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 1503
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7930043935775757
+            ],
+            "boxes_xyxy": [
+              [
+                250.91343688964844,
+                40.92829132080078,
+                261.39178466796875,
+                59.61236572265625
+              ]
+            ],
+            "prompt": "screwdriver tip",
+            "mask_pixels": 125
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8661896586418152
+            ],
+            "boxes_xyxy": [
+              [
+                250.92935180664062,
+                40.890106201171875,
+                261.3529357910156,
+                59.53584289550781
+              ]
+            ],
+            "prompt": "tip",
+            "mask_pixels": 125
+          }
+        ],
+        "best_score": 0.8661896586418152,
+        "mask_pixels": 125,
+        "prompt": "screwdriver tip",
+        "prompt_variants": [
+          "screwdriver tip",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 96
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8418706655502319
+            ],
+            "boxes_xyxy": [
+              [
+                223.53741455078125,
+                41.27375030517578,
+                288.74908447265625,
+                258.92620849609375
+              ]
+            ],
+            "prompt": "screwdriver handle",
+            "mask_pixels": 11305
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8043047189712524
+            ],
+            "boxes_xyxy": [
+              [
+                223.56069946289062,
+                41.154563903808594,
+                288.6737976074219,
+                258.6292724609375
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 11288
+          }
+        ],
+        "best_score": 0.8418706655502319,
+        "mask_pixels": 11306,
+        "prompt": "screwdriver handle",
+        "prompt_variants": [
+          "screwdriver handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 2843
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8434848785400391,
+              0.3622897267341614
+            ],
+            "boxes_xyxy": [
+              [
+                248.98062133789062,
+                259.8177490234375,
+                263.0332946777344,
+                463.206787109375
+              ],
+              [
+                250.86329650878906,
+                453.1715087890625,
+                260.7449951171875,
+                471.19598388671875
+              ]
+            ],
+            "prompt": "screwdriver shaft or tip",
+            "mask_pixels": 2651
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.7396495938301086,
+              0.8111835718154907
+            ],
+            "boxes_xyxy": [
+              [
+                248.9555206298828,
+                259.5498352050781,
+                263.021240234375,
+                460.4787292480469
+              ],
+              [
+                250.72586059570312,
+                453.0124816894531,
+                260.8042297363281,
+                471.0989685058594
+              ]
+            ],
+            "prompt": "shaft or tip",
+            "mask_pixels": 2633
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.2727365493774414,
+              0.7354013323783875
+            ],
+            "boxes_xyxy": [
+              [
+                224.506103515625,
+                40.73280334472656,
+                287.876220703125,
+                470.57696533203125
+              ],
+              [
+                248.980712890625,
+                259.7518615722656,
+                262.9398193359375,
+                461.2713928222656
+              ]
+            ],
+            "prompt": "screwdriver shaft",
+            "mask_pixels": 14168
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.27775564789772034,
+              0.8334106206893921
+            ],
+            "boxes_xyxy": [
+              [
+                223.86061096191406,
+                40.4775390625,
+                288.4192810058594,
+                470.65423583984375
+              ],
+              [
+                248.99826049804688,
+                259.58416748046875,
+                263.0061340332031,
+                462.19110107421875
+              ]
+            ],
+            "prompt": "shaft",
+            "mask_pixels": 14164
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8765870928764343
+            ],
+            "boxes_xyxy": [
+              [
+                250.71099853515625,
+                453.1979064941406,
+                260.65478515625,
+                471.0795593261719
+              ]
+            ],
+            "prompt": "tip",
+            "mask_pixels": 120
+          }
+        ],
+        "best_score": 0.8765870928764343,
+        "mask_pixels": 14184,
+        "prompt": "screwdriver shaft or tip",
+        "prompt_variants": [
+          "screwdriver shaft or tip",
+          "shaft or tip",
+          "screwdriver shaft",
+          "shaft",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 4656
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8464487195014954
+            ],
+            "boxes_xyxy": [
+              [
+                250.68954467773438,
+                453.2367858886719,
+                260.65582275390625,
+                471.1123352050781
+              ]
+            ],
+            "prompt": "screwdriver tip",
+            "mask_pixels": 120
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8765870928764343
+            ],
+            "boxes_xyxy": [
+              [
+                250.71099853515625,
+                453.1979064941406,
+                260.65478515625,
+                471.0795593261719
+              ]
+            ],
+            "prompt": "tip",
+            "mask_pixels": 120
+          }
+        ],
+        "best_score": 0.8765870928764343,
+        "mask_pixels": 120,
+        "prompt": "screwdriver tip",
+        "prompt_variants": [
+          "screwdriver tip",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 88
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8537244200706482,
+              0.27683213353157043
+            ],
+            "boxes_xyxy": [
+              [
+                229.9609375,
+                221.43055725097656,
+                470.51666259765625,
+                388.9254150390625
+              ],
+              [
+                40.54029846191406,
+                124.55818176269531,
+                469.5882568359375,
+                388.28302001953125
+              ]
+            ],
+            "prompt": "screwdriver handle",
+            "mask_pixels": 21877
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7441734671592712
+            ],
+            "boxes_xyxy": [
+              [
+                229.82675170898438,
+                221.28781127929688,
+                470.5925598144531,
+                388.9955139160156
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 17759
+          }
+        ],
+        "best_score": 0.8537244200706482,
+        "mask_pixels": 21878,
+        "prompt": "screwdriver handle",
+        "prompt_variants": [
+          "screwdriver handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 6134
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8871458768844604
+            ],
+            "boxes_xyxy": [
+              [
+                41.645225524902344,
+                124.37316131591797,
+                254.07595825195312,
+                254.18679809570312
+              ]
+            ],
+            "prompt": "screwdriver shaft or tip",
+            "mask_pixels": 4119
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.5474098324775696,
+              0.8915887475013733
+            ],
+            "boxes_xyxy": [
+              [
+                41.198097229003906,
+                123.39937591552734,
+                62.56425476074219,
+                143.74325561523438
+              ],
+              [
+                40.93775939941406,
+                122.98684692382812,
+                254.3003387451172,
+                254.18890380859375
+              ]
+            ],
+            "prompt": "shaft or tip",
+            "mask_pixels": 4183
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6921006441116333
+            ],
+            "boxes_xyxy": [
+              [
+                46.59101104736328,
+                125.92992401123047,
+                254.12893676757812,
+                253.885498046875
+              ]
+            ],
+            "prompt": "screwdriver shaft",
+            "mask_pixels": 3919
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8421679139137268
+            ],
+            "boxes_xyxy": [
+              [
+                45.453826904296875,
+                125.30450439453125,
+                254.15884399414062,
+                253.94915771484375
+              ]
+            ],
+            "prompt": "shaft",
+            "mask_pixels": 3932
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9150819778442383
+            ],
+            "boxes_xyxy": [
+              [
+                40.90118408203125,
+                123.14376068115234,
+                62.59906005859375,
+                143.70262145996094
+              ]
+            ],
+            "prompt": "tip",
+            "mask_pixels": 290
+          }
+        ],
+        "best_score": 0.9150819778442383,
+        "mask_pixels": 4201,
+        "prompt": "screwdriver shaft or tip",
+        "prompt_variants": [
+          "screwdriver shaft or tip",
+          "shaft or tip",
+          "screwdriver shaft",
+          "shaft",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 2690
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8232592344284058
+            ],
+            "boxes_xyxy": [
+              [
+                40.85102081298828,
+                123.09394836425781,
+                62.57939147949219,
+                143.80320739746094
+              ]
+            ],
+            "prompt": "screwdriver tip",
+            "mask_pixels": 292
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9150819778442383
+            ],
+            "boxes_xyxy": [
+              [
+                40.90118408203125,
+                123.14376068115234,
+                62.59906005859375,
+                143.70262145996094
+              ]
+            ],
+            "prompt": "tip",
+            "mask_pixels": 290
+          }
+        ],
+        "best_score": 0.9150819778442383,
+        "mask_pixels": 292,
+        "prompt": "screwdriver tip",
+        "prompt_variants": [
+          "screwdriver tip",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 230
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8529762029647827,
+              0.2580837607383728
+            ],
+            "boxes_xyxy": [
+              [
+                230.10311889648438,
+                221.4158172607422,
+                470.4344787597656,
+                389.07562255859375
+              ],
+              [
+                40.37303161621094,
+                124.25349426269531,
+                468.89031982421875,
+                388.47064208984375
+              ]
+            ],
+            "prompt": "screwdriver handle",
+            "mask_pixels": 21847
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.769996702671051
+            ],
+            "boxes_xyxy": [
+              [
+                229.974853515625,
+                221.31591796875,
+                470.4910888671875,
+                389.18524169921875
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 17793
+          }
+        ],
+        "best_score": 0.8529762029647827,
+        "mask_pixels": 21855,
+        "prompt": "screwdriver handle",
+        "prompt_variants": [
+          "screwdriver handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 6133
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8884672522544861
+            ],
+            "boxes_xyxy": [
+              [
+                42.004547119140625,
+                124.54865264892578,
+                253.6624755859375,
+                254.15591430664062
+              ]
+            ],
+            "prompt": "screwdriver shaft or tip",
+            "mask_pixels": 4084
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.5947875380516052,
+              0.8883082270622253
+            ],
+            "boxes_xyxy": [
+              [
+                41.23046875,
+                123.40666961669922,
+                62.928611755371094,
+                143.53729248046875
+              ],
+              [
+                40.75007629394531,
+                122.75079345703125,
+                253.9695281982422,
+                254.19082641601562
+              ]
+            ],
+            "prompt": "shaft or tip",
+            "mask_pixels": 4171
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7130392789840698
+            ],
+            "boxes_xyxy": [
+              [
+                48.54774475097656,
+                126.97260284423828,
+                253.75209045410156,
+                253.90286254882812
+              ]
+            ],
+            "prompt": "screwdriver shaft",
+            "mask_pixels": 3907
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8463854789733887
+            ],
+            "boxes_xyxy": [
+              [
+                44.08844757080078,
+                125.00923919677734,
+                253.74649047851562,
+                253.96517944335938
+              ]
+            ],
+            "prompt": "shaft",
+            "mask_pixels": 3972
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.913699746131897
+            ],
+            "boxes_xyxy": [
+              [
+                40.91575241088867,
+                123.11833190917969,
+                62.900569915771484,
+                143.4497528076172
+              ]
+            ],
+            "prompt": "tip",
+            "mask_pixels": 293
+          }
+        ],
+        "best_score": 0.913699746131897,
+        "mask_pixels": 4196,
+        "prompt": "screwdriver shaft or tip",
+        "prompt_variants": [
+          "screwdriver shaft or tip",
+          "shaft or tip",
+          "screwdriver shaft",
+          "shaft",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 2699
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8469653129577637
+            ],
+            "boxes_xyxy": [
+              [
+                40.867958068847656,
+                123.08758544921875,
+                62.875030517578125,
+                143.45916748046875
+              ]
+            ],
+            "prompt": "screwdriver tip",
+            "mask_pixels": 293
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.913699746131897
+            ],
+            "boxes_xyxy": [
+              [
+                40.91575241088867,
+                123.11833190917969,
+                62.900569915771484,
+                143.4497528076172
+              ]
+            ],
+            "prompt": "tip",
+            "mask_pixels": 293
+          }
+        ],
+        "best_score": 0.913699746131897,
+        "mask_pixels": 293,
+        "prompt": "screwdriver tip",
+        "prompt_variants": [
+          "screwdriver tip",
+          "tip"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 232
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/affordance.npz",
+  "num_vertices": 9721,
+  "labeled_vertices": 4673,
+  "class_vertex_counts": {
+    "background": 5048,
+    "positive_grasp": 3520,
+    "negative_grasp": 1153,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 3545,
+    "negative_grasp": 3205,
+    "tool_use_surface": 66,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 2098
+}

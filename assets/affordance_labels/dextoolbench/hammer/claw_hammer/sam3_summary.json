@@ -1,0 +1,1482 @@
+{
+  "asset_id": "dextoolbench/hammer/claw_hammer",
+  "label": "claw_hammer",
+  "mesh_path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/hammer/claw_hammer/claw_hammer.obj",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer",
+  "prompts": {
+    "positive_grasp": "claw hammer handle",
+    "negative_grasp": "claw hammer head or claw",
+    "tool_use_surface": "claw hammer striking_face or claw"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2621839940547943
+            ],
+            "boxes_xyxy": [
+              [
+                40.9141845703125,
+                233.51605224609375,
+                404.4735412597656,
+                274.95648193359375
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 13428
+          }
+        ],
+        "best_score": 0.2621839940547943,
+        "mask_pixels": 13428,
+        "prompt": "claw hammer handle",
+        "prompt_variants": [
+          "claw hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 500
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.32473132014274597
+            ],
+            "boxes_xyxy": [
+              [
+                394.04144287109375,
+                225.0332794189453,
+                471.155029296875,
+                286.9940490722656
+              ]
+            ],
+            "prompt": "claw hammer head or claw",
+            "mask_pixels": 4205
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.32473132014274597,
+        "mask_pixels": 4205,
+        "prompt": "claw hammer head or claw",
+        "prompt_variants": [
+          "claw hammer head or claw",
+          "head or",
+          "claw hammer head",
+          "head",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 425
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer striking face or claw",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "claw hammer striking_face or claw",
+        "prompt_variants": [
+          "claw hammer striking face or claw",
+          "striking face or",
+          "claw hammer striking face",
+          "striking face",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.33289027214050293
+            ],
+            "boxes_xyxy": [
+              [
+                99.31845092773438,
+                233.65719604492188,
+                470.5738830566406,
+                274.82537841796875
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 13696
+          }
+        ],
+        "best_score": 0.33289027214050293,
+        "mask_pixels": 13696,
+        "prompt": "claw hammer handle",
+        "prompt_variants": [
+          "claw hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 504
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7103527188301086
+            ],
+            "boxes_xyxy": [
+              [
+                41.01451110839844,
+                225.0437774658203,
+                118.09725952148438,
+                286.8734436035156
+              ]
+            ],
+            "prompt": "claw hammer head or claw",
+            "mask_pixels": 3874
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5783718824386597
+            ],
+            "boxes_xyxy": [
+              [
+                41.01558303833008,
+                225.07623291015625,
+                118.08885192871094,
+                286.7994079589844
+              ]
+            ],
+            "prompt": "claw hammer head",
+            "mask_pixels": 3873
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.7103527188301086,
+        "mask_pixels": 3874,
+        "prompt": "claw hammer head or claw",
+        "prompt_variants": [
+          "claw hammer head or claw",
+          "head or",
+          "claw hammer head",
+          "head",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 444
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.27646517753601074
+            ],
+            "boxes_xyxy": [
+              [
+                41.45130920410156,
+                225.70314025878906,
+                471.12786865234375,
+                286.66693115234375
+              ]
+            ],
+            "prompt": "claw hammer striking face or claw",
+            "mask_pixels": 17461
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.27646517753601074,
+        "mask_pixels": 17461,
+        "prompt": "claw hammer striking_face or claw",
+        "prompt_variants": [
+          "claw hammer striking face or claw",
+          "striking face or",
+          "claw hammer striking face",
+          "striking face",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 930
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "claw hammer handle",
+        "prompt_variants": [
+          "claw hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6613571047782898
+            ],
+            "boxes_xyxy": [
+              [
+                41.29258728027344,
+                186.306396484375,
+                469.60626220703125,
+                325.2839050292969
+              ]
+            ],
+            "prompt": "claw hammer head or claw",
+            "mask_pixels": 50259
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.258971244096756
+            ],
+            "boxes_xyxy": [
+              [
+                41.98553466796875,
+                185.75418090820312,
+                469.82891845703125,
+                324.850341796875
+              ]
+            ],
+            "prompt": "claw",
+            "mask_pixels": 49996
+          }
+        ],
+        "best_score": 0.6613571047782898,
+        "mask_pixels": 50299,
+        "prompt": "claw hammer head or claw",
+        "prompt_variants": [
+          "claw hammer head or claw",
+          "head or",
+          "claw hammer head",
+          "head",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 1246
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8059695959091187
+            ],
+            "boxes_xyxy": [
+              [
+                41.21795654296875,
+                186.45858764648438,
+                469.6107177734375,
+                325.3853454589844
+              ]
+            ],
+            "prompt": "claw hammer striking face or claw",
+            "mask_pixels": 50342
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.37521079182624817
+            ],
+            "boxes_xyxy": [
+              [
+                41.30232238769531,
+                186.27963256835938,
+                469.506103515625,
+                325.51171875
+              ]
+            ],
+            "prompt": "claw hammer striking face",
+            "mask_pixels": 50260
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.258971244096756
+            ],
+            "boxes_xyxy": [
+              [
+                41.98553466796875,
+                185.75418090820312,
+                469.82891845703125,
+                324.850341796875
+              ]
+            ],
+            "prompt": "claw",
+            "mask_pixels": 49996
+          }
+        ],
+        "best_score": 0.8059695959091187,
+        "mask_pixels": 50362,
+        "prompt": "claw hammer striking_face or claw",
+        "prompt_variants": [
+          "claw hammer striking face or claw",
+          "striking face or",
+          "claw hammer striking face",
+          "striking face",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 1246
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "claw hammer handle",
+        "prompt_variants": [
+          "claw hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer head or claw",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "claw hammer head or claw",
+        "prompt_variants": [
+          "claw hammer head or claw",
+          "head or",
+          "claw hammer head",
+          "head",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer striking face or claw",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "claw hammer striking_face or claw",
+        "prompt_variants": [
+          "claw hammer striking face or claw",
+          "striking face or",
+          "claw hammer striking face",
+          "striking face",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.7608160972595215,
+              0.29693904519081116
+            ],
+            "boxes_xyxy": [
+              [
+                394.4156188964844,
+                162.4330291748047,
+                470.9443664550781,
+                349.74298095703125
+              ],
+              [
+                40.602752685546875,
+                242.98355102539062,
+                412.97552490234375,
+                293.0715637207031
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 25949
+          }
+        ],
+        "best_score": 0.7608160972595215,
+        "mask_pixels": 25949,
+        "prompt": "claw hammer handle",
+        "prompt_variants": [
+          "claw hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 1153
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8914846777915955
+            ],
+            "boxes_xyxy": [
+              [
+                394.63531494140625,
+                162.48980712890625,
+                470.896728515625,
+                349.875
+              ]
+            ],
+            "prompt": "claw hammer head or claw",
+            "mask_pixels": 8691
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8602888584136963
+            ],
+            "boxes_xyxy": [
+              [
+                394.5815124511719,
+                162.4985809326172,
+                470.8632507324219,
+                349.8541259765625
+              ]
+            ],
+            "prompt": "claw hammer head",
+            "mask_pixels": 8698
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.8914846777915955,
+        "mask_pixels": 8703,
+        "prompt": "claw hammer head or claw",
+        "prompt_variants": [
+          "claw hammer head or claw",
+          "head or",
+          "claw hammer head",
+          "head",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 624
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.5482859015464783,
+              0.6346936225891113
+            ],
+            "boxes_xyxy": [
+              [
+                394.33966064453125,
+                162.33787536621094,
+                470.8507080078125,
+                349.6458740234375
+              ],
+              [
+                41.224517822265625,
+                162.34136962890625,
+                471.2320251464844,
+                350.10760498046875
+              ]
+            ],
+            "prompt": "claw hammer striking face or claw",
+            "mask_pixels": 25746
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2533373534679413
+            ],
+            "boxes_xyxy": [
+              [
+                41.30259704589844,
+                162.43055725097656,
+                471.39215087890625,
+                350.06298828125
+              ]
+            ],
+            "prompt": "claw hammer striking face",
+            "mask_pixels": 25632
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.6346936225891113,
+        "mask_pixels": 25759,
+        "prompt": "claw hammer striking_face or claw",
+        "prompt_variants": [
+          "claw hammer striking face or claw",
+          "striking face or",
+          "claw hammer striking face",
+          "striking face",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 1136
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7223866581916809
+            ],
+            "boxes_xyxy": [
+              [
+                394.70904541015625,
+                162.12692260742188,
+                470.5399169921875,
+                349.76318359375
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 8674
+          }
+        ],
+        "best_score": 0.7223866581916809,
+        "mask_pixels": 8674,
+        "prompt": "claw hammer handle",
+        "prompt_variants": [
+          "claw hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 616
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9289186596870422
+            ],
+            "boxes_xyxy": [
+              [
+                394.5729064941406,
+                162.1831512451172,
+                470.6023864746094,
+                349.966796875
+              ]
+            ],
+            "prompt": "claw hammer head or claw",
+            "mask_pixels": 8703
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8861645460128784
+            ],
+            "boxes_xyxy": [
+              [
+                394.58154296875,
+                162.169921875,
+                470.45721435546875,
+                349.88665771484375
+              ]
+            ],
+            "prompt": "claw hammer head",
+            "mask_pixels": 8695
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.3653494119644165,
+              0.31920987367630005
+            ],
+            "boxes_xyxy": [
+              [
+                396.23907470703125,
+                162.46194458007812,
+                470.535400390625,
+                349.3216552734375
+              ],
+              [
+                394.8280944824219,
+                276.7601318359375,
+                459.6448059082031,
+                349.76422119140625
+              ]
+            ],
+            "prompt": "claw",
+            "mask_pixels": 8680
+          }
+        ],
+        "best_score": 0.9289186596870422,
+        "mask_pixels": 8732,
+        "prompt": "claw hammer head or claw",
+        "prompt_variants": [
+          "claw hammer head or claw",
+          "head or",
+          "claw hammer head",
+          "head",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 635
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6812453866004944,
+              0.6210662722587585
+            ],
+            "boxes_xyxy": [
+              [
+                394.4078369140625,
+                162.1421661376953,
+                470.64599609375,
+                349.629150390625
+              ],
+              [
+                40.901885986328125,
+                161.645751953125,
+                470.75933837890625,
+                350.00714111328125
+              ]
+            ],
+            "prompt": "claw hammer striking face or claw",
+            "mask_pixels": 25869
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.3410070538520813,
+              0.2974890470504761
+            ],
+            "boxes_xyxy": [
+              [
+                394.6151428222656,
+                162.00369262695312,
+                470.6664733886719,
+                349.5563049316406
+              ],
+              [
+                40.93492126464844,
+                161.71185302734375,
+                470.85186767578125,
+                349.981201171875
+              ]
+            ],
+            "prompt": "claw hammer striking face",
+            "mask_pixels": 25805
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.3653494119644165,
+              0.31920987367630005
+            ],
+            "boxes_xyxy": [
+              [
+                396.23907470703125,
+                162.46194458007812,
+                470.535400390625,
+                349.3216552734375
+              ],
+              [
+                394.8280944824219,
+                276.7601318359375,
+                459.6448059082031,
+                349.76422119140625
+              ]
+            ],
+            "prompt": "claw",
+            "mask_pixels": 8680
+          }
+        ],
+        "best_score": 0.6812453866004944,
+        "mask_pixels": 25908,
+        "prompt": "claw hammer striking_face or claw",
+        "prompt_variants": [
+          "claw hammer striking face or claw",
+          "striking face or",
+          "claw hammer striking face",
+          "striking face",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 1126
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6521524786949158
+            ],
+            "boxes_xyxy": [
+              [
+                41.2548828125,
+                192.2981719970703,
+                364.8252258300781,
+                390.311279296875
+              ]
+            ],
+            "prompt": "claw hammer handle",
+            "mask_pixels": 17651
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.3094702959060669,
+              0.8340807557106018
+            ],
+            "boxes_xyxy": [
+              [
+                268.8334655761719,
+                121.49409484863281,
+                434.0248718261719,
+                232.9461212158203
+              ],
+              [
+                41.2408447265625,
+                192.27003479003906,
+                365.0615539550781,
+                390.26788330078125
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 29322
+          }
+        ],
+        "best_score": 0.8340807557106018,
+        "mask_pixels": 29326,
+        "prompt": "claw hammer handle",
+        "prompt_variants": [
+          "claw hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 939
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9391776323318481
+            ],
+            "boxes_xyxy": [
+              [
+                268.9259338378906,
+                120.9648666381836,
+                470.8797912597656,
+                255.16867065429688
+              ]
+            ],
+            "prompt": "claw hammer head or claw",
+            "mask_pixels": 14732
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8901816606521606
+            ],
+            "boxes_xyxy": [
+              [
+                268.84429931640625,
+                121.01647186279297,
+                470.7249755859375,
+                255.19366455078125
+              ]
+            ],
+            "prompt": "claw hammer head",
+            "mask_pixels": 14716
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.33222368359565735
+            ],
+            "boxes_xyxy": [
+              [
+                268.47161865234375,
+                121.1527099609375,
+                434.1212158203125,
+                233.21505737304688
+              ]
+            ],
+            "prompt": "claw",
+            "mask_pixels": 11598
+          }
+        ],
+        "best_score": 0.9391776323318481,
+        "mask_pixels": 14745,
+        "prompt": "claw hammer head or claw",
+        "prompt_variants": [
+          "claw hammer head or claw",
+          "head or",
+          "claw hammer head",
+          "head",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 755
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6447936296463013,
+              0.6438319087028503
+            ],
+            "boxes_xyxy": [
+              [
+                269.1529541015625,
+                121.09819030761719,
+                470.63427734375,
+                255.11289978027344
+              ],
+              [
+                40.88441467285156,
+                121.13719177246094,
+                471.11328125,
+                390.46551513671875
+              ]
+            ],
+            "prompt": "claw hammer striking face or claw",
+            "mask_pixels": 32354
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.32493850588798523,
+              0.4071796238422394
+            ],
+            "boxes_xyxy": [
+              [
+                268.9571228027344,
+                120.9503173828125,
+                470.5361633300781,
+                255.09597778320312
+              ],
+              [
+                41.02555847167969,
+                121.20768737792969,
+                471.02520751953125,
+                390.337646484375
+              ]
+            ],
+            "prompt": "claw hammer striking face",
+            "mask_pixels": 32282
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.33222368359565735
+            ],
+            "boxes_xyxy": [
+              [
+                268.47161865234375,
+                121.1527099609375,
+                434.1212158203125,
+                233.21505737304688
+              ]
+            ],
+            "prompt": "claw",
+            "mask_pixels": 11598
+          }
+        ],
+        "best_score": 0.6447936296463013,
+        "mask_pixels": 32402,
+        "prompt": "claw hammer striking_face or claw",
+        "prompt_variants": [
+          "claw hammer striking face or claw",
+          "striking face or",
+          "claw hammer striking face",
+          "striking face",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 1252
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6368845105171204
+            ],
+            "boxes_xyxy": [
+              [
+                113.95164489746094,
+                108.5628890991211,
+                471.0050048828125,
+                340.1877136230469
+              ]
+            ],
+            "prompt": "claw hammer handle",
+            "mask_pixels": 21561
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8859603404998779
+            ],
+            "boxes_xyxy": [
+              [
+                113.86985778808594,
+                108.44621276855469,
+                471.06463623046875,
+                340.16888427734375
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 21587
+          }
+        ],
+        "best_score": 0.8859603404998779,
+        "mask_pixels": 21594,
+        "prompt": "claw hammer handle",
+        "prompt_variants": [
+          "claw hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 574
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8447605967521667
+            ],
+            "boxes_xyxy": [
+              [
+                40.34404754638672,
+                233.38296508789062,
+                207.21334838867188,
+                402.8468322753906
+              ]
+            ],
+            "prompt": "claw hammer head or claw",
+            "mask_pixels": 13150
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6822578310966492
+            ],
+            "boxes_xyxy": [
+              [
+                40.332115173339844,
+                233.41552734375,
+                207.2178955078125,
+                402.7779541015625
+              ]
+            ],
+            "prompt": "claw hammer head",
+            "mask_pixels": 13134
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3132680058479309
+            ],
+            "boxes_xyxy": [
+              [
+                40.526878356933594,
+                233.54083251953125,
+                207.13699340820312,
+                402.18902587890625
+              ]
+            ],
+            "prompt": "claw",
+            "mask_pixels": 13103
+          }
+        ],
+        "best_score": 0.8447605967521667,
+        "mask_pixels": 13157,
+        "prompt": "claw hammer head or claw",
+        "prompt_variants": [
+          "claw hammer head or claw",
+          "head or",
+          "claw hammer head",
+          "head",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 883
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.41494020819664,
+              0.5223661661148071
+            ],
+            "boxes_xyxy": [
+              [
+                40.6705322265625,
+                233.45584106445312,
+                207.31227111816406,
+                402.9296569824219
+              ],
+              [
+                40.678436279296875,
+                108.5601806640625,
+                470.7619323730469,
+                402.77716064453125
+              ]
+            ],
+            "prompt": "claw hammer striking face or claw",
+            "mask_pixels": 34676
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face or",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "claw hammer striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3132680058479309
+            ],
+            "boxes_xyxy": [
+              [
+                40.526878356933594,
+                233.54083251953125,
+                207.13699340820312,
+                402.18902587890625
+              ]
+            ],
+            "prompt": "claw",
+            "mask_pixels": 13103
+          }
+        ],
+        "best_score": 0.5223661661148071,
+        "mask_pixels": 34712,
+        "prompt": "claw hammer striking_face or claw",
+        "prompt_variants": [
+          "claw hammer striking face or claw",
+          "striking face or",
+          "claw hammer striking face",
+          "striking face",
+          "claw"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 1448
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/claw_hammer/affordance.npz",
+  "num_vertices": 2012,
+  "labeled_vertices": 1872,
+  "class_vertex_counts": {
+    "background": 140,
+    "positive_grasp": 355,
+    "negative_grasp": 1059,
+    "tool_use_surface": 458,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 1293,
+    "negative_grasp": 1285,
+    "tool_use_surface": 1801,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 1798
+}

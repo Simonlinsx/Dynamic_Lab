@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot name="simtoolreal_falling_baton_affordance">
+  <material name="aff_positive">
+    <color rgba="0.050 0.780 0.250 1.000"/>
+  </material>
+  <material name="aff_negative">
+    <color rgba="0.920 0.070 0.050 1.000"/>
+  </material>
+  <material name="aff_neutral">
+    <color rgba="0.620 0.640 0.660 1.000"/>
+  </material>
+
+  <link name="baton">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.015"/>
+      <inertia ixx="0.000034351" ixy="0.0" ixz="0.0" iyy="0.000034351" iyz="0.0" izz="0.000000640"/>
+    </inertial>
+
+    <visual name="positive_handle">
+      <origin xyz="0 0 -0.05115" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.016 0.016 0.0627"/>
+      </geometry>
+      <material name="aff_positive"/>
+    </visual>
+    <collision name="positive_handle_collision">
+      <origin xyz="0 0 -0.05115" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.016 0.016 0.0627"/>
+      </geometry>
+    </collision>
+
+    <visual name="neutral_gap">
+      <origin xyz="0 0 -0.005775" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.016 0.016 0.02805"/>
+      </geometry>
+      <material name="aff_neutral"/>
+    </visual>
+    <collision name="neutral_gap_collision">
+      <origin xyz="0 0 -0.005775" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.016 0.016 0.02805"/>
+      </geometry>
+    </collision>
+
+    <visual name="negative_tip">
+      <origin xyz="0 0 0.045375" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.016 0.016 0.07425"/>
+      </geometry>
+      <material name="aff_negative"/>
+    </visual>
+    <collision name="negative_tip_collision">
+      <origin xyz="0 0 0.045375" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.016 0.016 0.07425"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>

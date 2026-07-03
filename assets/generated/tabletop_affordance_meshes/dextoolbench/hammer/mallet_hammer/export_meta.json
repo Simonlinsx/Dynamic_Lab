@@ -1,0 +1,37 @@
+{
+  "asset_id": "dextoolbench/hammer/mallet_hammer",
+  "label_path": "/data1/linsixu/simtoolreal_lab/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/grasp_affordance_clean_v2.npz",
+  "obj_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/hammer/mallet_hammer/mallet_hammer.obj",
+  "mtl_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/hammer/mallet_hammer/mallet_hammer.mtl",
+  "urdf_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/hammer/mallet_hammer/mallet_hammer.urdf",
+  "vertex_count": 9909,
+  "face_count": 16728,
+  "material_face_counts": {
+    "aff_ignore": 113,
+    "aff_negative": 8261,
+    "aff_neutral": 0,
+    "aff_positive": 8354
+  },
+  "mass": 0.09,
+  "source_bounds_min": [
+    -0.065299853682518,
+    -0.04640785977244377,
+    -0.025954799726605415
+  ],
+  "source_bounds_max": [
+    0.23186835646629333,
+    0.040525998920202255,
+    0.027614189311861992
+  ],
+  "source_up_axis": "Z",
+  "target_size": [
+    0.17,
+    0.07,
+    0.045
+  ],
+  "scale": [
+    0.572066574398621,
+    0.8052098578470381,
+    0.8400382536188223
+  ]
+}

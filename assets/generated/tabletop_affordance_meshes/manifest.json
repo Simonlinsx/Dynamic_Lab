@@ -1,0 +1,263 @@
+{
+  "assets": [
+    {
+      "asset_id": "domino20/cup",
+      "label_path": "/data1/linsixu/simtoolreal_lab/assets/affordance_labels/domino20/cup/grasp_affordance_clean_v2.npz",
+      "obj_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/cup/cup.obj",
+      "mtl_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/cup/cup.mtl",
+      "urdf_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/cup/cup.urdf",
+      "vertex_count": 11517,
+      "face_count": 19040,
+      "material_face_counts": {
+        "aff_ignore": 6452,
+        "aff_negative": 82,
+        "aff_neutral": 0,
+        "aff_positive": 12506
+      },
+      "mass": 0.04,
+      "source_bounds_min": [
+        -0.46905699372291565,
+        0.0,
+        -0.46578449010849
+      ],
+      "source_bounds_max": [
+        0.46905699372291565,
+        1.0,
+        0.46578449010849
+      ],
+      "source_up_axis": "Y",
+      "target_size": [
+        0.064,
+        0.064,
+        0.078
+      ],
+      "scale": [
+        0.06822198672706124,
+        0.0687013000208457,
+        0.078
+      ]
+    },
+    {
+      "asset_id": "domino20/mug",
+      "label_path": "/data1/linsixu/simtoolreal_lab/assets/affordance_labels/domino20/mug/grasp_affordance_clean_v2.npz",
+      "obj_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/mug/mug.obj",
+      "mtl_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/mug/mug.mtl",
+      "urdf_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/mug/mug.urdf",
+      "vertex_count": 11519,
+      "face_count": 20076,
+      "material_face_counts": {
+        "aff_ignore": 13609,
+        "aff_negative": 4079,
+        "aff_neutral": 0,
+        "aff_positive": 2388
+      },
+      "mass": 0.05,
+      "source_bounds_min": [
+        -0.6746655106544495,
+        0.0,
+        -0.9507410526275635
+      ],
+      "source_bounds_max": [
+        0.6746655106544495,
+        1.3850289583206177,
+        0.9507410526275635
+      ],
+      "source_up_axis": "Y",
+      "target_size": [
+        0.07,
+        0.07,
+        0.08
+      ],
+      "scale": [
+        0.05187755924569015,
+        0.03681338878054175,
+        0.05776052516403845
+      ]
+    },
+    {
+      "asset_id": "domino20/kettle",
+      "label_path": "/data1/linsixu/simtoolreal_lab/assets/affordance_labels/domino20/kettle/grasp_affordance_clean_v2.npz",
+      "obj_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/kettle/kettle.obj",
+      "mtl_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/kettle/kettle.mtl",
+      "urdf_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/kettle/kettle.urdf",
+      "vertex_count": 19932,
+      "face_count": 34694,
+      "material_face_counts": {
+        "aff_ignore": 16067,
+        "aff_negative": 9189,
+        "aff_neutral": 0,
+        "aff_positive": 9438
+      },
+      "mass": 0.07,
+      "source_bounds_min": [
+        -0.6900680065155029,
+        0.0,
+        -0.9496809840202332
+      ],
+      "source_bounds_max": [
+        0.6902980208396912,
+        1.7582240104675293,
+        0.9472020268440247
+      ],
+      "source_up_axis": "Y",
+      "target_size": [
+        0.095,
+        0.075,
+        0.082
+      ],
+      "scale": [
+        0.068822325468283,
+        0.03953854801294704,
+        0.046637970765849905
+      ]
+    },
+    {
+      "asset_id": "dextoolbench/hammer/claw_hammer",
+      "label_path": "/data1/linsixu/simtoolreal_lab/assets/affordance_labels/dextoolbench/hammer/claw_hammer/grasp_affordance_clean_v2.npz",
+      "obj_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/hammer/claw_hammer/claw_hammer.obj",
+      "mtl_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/hammer/claw_hammer/claw_hammer.mtl",
+      "urdf_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/hammer/claw_hammer/claw_hammer.urdf",
+      "vertex_count": 2012,
+      "face_count": 3138,
+      "material_face_counts": {
+        "aff_ignore": 2,
+        "aff_negative": 459,
+        "aff_neutral": 0,
+        "aff_positive": 2677
+      },
+      "mass": 0.1,
+      "source_bounds_min": [
+        -0.05237419903278351,
+        -0.03821463882923126,
+        -0.014438370242714882
+      ],
+      "source_bounds_max": [
+        0.14262492954730988,
+        0.04740918055176735,
+        0.013538779690861702
+      ],
+      "source_up_axis": "Z",
+      "target_size": [
+        0.195,
+        0.086,
+        0.032
+      ],
+      "scale": [
+        1.0000044688400045,
+        1.004393410872359,
+        1.1437905603671024
+      ]
+    },
+    {
+      "asset_id": "dextoolbench/hammer/mallet_hammer",
+      "label_path": "/data1/linsixu/simtoolreal_lab/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/grasp_affordance_clean_v2.npz",
+      "obj_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/hammer/mallet_hammer/mallet_hammer.obj",
+      "mtl_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/hammer/mallet_hammer/mallet_hammer.mtl",
+      "urdf_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/hammer/mallet_hammer/mallet_hammer.urdf",
+      "vertex_count": 9909,
+      "face_count": 16728,
+      "material_face_counts": {
+        "aff_ignore": 113,
+        "aff_negative": 8261,
+        "aff_neutral": 0,
+        "aff_positive": 8354
+      },
+      "mass": 0.09,
+      "source_bounds_min": [
+        -0.065299853682518,
+        -0.04640785977244377,
+        -0.025954799726605415
+      ],
+      "source_bounds_max": [
+        0.23186835646629333,
+        0.040525998920202255,
+        0.027614189311861992
+      ],
+      "source_up_axis": "Z",
+      "target_size": [
+        0.17,
+        0.07,
+        0.045
+      ],
+      "scale": [
+        0.572066574398621,
+        0.8052098578470381,
+        0.8400382536188223
+      ]
+    },
+    {
+      "asset_id": "dextoolbench/brush/blue_brush",
+      "label_path": "/data1/linsixu/simtoolreal_lab/assets/affordance_labels/dextoolbench/brush/blue_brush/grasp_affordance_clean_v2.npz",
+      "obj_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/brush/blue_brush/blue_brush.obj",
+      "mtl_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/brush/blue_brush/blue_brush.mtl",
+      "urdf_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/brush/blue_brush/blue_brush.urdf",
+      "vertex_count": 5983,
+      "face_count": 7678,
+      "material_face_counts": {
+        "aff_ignore": 941,
+        "aff_negative": 5687,
+        "aff_neutral": 0,
+        "aff_positive": 1050
+      },
+      "mass": 0.07,
+      "source_bounds_min": [
+        -0.05127035081386566,
+        -0.07966461032629013,
+        -0.02193525992333889
+      ],
+      "source_bounds_max": [
+        0.24843023717403412,
+        0.0861305296421051,
+        0.024858329445123672
+      ],
+      "source_up_axis": "Z",
+      "target_size": [
+        0.21,
+        0.07,
+        0.04
+      ],
+      "scale": [
+        0.7006993259835667,
+        0.42220779217861143,
+        0.8548179470703047
+      ]
+    },
+    {
+      "asset_id": "dextoolbench/brush/red_brush",
+      "label_path": "/data1/linsixu/simtoolreal_lab/assets/affordance_labels/dextoolbench/brush/red_brush/grasp_affordance_clean_v2.npz",
+      "obj_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/brush/red_brush/red_brush.obj",
+      "mtl_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/brush/red_brush/red_brush.mtl",
+      "urdf_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/brush/red_brush/red_brush.urdf",
+      "vertex_count": 11953,
+      "face_count": 12825,
+      "material_face_counts": {
+        "aff_ignore": 3461,
+        "aff_negative": 8414,
+        "aff_neutral": 0,
+        "aff_positive": 950
+      },
+      "mass": 0.07,
+      "source_bounds_min": [
+        -0.06772545725107193,
+        -0.04924776032567024,
+        -0.013798180036246777
+      ],
+      "source_bounds_max": [
+        0.25142091512680054,
+        0.04573998972773552,
+        0.07875967025756836
+      ],
+      "source_up_axis": "Z",
+      "target_size": [
+        0.21,
+        0.065,
+        0.045
+      ],
+      "scale": [
+        0.6580052858985905,
+        0.6842987644559905,
+        0.4861824238263123
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+
+# IsaacLab / rl_games / experiment outputs
+logs/
+outputs/
+runs/
+wandb/
+tensorboard/
+events.out.tfevents.*
+*.log
+*.trace.json
+
+# Large model and video artifacts
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# Local caches and machine-specific links
+.cache/
+.cleanup_trash_*/
+.nvidia-omniverse/
+omni/logs/
+assets/urdf
+
+# Editor / OS
+.env
+.env.*
+.DS_Store
+.vscode/
+.idea/

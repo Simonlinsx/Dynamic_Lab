@@ -1,0 +1,856 @@
+{
+  "asset_id": "domino20/mug",
+  "label": "mug",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/039_mug/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug",
+  "prompts": {
+    "positive_grasp": "mug handle",
+    "negative_grasp": "mug rim",
+    "tool_use_surface": "mug rim"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.34624508023262024
+            ],
+            "boxes_xyxy": [
+              [
+                230.246337890625,
+                343.4769287109375,
+                282.09283447265625,
+                470.20501708984375
+              ]
+            ],
+            "prompt": "mug handle",
+            "mask_pixels": 6355
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8765653967857361
+            ],
+            "boxes_xyxy": [
+              [
+                230.152587890625,
+                343.4114074707031,
+                282.077392578125,
+                470.3683166503906
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 6311
+          }
+        ],
+        "best_score": 0.8765653967857361,
+        "mask_pixels": 6355,
+        "prompt": "mug handle",
+        "prompt_variants": [
+          "mug handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 545
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6169809699058533
+            ],
+            "boxes_xyxy": [
+              [
+                230.25949096679688,
+                345.01025390625,
+                282.0760803222656,
+                470.23260498046875
+              ]
+            ],
+            "prompt": "mug handle",
+            "mask_pixels": 6247
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8875293135643005
+            ],
+            "boxes_xyxy": [
+              [
+                230.12403869628906,
+                344.97607421875,
+                282.112060546875,
+                470.36083984375
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 6214
+          }
+        ],
+        "best_score": 0.8875293135643005,
+        "mask_pixels": 6247,
+        "prompt": "mug handle",
+        "prompt_variants": [
+          "mug handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 531
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5970523357391357
+            ],
+            "boxes_xyxy": [
+              [
+                103.36102294921875,
+                40.93067932128906,
+                408.926513671875,
+                347.54608154296875
+              ]
+            ],
+            "prompt": "mug rim",
+            "mask_pixels": 11585
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8156214356422424
+            ],
+            "boxes_xyxy": [
+              [
+                103.46441650390625,
+                41.24238586425781,
+                408.8917236328125,
+                347.6087646484375
+              ]
+            ],
+            "prompt": "rim",
+            "mask_pixels": 11321
+          }
+        ],
+        "best_score": 0.8156214356422424,
+        "mask_pixels": 11597,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 3897
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5970523357391357
+            ],
+            "boxes_xyxy": [
+              [
+                103.36102294921875,
+                40.93067932128906,
+                408.926513671875,
+                347.54608154296875
+              ]
+            ],
+            "prompt": "mug rim",
+            "mask_pixels": 11585
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8156214356422424
+            ],
+            "boxes_xyxy": [
+              [
+                103.46441650390625,
+                41.24238586425781,
+                408.8917236328125,
+                347.6087646484375
+              ]
+            ],
+            "prompt": "rim",
+            "mask_pixels": 11321
+          }
+        ],
+        "best_score": 0.8156214356422424,
+        "mask_pixels": 11597,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 3897
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5493374466896057
+            ],
+            "boxes_xyxy": [
+              [
+                171.3315887451172,
+                343.5177917480469,
+                410.45269775390625,
+                470.6503601074219
+              ]
+            ],
+            "prompt": "mug handle",
+            "mask_pixels": 9474
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7301201820373535
+            ],
+            "boxes_xyxy": [
+              [
+                171.361083984375,
+                343.44488525390625,
+                410.42901611328125,
+                470.6409912109375
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 9451
+          }
+        ],
+        "best_score": 0.7301201820373535,
+        "mask_pixels": 9475,
+        "prompt": "mug handle",
+        "prompt_variants": [
+          "mug handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 1093
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.37318986654281616
+            ],
+            "boxes_xyxy": [
+              [
+                101.6497573852539,
+                342.9413146972656,
+                341.203857421875,
+                470.5253601074219
+              ]
+            ],
+            "prompt": "mug handle",
+            "mask_pixels": 9511
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6269237995147705
+            ],
+            "boxes_xyxy": [
+              [
+                101.56024932861328,
+                343.095458984375,
+                341.2588806152344,
+                470.54608154296875
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 9483
+          }
+        ],
+        "best_score": 0.6269237995147705,
+        "mask_pixels": 9512,
+        "prompt": "mug handle",
+        "prompt_variants": [
+          "mug handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 1098
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug handle",
+        "prompt_variants": [
+          "mug handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.35349592566490173
+            ],
+            "boxes_xyxy": [
+              [
+                219.71914672851562,
+                137.8914337158203,
+                292.1500244140625,
+                468.9884033203125
+              ]
+            ],
+            "prompt": "mug handle",
+            "mask_pixels": 22241
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.511053204536438
+            ],
+            "boxes_xyxy": [
+              [
+                219.8534698486328,
+                138.07647705078125,
+                292.01226806640625,
+                468.9342041015625
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 22167
+          }
+        ],
+        "best_score": 0.511053204536438,
+        "mask_pixels": 22241,
+        "prompt": "mug handle",
+        "prompt_variants": [
+          "mug handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 862
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9359087347984314
+            ],
+            "boxes_xyxy": [
+              [
+                137.90777587890625,
+                300.7923278808594,
+                331.897705078125,
+                469.9045715332031
+              ]
+            ],
+            "prompt": "mug handle",
+            "mask_pixels": 11380
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9219266772270203
+            ],
+            "boxes_xyxy": [
+              [
+                137.8401336669922,
+                300.8433837890625,
+                331.80401611328125,
+                469.90093994140625
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 11367
+          }
+        ],
+        "best_score": 0.9359087347984314,
+        "mask_pixels": 11383,
+        "prompt": "mug handle",
+        "prompt_variants": [
+          "mug handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 1055
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9310077428817749
+            ],
+            "boxes_xyxy": [
+              [
+                137.9680938720703,
+                301.2607727050781,
+                331.949462890625,
+                469.9121398925781
+              ]
+            ],
+            "prompt": "mug handle",
+            "mask_pixels": 11385
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9053778052330017
+            ],
+            "boxes_xyxy": [
+              [
+                137.8754425048828,
+                301.3467102050781,
+                331.85595703125,
+                469.9173278808594
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 11366
+          }
+        ],
+        "best_score": 0.9310077428817749,
+        "mask_pixels": 11386,
+        "prompt": "mug handle",
+        "prompt_variants": [
+          "mug handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 1061
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mug rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mug rim",
+        "prompt_variants": [
+          "mug rim",
+          "rim"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mug/affordance.npz",
+  "num_vertices": 11519,
+  "labeled_vertices": 1602,
+  "class_vertex_counts": {
+    "background": 9917,
+    "positive_grasp": 1191,
+    "negative_grasp": 411,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 1191,
+    "negative_grasp": 411,
+    "tool_use_surface": 411,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 411
+}

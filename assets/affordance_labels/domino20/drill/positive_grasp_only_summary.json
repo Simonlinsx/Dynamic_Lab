@@ -1,0 +1,764 @@
+{
+  "asset_id": "domino20/drill",
+  "label": "drill",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/030_drill/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill",
+  "positive_prompt": "drill handle",
+  "positive_prompt_variants": [
+    "drill handle",
+    "handle"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "drill handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "drill handle",
+      "prompt_variants": [
+        "drill handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "drill handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "drill handle",
+      "prompt_variants": [
+        "drill handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "drill handle",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.2857803702354431,
+            0.2506379783153534,
+            0.20798969268798828,
+            0.2837617099285126
+          ],
+          "boxes_xyxy": [
+            [
+              211.31201171875,
+              491.6695556640625,
+              350.077392578125,
+              570.0824584960938
+            ],
+            [
+              207.5214385986328,
+              484.09326171875,
+              467.28704833984375,
+              659.9847412109375
+            ],
+            [
+              128.83901977539062,
+              435.6492919921875,
+              373.2898864746094,
+              637.77978515625
+            ],
+            [
+              208.30899047851562,
+              491.180908203125,
+              361.3721618652344,
+              625.3333129882812
+            ]
+          ],
+          "mask_pixels": 42176
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.25745877623558044,
+            0.3423728942871094,
+            0.2760345935821533,
+            0.2344265580177307
+          ],
+          "boxes_xyxy": [
+            [
+              211.5959930419922,
+              492.20361328125,
+              349.25921630859375,
+              570.2637939453125
+            ],
+            [
+              128.46180725097656,
+              428.7060241699219,
+              468.10882568359375,
+              654.2926025390625
+            ],
+            [
+              208.8380584716797,
+              489.7305908203125,
+              467.05279541015625,
+              656.1650390625
+            ],
+            [
+              208.73194885253906,
+              491.45709228515625,
+              355.33465576171875,
+              624.7084350585938
+            ]
+          ],
+          "mask_pixels": 44854
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.3423728942871094,
+          "mask_pixels": 44745,
+          "box_xyxy": [
+            128.46180725097656,
+            428.7060241699219,
+            468.10882568359375,
+            654.2926025390625
+          ]
+        }
+      ],
+      "best_score": 0.3423728942871094,
+      "mask_pixels": 44745,
+      "prompt": "drill handle",
+      "prompt_variants": [
+        "drill handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 2929
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "drill handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.31214818358421326,
+            0.2994256317615509,
+            0.2211739420890808
+          ],
+          "boxes_xyxy": [
+            [
+              303.8941955566406,
+              432.6767578125,
+              638.6800537109375,
+              656.5940551757812
+            ],
+            [
+              302.703369140625,
+              491.90087890625,
+              558.3909301757812,
+              660.2083129882812
+            ],
+            [
+              414.89862060546875,
+              491.8460998535156,
+              555.3101196289062,
+              570.4114379882812
+            ]
+          ],
+          "mask_pixels": 44355
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 5,
+          "kept_masks": 5,
+          "scores": [
+            0.46502435207366943,
+            0.20084773004055023,
+            0.3923098146915436,
+            0.22063003480434418,
+            0.2734837532043457
+          ],
+          "boxes_xyxy": [
+            [
+              303.9875793457031,
+              432.42022705078125,
+              639.33984375,
+              655.0264892578125
+            ],
+            [
+              560.4337768554688,
+              433.3685302734375,
+              639.5471801757812,
+              639.2825927734375
+            ],
+            [
+              302.95831298828125,
+              493.68035888671875,
+              560.0031127929688,
+              658.40625
+            ],
+            [
+              128.41802978515625,
+              384.10089111328125,
+              638.845458984375,
+              706.539306640625
+            ],
+            [
+              416.6485290527344,
+              492.59613037109375,
+              554.5010375976562,
+              569.0772094726562
+            ]
+          ],
+          "mask_pixels": 100802
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.46502435207366943,
+          "mask_pixels": 43300,
+          "box_xyxy": [
+            303.9875793457031,
+            432.42022705078125,
+            639.33984375,
+            655.0264892578125
+          ]
+        }
+      ],
+      "best_score": 0.46502435207366943,
+      "mask_pixels": 43300,
+      "prompt": "drill handle",
+      "prompt_variants": [
+        "drill handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 2727
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "drill handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.4217008650302887,
+            0.3091002404689789
+          ],
+          "boxes_xyxy": [
+            [
+              322.84442138671875,
+              429.59747314453125,
+              445.48388671875,
+              598.9110717773438
+            ],
+            [
+              319.0852966308594,
+              311.1475524902344,
+              450.52886962890625,
+              598.9925537109375
+            ]
+          ],
+          "mask_pixels": 31428
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.4217008650302887,
+          "mask_pixels": 19071,
+          "box_xyxy": [
+            322.84442138671875,
+            429.59747314453125,
+            445.48388671875,
+            598.9110717773438
+          ]
+        }
+      ],
+      "best_score": 0.4217008650302887,
+      "mask_pixels": 19071,
+      "prompt": "drill handle",
+      "prompt_variants": [
+        "drill handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 919
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "drill handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.2705670893192291
+          ],
+          "boxes_xyxy": [
+            [
+              319.0712890625,
+              158.26528930664062,
+              447.6698913574219,
+              478.6075744628906
+            ]
+          ],
+          "mask_pixels": 33425
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.2705670893192291,
+          "mask_pixels": 33425,
+          "box_xyxy": [
+            319.0712890625,
+            158.26528930664062,
+            447.6698913574219,
+            478.6075744628906
+          ]
+        }
+      ],
+      "best_score": 0.2705670893192291,
+      "mask_pixels": 33425,
+      "prompt": "drill handle",
+      "prompt_variants": [
+        "drill handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 1631
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "drill handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.23927061259746552,
+            0.28118547797203064
+          ],
+          "boxes_xyxy": [
+            [
+              349.1303405761719,
+              416.8070983886719,
+              599.293701171875,
+              706.1533203125
+            ],
+            [
+              349.60101318359375,
+              423.06671142578125,
+              521.8953247070312,
+              656.3016967773438
+            ]
+          ],
+          "mask_pixels": 39526
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.31301480531692505,
+            0.26552119851112366,
+            0.3046761751174927
+          ],
+          "boxes_xyxy": [
+            [
+              349.57574462890625,
+              413.3162841796875,
+              599.5584106445312,
+              704.7980346679688
+            ],
+            [
+              351.2405700683594,
+              467.88128662109375,
+              521.9888305664062,
+              655.7307739257812
+            ],
+            [
+              349.99267578125,
+              422.6000061035156,
+              522.6753540039062,
+              656.0069580078125
+            ]
+          ],
+          "mask_pixels": 39258
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.31301480531692505,
+          "mask_pixels": 39224,
+          "box_xyxy": [
+            349.57574462890625,
+            413.3162841796875,
+            599.5584106445312,
+            704.7980346679688
+          ]
+        }
+      ],
+      "best_score": 0.31301480531692505,
+      "mask_pixels": 39224,
+      "prompt": "drill handle",
+      "prompt_variants": [
+        "drill handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 3108
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "drill handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.2417176365852356,
+            0.33004656434059143
+          ],
+          "boxes_xyxy": [
+            [
+              349.8238525390625,
+              418.45367431640625,
+              599.32373046875,
+              706.172119140625
+            ],
+            [
+              349.88079833984375,
+              425.216064453125,
+              521.91650390625,
+              656.5825805664062
+            ]
+          ],
+          "mask_pixels": 39273
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.29814648628234863,
+            0.23240604996681213,
+            0.32567861676216125
+          ],
+          "boxes_xyxy": [
+            [
+              350.53656005859375,
+              423.1482238769531,
+              599.6219482421875,
+              704.818603515625
+            ],
+            [
+              351.06207275390625,
+              468.93548583984375,
+              520.6151733398438,
+              655.879150390625
+            ],
+            [
+              350.603271484375,
+              425.8865661621094,
+              525.261962890625,
+              656.2777099609375
+            ]
+          ],
+          "mask_pixels": 39007
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "drill handle",
+          "score": 0.33004656434059143,
+          "mask_pixels": 20671,
+          "box_xyxy": [
+            349.88079833984375,
+            425.216064453125,
+            521.91650390625,
+            656.5825805664062
+          ]
+        }
+      ],
+      "best_score": 0.33004656434059143,
+      "mask_pixels": 20671,
+      "prompt": "drill handle",
+      "prompt_variants": [
+        "drill handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 1752
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "drill handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.2021598070859909,
+            0.2504356801509857,
+            0.22503331303596497
+          ],
+          "boxes_xyxy": [
+            [
+              130.55213928222656,
+              201.94793701171875,
+              513.0309448242188,
+              602.7969360351562
+            ],
+            [
+              239.8099365234375,
+              339.22515869140625,
+              514.9922485351562,
+              600.1986694335938
+            ],
+            [
+              131.15313720703125,
+              203.7904815673828,
+              298.72857666015625,
+              458.97003173828125
+            ]
+          ],
+          "mask_pixels": 71955
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.26270347833633423,
+            0.22357966005802155,
+            0.25567975640296936
+          ],
+          "boxes_xyxy": [
+            [
+              239.77537536621094,
+              339.90496826171875,
+              513.53662109375,
+              598.4234008789062
+            ],
+            [
+              131.76943969726562,
+              203.81227111816406,
+              627.9859619140625,
+              705.1747436523438
+            ],
+            [
+              130.66641235351562,
+              203.39706420898438,
+              298.4688415527344,
+              458.20989990234375
+            ]
+          ],
+          "mask_pixels": 96065
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.26270347833633423,
+          "mask_pixels": 32311,
+          "box_xyxy": [
+            239.77537536621094,
+            339.90496826171875,
+            513.53662109375,
+            598.4234008789062
+          ]
+        }
+      ],
+      "best_score": 0.26270347833633423,
+      "mask_pixels": 32311,
+      "prompt": "drill handle",
+      "prompt_variants": [
+        "drill handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 1891
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "drill handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "drill handle",
+      "prompt_variants": [
+        "drill handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "drill handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "drill handle",
+      "prompt_variants": [
+        "drill handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "drill handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "drill handle",
+      "prompt_variants": [
+        "drill handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 0
+    }
+  },
+  "num_vertices": 19385,
+  "raw_positive_vertices": 3538,
+  "connected_positive_vertices": 3291,
+  "filled_positive_vertices": 3455,
+  "kept_component_sizes": [
+    1019,
+    721,
+    608,
+    312,
+    267,
+    257,
+    107
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 3455,
+  "clean_v2_negative_vertices": 2615,
+  "clean_v2_ignore_vertices": 13315,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/drill/grasp_affordance_clean_v2.npz"
+}

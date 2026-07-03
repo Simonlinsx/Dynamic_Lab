@@ -1,0 +1,1337 @@
+{
+  "asset_id": "domino20/hammer",
+  "label": "hammer",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/020_hammer/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer",
+  "prompts": {
+    "positive_grasp": "hammer handle",
+    "negative_grasp": "hammer head or striking face",
+    "tool_use_surface": "hammer striking face"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.38712409138679504
+            ],
+            "boxes_xyxy": [
+              [
+                211.00128173828125,
+                41.43223571777344,
+                301.34173583984375,
+                147.73651123046875
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 8099
+          }
+        ],
+        "best_score": 0.38712409138679504,
+        "mask_pixels": 8099,
+        "prompt": "hammer handle",
+        "prompt_variants": [
+          "hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 433
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.27722376585006714,
+              0.7917126417160034
+            ],
+            "boxes_xyxy": [
+              [
+                206.98196411132812,
+                41.688995361328125,
+                306.8860778808594,
+                472.4806823730469
+              ],
+              [
+                211.0584716796875,
+                41.532859802246094,
+                301.27685546875,
+                147.6793212890625
+              ]
+            ],
+            "prompt": "hammer head or striking face",
+            "mask_pixels": 33540
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6076089143753052
+            ],
+            "boxes_xyxy": [
+              [
+                211.19686889648438,
+                41.622554779052734,
+                301.3456115722656,
+                147.40501403808594
+              ]
+            ],
+            "prompt": "hammer head",
+            "mask_pixels": 7997
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.7917126417160034,
+        "mask_pixels": 33540,
+        "prompt": "hammer head or striking face",
+        "prompt_variants": [
+          "hammer head or striking face",
+          "head or striking face",
+          "hammer head",
+          "head",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 3131
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "hammer striking face",
+        "prompt_variants": [
+          "hammer striking face",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "hammer handle",
+        "prompt_variants": [
+          "hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 4,
+            "kept_masks": 4,
+            "scores": [
+              0.2659964859485626,
+              0.6429409980773926,
+              0.42275500297546387,
+              0.49172738194465637
+            ],
+            "boxes_xyxy": [
+              [
+                210.8229217529297,
+                41.67510986328125,
+                300.900634765625,
+                196.84938049316406
+              ],
+              [
+                205.93353271484375,
+                41.74601745605469,
+                306.65032958984375,
+                470.9691162109375
+              ],
+              [
+                211.09945678710938,
+                41.079345703125,
+                301.0172424316406,
+                301.4435119628906
+              ],
+              [
+                211.06146240234375,
+                41.14216613769531,
+                301.01788330078125,
+                93.27229309082031
+              ]
+            ],
+            "prompt": "hammer head or striking face",
+            "mask_pixels": 32787
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.2519160211086273,
+              0.7489573359489441
+            ],
+            "boxes_xyxy": [
+              [
+                210.3017578125,
+                41.34740447998047,
+                300.7051696777344,
+                192.83871459960938
+              ],
+              [
+                211.19552612304688,
+                41.29979705810547,
+                300.9085998535156,
+                93.6299819946289
+              ]
+            ],
+            "prompt": "hammer head",
+            "mask_pixels": 11616
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.7489573359489441,
+        "mask_pixels": 32839,
+        "prompt": "hammer head or striking face",
+        "prompt_variants": [
+          "hammer head or striking face",
+          "head or striking face",
+          "hammer head",
+          "head",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 2404
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.49699723720550537
+            ],
+            "boxes_xyxy": [
+              [
+                204.92465209960938,
+                41.39869689941406,
+                306.97247314453125,
+                470.98785400390625
+              ]
+            ],
+            "prompt": "hammer striking face",
+            "mask_pixels": 32872
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.49699723720550537,
+        "mask_pixels": 32872,
+        "prompt": "hammer striking face",
+        "prompt_variants": [
+          "hammer striking face",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 2404
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7164163589477539
+            ],
+            "boxes_xyxy": [
+              [
+                41.87620544433594,
+                174.5535888671875,
+                362.4677734375,
+                302.9461975097656
+              ]
+            ],
+            "prompt": "hammer handle",
+            "mask_pixels": 23988
+          },
+          {
+            "num_masks": 4,
+            "kept_masks": 4,
+            "scores": [
+              0.372100293636322,
+              0.49661487340927124,
+              0.6222120523452759,
+              0.8288335800170898
+            ],
+            "boxes_xyxy": [
+              [
+                402.4282531738281,
+                98.53021240234375,
+                470.0849914550781,
+                138.83370971679688
+              ],
+              [
+                398.7259216308594,
+                99.16755676269531,
+                470.5599060058594,
+                207.72325134277344
+              ],
+              [
+                40.842445373535156,
+                173.88931274414062,
+                89.0620346069336,
+                283.3432312011719
+              ],
+              [
+                41.687042236328125,
+                174.00750732421875,
+                362.6666259765625,
+                302.64935302734375
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 33231
+          }
+        ],
+        "best_score": 0.8288335800170898,
+        "mask_pixels": 33272,
+        "prompt": "hammer handle",
+        "prompt_variants": [
+          "hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 4193
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8789949417114258,
+              0.48367929458618164
+            ],
+            "boxes_xyxy": [
+              [
+                361.7525634765625,
+                99.26115417480469,
+                470.85015869140625,
+                411.80462646484375
+              ],
+              [
+                40.5372314453125,
+                98.9892578125,
+                470.6238708496094,
+                412.5608825683594
+              ]
+            ],
+            "prompt": "hammer head or striking face",
+            "mask_pixels": 45733
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.7669258117675781,
+              0.3356018662452698,
+              0.3468472957611084
+            ],
+            "boxes_xyxy": [
+              [
+                361.9941101074219,
+                99.35081481933594,
+                470.6585998535156,
+                411.6763916015625
+              ],
+              [
+                398.9927673339844,
+                98.90719604492188,
+                470.3820495605469,
+                208.1246337890625
+              ],
+              [
+                402.71173095703125,
+                98.84911346435547,
+                470.081298828125,
+                137.94305419921875
+              ]
+            ],
+            "prompt": "hammer head",
+            "mask_pixels": 17971
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.8789949417114258,
+        "mask_pixels": 45776,
+        "prompt": "hammer head or striking face",
+        "prompt_variants": [
+          "hammer head or striking face",
+          "head or striking face",
+          "hammer head",
+          "head",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 5633
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.47608861327171326,
+              0.7800639867782593
+            ],
+            "boxes_xyxy": [
+              [
+                362.2738952636719,
+                99.26863098144531,
+                470.5243835449219,
+                411.00347900390625
+              ],
+              [
+                40.75386047363281,
+                99.08499145507812,
+                470.8447265625,
+                411.83441162109375
+              ]
+            ],
+            "prompt": "hammer striking face",
+            "mask_pixels": 45506
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.7800639867782593,
+        "mask_pixels": 45506,
+        "prompt": "hammer striking face",
+        "prompt_variants": [
+          "hammer striking face",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 5534
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6972306370735168,
+              0.44289901852607727
+            ],
+            "boxes_xyxy": [
+              [
+                148.698486328125,
+                174.21725463867188,
+                469.8846435546875,
+                302.08978271484375
+              ],
+              [
+                148.99188232421875,
+                196.3776092529297,
+                426.54119873046875,
+                301.93084716796875
+              ]
+            ],
+            "prompt": "hammer handle",
+            "mask_pixels": 27190
+          },
+          {
+            "num_masks": 4,
+            "kept_masks": 4,
+            "scores": [
+              0.7886499762535095,
+              0.32191604375839233,
+              0.6293031573295593,
+              0.6022444367408752
+            ],
+            "boxes_xyxy": [
+              [
+                148.47381591796875,
+                173.40521240234375,
+                470.14263916015625,
+                301.9814453125
+              ],
+              [
+                41.76482391357422,
+                98.53855895996094,
+                109.01416778564453,
+                138.9821014404297
+              ],
+              [
+                420.8590087890625,
+                173.83299255371094,
+                470.9095458984375,
+                283.62261962890625
+              ],
+              [
+                41.52355194091797,
+                98.99153137207031,
+                113.22293853759766,
+                207.00111389160156
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 33216
+          }
+        ],
+        "best_score": 0.7886499762535095,
+        "mask_pixels": 33273,
+        "prompt": "hammer handle",
+        "prompt_variants": [
+          "hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 4191
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.89095538854599,
+              0.41394323110580444
+            ],
+            "boxes_xyxy": [
+              [
+                41.35956573486328,
+                99.49993896484375,
+                149.86782836914062,
+                411.81982421875
+              ],
+              [
+                40.95703125,
+                100.240478515625,
+                470.64984130859375,
+                412.3077392578125
+              ]
+            ],
+            "prompt": "hammer head or striking face",
+            "mask_pixels": 45662
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.29130780696868896
+            ],
+            "boxes_xyxy": [
+              [
+                41.41365051269531,
+                99.388671875,
+                149.68992614746094,
+                411.9415588378906
+              ]
+            ],
+            "prompt": "head or striking face",
+            "mask_pixels": 17876
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.32978513836860657,
+              0.4499947726726532,
+              0.7862966656684875
+            ],
+            "boxes_xyxy": [
+              [
+                42.378536224365234,
+                98.41032409667969,
+                109.12417602539062,
+                137.6593780517578
+              ],
+              [
+                41.63261795043945,
+                99.18171691894531,
+                112.20892333984375,
+                205.78736877441406
+              ],
+              [
+                41.585968017578125,
+                99.561279296875,
+                149.5579071044922,
+                411.9404296875
+              ]
+            ],
+            "prompt": "hammer head",
+            "mask_pixels": 17889
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.28756827116012573
+            ],
+            "boxes_xyxy": [
+              [
+                41.448631286621094,
+                99.39633178710938,
+                149.30300903320312,
+                411.91241455078125
+              ]
+            ],
+            "prompt": "head",
+            "mask_pixels": 17859
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.89095538854599,
+        "mask_pixels": 45720,
+        "prompt": "hammer head or striking face",
+        "prompt_variants": [
+          "hammer head or striking face",
+          "head or striking face",
+          "hammer head",
+          "head",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 5633
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.5355390906333923,
+              0.6875351667404175
+            ],
+            "boxes_xyxy": [
+              [
+                41.470252990722656,
+                99.6649169921875,
+                149.78594970703125,
+                411.9218444824219
+              ],
+              [
+                41.19166564941406,
+                99.45843505859375,
+                470.566650390625,
+                412.30413818359375
+              ]
+            ],
+            "prompt": "hammer striking face",
+            "mask_pixels": 45482
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.6875351667404175,
+        "mask_pixels": 45482,
+        "prompt": "hammer striking face",
+        "prompt_variants": [
+          "hammer striking face",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 5531
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2620038092136383
+            ],
+            "boxes_xyxy": [
+              [
+                224.80335998535156,
+                151.47586059570312,
+                286.9833679199219,
+                470.1106262207031
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 16325
+          }
+        ],
+        "best_score": 0.2620038092136383,
+        "mask_pixels": 16325,
+        "prompt": "hammer handle",
+        "prompt_variants": [
+          "hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 2529
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5746849775314331
+            ],
+            "boxes_xyxy": [
+              [
+                218.56680297851562,
+                41.26213455200195,
+                293.6361389160156,
+                149.5656280517578
+              ]
+            ],
+            "prompt": "hammer head or striking face",
+            "mask_pixels": 6876
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.5746849775314331,
+        "mask_pixels": 6876,
+        "prompt": "hammer head or striking face",
+        "prompt_variants": [
+          "hammer head or striking face",
+          "head or striking face",
+          "hammer head",
+          "head",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 1383
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "hammer striking face",
+        "prompt_variants": [
+          "hammer striking face",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "hammer handle",
+        "prompt_variants": [
+          "hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer head or striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "hammer head or striking face",
+        "prompt_variants": [
+          "hammer head or striking face",
+          "head or striking face",
+          "hammer head",
+          "head",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "hammer striking face",
+        "prompt_variants": [
+          "hammer striking face",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 5,
+            "kept_masks": 5,
+            "scores": [
+              0.37527531385421753,
+              0.3004869818687439,
+              0.3864893913269043,
+              0.5352460145950317,
+              0.2803187668323517
+            ],
+            "boxes_xyxy": [
+              [
+                395.94281005859375,
+                334.4884033203125,
+                470.7198486328125,
+                457.487060546875
+              ],
+              [
+                49.074180603027344,
+                54.23134231567383,
+                137.729736328125,
+                174.64430236816406
+              ],
+              [
+                284.4818420410156,
+                305.55841064453125,
+                470.8359680175781,
+                457.53936767578125
+              ],
+              [
+                149.32061767578125,
+                221.70138549804688,
+                471.774169921875,
+                457.2799987792969
+              ],
+              [
+                284.61279296875,
+                306.43853759765625,
+                375.47174072265625,
+                377.5819091796875
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 43898
+          }
+        ],
+        "best_score": 0.5352460145950317,
+        "mask_pixels": 43898,
+        "prompt": "hammer handle",
+        "prompt_variants": [
+          "hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 4572
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2754689157009125
+            ],
+            "boxes_xyxy": [
+              [
+                42.13624572753906,
+                54.662567138671875,
+                189.93124389648438,
+                452.9990234375
+              ]
+            ],
+            "prompt": "hammer head or striking face",
+            "mask_pixels": 34542
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.36567050218582153
+            ],
+            "boxes_xyxy": [
+              [
+                49.117942810058594,
+                54.19456100463867,
+                138.02987670898438,
+                129.8308868408203
+              ]
+            ],
+            "prompt": "hammer head",
+            "mask_pixels": 3224
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3942507803440094
+            ],
+            "boxes_xyxy": [
+              [
+                48.907596588134766,
+                54.09246063232422,
+                138.19320678710938,
+                132.3265380859375
+              ]
+            ],
+            "prompt": "head",
+            "mask_pixels": 3882
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.3942507803440094,
+        "mask_pixels": 34642,
+        "prompt": "hammer head or striking face",
+        "prompt_variants": [
+          "hammer head or striking face",
+          "head or striking face",
+          "hammer head",
+          "head",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 3480
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "hammer striking face",
+        "prompt_variants": [
+          "hammer striking face",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 4,
+            "kept_masks": 4,
+            "scores": [
+              0.3879256844520569,
+              0.49869704246520996,
+              0.29504477977752686,
+              0.40222302079200745
+            ],
+            "boxes_xyxy": [
+              [
+                395.6733703613281,
+                334.49725341796875,
+                470.8827209472656,
+                457.5584716796875
+              ],
+              [
+                150.19384765625,
+                221.98812866210938,
+                471.1187744140625,
+                457.3946228027344
+              ],
+              [
+                284.02252197265625,
+                304.599853515625,
+                375.1806640625,
+                376.75274658203125
+              ],
+              [
+                282.02227783203125,
+                304.2677307128906,
+                470.92657470703125,
+                457.5635070800781
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 36187
+          }
+        ],
+        "best_score": 0.49869704246520996,
+        "mask_pixels": 36187,
+        "prompt": "hammer handle",
+        "prompt_variants": [
+          "hammer handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 3977
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.29244083166122437,
+              0.2952207028865814
+            ],
+            "boxes_xyxy": [
+              [
+                42.76366424560547,
+                54.226837158203125,
+                189.15869140625,
+                452.975341796875
+              ],
+              [
+                49.18101119995117,
+                54.38564682006836,
+                138.22222900390625,
+                169.01971435546875
+              ]
+            ],
+            "prompt": "hammer head or striking face",
+            "mask_pixels": 34656
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "head or striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.49987778067588806
+            ],
+            "boxes_xyxy": [
+              [
+                49.24991989135742,
+                54.08538818359375,
+                137.95516967773438,
+                129.16343688964844
+              ]
+            ],
+            "prompt": "hammer head",
+            "mask_pixels": 3217
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.36038994789123535,
+              0.3869797885417938
+            ],
+            "boxes_xyxy": [
+              [
+                49.35991287231445,
+                53.539127349853516,
+                138.12730407714844,
+                130.2247772216797
+              ],
+              [
+                49.17378616333008,
+                54.402278900146484,
+                138.3530731201172,
+                166.47125244140625
+              ]
+            ],
+            "prompt": "head",
+            "mask_pixels": 7459
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.49987778067588806,
+        "mask_pixels": 34684,
+        "prompt": "hammer head or striking face",
+        "prompt_variants": [
+          "hammer head or striking face",
+          "head or striking face",
+          "hammer head",
+          "head",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 3489
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "hammer striking face",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "striking face",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "hammer striking face",
+        "prompt_variants": [
+          "hammer striking face",
+          "striking face"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/hammer/affordance.npz",
+  "num_vertices": 11242,
+  "labeled_vertices": 8538,
+  "class_vertex_counts": {
+    "background": 2704,
+    "positive_grasp": 4518,
+    "negative_grasp": 4020,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 5206,
+    "negative_grasp": 6819,
+    "tool_use_surface": 5093,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 5346
+}

@@ -1,0 +1,1267 @@
+{
+  "asset_id": "domino20/bowl",
+  "label": "bowl",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/002_bowl/visual/base4.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl",
+  "prompts": {
+    "positive_grasp": "bowl outer surface",
+    "negative_grasp": "bowl rim or inner surface",
+    "tool_use_surface": "bowl inner surface"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl outer surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7549739480018616
+            ],
+            "boxes_xyxy": [
+              [
+                41.41461181640625,
+                41.47795104980469,
+                470.67437744140625,
+                470.64605712890625
+              ]
+            ],
+            "prompt": "outer surface",
+            "mask_pixels": 13064
+          }
+        ],
+        "best_score": 0.7549739480018616,
+        "mask_pixels": 13064,
+        "prompt": "bowl outer surface",
+        "prompt_variants": [
+          "bowl outer surface",
+          "outer surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 2784
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2546379566192627
+            ],
+            "boxes_xyxy": [
+              [
+                41.309967041015625,
+                41.16871643066406,
+                470.8127136230469,
+                470.990478515625
+              ]
+            ],
+            "prompt": "bowl rim or inner surface",
+            "mask_pixels": 13667
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8358033895492554
+            ],
+            "boxes_xyxy": [
+              [
+                41.90309143066406,
+                41.85870361328125,
+                470.21160888671875,
+                470.67340087890625
+              ]
+            ],
+            "prompt": "rim or inner surface",
+            "mask_pixels": 142326
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5833662152290344
+            ],
+            "boxes_xyxy": [
+              [
+                41.387908935546875,
+                41.20997619628906,
+                470.9194641113281,
+                470.78955078125
+              ]
+            ],
+            "prompt": "rim",
+            "mask_pixels": 13664
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7415189146995544
+            ],
+            "boxes_xyxy": [
+              [
+                51.68379211425781,
+                52.38348388671875,
+                459.2603759765625,
+                460.44696044921875
+              ]
+            ],
+            "prompt": "inner surface",
+            "mask_pixels": 129231
+          }
+        ],
+        "best_score": 0.8358033895492554,
+        "mask_pixels": 143911,
+        "prompt": "bowl rim or inner surface",
+        "prompt_variants": [
+          "bowl rim or inner surface",
+          "rim or inner surface",
+          "bowl rim",
+          "rim",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 5955
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl inner surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7415189146995544
+            ],
+            "boxes_xyxy": [
+              [
+                51.68379211425781,
+                52.38348388671875,
+                459.2603759765625,
+                460.44696044921875
+              ]
+            ],
+            "prompt": "inner surface",
+            "mask_pixels": 129231
+          }
+        ],
+        "best_score": 0.7415189146995544,
+        "mask_pixels": 129231,
+        "prompt": "bowl inner surface",
+        "prompt_variants": [
+          "bowl inner surface",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 3040
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl outer surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7993413209915161
+            ],
+            "boxes_xyxy": [
+              [
+                41.90473937988281,
+                41.48936462402344,
+                470.166748046875,
+                470.4381103515625
+              ]
+            ],
+            "prompt": "outer surface",
+            "mask_pixels": 12197
+          }
+        ],
+        "best_score": 0.7993413209915161,
+        "mask_pixels": 12197,
+        "prompt": "bowl outer surface",
+        "prompt_variants": [
+          "bowl outer surface",
+          "outer surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 1453
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5104894638061523
+            ],
+            "boxes_xyxy": [
+              [
+                41.87141418457031,
+                41.24433898925781,
+                470.165283203125,
+                470.52117919921875
+              ]
+            ],
+            "prompt": "bowl rim or inner surface",
+            "mask_pixels": 19780
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8057665228843689
+            ],
+            "boxes_xyxy": [
+              [
+                45.60914611816406,
+                46.28271484375,
+                464.91827392578125,
+                464.45819091796875
+              ]
+            ],
+            "prompt": "rim or inner surface",
+            "mask_pixels": 9913
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4576070308685303
+            ],
+            "boxes_xyxy": [
+              [
+                41.570068359375,
+                40.89436340332031,
+                470.58502197265625,
+                470.76007080078125
+              ]
+            ],
+            "prompt": "bowl rim",
+            "mask_pixels": 14605
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7447131276130676
+            ],
+            "boxes_xyxy": [
+              [
+                41.94850158691406,
+                41.41729736328125,
+                470.33563232421875,
+                470.4794006347656
+              ]
+            ],
+            "prompt": "rim",
+            "mask_pixels": 18553
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.847938597202301
+            ],
+            "boxes_xyxy": [
+              [
+                59.85371398925781,
+                58.30999755859375,
+                453.387939453125,
+                453.93902587890625
+              ]
+            ],
+            "prompt": "inner surface",
+            "mask_pixels": 121291
+          }
+        ],
+        "best_score": 0.847938597202301,
+        "mask_pixels": 143548,
+        "prompt": "bowl rim or inner surface",
+        "prompt_variants": [
+          "bowl rim or inner surface",
+          "rim or inner surface",
+          "bowl rim",
+          "rim",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 7555
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2848629057407379
+            ],
+            "boxes_xyxy": [
+              [
+                58.39314270019531,
+                57.06806945800781,
+                454.2684326171875,
+                456.73028564453125
+              ]
+            ],
+            "prompt": "bowl inner surface",
+            "mask_pixels": 122114
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.847938597202301
+            ],
+            "boxes_xyxy": [
+              [
+                59.85371398925781,
+                58.30999755859375,
+                453.387939453125,
+                453.93902587890625
+              ]
+            ],
+            "prompt": "inner surface",
+            "mask_pixels": 121291
+          }
+        ],
+        "best_score": 0.847938597202301,
+        "mask_pixels": 122114,
+        "prompt": "bowl inner surface",
+        "prompt_variants": [
+          "bowl inner surface",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 3586
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl outer surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.557111918926239
+            ],
+            "boxes_xyxy": [
+              [
+                142.18101501464844,
+                41.52467346191406,
+                370.33306884765625,
+                470.125732421875
+              ]
+            ],
+            "prompt": "outer surface",
+            "mask_pixels": 65065
+          }
+        ],
+        "best_score": 0.557111918926239,
+        "mask_pixels": 65065,
+        "prompt": "bowl outer surface",
+        "prompt_variants": [
+          "bowl outer surface",
+          "outer surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 3310
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl rim or inner surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6748722791671753
+            ],
+            "boxes_xyxy": [
+              [
+                180.95901489257812,
+                108.2710952758789,
+                364.7121887207031,
+                311.8670654296875
+              ]
+            ],
+            "prompt": "rim or inner surface",
+            "mask_pixels": 28275
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6636486649513245
+            ],
+            "boxes_xyxy": [
+              [
+                182.4164581298828,
+                110.80184936523438,
+                364.4578857421875,
+                309.54156494140625
+              ]
+            ],
+            "prompt": "inner surface",
+            "mask_pixels": 26820
+          }
+        ],
+        "best_score": 0.6748722791671753,
+        "mask_pixels": 28275,
+        "prompt": "bowl rim or inner surface",
+        "prompt_variants": [
+          "bowl rim or inner surface",
+          "rim or inner surface",
+          "bowl rim",
+          "rim",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 594
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl inner surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6636486649513245
+            ],
+            "boxes_xyxy": [
+              [
+                182.4164581298828,
+                110.80184936523438,
+                364.4578857421875,
+                309.54156494140625
+              ]
+            ],
+            "prompt": "inner surface",
+            "mask_pixels": 26820
+          }
+        ],
+        "best_score": 0.6636486649513245,
+        "mask_pixels": 26820,
+        "prompt": "bowl inner surface",
+        "prompt_variants": [
+          "bowl inner surface",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 584
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl outer surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5188663005828857
+            ],
+            "boxes_xyxy": [
+              [
+                141.47369384765625,
+                41.1219482421875,
+                369.7406005859375,
+                470.2336730957031
+              ]
+            ],
+            "prompt": "outer surface",
+            "mask_pixels": 69546
+          }
+        ],
+        "best_score": 0.5188663005828857,
+        "mask_pixels": 69546,
+        "prompt": "bowl outer surface",
+        "prompt_variants": [
+          "bowl outer surface",
+          "outer surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 3336
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl rim or inner surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim or inner surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "inner surface",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "bowl rim or inner surface",
+        "prompt_variants": [
+          "bowl rim or inner surface",
+          "rim or inner surface",
+          "bowl rim",
+          "rim",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl inner surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "inner surface",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "bowl inner surface",
+        "prompt_variants": [
+          "bowl inner surface",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl outer surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5583502054214478
+            ],
+            "boxes_xyxy": [
+              [
+                41.496917724609375,
+                141.744873046875,
+                470.3302917480469,
+                370.0018310546875
+              ]
+            ],
+            "prompt": "outer surface",
+            "mask_pixels": 78569
+          }
+        ],
+        "best_score": 0.5583502054214478,
+        "mask_pixels": 78569,
+        "prompt": "bowl outer surface",
+        "prompt_variants": [
+          "bowl outer surface",
+          "outer surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 3635
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl rim or inner surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim or inner surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "inner surface",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "bowl rim or inner surface",
+        "prompt_variants": [
+          "bowl rim or inner surface",
+          "rim or inner surface",
+          "bowl rim",
+          "rim",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl inner surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "inner surface",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "bowl inner surface",
+        "prompt_variants": [
+          "bowl inner surface",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl outer surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7790551781654358
+            ],
+            "boxes_xyxy": [
+              [
+                41.555145263671875,
+                141.96185302734375,
+                470.1082763671875,
+                369.7118225097656
+              ]
+            ],
+            "prompt": "outer surface",
+            "mask_pixels": 77850
+          }
+        ],
+        "best_score": 0.7790551781654358,
+        "mask_pixels": 77850,
+        "prompt": "bowl outer surface",
+        "prompt_variants": [
+          "bowl outer surface",
+          "outer surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 3569
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl rim or inner surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.33960428833961487
+            ],
+            "boxes_xyxy": [
+              [
+                53.16619873046875,
+                141.24703979492188,
+                456.27886962890625,
+                171.64633178710938
+              ]
+            ],
+            "prompt": "rim or inner surface",
+            "mask_pixels": 7457
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "inner surface",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.33960428833961487,
+        "mask_pixels": 7457,
+        "prompt": "bowl rim or inner surface",
+        "prompt_variants": [
+          "bowl rim or inner surface",
+          "rim or inner surface",
+          "bowl rim",
+          "rim",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 1136
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl inner surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "inner surface",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "bowl inner surface",
+        "prompt_variants": [
+          "bowl inner surface",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl outer surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7757555842399597
+            ],
+            "boxes_xyxy": [
+              [
+                54.92585754394531,
+                41.68180847167969,
+                458.0518798828125,
+                470.512939453125
+              ]
+            ],
+            "prompt": "outer surface",
+            "mask_pixels": 56281
+          }
+        ],
+        "best_score": 0.7757555842399597,
+        "mask_pixels": 56281,
+        "prompt": "bowl outer surface",
+        "prompt_variants": [
+          "bowl outer surface",
+          "outer surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 3066
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl rim or inner surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8220623135566711,
+              0.4553508758544922
+            ],
+            "boxes_xyxy": [
+              [
+                55.14558410644531,
+                43.05192565917969,
+                333.13507080078125,
+                402.58953857421875
+              ],
+              [
+                196.5350799560547,
+                146.38259887695312,
+                328.875,
+                375.6932067871094
+              ]
+            ],
+            "prompt": "rim or inner surface",
+            "mask_pixels": 66711
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3012380599975586
+            ],
+            "boxes_xyxy": [
+              [
+                53.32818603515625,
+                40.6077880859375,
+                338.06201171875,
+                405.0675964355469
+              ]
+            ],
+            "prompt": "bowl rim",
+            "mask_pixels": 7453
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7046074867248535
+            ],
+            "boxes_xyxy": [
+              [
+                53.71330261230469,
+                40.7325439453125,
+                338.2806396484375,
+                405.06597900390625
+              ]
+            ],
+            "prompt": "rim",
+            "mask_pixels": 7152
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.2696743905544281,
+              0.801361083984375,
+              0.5741028785705566
+            ],
+            "boxes_xyxy": [
+              [
+                62.83019256591797,
+                201.2707977294922,
+                197.16940307617188,
+                380.63397216796875
+              ],
+              [
+                59.122161865234375,
+                47.56785583496094,
+                329.0694885253906,
+                399.38641357421875
+              ],
+              [
+                196.23190307617188,
+                147.53399658203125,
+                328.6719055175781,
+                374.6004638671875
+              ]
+            ],
+            "prompt": "inner surface",
+            "mask_pixels": 65840
+          }
+        ],
+        "best_score": 0.8220623135566711,
+        "mask_pixels": 72720,
+        "prompt": "bowl rim or inner surface",
+        "prompt_variants": [
+          "bowl rim or inner surface",
+          "rim or inner surface",
+          "bowl rim",
+          "rim",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 3995
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.32231903076171875
+            ],
+            "boxes_xyxy": [
+              [
+                58.66419982910156,
+                47.128692626953125,
+                328.99725341796875,
+                400.12359619140625
+              ]
+            ],
+            "prompt": "bowl inner surface",
+            "mask_pixels": 66062
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.2696743905544281,
+              0.801361083984375,
+              0.5741028785705566
+            ],
+            "boxes_xyxy": [
+              [
+                62.83019256591797,
+                201.2707977294922,
+                197.16940307617188,
+                380.63397216796875
+              ],
+              [
+                59.122161865234375,
+                47.56785583496094,
+                329.0694885253906,
+                399.38641357421875
+              ],
+              [
+                196.23190307617188,
+                147.53399658203125,
+                328.6719055175781,
+                374.6004638671875
+              ]
+            ],
+            "prompt": "inner surface",
+            "mask_pixels": 65840
+          }
+        ],
+        "best_score": 0.801361083984375,
+        "mask_pixels": 66255,
+        "prompt": "bowl inner surface",
+        "prompt_variants": [
+          "bowl inner surface",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 3122
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl outer surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7932564616203308
+            ],
+            "boxes_xyxy": [
+              [
+                54.8975830078125,
+                41.73329162597656,
+                457.745849609375,
+                470.55755615234375
+              ]
+            ],
+            "prompt": "outer surface",
+            "mask_pixels": 74587
+          }
+        ],
+        "best_score": 0.7932564616203308,
+        "mask_pixels": 74587,
+        "prompt": "bowl outer surface",
+        "prompt_variants": [
+          "bowl outer surface",
+          "outer surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 4645
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl rim or inner surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8012082576751709,
+              0.543865978717804
+            ],
+            "boxes_xyxy": [
+              [
+                54.87211608886719,
+                42.979522705078125,
+                335.2095947265625,
+                402.3985290527344
+              ],
+              [
+                195.56521606445312,
+                147.72244262695312,
+                329.0035095214844,
+                376.8866271972656
+              ]
+            ],
+            "prompt": "rim or inner surface",
+            "mask_pixels": 66901
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bowl rim",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6443548202514648
+            ],
+            "boxes_xyxy": [
+              [
+                53.728912353515625,
+                40.6383056640625,
+                341.4520568847656,
+                405.2727355957031
+              ]
+            ],
+            "prompt": "rim",
+            "mask_pixels": 7270
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8192446231842041,
+              0.6992074251174927
+            ],
+            "boxes_xyxy": [
+              [
+                58.84376525878906,
+                47.338958740234375,
+                328.96966552734375,
+                399.236083984375
+              ],
+              [
+                195.1917724609375,
+                148.74697875976562,
+                328.8349609375,
+                376.4625549316406
+              ]
+            ],
+            "prompt": "inner surface",
+            "mask_pixels": 65818
+          }
+        ],
+        "best_score": 0.8192446231842041,
+        "mask_pixels": 72576,
+        "prompt": "bowl rim or inner surface",
+        "prompt_variants": [
+          "bowl rim or inner surface",
+          "rim or inner surface",
+          "bowl rim",
+          "rim",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 3996
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2866213917732239
+            ],
+            "boxes_xyxy": [
+              [
+                57.73381042480469,
+                47.12849426269531,
+                328.93780517578125,
+                399.9974365234375
+              ]
+            ],
+            "prompt": "bowl inner surface",
+            "mask_pixels": 65956
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8192446231842041,
+              0.6992074251174927
+            ],
+            "boxes_xyxy": [
+              [
+                58.84376525878906,
+                47.338958740234375,
+                328.96966552734375,
+                399.236083984375
+              ],
+              [
+                195.1917724609375,
+                148.74697875976562,
+                328.8349609375,
+                376.4625549316406
+              ]
+            ],
+            "prompt": "inner surface",
+            "mask_pixels": 65818
+          }
+        ],
+        "best_score": 0.8192446231842041,
+        "mask_pixels": 66660,
+        "prompt": "bowl inner surface",
+        "prompt_variants": [
+          "bowl inner surface",
+          "inner surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 3224
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bowl/affordance.npz",
+  "num_vertices": 10361,
+  "labeled_vertices": 9197,
+  "class_vertex_counts": {
+    "background": 1164,
+    "positive_grasp": 2974,
+    "negative_grasp": 6146,
+    "tool_use_surface": 77,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 5577,
+    "negative_grasp": 7730,
+    "tool_use_surface": 5862,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 7476
+}

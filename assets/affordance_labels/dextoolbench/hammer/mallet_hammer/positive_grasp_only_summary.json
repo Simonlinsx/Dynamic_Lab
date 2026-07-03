@@ -1,0 +1,741 @@
+{
+  "asset_id": "dextoolbench/hammer/mallet_hammer",
+  "label": "mallet_hammer",
+  "mesh_path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/hammer/mallet_hammer/mallet_hammer.obj",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer",
+  "positive_prompt": "mallet hammer handle",
+  "positive_prompt_variants": [
+    "mallet hammer handle",
+    "handle"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "mallet hammer handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.3817759156227112
+          ],
+          "boxes_xyxy": [
+            [
+              61.670745849609375,
+              357.82818603515625,
+              591.853759765625,
+              420.0021057128906
+            ]
+          ],
+          "mask_pixels": 25063
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8727540373802185
+          ],
+          "boxes_xyxy": [
+            [
+              61.442527770996094,
+              357.8675842285156,
+              592.27734375,
+              419.812744140625
+            ]
+          ],
+          "mask_pixels": 25025
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.8727540373802185,
+          "mask_pixels": 25025,
+          "box_xyxy": [
+            61.442527770996094,
+            357.8675842285156,
+            592.27734375,
+            419.812744140625
+          ]
+        }
+      ],
+      "best_score": 0.8727540373802185,
+      "mask_pixels": 25025,
+      "prompt": "mallet hammer handle",
+      "prompt_variants": [
+        "mallet hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 3611
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "mallet hammer handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8314638733863831
+          ],
+          "boxes_xyxy": [
+            [
+              174.27957153320312,
+              358.2763671875,
+              706.19091796875,
+              419.7926330566406
+            ]
+          ],
+          "mask_pixels": 25054
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.8314638733863831,
+          "mask_pixels": 25054,
+          "box_xyxy": [
+            174.27957153320312,
+            358.2763671875,
+            706.19091796875,
+            419.7926330566406
+          ]
+        }
+      ],
+      "best_score": 0.8314638733863831,
+      "mask_pixels": 25054,
+      "prompt": "mallet hammer handle",
+      "prompt_variants": [
+        "mallet hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 3242
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "mallet hammer handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "mallet hammer handle",
+      "prompt_variants": [
+        "mallet hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "mallet hammer handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "mallet hammer handle",
+      "prompt_variants": [
+        "mallet hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "mallet hammer handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.6415716409683228
+          ],
+          "boxes_xyxy": [
+            [
+              61.936431884765625,
+              350.9991149902344,
+              595.139892578125,
+              406.5577697753906
+            ]
+          ],
+          "mask_pixels": 27672
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.20270460844039917,
+            0.6684664487838745
+          ],
+          "boxes_xyxy": [
+            [
+              588.5681762695312,
+              290.1981506347656,
+              704.9071655273438,
+              476.75299072265625
+            ],
+            [
+              61.77717590332031,
+              350.9900207519531,
+              595.0306396484375,
+              406.3457336425781
+            ]
+          ],
+          "mask_pixels": 47973
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.6684664487838745,
+          "mask_pixels": 27661,
+          "box_xyxy": [
+            61.77717590332031,
+            350.9900207519531,
+            595.0306396484375,
+            406.3457336425781
+          ]
+        }
+      ],
+      "best_score": 0.6684664487838745,
+      "mask_pixels": 27661,
+      "prompt": "mallet hammer handle",
+      "prompt_variants": [
+        "mallet hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 3500
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "mallet hammer handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7363768815994263
+          ],
+          "boxes_xyxy": [
+            [
+              62.06932067871094,
+              362.3077697753906,
+              591.8270263671875,
+              417.8969421386719
+            ]
+          ],
+          "mask_pixels": 27545
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.6610817909240723
+          ],
+          "boxes_xyxy": [
+            [
+              61.957923889160156,
+              362.2512512207031,
+              592.0570678710938,
+              417.73980712890625
+            ]
+          ],
+          "mask_pixels": 27499
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "mallet hammer handle",
+          "score": 0.7363768815994263,
+          "mask_pixels": 27545,
+          "box_xyxy": [
+            62.06932067871094,
+            362.3077697753906,
+            591.8270263671875,
+            417.8969421386719
+          ]
+        }
+      ],
+      "best_score": 0.7363768815994263,
+      "mask_pixels": 27545,
+      "prompt": "mallet hammer handle",
+      "prompt_variants": [
+        "mallet hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 3592
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "mallet hammer handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.6530781388282776
+          ],
+          "boxes_xyxy": [
+            [
+              61.748382568359375,
+              290.78204345703125,
+              529.5255126953125,
+              589.3335571289062
+            ]
+          ],
+          "mask_pixels": 30836
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7920790314674377
+          ],
+          "boxes_xyxy": [
+            [
+              61.53648376464844,
+              291.01953125,
+              529.9010620117188,
+              588.9257202148438
+            ]
+          ],
+          "mask_pixels": 30859
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.7920790314674377,
+          "mask_pixels": 30859,
+          "box_xyxy": [
+            61.53648376464844,
+            291.01953125,
+            529.9010620117188,
+            588.9257202148438
+          ]
+        }
+      ],
+      "best_score": 0.7920790314674377,
+      "mask_pixels": 30859,
+      "prompt": "mallet hammer handle",
+      "prompt_variants": [
+        "mallet hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 3842
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "mallet hammer handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8587630391120911
+          ],
+          "boxes_xyxy": [
+            [
+              208.75958251953125,
+              170.69134521484375,
+              706.0848388671875,
+              483.3817138671875
+            ]
+          ],
+          "mask_pixels": 34432
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8602307438850403
+          ],
+          "boxes_xyxy": [
+            [
+              208.70431518554688,
+              170.51263427734375,
+              706.3455810546875,
+              483.11077880859375
+            ]
+          ],
+          "mask_pixels": 34423
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.8602307438850403,
+          "mask_pixels": 34423,
+          "box_xyxy": [
+            208.70431518554688,
+            170.51263427734375,
+            706.3455810546875,
+            483.11077880859375
+          ]
+        }
+      ],
+      "best_score": 0.8602307438850403,
+      "mask_pixels": 34423,
+      "prompt": "mallet hammer handle",
+      "prompt_variants": [
+        "mallet hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 4092
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "mallet hammer handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.717391312122345
+          ],
+          "boxes_xyxy": [
+            [
+              62.454734802246094,
+              291.9791564941406,
+              541.841552734375,
+              603.959716796875
+            ]
+          ],
+          "mask_pixels": 35730
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7680678963661194
+          ],
+          "boxes_xyxy": [
+            [
+              62.20674133300781,
+              292.3474426269531,
+              542.3928833007812,
+              603.6522216796875
+            ]
+          ],
+          "mask_pixels": 35752
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.7680678963661194,
+          "mask_pixels": 35752,
+          "box_xyxy": [
+            62.20674133300781,
+            292.3474426269531,
+            542.3928833007812,
+            603.6522216796875
+          ]
+        }
+      ],
+      "best_score": 0.7680678963661194,
+      "mask_pixels": 35752,
+      "prompt": "mallet hammer handle",
+      "prompt_variants": [
+        "mallet hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 3560
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "mallet hammer handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8609209656715393
+          ],
+          "boxes_xyxy": [
+            [
+              62.00445556640625,
+              180.12857055664062,
+              553.5888671875,
+              482.0855712890625
+            ]
+          ],
+          "mask_pixels": 35797
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8861209750175476
+          ],
+          "boxes_xyxy": [
+            [
+              61.690338134765625,
+              179.95126342773438,
+              553.6939697265625,
+              482.170654296875
+            ]
+          ],
+          "mask_pixels": 35797
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.8861209750175476,
+          "mask_pixels": 35797,
+          "box_xyxy": [
+            61.690338134765625,
+            179.95126342773438,
+            553.6939697265625,
+            482.170654296875
+          ]
+        }
+      ],
+      "best_score": 0.8861209750175476,
+      "mask_pixels": 35797,
+      "prompt": "mallet hammer handle",
+      "prompt_variants": [
+        "mallet hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 3890
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "mallet hammer handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.23699766397476196,
+            0.4855816066265106
+          ],
+          "boxes_xyxy": [
+            [
+              60.28900909423828,
+              283.4444580078125,
+              706.3460083007812,
+              484.9710693359375
+            ],
+            [
+              61.90015411376953,
+              346.78021240234375,
+              595.62158203125,
+              408.15570068359375
+            ]
+          ],
+          "mask_pixels": 47304
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7036532163619995
+          ],
+          "boxes_xyxy": [
+            [
+              61.82524108886719,
+              346.86993408203125,
+              595.6302490234375,
+              407.9759216308594
+            ]
+          ],
+          "mask_pixels": 26962
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.7036532163619995,
+          "mask_pixels": 26962,
+          "box_xyxy": [
+            61.82524108886719,
+            346.86993408203125,
+            595.6302490234375,
+            407.9759216308594
+          ]
+        }
+      ],
+      "best_score": 0.7036532163619995,
+      "mask_pixels": 26962,
+      "prompt": "mallet hammer handle",
+      "prompt_variants": [
+        "mallet hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 3529
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "mallet hammer handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.6714279651641846,
+            0.28223568201065063
+          ],
+          "boxes_xyxy": [
+            [
+              172.90130615234375,
+              356.4441833496094,
+              705.7294921875,
+              422.0246887207031
+            ],
+            [
+              61.9669189453125,
+              279.8209228515625,
+              707.9979858398438,
+              486.47772216796875
+            ]
+          ],
+          "mask_pixels": 50056
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8021859526634216
+          ],
+          "boxes_xyxy": [
+            [
+              172.29080200195312,
+              356.32440185546875,
+              705.7510986328125,
+              422.0482177734375
+            ]
+          ],
+          "mask_pixels": 29344
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.8021859526634216,
+          "mask_pixels": 29344,
+          "box_xyxy": [
+            172.29080200195312,
+            356.32440185546875,
+            705.7510986328125,
+            422.0482177734375
+          ]
+        }
+      ],
+      "best_score": 0.8021859526634216,
+      "mask_pixels": 29344,
+      "prompt": "mallet hammer handle",
+      "prompt_variants": [
+        "mallet hammer handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 3846
+    }
+  },
+  "num_vertices": 9909,
+  "raw_positive_vertices": 5164,
+  "connected_positive_vertices": 4785,
+  "filled_positive_vertices": 4805,
+  "kept_component_sizes": [
+    1336,
+    1288,
+    1161,
+    893,
+    107
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 4805,
+  "clean_v2_negative_vertices": 4464,
+  "clean_v2_ignore_vertices": 640,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/hammer/mallet_hammer/grasp_affordance_clean_v2.npz"
+}

@@ -1,0 +1,8 @@
+# Keep generated annotation artifacts out of textual whitespace checks.
+assets/affordance_labels/**/*.csv -text -diff
+assets/affordance_labels/**/*.npz binary
+assets/affordance_labels/**/*.png binary
+
+# Mesh assets are text, but they are generated and can be large.
+assets/generated/**/*.obj text eol=lf linguist-generated=true
+assets/generated/**/*.mtl text eol=lf linguist-generated=true

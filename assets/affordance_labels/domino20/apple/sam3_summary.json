@@ -1,0 +1,1041 @@
+{
+  "asset_id": "domino20/apple",
+  "label": "apple",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/035_apple/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple",
+  "prompts": {
+    "positive_grasp": "apple body",
+    "negative_grasp": "apple stem or top",
+    "tool_use_surface": "apple body"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9334387183189392
+            ],
+            "boxes_xyxy": [
+              [
+                41.84819030761719,
+                52.43043518066406,
+                470.04833984375,
+                460.336669921875
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 150745
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.9334387183189392,
+        "mask_pixels": 150745,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 5647
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "apple stem or top",
+        "prompt_variants": [
+          "apple stem or top",
+          "stem or top",
+          "apple stem",
+          "stem",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9334387183189392
+            ],
+            "boxes_xyxy": [
+              [
+                41.84819030761719,
+                52.43043518066406,
+                470.04833984375,
+                460.336669921875
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 150745
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.9334387183189392,
+        "mask_pixels": 150745,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 5647
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9247685670852661
+            ],
+            "boxes_xyxy": [
+              [
+                41.55256652832031,
+                52.39018249511719,
+                469.74359130859375,
+                460.15777587890625
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 150733
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.9247685670852661,
+        "mask_pixels": 150733,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 5649
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "apple stem or top",
+        "prompt_variants": [
+          "apple stem or top",
+          "stem or top",
+          "apple stem",
+          "stem",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9247685670852661
+            ],
+            "boxes_xyxy": [
+              [
+                41.55256652832031,
+                52.39018249511719,
+                469.74359130859375,
+                460.15777587890625
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 150733
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.9247685670852661,
+        "mask_pixels": 150733,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 5649
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9492642879486084
+            ],
+            "boxes_xyxy": [
+              [
+                41.55070495605469,
+                50.8016357421875,
+                470.1407470703125,
+                461.15802001953125
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 152518
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.9492642879486084,
+        "mask_pixels": 152518,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 6776
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "apple stem or top",
+        "prompt_variants": [
+          "apple stem or top",
+          "stem or top",
+          "apple stem",
+          "stem",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9492642879486084
+            ],
+            "boxes_xyxy": [
+              [
+                41.55070495605469,
+                50.8016357421875,
+                470.1407470703125,
+                461.15802001953125
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 152518
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.9492642879486084,
+        "mask_pixels": 152518,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 6776
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9012068510055542
+            ],
+            "boxes_xyxy": [
+              [
+                41.55412292480469,
+                51.17881774902344,
+                470.18145751953125,
+                461.345458984375
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 152408
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.9012068510055542,
+        "mask_pixels": 152408,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 5262
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "apple stem or top",
+        "prompt_variants": [
+          "apple stem or top",
+          "stem or top",
+          "apple stem",
+          "stem",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9012068510055542
+            ],
+            "boxes_xyxy": [
+              [
+                41.55412292480469,
+                51.17881774902344,
+                470.18145751953125,
+                461.345458984375
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 152408
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.9012068510055542,
+        "mask_pixels": 152408,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 5262
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.21862442791461945,
+              0.6445244550704956
+            ],
+            "boxes_xyxy": [
+              [
+                231.39886474609375,
+                250.40179443359375,
+                259.29254150390625,
+                279.073486328125
+              ],
+              [
+                41.301239013671875,
+                43.83245849609375,
+                470.3568115234375,
+                468.5888671875
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 144200
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.6445244550704956,
+        "mask_pixels": 144200,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 9305
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "apple stem or top",
+        "prompt_variants": [
+          "apple stem or top",
+          "stem or top",
+          "apple stem",
+          "stem",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.21862442791461945,
+              0.6445244550704956
+            ],
+            "boxes_xyxy": [
+              [
+                231.39886474609375,
+                250.40179443359375,
+                259.29254150390625,
+                279.073486328125
+              ],
+              [
+                41.301239013671875,
+                43.83245849609375,
+                470.3568115234375,
+                468.5888671875
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 144200
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.6445244550704956,
+        "mask_pixels": 144200,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 9305
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.23994964361190796,
+              0.6237741708755493
+            ],
+            "boxes_xyxy": [
+              [
+                231.82467651367188,
+                228.27003479003906,
+                284.2387390136719,
+                280.85595703125
+              ],
+              [
+                41.70695495605469,
+                43.79888916015625,
+                470.2080078125,
+                468.35296630859375
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 144223
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.6237741708755493,
+        "mask_pixels": 144223,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 5908
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.20306339859962463
+            ],
+            "boxes_xyxy": [
+              [
+                231.73126220703125,
+                229.14859008789062,
+                283.72857666015625,
+                281.1769714355469
+              ]
+            ],
+            "prompt": "apple stem or top",
+            "mask_pixels": 1857
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.20306339859962463,
+        "mask_pixels": 1857,
+        "prompt": "apple stem or top",
+        "prompt_variants": [
+          "apple stem or top",
+          "stem or top",
+          "apple stem",
+          "stem",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 105
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.23994964361190796,
+              0.6237741708755493
+            ],
+            "boxes_xyxy": [
+              [
+                231.82467651367188,
+                228.27003479003906,
+                284.2387390136719,
+                280.85595703125
+              ],
+              [
+                41.70695495605469,
+                43.79888916015625,
+                470.2080078125,
+                468.35296630859375
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 144223
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.6237741708755493,
+        "mask_pixels": 144223,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 5908
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8798400163650513
+            ],
+            "boxes_xyxy": [
+              [
+                60.1500244140625,
+                41.74114990234375,
+                451.593017578125,
+                470.38726806640625
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 133722
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.8798400163650513,
+        "mask_pixels": 133722,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 5696
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "apple stem or top",
+        "prompt_variants": [
+          "apple stem or top",
+          "stem or top",
+          "apple stem",
+          "stem",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8798400163650513
+            ],
+            "boxes_xyxy": [
+              [
+                60.1500244140625,
+                41.74114990234375,
+                451.593017578125,
+                470.38726806640625
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 133722
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.8798400163650513,
+        "mask_pixels": 133722,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 5696
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8470991253852844
+            ],
+            "boxes_xyxy": [
+              [
+                59.53175354003906,
+                41.64593505859375,
+                452.032470703125,
+                470.0706481933594
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 135498
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.8470991253852844,
+        "mask_pixels": 135498,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 5748
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem or top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "apple stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "stem",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "apple stem or top",
+        "prompt_variants": [
+          "apple stem or top",
+          "stem or top",
+          "apple stem",
+          "stem",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8470991253852844
+            ],
+            "boxes_xyxy": [
+              [
+                59.53175354003906,
+                41.64593505859375,
+                452.032470703125,
+                470.0706481933594
+              ]
+            ],
+            "prompt": "apple body",
+            "mask_pixels": 135498
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.8470991253852844,
+        "mask_pixels": 135498,
+        "prompt": "apple body",
+        "prompt_variants": [
+          "apple body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 5748
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/apple/affordance.npz",
+  "num_vertices": 49126,
+  "labeled_vertices": 40346,
+  "class_vertex_counts": {
+    "background": 8780,
+    "positive_grasp": 40346,
+    "negative_grasp": 0,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 40346,
+    "negative_grasp": 102,
+    "tool_use_surface": 40346,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 40346
+}

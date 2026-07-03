@@ -1,0 +1,823 @@
+{
+  "asset_id": "domino20/sauce_can",
+  "label": "sauce_can",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/105_sauce-can/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can",
+  "prompts": {
+    "positive_grasp": "sauce can body",
+    "negative_grasp": "sauce can top",
+    "tool_use_surface": "sauce can top"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can body",
+        "prompt_variants": [
+          "sauce can body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can body",
+        "prompt_variants": [
+          "sauce can body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can body",
+        "prompt_variants": [
+          "sauce can body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can body",
+        "prompt_variants": [
+          "sauce can body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "top",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can body",
+        "prompt_variants": [
+          "sauce can body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7185922265052795
+            ],
+            "boxes_xyxy": [
+              [
+                127.19169616699219,
+                41.107505798339844,
+                384.52215576171875,
+                80.01371765136719
+              ]
+            ],
+            "prompt": "top",
+            "mask_pixels": 9365
+          }
+        ],
+        "best_score": 0.7185922265052795,
+        "mask_pixels": 9365,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 1662
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can top",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7185922265052795
+            ],
+            "boxes_xyxy": [
+              [
+                127.19169616699219,
+                41.107505798339844,
+                384.52215576171875,
+                80.01371765136719
+              ]
+            ],
+            "prompt": "top",
+            "mask_pixels": 9365
+          }
+        ],
+        "best_score": 0.7185922265052795,
+        "mask_pixels": 9365,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 1662
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.29699641466140747
+            ],
+            "boxes_xyxy": [
+              [
+                126.08758544921875,
+                42.190887451171875,
+                386.05255126953125,
+                470.3336486816406
+              ]
+            ],
+            "prompt": "sauce can body",
+            "mask_pixels": 89136
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.29699641466140747,
+        "mask_pixels": 89136,
+        "prompt": "sauce can body",
+        "prompt_variants": [
+          "sauce can body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 10971
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.46378669142723083
+            ],
+            "boxes_xyxy": [
+              [
+                125.40914916992188,
+                41.46031188964844,
+                386.35882568359375,
+                112.90449523925781
+              ]
+            ],
+            "prompt": "sauce can top",
+            "mask_pixels": 17020
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6782331466674805
+            ],
+            "boxes_xyxy": [
+              [
+                125.270751953125,
+                41.4588737487793,
+                386.33709716796875,
+                112.79995727539062
+              ]
+            ],
+            "prompt": "top",
+            "mask_pixels": 17015
+          }
+        ],
+        "best_score": 0.6782331466674805,
+        "mask_pixels": 17022,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 2032
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.46378669142723083
+            ],
+            "boxes_xyxy": [
+              [
+                125.40914916992188,
+                41.46031188964844,
+                386.35882568359375,
+                112.90449523925781
+              ]
+            ],
+            "prompt": "sauce can top",
+            "mask_pixels": 17020
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6782331466674805
+            ],
+            "boxes_xyxy": [
+              [
+                125.270751953125,
+                41.4588737487793,
+                386.33709716796875,
+                112.79995727539062
+              ]
+            ],
+            "prompt": "top",
+            "mask_pixels": 17015
+          }
+        ],
+        "best_score": 0.6782331466674805,
+        "mask_pixels": 17022,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 2032
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can body",
+        "prompt_variants": [
+          "sauce can body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5418416261672974
+            ],
+            "boxes_xyxy": [
+              [
+                42.00989532470703,
+                73.78089904785156,
+                228.73272705078125,
+                301.39990234375
+              ]
+            ],
+            "prompt": "sauce can top",
+            "mask_pixels": 30710
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5369622111320496
+            ],
+            "boxes_xyxy": [
+              [
+                41.84435272216797,
+                73.47530364990234,
+                228.60299682617188,
+                301.2724304199219
+              ]
+            ],
+            "prompt": "top",
+            "mask_pixels": 30659
+          }
+        ],
+        "best_score": 0.5418416261672974,
+        "mask_pixels": 30717,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 5335
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5418416261672974
+            ],
+            "boxes_xyxy": [
+              [
+                42.00989532470703,
+                73.78089904785156,
+                228.73272705078125,
+                301.39990234375
+              ]
+            ],
+            "prompt": "sauce can top",
+            "mask_pixels": 30710
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5369622111320496
+            ],
+            "boxes_xyxy": [
+              [
+                41.84435272216797,
+                73.47530364990234,
+                228.60299682617188,
+                301.2724304199219
+              ]
+            ],
+            "prompt": "top",
+            "mask_pixels": 30659
+          }
+        ],
+        "best_score": 0.5418416261672974,
+        "mask_pixels": 30717,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 5335
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "sauce can body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "sauce can body",
+        "prompt_variants": [
+          "sauce can body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4153241217136383
+            ],
+            "boxes_xyxy": [
+              [
+                41.59996795654297,
+                73.85847473144531,
+                228.47250366210938,
+                301.4107666015625
+              ]
+            ],
+            "prompt": "sauce can top",
+            "mask_pixels": 30707
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5197468996047974
+            ],
+            "boxes_xyxy": [
+              [
+                41.58960723876953,
+                73.63536071777344,
+                228.51068115234375,
+                301.34033203125
+              ]
+            ],
+            "prompt": "top",
+            "mask_pixels": 30621
+          }
+        ],
+        "best_score": 0.5197468996047974,
+        "mask_pixels": 30708,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 5342
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4153241217136383
+            ],
+            "boxes_xyxy": [
+              [
+                41.59996795654297,
+                73.85847473144531,
+                228.47250366210938,
+                301.4107666015625
+              ]
+            ],
+            "prompt": "sauce can top",
+            "mask_pixels": 30707
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5197468996047974
+            ],
+            "boxes_xyxy": [
+              [
+                41.58960723876953,
+                73.63536071777344,
+                228.51068115234375,
+                301.34033203125
+              ]
+            ],
+            "prompt": "top",
+            "mask_pixels": 30621
+          }
+        ],
+        "best_score": 0.5197468996047974,
+        "mask_pixels": 30708,
+        "prompt": "sauce can top",
+        "prompt_variants": [
+          "sauce can top",
+          "top"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 5342
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/sauce_can/affordance.npz",
+  "num_vertices": 19739,
+  "labeled_vertices": 7600,
+  "class_vertex_counts": {
+    "background": 12139,
+    "positive_grasp": 3596,
+    "negative_grasp": 4004,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 3889,
+    "negative_grasp": 4183,
+    "tool_use_surface": 4183,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 4183
+}

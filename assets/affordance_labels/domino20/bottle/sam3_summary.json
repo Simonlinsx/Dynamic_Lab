@@ -1,0 +1,1574 @@
+{
+  "asset_id": "domino20/bottle",
+  "label": "bottle",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/001_bottle/visual/base13.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle",
+  "prompts": {
+    "positive_grasp": "bottle body",
+    "negative_grasp": "bottle cap or neck",
+    "tool_use_surface": "bottle cap"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bottle body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "bottle body",
+        "prompt_variants": [
+          "bottle body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bottle cap or neck",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap or neck",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bottle cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "neck",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "bottle cap or neck",
+        "prompt_variants": [
+          "bottle cap or neck",
+          "cap or neck",
+          "bottle cap",
+          "cap",
+          "neck"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bottle cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "bottle cap",
+        "prompt_variants": [
+          "bottle cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bottle body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "bottle body",
+        "prompt_variants": [
+          "bottle body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bottle cap or neck",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap or neck",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bottle cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "neck",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "bottle cap or neck",
+        "prompt_variants": [
+          "bottle cap or neck",
+          "cap or neck",
+          "bottle cap",
+          "cap",
+          "neck"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "bottle cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "bottle cap",
+        "prompt_variants": [
+          "bottle cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 6,
+            "kept_masks": 6,
+            "scores": [
+              0.25163283944129944,
+              0.661477267742157,
+              0.3785666227340698,
+              0.35939842462539673,
+              0.27111345529556274,
+              0.4262552261352539
+            ],
+            "boxes_xyxy": [
+              [
+                91.76618957519531,
+                200.15736389160156,
+                245.3008575439453,
+                312.1995544433594
+              ],
+              [
+                40.78300476074219,
+                199.87127685546875,
+                469.3101806640625,
+                312.43939208984375
+              ],
+              [
+                242.85443115234375,
+                200.64938354492188,
+                379.96356201171875,
+                311.5453186035156
+              ],
+              [
+                242.56349182128906,
+                201.5784912109375,
+                440.502685546875,
+                311.19268798828125
+              ],
+              [
+                95.17022705078125,
+                199.9406280517578,
+                382.9908752441406,
+                312.32269287109375
+              ],
+              [
+                375.5010070800781,
+                211.51844787597656,
+                439.1773986816406,
+                301.0802001953125
+              ]
+            ],
+            "prompt": "bottle body",
+            "mask_pixels": 37709
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.661477267742157,
+        "mask_pixels": 37709,
+        "prompt": "bottle body",
+        "prompt_variants": [
+          "bottle body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 6214
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8229648470878601
+            ],
+            "boxes_xyxy": [
+              [
+                438.2465515136719,
+                228.12875366210938,
+                471.0338439941406,
+                283.8168029785156
+              ]
+            ],
+            "prompt": "bottle cap or neck",
+            "mask_pixels": 1693
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3641153872013092
+            ],
+            "boxes_xyxy": [
+              [
+                438.26788330078125,
+                228.1030731201172,
+                471.16314697265625,
+                283.96826171875
+              ]
+            ],
+            "prompt": "cap or neck",
+            "mask_pixels": 1689
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8901383280754089
+            ],
+            "boxes_xyxy": [
+              [
+                438.2669677734375,
+                228.00648498535156,
+                471.0430908203125,
+                283.7510986328125
+              ]
+            ],
+            "prompt": "bottle cap",
+            "mask_pixels": 1690
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8601579666137695
+            ],
+            "boxes_xyxy": [
+              [
+                438.2569580078125,
+                227.90965270996094,
+                471.1112060546875,
+                283.8069152832031
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 1693
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.30301013588905334
+            ],
+            "boxes_xyxy": [
+              [
+                376.0028076171875,
+                211.95083618164062,
+                438.9892578125,
+                301.3483581542969
+              ]
+            ],
+            "prompt": "neck",
+            "mask_pixels": 3601
+          }
+        ],
+        "best_score": 0.8901383280754089,
+        "mask_pixels": 5294,
+        "prompt": "bottle cap or neck",
+        "prompt_variants": [
+          "bottle cap or neck",
+          "cap or neck",
+          "bottle cap",
+          "cap",
+          "neck"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 1728
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8901383280754089
+            ],
+            "boxes_xyxy": [
+              [
+                438.2669677734375,
+                228.00648498535156,
+                471.0430908203125,
+                283.7510986328125
+              ]
+            ],
+            "prompt": "bottle cap",
+            "mask_pixels": 1690
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8601579666137695
+            ],
+            "boxes_xyxy": [
+              [
+                438.2569580078125,
+                227.90965270996094,
+                471.1112060546875,
+                283.8069152832031
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 1693
+          }
+        ],
+        "best_score": 0.8901383280754089,
+        "mask_pixels": 1693,
+        "prompt": "bottle cap",
+        "prompt_variants": [
+          "bottle cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 716
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.4016876816749573,
+              0.6831070780754089
+            ],
+            "boxes_xyxy": [
+              [
+                72.58103942871094,
+                208.55679321289062,
+                142.59268188476562,
+                301.9991760253906
+              ],
+              [
+                41.61967468261719,
+                199.930908203125,
+                471.17572021484375,
+                312.3472900390625
+              ]
+            ],
+            "prompt": "bottle body",
+            "mask_pixels": 38367
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.6831070780754089,
+        "mask_pixels": 38367,
+        "prompt": "bottle body",
+        "prompt_variants": [
+          "bottle body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 6398
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.25609806180000305,
+              0.83110511302948
+            ],
+            "boxes_xyxy": [
+              [
+                40.738582611083984,
+                209.47216796875,
+                141.96864318847656,
+                300.0752868652344
+              ],
+              [
+                40.936241149902344,
+                228.15664672851562,
+                73.90469360351562,
+                283.6667785644531
+              ]
+            ],
+            "prompt": "bottle cap or neck",
+            "mask_pixels": 6104
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4408497214317322
+            ],
+            "boxes_xyxy": [
+              [
+                40.924781799316406,
+                228.10301208496094,
+                74.01133728027344,
+                283.6373291015625
+              ]
+            ],
+            "prompt": "cap or neck",
+            "mask_pixels": 1683
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8495266437530518
+            ],
+            "boxes_xyxy": [
+              [
+                40.92101287841797,
+                228.25332641601562,
+                73.96146392822266,
+                283.63232421875
+              ]
+            ],
+            "prompt": "bottle cap",
+            "mask_pixels": 1671
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.2604686915874481,
+              0.8511913418769836
+            ],
+            "boxes_xyxy": [
+              [
+                41.05550765991211,
+                227.99557495117188,
+                74.06707763671875,
+                283.6495666503906
+              ],
+              [
+                40.92618942260742,
+                228.14491271972656,
+                74.036376953125,
+                283.66033935546875
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 1673
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.302900105714798
+            ],
+            "boxes_xyxy": [
+              [
+                72.82046508789062,
+                209.31199645996094,
+                142.69485473632812,
+                301.5909118652344
+              ]
+            ],
+            "prompt": "neck",
+            "mask_pixels": 4333
+          }
+        ],
+        "best_score": 0.8511913418769836,
+        "mask_pixels": 6109,
+        "prompt": "bottle cap or neck",
+        "prompt_variants": [
+          "bottle cap or neck",
+          "cap or neck",
+          "bottle cap",
+          "cap",
+          "neck"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 2031
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8495266437530518
+            ],
+            "boxes_xyxy": [
+              [
+                40.92101287841797,
+                228.25332641601562,
+                73.96146392822266,
+                283.63232421875
+              ]
+            ],
+            "prompt": "bottle cap",
+            "mask_pixels": 1671
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.2604686915874481,
+              0.8511913418769836
+            ],
+            "boxes_xyxy": [
+              [
+                41.05550765991211,
+                227.99557495117188,
+                74.06707763671875,
+                283.6495666503906
+              ],
+              [
+                40.92618942260742,
+                228.14491271972656,
+                74.036376953125,
+                283.66033935546875
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 1673
+          }
+        ],
+        "best_score": 0.8511913418769836,
+        "mask_pixels": 1673,
+        "prompt": "bottle cap",
+        "prompt_variants": [
+          "bottle cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 836
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.6985442638397217,
+              0.32758432626724243,
+              0.2568162679672241
+            ],
+            "boxes_xyxy": [
+              [
+                198.78953552246094,
+                70.38348388671875,
+                313.162841796875,
+                470.50836181640625
+              ],
+              [
+                199.2374267578125,
+                132.55418395996094,
+                313.0909423828125,
+                419.05767822265625
+              ],
+              [
+                210.7959442138672,
+                73.89839172363281,
+                302.3612976074219,
+                141.35797119140625
+              ]
+            ],
+            "prompt": "bottle body",
+            "mask_pixels": 38886
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.6985442638397217,
+        "mask_pixels": 38886,
+        "prompt": "bottle body",
+        "prompt_variants": [
+          "bottle body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 6186
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.2546288073062897,
+              0.29124200344085693,
+              0.7963786125183105
+            ],
+            "boxes_xyxy": [
+              [
+                223.1289825439453,
+                73.49253845214844,
+                287.7376708984375,
+                81.92454528808594
+              ],
+              [
+                214.13076782226562,
+                40.503662109375,
+                302.1966857910156,
+                141.29684448242188
+              ],
+              [
+                226.27252197265625,
+                41.028114318847656,
+                285.1192626953125,
+                74.64581298828125
+              ]
+            ],
+            "prompt": "bottle cap or neck",
+            "mask_pixels": 5901
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.40617117285728455
+            ],
+            "boxes_xyxy": [
+              [
+                226.08419799804688,
+                41.041847229003906,
+                285.3027648925781,
+                74.87631225585938
+              ]
+            ],
+            "prompt": "cap or neck",
+            "mask_pixels": 1758
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8022514581680298
+            ],
+            "boxes_xyxy": [
+              [
+                226.74716186523438,
+                41.09415054321289,
+                284.7987060546875,
+                74.27352905273438
+              ]
+            ],
+            "prompt": "bottle cap",
+            "mask_pixels": 1756
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7538493275642395
+            ],
+            "boxes_xyxy": [
+              [
+                226.67105102539062,
+                41.0845947265625,
+                284.8696594238281,
+                74.29833984375
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 1756
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6344083547592163,
+              0.40061086416244507
+            ],
+            "boxes_xyxy": [
+              [
+                212.67660522460938,
+                74.10575103759766,
+                303.2366027832031,
+                141.46621704101562
+              ],
+              [
+                227.30584716796875,
+                74.4679946899414,
+                286.7586669921875,
+                104.86360931396484
+              ]
+            ],
+            "prompt": "neck",
+            "mask_pixels": 3832
+          }
+        ],
+        "best_score": 0.8022514581680298,
+        "mask_pixels": 5908,
+        "prompt": "bottle cap or neck",
+        "prompt_variants": [
+          "bottle cap or neck",
+          "cap or neck",
+          "bottle cap",
+          "cap",
+          "neck"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 1949
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8022514581680298
+            ],
+            "boxes_xyxy": [
+              [
+                226.74716186523438,
+                41.09415054321289,
+                284.7987060546875,
+                74.27352905273438
+              ]
+            ],
+            "prompt": "bottle cap",
+            "mask_pixels": 1756
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7538493275642395
+            ],
+            "boxes_xyxy": [
+              [
+                226.67105102539062,
+                41.0845947265625,
+                284.8696594238281,
+                74.29833984375
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 1756
+          }
+        ],
+        "best_score": 0.8022514581680298,
+        "mask_pixels": 1756,
+        "prompt": "bottle cap",
+        "prompt_variants": [
+          "bottle cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 847
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 4,
+            "kept_masks": 4,
+            "scores": [
+              0.27837154269218445,
+              0.2763633728027344,
+              0.5154500007629395,
+              0.3766310214996338
+            ],
+            "boxes_xyxy": [
+              [
+                199.1041259765625,
+                94.16502380371094,
+                312.14990234375,
+                242.7450408935547
+              ],
+              [
+                199.66615295410156,
+                240.6916961669922,
+                312.00799560546875,
+                443.478271484375
+              ],
+              [
+                198.25868225097656,
+                40.97700500488281,
+                313.13897705078125,
+                470.31488037109375
+              ],
+              [
+                198.99563598632812,
+                94.49588012695312,
+                312.9235534667969,
+                385.2877502441406
+              ]
+            ],
+            "prompt": "bottle body",
+            "mask_pixels": 38716
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.5154500007629395,
+        "mask_pixels": 38716,
+        "prompt": "bottle body",
+        "prompt_variants": [
+          "bottle body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 6741
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.49676936864852905,
+              0.2704876959323883,
+              0.5229594707489014
+            ],
+            "boxes_xyxy": [
+              [
+                227.25424194335938,
+                439.0518798828125,
+                284.7154846191406,
+                470.90826416015625
+              ],
+              [
+                198.20773315429688,
+                41.556175231933594,
+                313.2124938964844,
+                243.42816162109375
+              ],
+              [
+                199.3741912841797,
+                40.97426223754883,
+                312.61053466796875,
+                98.95396423339844
+              ]
+            ],
+            "prompt": "bottle cap or neck",
+            "mask_pixels": 22216
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap or neck",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.7431043982505798,
+              0.4789395034313202
+            ],
+            "boxes_xyxy": [
+              [
+                227.35955810546875,
+                439.24652099609375,
+                284.3479919433594,
+                471.02691650390625
+              ],
+              [
+                199.55621337890625,
+                40.98439025878906,
+                312.271484375,
+                98.81184387207031
+              ]
+            ],
+            "prompt": "bottle cap",
+            "mask_pixels": 7384
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.7600067853927612,
+              0.5728598833084106
+            ],
+            "boxes_xyxy": [
+              [
+                227.40594482421875,
+                439.303955078125,
+                284.51922607421875,
+                471.01715087890625
+              ],
+              [
+                199.4809112548828,
+                40.89439392089844,
+                312.47296142578125,
+                98.76814270019531
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 7354
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.37469279766082764
+            ],
+            "boxes_xyxy": [
+              [
+                199.4052276611328,
+                94.33391571044922,
+                312.8509521484375,
+                243.29782104492188
+              ]
+            ],
+            "prompt": "neck",
+            "mask_pixels": 14628
+          }
+        ],
+        "best_score": 0.7600067853927612,
+        "mask_pixels": 22274,
+        "prompt": "bottle cap or neck",
+        "prompt_variants": [
+          "bottle cap or neck",
+          "cap or neck",
+          "bottle cap",
+          "cap",
+          "neck"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 4100
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.7431043982505798,
+              0.4789395034313202
+            ],
+            "boxes_xyxy": [
+              [
+                227.35955810546875,
+                439.24652099609375,
+                284.3479919433594,
+                471.02691650390625
+              ],
+              [
+                199.55621337890625,
+                40.98439025878906,
+                312.271484375,
+                98.81184387207031
+              ]
+            ],
+            "prompt": "bottle cap",
+            "mask_pixels": 7384
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.7600067853927612,
+              0.5728598833084106
+            ],
+            "boxes_xyxy": [
+              [
+                227.40594482421875,
+                439.303955078125,
+                284.51922607421875,
+                471.01715087890625
+              ],
+              [
+                199.4809112548828,
+                40.89439392089844,
+                312.47296142578125,
+                98.76814270019531
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 7354
+          }
+        ],
+        "best_score": 0.7600067853927612,
+        "mask_pixels": 7389,
+        "prompt": "bottle cap",
+        "prompt_variants": [
+          "bottle cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 1925
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 6,
+            "kept_masks": 6,
+            "scores": [
+              0.520343005657196,
+              0.2932823598384857,
+              0.4813874363899231,
+              0.25583958625793457,
+              0.3182978630065918,
+              0.5874022245407104
+            ],
+            "boxes_xyxy": [
+              [
+                41.12840270996094,
+                109.21575927734375,
+                471.9947509765625,
+                401.9404296875
+              ],
+              [
+                90.03202819824219,
+                131.20144653320312,
+                190.1934356689453,
+                237.11859130859375
+              ],
+              [
+                95.13492584228516,
+                130.85848999023438,
+                305.7776184082031,
+                311.81182861328125
+              ],
+              [
+                154.93716430664062,
+                145.99777221679688,
+                306.2209167480469,
+                311.7448425292969
+              ],
+              [
+                230.79774475097656,
+                193.20416259765625,
+                435.77667236328125,
+                387.7410888671875
+              ],
+              [
+                91.89361572265625,
+                129.26544189453125,
+                436.37054443359375,
+                387.96575927734375
+              ]
+            ],
+            "prompt": "bottle body",
+            "mask_pixels": 53530
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.5874022245407104,
+        "mask_pixels": 53530,
+        "prompt": "bottle body",
+        "prompt_variants": [
+          "bottle body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 7921
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8168898224830627
+            ],
+            "boxes_xyxy": [
+              [
+                41.02574920654297,
+                108.85279846191406,
+                115.5002670288086,
+                182.92787170410156
+              ]
+            ],
+            "prompt": "bottle cap or neck",
+            "mask_pixels": 3932
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.49961963295936584
+            ],
+            "boxes_xyxy": [
+              [
+                41.061561584472656,
+                108.81959533691406,
+                115.3752670288086,
+                183.01771545410156
+              ]
+            ],
+            "prompt": "cap or neck",
+            "mask_pixels": 3913
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.822722315788269
+            ],
+            "boxes_xyxy": [
+              [
+                41.03629684448242,
+                108.90542602539062,
+                115.09909057617188,
+                182.57431030273438
+              ]
+            ],
+            "prompt": "bottle cap",
+            "mask_pixels": 3893
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8411821126937866
+            ],
+            "boxes_xyxy": [
+              [
+                41.02860641479492,
+                108.85543823242188,
+                115.6162109375,
+                183.02804565429688
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 3937
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3309105932712555
+            ],
+            "boxes_xyxy": [
+              [
+                89.80453491210938,
+                131.4954833984375,
+                189.810791015625,
+                235.16998291015625
+              ]
+            ],
+            "prompt": "neck",
+            "mask_pixels": 7072
+          }
+        ],
+        "best_score": 0.8411821126937866,
+        "mask_pixels": 11010,
+        "prompt": "bottle cap or neck",
+        "prompt_variants": [
+          "bottle cap or neck",
+          "cap or neck",
+          "bottle cap",
+          "cap",
+          "neck"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 2727
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.822722315788269
+            ],
+            "boxes_xyxy": [
+              [
+                41.03629684448242,
+                108.90542602539062,
+                115.09909057617188,
+                182.57431030273438
+              ]
+            ],
+            "prompt": "bottle cap",
+            "mask_pixels": 3893
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8411821126937866
+            ],
+            "boxes_xyxy": [
+              [
+                41.02860641479492,
+                108.85543823242188,
+                115.6162109375,
+                183.02804565429688
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 3937
+          }
+        ],
+        "best_score": 0.8411821126937866,
+        "mask_pixels": 3937,
+        "prompt": "bottle cap",
+        "prompt_variants": [
+          "bottle cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 1575
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 6,
+            "kept_masks": 6,
+            "scores": [
+              0.3382188379764557,
+              0.25782477855682373,
+              0.3799308240413666,
+              0.5822223424911499,
+              0.5447111129760742,
+              0.3235611319541931
+            ],
+            "boxes_xyxy": [
+              [
+                155.79409790039062,
+                148.3489532470703,
+                306.0044860839844,
+                311.71160888671875
+              ],
+              [
+                88.80616760253906,
+                131.32838439941406,
+                181.48475646972656,
+                241.4535369873047
+              ],
+              [
+                98.53539276123047,
+                131.740966796875,
+                306.60479736328125,
+                311.8984069824219
+              ],
+              [
+                42.17315673828125,
+                110.59298706054688,
+                470.921630859375,
+                401.8087463378906
+              ],
+              [
+                89.313720703125,
+                130.2801055908203,
+                441.9952392578125,
+                390.47955322265625
+              ],
+              [
+                229.074951171875,
+                192.83074951171875,
+                437.49163818359375,
+                388.25628662109375
+              ]
+            ],
+            "prompt": "bottle body",
+            "mask_pixels": 53265
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.5822223424911499,
+        "mask_pixels": 53265,
+        "prompt": "bottle body",
+        "prompt_variants": [
+          "bottle body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 7568
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8095144033432007
+            ],
+            "boxes_xyxy": [
+              [
+                41.175636291503906,
+                109.83367919921875,
+                115.37535858154297,
+                183.67648315429688
+              ]
+            ],
+            "prompt": "bottle cap or neck",
+            "mask_pixels": 3926
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.44972580671310425
+            ],
+            "boxes_xyxy": [
+              [
+                41.2243766784668,
+                109.82112884521484,
+                115.24253845214844,
+                183.600341796875
+              ]
+            ],
+            "prompt": "cap or neck",
+            "mask_pixels": 3914
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8240923881530762
+            ],
+            "boxes_xyxy": [
+              [
+                41.18433380126953,
+                109.84782409667969,
+                113.87067413330078,
+                183.1122283935547
+              ]
+            ],
+            "prompt": "bottle cap",
+            "mask_pixels": 3848
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8446452617645264
+            ],
+            "boxes_xyxy": [
+              [
+                41.178340911865234,
+                109.83406066894531,
+                114.66847229003906,
+                183.2734832763672
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 3879
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3667459189891815
+            ],
+            "boxes_xyxy": [
+              [
+                86.44879150390625,
+                131.09909057617188,
+                180.28701782226562,
+                238.95950317382812
+              ]
+            ],
+            "prompt": "neck",
+            "mask_pixels": 6571
+          }
+        ],
+        "best_score": 0.8446452617645264,
+        "mask_pixels": 10499,
+        "prompt": "bottle cap or neck",
+        "prompt_variants": [
+          "bottle cap or neck",
+          "cap or neck",
+          "bottle cap",
+          "cap",
+          "neck"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 2583
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8240923881530762
+            ],
+            "boxes_xyxy": [
+              [
+                41.18433380126953,
+                109.84782409667969,
+                113.87067413330078,
+                183.1122283935547
+              ]
+            ],
+            "prompt": "bottle cap",
+            "mask_pixels": 3848
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8446452617645264
+            ],
+            "boxes_xyxy": [
+              [
+                41.178340911865234,
+                109.83406066894531,
+                114.66847229003906,
+                183.2734832763672
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 3879
+          }
+        ],
+        "best_score": 0.8446452617645264,
+        "mask_pixels": 3879,
+        "prompt": "bottle cap",
+        "prompt_variants": [
+          "bottle cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 1468
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/affordance.npz",
+  "num_vertices": 10587,
+  "labeled_vertices": 7976,
+  "class_vertex_counts": {
+    "background": 2611,
+    "positive_grasp": 7167,
+    "negative_grasp": 809,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 7614,
+    "negative_grasp": 3325,
+    "tool_use_surface": 1231,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 3321
+}

@@ -1,0 +1,912 @@
+{
+  "asset_id": "domino20/bottle",
+  "label": "bottle",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/001_bottle/visual/base13.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle",
+  "positive_prompt": "bottle body",
+  "positive_prompt_variants": [
+    "bottle body",
+    "body"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "bottle body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "bottle body",
+      "prompt_variants": [
+        "bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "bottle body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "bottle body",
+      "prompt_variants": [
+        "bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "bottle body",
+          "num_masks": 8,
+          "kept_masks": 8,
+          "scores": [
+            0.2355492115020752,
+            0.2192416787147522,
+            0.2275458723306656,
+            0.21779541671276093,
+            0.6265198588371277,
+            0.2906898856163025,
+            0.4141155779361725,
+            0.3650132715702057
+          ],
+          "boxes_xyxy": [
+            [
+              364.703125,
+              300.75238037109375,
+              494.2301330566406,
+              467.2773742675781
+            ],
+            [
+              492.42718505859375,
+              300.3316650390625,
+              569.97998046875,
+              466.8985595703125
+            ],
+            [
+              135.85874938964844,
+              300.6052551269531,
+              365.47314453125,
+              468.27996826171875
+            ],
+            [
+              62.60900115966797,
+              299.916015625,
+              366.1109924316406,
+              467.71722412109375
+            ],
+            [
+              61.47724914550781,
+              299.802001953125,
+              703.827392578125,
+              468.4864501953125
+            ],
+            [
+              365.86968994140625,
+              300.3898010253906,
+              569.0305786132812,
+              466.9771728515625
+            ],
+            [
+              364.5201416015625,
+              301.44537353515625,
+              658.8170166015625,
+              467.19091796875
+            ],
+            [
+              560.3646850585938,
+              316.6828308105469,
+              658.291748046875,
+              452.73797607421875
+            ]
+          ],
+          "mask_pixels": 89022
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "bottle body",
+          "score": 0.6265198588371277,
+          "mask_pixels": 88451,
+          "box_xyxy": [
+            61.47724914550781,
+            299.802001953125,
+            703.827392578125,
+            468.4864501953125
+          ]
+        }
+      ],
+      "best_score": 0.6265198588371277,
+      "mask_pixels": 88451,
+      "prompt": "bottle body",
+      "prompt_variants": [
+        "bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 6834
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "bottle body",
+          "num_masks": 6,
+          "kept_masks": 6,
+          "scores": [
+            0.27921900153160095,
+            0.20112042129039764,
+            0.42024093866348267,
+            0.618820071220398,
+            0.21502001583576202,
+            0.21706640720367432
+          ],
+          "boxes_xyxy": [
+            [
+              272.77069091796875,
+              301.31536865234375,
+              402.9979248046875,
+              466.9219970703125
+            ],
+            [
+              400.3896789550781,
+              300.02593994140625,
+              704.94873046875,
+              468.61712646484375
+            ],
+            [
+              109.60995483398438,
+              311.932373046875,
+              214.49310302734375,
+              452.4532470703125
+            ],
+            [
+              61.667884826660156,
+              300.00384521484375,
+              706.573486328125,
+              468.70440673828125
+            ],
+            [
+              105.70724487304688,
+              300.9009094238281,
+              404.51702880859375,
+              467.16070556640625
+            ],
+            [
+              404.01458740234375,
+              301.08697509765625,
+              625.0587768554688,
+              467.6414794921875
+            ]
+          ],
+          "mask_pixels": 86954
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "bottle body",
+          "score": 0.618820071220398,
+          "mask_pixels": 86459,
+          "box_xyxy": [
+            61.667884826660156,
+            300.00384521484375,
+            706.573486328125,
+            468.70440673828125
+          ]
+        }
+      ],
+      "best_score": 0.618820071220398,
+      "mask_pixels": 86459,
+      "prompt": "bottle body",
+      "prompt_variants": [
+        "bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 6637
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "bottle body",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.26728567481040955,
+            0.702726423740387,
+            0.21983303129673004,
+            0.2080034613609314
+          ],
+          "boxes_xyxy": [
+            [
+              298.80267333984375,
+              404.063232421875,
+              467.86798095703125,
+              626.0418701171875
+            ],
+            [
+              298.83551025390625,
+              97.5618667602539,
+              469.36004638671875,
+              705.680419921875
+            ],
+            [
+              298.725341796875,
+              402.5034484863281,
+              468.7136535644531,
+              706.8089599609375
+            ],
+            [
+              313.2966003417969,
+              112.01737976074219,
+              456.3562316894531,
+              215.3638916015625
+            ]
+          ],
+          "mask_pixels": 87614
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "bottle body",
+          "score": 0.702726423740387,
+          "mask_pixels": 86929,
+          "box_xyxy": [
+            298.83551025390625,
+            97.5618667602539,
+            469.36004638671875,
+            705.680419921875
+          ]
+        }
+      ],
+      "best_score": 0.702726423740387,
+      "mask_pixels": 86929,
+      "prompt": "bottle body",
+      "prompt_variants": [
+        "bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 6208
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "bottle body",
+          "num_masks": 5,
+          "kept_masks": 5,
+          "scores": [
+            0.32183918356895447,
+            0.2734929919242859,
+            0.29621848464012146,
+            0.5121678709983826,
+            0.28145289421081543
+          ],
+          "boxes_xyxy": [
+            [
+              299.67266845703125,
+              364.04803466796875,
+              468.11114501953125,
+              660.5836791992188
+            ],
+            [
+              299.1623840332031,
+              363.3245849609375,
+              467.8787841796875,
+              706.0487060546875
+            ],
+            [
+              321.6861877441406,
+              557.9705810546875,
+              457.1780090332031,
+              659.2509155273438
+            ],
+            [
+              298.217529296875,
+              61.51453399658203,
+              469.41552734375,
+              705.9005126953125
+            ],
+            [
+              299.0330810546875,
+              141.822265625,
+              468.87701416015625,
+              363.0184631347656
+            ]
+          ],
+          "mask_pixels": 91103
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "bottle body",
+          "score": 0.5121678709983826,
+          "mask_pixels": 90847,
+          "box_xyxy": [
+            298.217529296875,
+            61.51453399658203,
+            469.41552734375,
+            705.9005126953125
+          ]
+        }
+      ],
+      "best_score": 0.5121678709983826,
+      "mask_pixels": 90847,
+      "prompt": "bottle body",
+      "prompt_variants": [
+        "bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 7075
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "bottle body",
+          "num_masks": 7,
+          "kept_masks": 7,
+          "scores": [
+            0.24522414803504944,
+            0.23408406972885132,
+            0.27509498596191406,
+            0.44703900814056396,
+            0.5217850804328918,
+            0.2690548598766327,
+            0.44429242610931396
+          ],
+          "boxes_xyxy": [
+            [
+              233.69631958007812,
+              228.11358642578125,
+              457.184814453125,
+              467.0122375488281
+            ],
+            [
+              345.93438720703125,
+              289.755126953125,
+              703.9013671875,
+              601.3084106445312
+            ],
+            [
+              134.5001678466797,
+              196.67239379882812,
+              284.19952392578125,
+              355.9866027832031
+            ],
+            [
+              144.09461975097656,
+              196.03451538085938,
+              458.5758361816406,
+              466.7232971191406
+            ],
+            [
+              62.491859436035156,
+              164.89370727539062,
+              706.5494384765625,
+              603.5861206054688
+            ],
+            [
+              346.1783447265625,
+              290.4969177246094,
+              653.0336303710938,
+              581.7574462890625
+            ],
+            [
+              137.34506225585938,
+              194.32757568359375,
+              655.8070068359375,
+              579.7930297851562
+            ]
+          ],
+          "mask_pixels": 120414
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "bottle body",
+          "score": 0.5217850804328918,
+          "mask_pixels": 119971,
+          "box_xyxy": [
+            62.491859436035156,
+            164.89370727539062,
+            706.5494384765625,
+            603.5861206054688
+          ]
+        }
+      ],
+      "best_score": 0.5217850804328918,
+      "mask_pixels": 119971,
+      "prompt": "bottle body",
+      "prompt_variants": [
+        "bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 8053
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "bottle body",
+          "num_masks": 7,
+          "kept_masks": 7,
+          "scores": [
+            0.32072141766548157,
+            0.2072647660970688,
+            0.35003426671028137,
+            0.22392591834068298,
+            0.5934691429138184,
+            0.30377626419067383,
+            0.344380646944046
+          ],
+          "boxes_xyxy": [
+            [
+              233.86276245117188,
+              224.59100341796875,
+              457.9720458984375,
+              467.30767822265625
+            ],
+            [
+              156.11302185058594,
+              196.62139892578125,
+              345.73406982421875,
+              404.0481262207031
+            ],
+            [
+              139.80421447753906,
+              195.6155548095703,
+              459.1061096191406,
+              467.49725341796875
+            ],
+            [
+              133.24978637695312,
+              195.63702392578125,
+              270.80108642578125,
+              359.3870544433594
+            ],
+            [
+              62.650611877441406,
+              165.98497009277344,
+              706.8543090820312,
+              603.153564453125
+            ],
+            [
+              346.3997802734375,
+              293.84417724609375,
+              706.3261108398438,
+              601.3551025390625
+            ],
+            [
+              137.702392578125,
+              194.36102294921875,
+              705.6585693359375,
+              602.2257080078125
+            ]
+          ],
+          "mask_pixels": 113532
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "bottle body",
+          "score": 0.5934691429138184,
+          "mask_pixels": 113190,
+          "box_xyxy": [
+            62.650611877441406,
+            165.98497009277344,
+            706.8543090820312,
+            603.153564453125
+          ]
+        }
+      ],
+      "best_score": 0.5934691429138184,
+      "mask_pixels": 113190,
+      "prompt": "bottle body",
+      "prompt_variants": [
+        "bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 6769
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "bottle body",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.32680216431617737,
+            0.294502317905426,
+            0.24588178098201752,
+            0.34317296743392944
+          ],
+          "boxes_xyxy": [
+            [
+              338.7655334472656,
+              310.9677429199219,
+              704.4830322265625,
+              600.4224243164062
+            ],
+            [
+              62.09669494628906,
+              165.79132080078125,
+              704.9765014648438,
+              601.6685791015625
+            ],
+            [
+              551.1976928710938,
+              444.77130126953125,
+              675.8165283203125,
+              590.0614624023438
+            ],
+            [
+              339.480712890625,
+              311.34710693359375,
+              614.5362548828125,
+              572.7208862304688
+            ]
+          ],
+          "mask_pixels": 119663
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "bottle body",
+          "score": 0.34317296743392944,
+          "mask_pixels": 36689,
+          "box_xyxy": [
+            339.480712890625,
+            311.34710693359375,
+            614.5362548828125,
+            572.7208862304688
+          ]
+        }
+      ],
+      "best_score": 0.34317296743392944,
+      "mask_pixels": 36689,
+      "prompt": "bottle body",
+      "prompt_variants": [
+        "bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 1934
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "bottle body",
+          "num_masks": 6,
+          "kept_masks": 6,
+          "scores": [
+            0.21530163288116455,
+            0.4480196237564087,
+            0.43747058510780334,
+            0.21726343035697937,
+            0.2945411801338196,
+            0.3069203197956085
+          ],
+          "boxes_xyxy": [
+            [
+              61.377845764160156,
+              245.94882202148438,
+              603.134765625,
+              602.6463623046875
+            ],
+            [
+              63.3427734375,
+              310.8048400878906,
+              430.22894287109375,
+              602.6253662109375
+            ],
+            [
+              149.76907348632812,
+              311.02685546875,
+              428.3802795410156,
+              573.0780639648438
+            ],
+            [
+              60.932430267333984,
+              461.64141845703125,
+              214.24200439453125,
+              603.6683959960938
+            ],
+            [
+              60.77515411376953,
+              163.9193115234375,
+              703.4874267578125,
+              604.8175048828125
+            ],
+            [
+              91.37459564208984,
+              462.6771240234375,
+              214.90525817871094,
+              592.1820068359375
+            ]
+          ],
+          "mask_pixels": 117578
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "bottle body",
+          "score": 0.4480196237564087,
+          "mask_pixels": 47909,
+          "box_xyxy": [
+            63.3427734375,
+            310.8048400878906,
+            430.22894287109375,
+            602.6253662109375
+          ]
+        }
+      ],
+      "best_score": 0.4480196237564087,
+      "mask_pixels": 47909,
+      "prompt": "bottle body",
+      "prompt_variants": [
+        "bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 3287
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "bottle body",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.21173761785030365,
+            0.4126300811767578,
+            0.4661330282688141
+          ],
+          "boxes_xyxy": [
+            [
+              280.2990417480469,
+              314.1968994140625,
+              487.3096618652344,
+              556.9749755859375
+            ],
+            [
+              277.7841796875,
+              63.30590057373047,
+              489.7535705566406,
+              706.3038330078125
+            ],
+            [
+              279.5724792480469,
+              152.80804443359375,
+              488.7552795410156,
+              558.3311767578125
+            ]
+          ],
+          "mask_pixels": 110122
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "bottle body",
+          "score": 0.4661330282688141,
+          "mask_pixels": 65428,
+          "box_xyxy": [
+            279.5724792480469,
+            152.80804443359375,
+            488.7552795410156,
+            558.3311767578125
+          ]
+        }
+      ],
+      "best_score": 0.4661330282688141,
+      "mask_pixels": 65428,
+      "prompt": "bottle body",
+      "prompt_variants": [
+        "bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 3908
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "bottle body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.25808677077293396
+          ],
+          "boxes_xyxy": [
+            [
+              278.5553283691406,
+              63.816490173339844,
+              488.7728271484375,
+              705.6055908203125
+            ]
+          ],
+          "mask_pixels": 108050
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "bottle body",
+          "score": 0.25808677077293396,
+          "mask_pixels": 108050,
+          "box_xyxy": [
+            278.5553283691406,
+            63.816490173339844,
+            488.7728271484375,
+            705.6055908203125
+          ]
+        }
+      ],
+      "best_score": 0.25808677077293396,
+      "mask_pixels": 108050,
+      "prompt": "bottle body",
+      "prompt_variants": [
+        "bottle body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 7557
+    }
+  },
+  "num_vertices": 10587,
+  "raw_positive_vertices": 9521,
+  "connected_positive_vertices": 8397,
+  "filled_positive_vertices": 8463,
+  "kept_component_sizes": [
+    1894,
+    1768,
+    1763,
+    1706,
+    478,
+    222,
+    204,
+    185,
+    177
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 8463,
+  "clean_v2_negative_vertices": 510,
+  "clean_v2_ignore_vertices": 1614,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/bottle/grasp_affordance_clean_v2.npz"
+}

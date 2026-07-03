@@ -1,0 +1,1208 @@
+{
+  "asset_id": "dextoolbench/brush/red_brush",
+  "label": "red_brush",
+  "mesh_path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/brush/red_brush/red_brush.obj",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush",
+  "prompts": {
+    "positive_grasp": "red brush handle",
+    "negative_grasp": "red brush bristles",
+    "tool_use_surface": "red brush bristles"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.3853592276573181,
+              0.8706892132759094,
+              0.5024481415748596
+            ],
+            "boxes_xyxy": [
+              [
+                40.97444152832031,
+                270.78179931640625,
+                196.84571838378906,
+                317.9927978515625
+              ],
+              [
+                41.109588623046875,
+                270.17523193359375,
+                442.5439453125,
+                317.664306640625
+              ],
+              [
+                193.2287139892578,
+                273.49322509765625,
+                442.49468994140625,
+                311.20269775390625
+              ]
+            ],
+            "prompt": "red brush handle",
+            "mask_pixels": 8940
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.5815512537956238,
+              0.743753969669342,
+              0.6769444942474365
+            ],
+            "boxes_xyxy": [
+              [
+                193.194580078125,
+                273.3388671875,
+                442.4979248046875,
+                310.910888671875
+              ],
+              [
+                40.96754455566406,
+                270.47222900390625,
+                196.23330688476562,
+                317.61578369140625
+              ],
+              [
+                41.39616394042969,
+                270.2715759277344,
+                442.40740966796875,
+                317.5760803222656
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 8975
+          }
+        ],
+        "best_score": 0.8706892132759094,
+        "mask_pixels": 8982,
+        "prompt": "red brush handle",
+        "prompt_variants": [
+          "red brush handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 432
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.33254262804985046,
+              0.27793726325035095
+            ],
+            "boxes_xyxy": [
+              [
+                41.165374755859375,
+                195.0577392578125,
+                469.2367248535156,
+                317.11505126953125
+              ],
+              [
+                41.02928161621094,
+                270.6350402832031,
+                442.4468994140625,
+                318.0877990722656
+              ]
+            ],
+            "prompt": "red brush bristles",
+            "mask_pixels": 27629
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9272217154502869
+            ],
+            "boxes_xyxy": [
+              [
+                236.12969970703125,
+                195.02676391601562,
+                470.96112060546875,
+                292.1632995605469
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 18777
+          }
+        ],
+        "best_score": 0.9272217154502869,
+        "mask_pixels": 27765,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 1722
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.33254262804985046,
+              0.27793726325035095
+            ],
+            "boxes_xyxy": [
+              [
+                41.165374755859375,
+                195.0577392578125,
+                469.2367248535156,
+                317.11505126953125
+              ],
+              [
+                41.02928161621094,
+                270.6350402832031,
+                442.4468994140625,
+                318.0877990722656
+              ]
+            ],
+            "prompt": "red brush bristles",
+            "mask_pixels": 27629
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9272217154502869
+            ],
+            "boxes_xyxy": [
+              [
+                236.12969970703125,
+                195.02676391601562,
+                470.96112060546875,
+                292.1632995605469
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 18777
+          }
+        ],
+        "best_score": 0.9272217154502869,
+        "mask_pixels": 27765,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 1722
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.3564777672290802,
+              0.8797374963760376,
+              0.3273604214191437
+            ],
+            "boxes_xyxy": [
+              [
+                69.00202941894531,
+                274.1531066894531,
+                317.49127197265625,
+                311.1092224121094
+              ],
+              [
+                68.99176025390625,
+                270.16448974609375,
+                470.53399658203125,
+                317.3858642578125
+              ],
+              [
+                314.5447082519531,
+                270.5476379394531,
+                470.5444030761719,
+                317.8034973144531
+              ]
+            ],
+            "prompt": "red brush handle",
+            "mask_pixels": 8789
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.4626184105873108,
+              0.5854979753494263,
+              0.7467181086540222
+            ],
+            "boxes_xyxy": [
+              [
+                68.6742935180664,
+                273.45001220703125,
+                318.1285400390625,
+                310.7813720703125
+              ],
+              [
+                315.2087707519531,
+                270.3388366699219,
+                470.7843322753906,
+                317.5144348144531
+              ],
+              [
+                68.95663452148438,
+                270.0162658691406,
+                470.4983215332031,
+                316.8901062011719
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 8873
+          }
+        ],
+        "best_score": 0.8797374963760376,
+        "mask_pixels": 8882,
+        "prompt": "red brush handle",
+        "prompt_variants": [
+          "red brush handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 408
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.30952271819114685,
+              0.2714869976043701
+            ],
+            "boxes_xyxy": [
+              [
+                42.5711669921875,
+                195.5985107421875,
+                470.6546630859375,
+                317.28204345703125
+              ],
+              [
+                68.31282043457031,
+                270.70697021484375,
+                471.0323486328125,
+                317.6871337890625
+              ]
+            ],
+            "prompt": "red brush bristles",
+            "mask_pixels": 27607
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.931062638759613
+            ],
+            "boxes_xyxy": [
+              [
+                41.259071350097656,
+                195.49960327148438,
+                275.67303466796875,
+                291.3873291015625
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 18843
+          }
+        ],
+        "best_score": 0.931062638759613,
+        "mask_pixels": 27731,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 2003
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.30952271819114685,
+              0.2714869976043701
+            ],
+            "boxes_xyxy": [
+              [
+                42.5711669921875,
+                195.5985107421875,
+                470.6546630859375,
+                317.28204345703125
+              ],
+              [
+                68.31282043457031,
+                270.70697021484375,
+                471.0323486328125,
+                317.6871337890625
+              ]
+            ],
+            "prompt": "red brush bristles",
+            "mask_pixels": 27607
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.931062638759613
+            ],
+            "boxes_xyxy": [
+              [
+                41.259071350097656,
+                195.49960327148438,
+                275.67303466796875,
+                291.3873291015625
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 18843
+          }
+        ],
+        "best_score": 0.931062638759613,
+        "mask_pixels": 27731,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 2003
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.4448491334915161,
+              0.3809131383895874
+            ],
+            "boxes_xyxy": [
+              [
+                187.47616577148438,
+                302.5437927246094,
+                338.2142028808594,
+                465.3243103027344
+              ],
+              [
+                145.00732421875,
+                302.58074951171875,
+                407.932373046875,
+                464.24090576171875
+              ]
+            ],
+            "prompt": "red brush handle",
+            "mask_pixels": 28406
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.4448491334915161,
+        "mask_pixels": 28406,
+        "prompt": "red brush handle",
+        "prompt_variants": [
+          "red brush handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 403
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "red brush bristles",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5136985182762146
+            ],
+            "boxes_xyxy": [
+              [
+                42.03565979003906,
+                49.07212829589844,
+                470.65301513671875,
+                367.8876953125
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 90561
+          }
+        ],
+        "best_score": 0.5136985182762146,
+        "mask_pixels": 90561,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 1021
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "red brush bristles",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5136985182762146
+            ],
+            "boxes_xyxy": [
+              [
+                42.03565979003906,
+                49.07212829589844,
+                470.65301513671875,
+                367.8876953125
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 90561
+          }
+        ],
+        "best_score": 0.5136985182762146,
+        "mask_pixels": 90561,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 1021
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6717914938926697
+            ],
+            "boxes_xyxy": [
+              [
+                104.12181091308594,
+                369.42657470703125,
+                366.67657470703125,
+                440.47027587890625
+              ]
+            ],
+            "prompt": "red brush handle",
+            "mask_pixels": 15985
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.6717914938926697,
+        "mask_pixels": 15985,
+        "prompt": "red brush handle",
+        "prompt_variants": [
+          "red brush handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 128
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.30001896619796753
+            ],
+            "boxes_xyxy": [
+              [
+                41.27122497558594,
+                47.93403625488281,
+                469.29083251953125,
+                464.4052734375
+              ]
+            ],
+            "prompt": "red brush bristles",
+            "mask_pixels": 104209
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8315536975860596
+            ],
+            "boxes_xyxy": [
+              [
+                41.13890075683594,
+                49.348480224609375,
+                469.5904541015625,
+                377.1603088378906
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 100502
+          }
+        ],
+        "best_score": 0.8315536975860596,
+        "mask_pixels": 104244,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 1278
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.30001896619796753
+            ],
+            "boxes_xyxy": [
+              [
+                41.27122497558594,
+                47.93403625488281,
+                469.29083251953125,
+                464.4052734375
+              ]
+            ],
+            "prompt": "red brush bristles",
+            "mask_pixels": 104209
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8315536975860596
+            ],
+            "boxes_xyxy": [
+              [
+                41.13890075683594,
+                49.348480224609375,
+                469.5904541015625,
+                377.1603088378906
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 100502
+          }
+        ],
+        "best_score": 0.8315536975860596,
+        "mask_pixels": 104244,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 1278
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.5314197540283203,
+              0.821260929107666
+            ],
+            "boxes_xyxy": [
+              [
+                40.57073211669922,
+                231.3984832763672,
+                258.9060363769531,
+                276.65032958984375
+              ],
+              [
+                41.068145751953125,
+                211.08851623535156,
+                410.5394592285156,
+                276.9080505371094
+              ]
+            ],
+            "prompt": "red brush handle",
+            "mask_pixels": 7182
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.6398459076881409,
+              0.5608075857162476,
+              0.6272400617599487
+            ],
+            "boxes_xyxy": [
+              [
+                40.89891052246094,
+                231.50315856933594,
+                258.9296875,
+                276.4153747558594
+              ],
+              [
+                41.03040313720703,
+                232.4638671875,
+                194.948486328125,
+                275.9673156738281
+              ],
+              [
+                41.18006896972656,
+                211.5229034423828,
+                412.51385498046875,
+                276.4716796875
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 7191
+          }
+        ],
+        "best_score": 0.821260929107666,
+        "mask_pixels": 7203,
+        "prompt": "red brush handle",
+        "prompt_variants": [
+          "red brush handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 370
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "red brush bristles",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6741354465484619
+            ],
+            "boxes_xyxy": [
+              [
+                238.1031494140625,
+                195.2936248779297,
+                471.0986328125,
+                318.6783447265625
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 22104
+          }
+        ],
+        "best_score": 0.6741354465484619,
+        "mask_pixels": 22104,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 4519
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "red brush bristles",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6741354465484619
+            ],
+            "boxes_xyxy": [
+              [
+                238.1031494140625,
+                195.2936248779297,
+                471.0986328125,
+                318.6783447265625
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 22104
+          }
+        ],
+        "best_score": 0.6741354465484619,
+        "mask_pixels": 22104,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 4519
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.335997998714447,
+              0.5732728242874146,
+              0.36449941992759705
+            ],
+            "boxes_xyxy": [
+              [
+                40.78582000732422,
+                236.182861328125,
+                196.00372314453125,
+                279.75396728515625
+              ],
+              [
+                41.158966064453125,
+                223.47811889648438,
+                442.5683898925781,
+                300.9748229980469
+              ],
+              [
+                194.21029663085938,
+                223.2100372314453,
+                442.7117004394531,
+                301.33135986328125
+              ]
+            ],
+            "prompt": "red brush handle",
+            "mask_pixels": 18721
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.2887313961982727,
+              0.7137100100517273,
+              0.32098209857940674
+            ],
+            "boxes_xyxy": [
+              [
+                193.10107421875,
+                223.21559143066406,
+                443.42205810546875,
+                301.5210876464844
+              ],
+              [
+                41.118080139160156,
+                236.16688537597656,
+                196.96206665039062,
+                279.3138427734375
+              ],
+              [
+                41.805877685546875,
+                223.71478271484375,
+                442.91839599609375,
+                301.51776123046875
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 20931
+          }
+        ],
+        "best_score": 0.7137100100517273,
+        "mask_pixels": 20968,
+        "prompt": "red brush handle",
+        "prompt_variants": [
+          "red brush handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 482
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "red brush bristles",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.700529932975769
+            ],
+            "boxes_xyxy": [
+              [
+                238.67239379882812,
+                193.1162872314453,
+                471.2966003417969,
+                317.80535888671875
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 8668
+          }
+        ],
+        "best_score": 0.700529932975769,
+        "mask_pixels": 8668,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 1466
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "red brush bristles",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.700529932975769
+            ],
+            "boxes_xyxy": [
+              [
+                238.67239379882812,
+                193.1162872314453,
+                471.2966003417969,
+                317.80535888671875
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 8668
+          }
+        ],
+        "best_score": 0.700529932975769,
+        "mask_pixels": 8668,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 1466
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.5488557815551758,
+              0.517979085445404
+            ],
+            "boxes_xyxy": [
+              [
+                40.83995819091797,
+                305.4493103027344,
+                198.41650390625,
+                419.0141296386719
+              ],
+              [
+                41.27880859375,
+                191.57015991210938,
+                408.0193786621094,
+                419.4047546386719
+              ]
+            ],
+            "prompt": "red brush handle",
+            "mask_pixels": 21296
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8818240761756897
+            ],
+            "boxes_xyxy": [
+              [
+                41.05523681640625,
+                305.9329528808594,
+                192.79891967773438,
+                419.0920104980469
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 6701
+          }
+        ],
+        "best_score": 0.8818240761756897,
+        "mask_pixels": 21309,
+        "prompt": "red brush handle",
+        "prompt_variants": [
+          "red brush handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 472
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "red brush bristles",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9058616757392883
+            ],
+            "boxes_xyxy": [
+              [
+                176.34573364257812,
+                94.94580841064453,
+                470.6826477050781,
+                273.71490478515625
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 23405
+          }
+        ],
+        "best_score": 0.9058616757392883,
+        "mask_pixels": 23405,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 1449
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "red brush bristles",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9058616757392883
+            ],
+            "boxes_xyxy": [
+              [
+                176.34573364257812,
+                94.94580841064453,
+                470.6826477050781,
+                273.71490478515625
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 23405
+          }
+        ],
+        "best_score": 0.9058616757392883,
+        "mask_pixels": 23405,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 1449
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6117427349090576,
+              0.5550047755241394
+            ],
+            "boxes_xyxy": [
+              [
+                314.2427673339844,
+                148.3545379638672,
+                470.5644836425781,
+                240.2233123779297
+              ],
+              [
+                90.61268615722656,
+                148.19097900390625,
+                470.29620361328125,
+                376.87786865234375
+              ]
+            ],
+            "prompt": "red brush handle",
+            "mask_pixels": 22515
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8845391273498535
+            ],
+            "boxes_xyxy": [
+              [
+                314.2600402832031,
+                148.62255859375,
+                470.5970153808594,
+                243.02975463867188
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 6965
+          }
+        ],
+        "best_score": 0.8845391273498535,
+        "mask_pixels": 22564,
+        "prompt": "red brush handle",
+        "prompt_variants": [
+          "red brush handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 460
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "red brush bristles",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8902202844619751
+            ],
+            "boxes_xyxy": [
+              [
+                41.117401123046875,
+                135.8232421875,
+                308.85076904296875,
+                329.0820617675781
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 19952
+          }
+        ],
+        "best_score": 0.8902202844619751,
+        "mask_pixels": 19952,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 1427
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "red brush bristles",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8902202844619751
+            ],
+            "boxes_xyxy": [
+              [
+                41.117401123046875,
+                135.8232421875,
+                308.85076904296875,
+                329.0820617675781
+              ]
+            ],
+            "prompt": "bristles",
+            "mask_pixels": 19952
+          }
+        ],
+        "best_score": 0.8902202844619751,
+        "mask_pixels": 19952,
+        "prompt": "red brush bristles",
+        "prompt_variants": [
+          "red brush bristles",
+          "bristles"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 1427
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/red_brush/affordance.npz",
+  "num_vertices": 11953,
+  "labeled_vertices": 4798,
+  "class_vertex_counts": {
+    "background": 7155,
+    "positive_grasp": 687,
+    "negative_grasp": 4111,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 700,
+    "negative_grasp": 4638,
+    "tool_use_surface": 4638,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 4638
+}

@@ -1,0 +1,576 @@
+{
+  "asset_id": "domino20/milk_box",
+  "label": "milk_box",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/038_milk-box/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box",
+  "positive_prompt": "milk box body",
+  "positive_prompt_variants": [
+    "milk box body",
+    "body"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "milk box body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "milk box body",
+      "prompt_variants": [
+        "milk box body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "milk box body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "milk box body",
+      "prompt_variants": [
+        "milk box body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "milk box body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.39430198073387146
+          ],
+          "boxes_xyxy": [
+            [
+              61.6043701171875,
+              215.1507110595703,
+              697.1661376953125,
+              553.1704711914062
+            ]
+          ],
+          "mask_pixels": 170095
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "milk box body",
+          "score": 0.39430198073387146,
+          "mask_pixels": 170095,
+          "box_xyxy": [
+            61.6043701171875,
+            215.1507110595703,
+            697.1661376953125,
+            553.1704711914062
+          ]
+        }
+      ],
+      "best_score": 0.39430198073387146,
+      "mask_pixels": 170095,
+      "prompt": "milk box body",
+      "prompt_variants": [
+        "milk box body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 8904
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "milk box body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "milk box body",
+      "prompt_variants": [
+        "milk box body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "milk box body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9572145938873291
+          ],
+          "boxes_xyxy": [
+            [
+              204.7685546875,
+              62.1602783203125,
+              563.1693115234375,
+              705.5331420898438
+            ]
+          ],
+          "mask_pixels": 219447
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "milk box body",
+          "score": 0.9572145938873291,
+          "mask_pixels": 219447,
+          "box_xyxy": [
+            204.7685546875,
+            62.1602783203125,
+            563.1693115234375,
+            705.5331420898438
+          ]
+        }
+      ],
+      "best_score": 0.9572145938873291,
+      "mask_pixels": 219447,
+      "prompt": "milk box body",
+      "prompt_variants": [
+        "milk box body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 11398
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "milk box body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8196805715560913
+          ],
+          "boxes_xyxy": [
+            [
+              204.80380249023438,
+              62.33502960205078,
+              562.6591186523438,
+              705.5007934570312
+            ]
+          ],
+          "mask_pixels": 219533
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "milk box body",
+          "score": 0.8196805715560913,
+          "mask_pixels": 219533,
+          "box_xyxy": [
+            204.80380249023438,
+            62.33502960205078,
+            562.6591186523438,
+            705.5007934570312
+          ]
+        }
+      ],
+      "best_score": 0.8196805715560913,
+      "mask_pixels": 219533,
+      "prompt": "milk box body",
+      "prompt_variants": [
+        "milk box body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 11735
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "milk box body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.4639158844947815
+          ],
+          "boxes_xyxy": [
+            [
+              61.7977294921875,
+              114.95551300048828,
+              704.5237426757812,
+              653.027099609375
+            ]
+          ],
+          "mask_pixels": 220480
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "milk box body",
+          "score": 0.4639158844947815,
+          "mask_pixels": 220480,
+          "box_xyxy": [
+            61.7977294921875,
+            114.95551300048828,
+            704.5237426757812,
+            653.027099609375
+          ]
+        }
+      ],
+      "best_score": 0.4639158844947815,
+      "mask_pixels": 220480,
+      "prompt": "milk box body",
+      "prompt_variants": [
+        "milk box body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 14686
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "milk box body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.398062139749527
+          ],
+          "boxes_xyxy": [
+            [
+              62.385108947753906,
+              114.8613510131836,
+              704.9525756835938,
+              653.2081298828125
+            ]
+          ],
+          "mask_pixels": 220619
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "milk box body",
+          "score": 0.398062139749527,
+          "mask_pixels": 220619,
+          "box_xyxy": [
+            62.385108947753906,
+            114.8613510131836,
+            704.9525756835938,
+            653.2081298828125
+          ]
+        }
+      ],
+      "best_score": 0.398062139749527,
+      "mask_pixels": 220619,
+      "prompt": "milk box body",
+      "prompt_variants": [
+        "milk box body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 14704
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "milk box body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "milk box body",
+      "prompt_variants": [
+        "milk box body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "milk box body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.2169831544160843
+          ],
+          "boxes_xyxy": [
+            [
+              62.96580505371094,
+              115.28741455078125,
+              705.3167114257812,
+              653.462158203125
+            ]
+          ],
+          "mask_pixels": 220252
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "milk box body",
+          "score": 0.2169831544160843,
+          "mask_pixels": 220252,
+          "box_xyxy": [
+            62.96580505371094,
+            115.28741455078125,
+            705.3167114257812,
+            653.462158203125
+          ]
+        }
+      ],
+      "best_score": 0.2169831544160843,
+      "mask_pixels": 220252,
+      "prompt": "milk box body",
+      "prompt_variants": [
+        "milk box body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 16515
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "milk box body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9526426196098328
+          ],
+          "boxes_xyxy": [
+            [
+              181.13278198242188,
+              61.77545928955078,
+              586.8894653320312,
+              705.1232299804688
+            ]
+          ],
+          "mask_pixels": 252202
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "milk box body",
+          "score": 0.9526426196098328,
+          "mask_pixels": 252202,
+          "box_xyxy": [
+            181.13278198242188,
+            61.77545928955078,
+            586.8894653320312,
+            705.1232299804688
+          ]
+        }
+      ],
+      "best_score": 0.9526426196098328,
+      "mask_pixels": 252202,
+      "prompt": "milk box body",
+      "prompt_variants": [
+        "milk box body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 13338
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "milk box body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9422282576560974
+          ],
+          "boxes_xyxy": [
+            [
+              181.07794189453125,
+              62.27449035644531,
+              586.8898315429688,
+              704.7640991210938
+            ]
+          ],
+          "mask_pixels": 251848
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "milk box body",
+          "score": 0.9422282576560974,
+          "mask_pixels": 251848,
+          "box_xyxy": [
+            181.07794189453125,
+            62.27449035644531,
+            586.8898315429688,
+            704.7640991210938
+          ]
+        }
+      ],
+      "best_score": 0.9422282576560974,
+      "mask_pixels": 251848,
+      "prompt": "milk box body",
+      "prompt_variants": [
+        "milk box body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 11380
+    }
+  },
+  "num_vertices": 19023,
+  "raw_positive_vertices": 18079,
+  "connected_positive_vertices": 17465,
+  "filled_positive_vertices": 17580,
+  "kept_component_sizes": [
+    3043,
+    3012,
+    2863,
+    2810,
+    2035,
+    928,
+    861,
+    777,
+    668,
+    468
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 17580,
+  "clean_v2_negative_vertices": 0,
+  "clean_v2_ignore_vertices": 1443,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_box/grasp_affordance_clean_v2.npz"
+}

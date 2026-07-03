@@ -1,0 +1,1417 @@
+{
+  "asset_id": "domino20/mouse",
+  "label": "mouse",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/047_mouse/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse",
+  "prompts": {
+    "positive_grasp": "mouse body",
+    "negative_grasp": "mouse buttons or scroll wheel",
+    "tool_use_surface": "mouse buttons"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6107252240180969
+            ],
+            "boxes_xyxy": [
+              [
+                151.59085083007812,
+                41.384307861328125,
+                360.4465637207031,
+                470.1416320800781
+              ]
+            ],
+            "prompt": "mouse body",
+            "mask_pixels": 77024
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.6107252240180969,
+        "mask_pixels": 77024,
+        "prompt": "mouse body",
+        "prompt_variants": [
+          "mouse body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 12353
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3956916928291321
+            ],
+            "boxes_xyxy": [
+              [
+                151.29153442382812,
+                41.101043701171875,
+                360.5738525390625,
+                470.5479431152344
+              ]
+            ],
+            "prompt": "mouse buttons or scroll wheel",
+            "mask_pixels": 77094
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "buttons or scroll wheel",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scroll wheel",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.3956916928291321,
+        "mask_pixels": 77094,
+        "prompt": "mouse buttons or scroll wheel",
+        "prompt_variants": [
+          "mouse buttons or scroll wheel",
+          "buttons or scroll wheel",
+          "mouse buttons",
+          "buttons",
+          "scroll wheel"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 12379
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "buttons",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mouse buttons",
+        "prompt_variants": [
+          "mouse buttons",
+          "buttons"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9323426485061646
+            ],
+            "boxes_xyxy": [
+              [
+                151.19937133789062,
+                40.952484130859375,
+                360.6221008300781,
+                470.4656066894531
+              ]
+            ],
+            "prompt": "mouse body",
+            "mask_pixels": 77286
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.9323426485061646,
+        "mask_pixels": 77286,
+        "prompt": "mouse body",
+        "prompt_variants": [
+          "mouse body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 12614
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 4,
+            "kept_masks": 4,
+            "scores": [
+              0.5321155786514282,
+              0.2527787685394287,
+              0.34519466757774353,
+              0.505403459072113
+            ],
+            "boxes_xyxy": [
+              [
+                246.14501953125,
+                204.57894897460938,
+                265.5768127441406,
+                268.82611083984375
+              ],
+              [
+                236.9827423095703,
+                63.29283905029297,
+                274.98248291015625,
+                269.0104064941406
+              ],
+              [
+                244.01483154296875,
+                98.18707275390625,
+                267.6089782714844,
+                268.52606201171875
+              ],
+              [
+                245.8028106689453,
+                99.986328125,
+                266.2481384277344,
+                148.042236328125
+              ]
+            ],
+            "prompt": "mouse buttons or scroll wheel",
+            "mask_pixels": 4711
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.30954161286354065,
+              0.44163963198661804
+            ],
+            "boxes_xyxy": [
+              [
+                246.22332763671875,
+                205.26239013671875,
+                265.5448303222656,
+                268.66400146484375
+              ],
+              [
+                245.6244659423828,
+                98.71060943603516,
+                266.45648193359375,
+                149.5170440673828
+              ]
+            ],
+            "prompt": "buttons or scroll wheel",
+            "mask_pixels": 2084
+          },
+          {
+            "num_masks": 6,
+            "kept_masks": 6,
+            "scores": [
+              0.2939862608909607,
+              0.33436113595962524,
+              0.7643706202507019,
+              0.3258521556854248,
+              0.6729984879493713,
+              0.3645121455192566
+            ],
+            "boxes_xyxy": [
+              [
+                246.03555297851562,
+                203.97474670410156,
+                265.4281311035156,
+                227.93907165527344
+              ],
+              [
+                246.68582153320312,
+                227.68930053710938,
+                265.2169189453125,
+                268.5730895996094
+              ],
+              [
+                246.1124267578125,
+                205.08197021484375,
+                265.6543884277344,
+                268.6046447753906
+              ],
+              [
+                235.14207458496094,
+                78.61019134521484,
+                275.2794189453125,
+                153.06442260742188
+              ],
+              [
+                245.61553955078125,
+                98.93824005126953,
+                266.3218994140625,
+                149.07791137695312
+              ],
+              [
+                234.354248046875,
+                78.10404968261719,
+                276.59979248046875,
+                179.74867248535156
+              ]
+            ],
+            "prompt": "mouse buttons",
+            "mask_pixels": 4438
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.2846655547618866,
+              0.25217103958129883,
+              0.3498641550540924
+            ],
+            "boxes_xyxy": [
+              [
+                246.76376342773438,
+                227.56549072265625,
+                265.5019226074219,
+                268.3249816894531
+              ],
+              [
+                246.0897674560547,
+                205.56661987304688,
+                265.84710693359375,
+                268.70196533203125
+              ],
+              [
+                245.55227661132812,
+                98.49905395507812,
+                266.5010681152344,
+                149.232421875
+              ]
+            ],
+            "prompt": "buttons",
+            "mask_pixels": 2085
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.26669690012931824,
+              0.7392961978912354
+            ],
+            "boxes_xyxy": [
+              [
+                246.2955322265625,
+                205.50929260253906,
+                265.636474609375,
+                268.9660949707031
+              ],
+              [
+                246.50421142578125,
+                101.77690124511719,
+                265.916259765625,
+                145.19644165039062
+              ]
+            ],
+            "prompt": "scroll wheel",
+            "mask_pixels": 1834
+          }
+        ],
+        "best_score": 0.7643706202507019,
+        "mask_pixels": 5137,
+        "prompt": "mouse buttons or scroll wheel",
+        "prompt_variants": [
+          "mouse buttons or scroll wheel",
+          "buttons or scroll wheel",
+          "mouse buttons",
+          "buttons",
+          "scroll wheel"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 2241
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 6,
+            "kept_masks": 6,
+            "scores": [
+              0.2939862608909607,
+              0.33436113595962524,
+              0.7643706202507019,
+              0.3258521556854248,
+              0.6729984879493713,
+              0.3645121455192566
+            ],
+            "boxes_xyxy": [
+              [
+                246.03555297851562,
+                203.97474670410156,
+                265.4281311035156,
+                227.93907165527344
+              ],
+              [
+                246.68582153320312,
+                227.68930053710938,
+                265.2169189453125,
+                268.5730895996094
+              ],
+              [
+                246.1124267578125,
+                205.08197021484375,
+                265.6543884277344,
+                268.6046447753906
+              ],
+              [
+                235.14207458496094,
+                78.61019134521484,
+                275.2794189453125,
+                153.06442260742188
+              ],
+              [
+                245.61553955078125,
+                98.93824005126953,
+                266.3218994140625,
+                149.07791137695312
+              ],
+              [
+                234.354248046875,
+                78.10404968261719,
+                276.59979248046875,
+                179.74867248535156
+              ]
+            ],
+            "prompt": "mouse buttons",
+            "mask_pixels": 4438
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.2846655547618866,
+              0.25217103958129883,
+              0.3498641550540924
+            ],
+            "boxes_xyxy": [
+              [
+                246.76376342773438,
+                227.56549072265625,
+                265.5019226074219,
+                268.3249816894531
+              ],
+              [
+                246.0897674560547,
+                205.56661987304688,
+                265.84710693359375,
+                268.70196533203125
+              ],
+              [
+                245.55227661132812,
+                98.49905395507812,
+                266.5010681152344,
+                149.232421875
+              ]
+            ],
+            "prompt": "buttons",
+            "mask_pixels": 2085
+          }
+        ],
+        "best_score": 0.7643706202507019,
+        "mask_pixels": 4438,
+        "prompt": "mouse buttons",
+        "prompt_variants": [
+          "mouse buttons",
+          "buttons"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 1908
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4434763789176941
+            ],
+            "boxes_xyxy": [
+              [
+                194.32769775390625,
+                41.08299255371094,
+                317.01068115234375,
+                470.33563232421875
+              ]
+            ],
+            "prompt": "mouse body",
+            "mask_pixels": 42622
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.4434763789176941,
+        "mask_pixels": 42622,
+        "prompt": "mouse body",
+        "prompt_variants": [
+          "mouse body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 9204
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.5475276708602905,
+              0.6203674674034119
+            ],
+            "boxes_xyxy": [
+              [
+                283.5576171875,
+                105.95630645751953,
+                297.785400390625,
+                139.28652954101562
+              ],
+              [
+                194.13494873046875,
+                40.884185791015625,
+                316.20709228515625,
+                471.0558166503906
+              ]
+            ],
+            "prompt": "mouse buttons or scroll wheel",
+            "mask_pixels": 43240
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.25038856267929077
+            ],
+            "boxes_xyxy": [
+              [
+                283.5356750488281,
+                106.1765365600586,
+                297.6032409667969,
+                139.214111328125
+              ]
+            ],
+            "prompt": "buttons or scroll wheel",
+            "mask_pixels": 188
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7590064406394958
+            ],
+            "boxes_xyxy": [
+              [
+                283.655029296875,
+                106.18295288085938,
+                297.62310791015625,
+                139.59120178222656
+              ]
+            ],
+            "prompt": "scroll wheel",
+            "mask_pixels": 185
+          }
+        ],
+        "best_score": 0.7590064406394958,
+        "mask_pixels": 43240,
+        "prompt": "mouse buttons or scroll wheel",
+        "prompt_variants": [
+          "mouse buttons or scroll wheel",
+          "buttons or scroll wheel",
+          "mouse buttons",
+          "buttons",
+          "scroll wheel"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 9479
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "buttons",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mouse buttons",
+        "prompt_variants": [
+          "mouse buttons",
+          "buttons"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5113446116447449
+            ],
+            "boxes_xyxy": [
+              [
+                195.49269104003906,
+                40.93266296386719,
+                317.5091552734375,
+                470.66925048828125
+              ]
+            ],
+            "prompt": "mouse body",
+            "mask_pixels": 42641
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.5113446116447449,
+        "mask_pixels": 42641,
+        "prompt": "mouse body",
+        "prompt_variants": [
+          "mouse body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 9208
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.4251517355442047,
+              0.42943713068962097
+            ],
+            "boxes_xyxy": [
+              [
+                214.0482940673828,
+                106.35432434082031,
+                227.8343048095703,
+                139.31187438964844
+              ],
+              [
+                195.7491455078125,
+                41.023773193359375,
+                317.6168212890625,
+                471.2574157714844
+              ]
+            ],
+            "prompt": "mouse buttons or scroll wheel",
+            "mask_pixels": 43155
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.25263652205467224
+            ],
+            "boxes_xyxy": [
+              [
+                214.1396942138672,
+                106.13224792480469,
+                227.91273498535156,
+                139.10958862304688
+              ]
+            ],
+            "prompt": "buttons or scroll wheel",
+            "mask_pixels": 189
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7050135731697083
+            ],
+            "boxes_xyxy": [
+              [
+                214.2627410888672,
+                106.19754028320312,
+                228.0500030517578,
+                139.25390625
+              ]
+            ],
+            "prompt": "scroll wheel",
+            "mask_pixels": 185
+          }
+        ],
+        "best_score": 0.7050135731697083,
+        "mask_pixels": 43155,
+        "prompt": "mouse buttons or scroll wheel",
+        "prompt_variants": [
+          "mouse buttons or scroll wheel",
+          "buttons or scroll wheel",
+          "mouse buttons",
+          "buttons",
+          "scroll wheel"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 9477
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "buttons",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mouse buttons",
+        "prompt_variants": [
+          "mouse buttons",
+          "buttons"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mouse body",
+        "prompt_variants": [
+          "mouse body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse buttons or scroll wheel",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "buttons or scroll wheel",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scroll wheel",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mouse buttons or scroll wheel",
+        "prompt_variants": [
+          "mouse buttons or scroll wheel",
+          "buttons or scroll wheel",
+          "mouse buttons",
+          "buttons",
+          "scroll wheel"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "buttons",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mouse buttons",
+        "prompt_variants": [
+          "mouse buttons",
+          "buttons"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mouse body",
+        "prompt_variants": [
+          "mouse body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse buttons or scroll wheel",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "buttons or scroll wheel",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scroll wheel",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mouse buttons or scroll wheel",
+        "prompt_variants": [
+          "mouse buttons or scroll wheel",
+          "buttons or scroll wheel",
+          "mouse buttons",
+          "buttons",
+          "scroll wheel"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "mouse buttons",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "buttons",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "mouse buttons",
+        "prompt_variants": [
+          "mouse buttons",
+          "buttons"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.899537205696106
+            ],
+            "boxes_xyxy": [
+              [
+                145.3205108642578,
+                40.891632080078125,
+                366.3592529296875,
+                470.6470031738281
+              ]
+            ],
+            "prompt": "mouse body",
+            "mask_pixels": 74753
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.899537205696106,
+        "mask_pixels": 74753,
+        "prompt": "mouse body",
+        "prompt_variants": [
+          "mouse body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 13931
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8637145757675171
+            ],
+            "boxes_xyxy": [
+              [
+                208.5980682373047,
+                90.95146942138672,
+                231.3795928955078,
+                131.1702423095703
+              ]
+            ],
+            "prompt": "mouse buttons or scroll wheel",
+            "mask_pixels": 578
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7939004302024841
+            ],
+            "boxes_xyxy": [
+              [
+                208.78359985351562,
+                91.17910766601562,
+                231.53744506835938,
+                131.1983642578125
+              ]
+            ],
+            "prompt": "buttons or scroll wheel",
+            "mask_pixels": 571
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.2564963400363922,
+              0.30543455481529236,
+              0.8472479581832886
+            ],
+            "boxes_xyxy": [
+              [
+                189.26795959472656,
+                90.96646881103516,
+                231.74122619628906,
+                229.17999267578125
+              ],
+              [
+                190.25180053710938,
+                185.93702697753906,
+                206.80380249023438,
+                229.84654235839844
+              ],
+              [
+                208.84915161132812,
+                91.0448989868164,
+                231.51126098632812,
+                131.16358947753906
+              ]
+            ],
+            "prompt": "mouse buttons",
+            "mask_pixels": 1870
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.4056015908718109,
+              0.2884156405925751,
+              0.6533765196800232
+            ],
+            "boxes_xyxy": [
+              [
+                190.24029541015625,
+                186.4833221435547,
+                206.88818359375,
+                229.5717010498047
+              ],
+              [
+                189.87977600097656,
+                90.81143951416016,
+                231.63771057128906,
+                230.22332763671875
+              ],
+              [
+                208.77874755859375,
+                91.10070037841797,
+                231.51553344726562,
+                131.239501953125
+              ]
+            ],
+            "prompt": "buttons",
+            "mask_pixels": 1547
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9193678498268127
+            ],
+            "boxes_xyxy": [
+              [
+                208.76510620117188,
+                91.14452362060547,
+                231.450439453125,
+                131.2440185546875
+              ]
+            ],
+            "prompt": "scroll wheel",
+            "mask_pixels": 568
+          }
+        ],
+        "best_score": 0.9193678498268127,
+        "mask_pixels": 1875,
+        "prompt": "mouse buttons or scroll wheel",
+        "prompt_variants": [
+          "mouse buttons or scroll wheel",
+          "buttons or scroll wheel",
+          "mouse buttons",
+          "buttons",
+          "scroll wheel"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 960
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.2564963400363922,
+              0.30543455481529236,
+              0.8472479581832886
+            ],
+            "boxes_xyxy": [
+              [
+                189.26795959472656,
+                90.96646881103516,
+                231.74122619628906,
+                229.17999267578125
+              ],
+              [
+                190.25180053710938,
+                185.93702697753906,
+                206.80380249023438,
+                229.84654235839844
+              ],
+              [
+                208.84915161132812,
+                91.0448989868164,
+                231.51126098632812,
+                131.16358947753906
+              ]
+            ],
+            "prompt": "mouse buttons",
+            "mask_pixels": 1870
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.4056015908718109,
+              0.2884156405925751,
+              0.6533765196800232
+            ],
+            "boxes_xyxy": [
+              [
+                190.24029541015625,
+                186.4833221435547,
+                206.88818359375,
+                229.5717010498047
+              ],
+              [
+                189.87977600097656,
+                90.81143951416016,
+                231.63771057128906,
+                230.22332763671875
+              ],
+              [
+                208.77874755859375,
+                91.10070037841797,
+                231.51553344726562,
+                131.239501953125
+              ]
+            ],
+            "prompt": "buttons",
+            "mask_pixels": 1547
+          }
+        ],
+        "best_score": 0.8472479581832886,
+        "mask_pixels": 1873,
+        "prompt": "mouse buttons",
+        "prompt_variants": [
+          "mouse buttons",
+          "buttons"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 959
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8969483375549316
+            ],
+            "boxes_xyxy": [
+              [
+                145.29823303222656,
+                40.88145446777344,
+                366.29559326171875,
+                470.6832275390625
+              ]
+            ],
+            "prompt": "mouse body",
+            "mask_pixels": 74748
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.8969483375549316,
+        "mask_pixels": 74748,
+        "prompt": "mouse body",
+        "prompt_variants": [
+          "mouse body",
+          "body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 13940
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8705248236656189
+            ],
+            "boxes_xyxy": [
+              [
+                208.5955047607422,
+                91.06961059570312,
+                230.8401641845703,
+                131.2847442626953
+              ]
+            ],
+            "prompt": "mouse buttons or scroll wheel",
+            "mask_pixels": 564
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7931098937988281
+            ],
+            "boxes_xyxy": [
+              [
+                208.7803192138672,
+                91.21128845214844,
+                231.0096893310547,
+                131.41305541992188
+              ]
+            ],
+            "prompt": "buttons or scroll wheel",
+            "mask_pixels": 563
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8411781787872314
+            ],
+            "boxes_xyxy": [
+              [
+                208.8323516845703,
+                91.12443542480469,
+                230.8904266357422,
+                131.3392333984375
+              ]
+            ],
+            "prompt": "mouse buttons",
+            "mask_pixels": 556
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.2601187229156494,
+              0.636629581451416
+            ],
+            "boxes_xyxy": [
+              [
+                190.3880157470703,
+                187.61322021484375,
+                207.3623504638672,
+                230.01718139648438
+              ],
+              [
+                208.78150939941406,
+                91.09587860107422,
+                231.0126495361328,
+                131.35708618164062
+              ]
+            ],
+            "prompt": "buttons",
+            "mask_pixels": 1119
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9133670330047607
+            ],
+            "boxes_xyxy": [
+              [
+                208.79974365234375,
+                91.24369049072266,
+                230.8853759765625,
+                131.2703857421875
+              ]
+            ],
+            "prompt": "scroll wheel",
+            "mask_pixels": 546
+          }
+        ],
+        "best_score": 0.9133670330047607,
+        "mask_pixels": 1143,
+        "prompt": "mouse buttons or scroll wheel",
+        "prompt_variants": [
+          "mouse buttons or scroll wheel",
+          "buttons or scroll wheel",
+          "mouse buttons",
+          "buttons",
+          "scroll wheel"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 610
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8411781787872314
+            ],
+            "boxes_xyxy": [
+              [
+                208.8323516845703,
+                91.12443542480469,
+                230.8904266357422,
+                131.3392333984375
+              ]
+            ],
+            "prompt": "mouse buttons",
+            "mask_pixels": 556
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.2601187229156494,
+              0.636629581451416
+            ],
+            "boxes_xyxy": [
+              [
+                190.3880157470703,
+                187.61322021484375,
+                207.3623504638672,
+                230.01718139648438
+              ],
+              [
+                208.78150939941406,
+                91.09587860107422,
+                231.0126495361328,
+                131.35708618164062
+              ]
+            ],
+            "prompt": "buttons",
+            "mask_pixels": 1119
+          }
+        ],
+        "best_score": 0.8411781787872314,
+        "mask_pixels": 1132,
+        "prompt": "mouse buttons",
+        "prompt_variants": [
+          "mouse buttons",
+          "buttons"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 607
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/mouse/affordance.npz",
+  "num_vertices": 18392,
+  "labeled_vertices": 14378,
+  "class_vertex_counts": {
+    "background": 4014,
+    "positive_grasp": 14035,
+    "negative_grasp": 343,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 14300,
+    "negative_grasp": 9963,
+    "tool_use_surface": 309,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 9885
+}

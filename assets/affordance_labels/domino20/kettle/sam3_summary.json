@@ -1,0 +1,1795 @@
+{
+  "asset_id": "domino20/kettle",
+  "label": "kettle",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/091_kettle/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle",
+  "prompts": {
+    "positive_grasp": "kettle handle",
+    "negative_grasp": "kettle spout or lid",
+    "tool_use_surface": "kettle spout"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "kettle handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "kettle handle",
+        "prompt_variants": [
+          "kettle handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "kettle spout or lid",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8497816324234009
+            ],
+            "boxes_xyxy": [
+              [
+                220.92361450195312,
+                41.35183334350586,
+                290.65338134765625,
+                162.31796264648438
+              ]
+            ],
+            "prompt": "spout or lid",
+            "mask_pixels": 5763
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "kettle spout",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spout",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "lid",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.8497816324234009,
+        "mask_pixels": 5763,
+        "prompt": "kettle spout or lid",
+        "prompt_variants": [
+          "kettle spout or lid",
+          "spout or lid",
+          "kettle spout",
+          "spout",
+          "lid"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 906
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "kettle spout",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spout",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "kettle spout",
+        "prompt_variants": [
+          "kettle spout",
+          "spout"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "kettle handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.29318130016326904
+            ],
+            "boxes_xyxy": [
+              [
+                221.59181213378906,
+                40.97176742553711,
+                290.3080139160156,
+                160.65298461914062
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 5622
+          }
+        ],
+        "best_score": 0.29318130016326904,
+        "mask_pixels": 5622,
+        "prompt": "kettle handle",
+        "prompt_variants": [
+          "kettle handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 1517
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.33743011951446533
+            ],
+            "boxes_xyxy": [
+              [
+                221.77334594726562,
+                40.87254333496094,
+                290.12567138671875,
+                160.74600219726562
+              ]
+            ],
+            "prompt": "kettle spout or lid",
+            "mask_pixels": 5625
+          },
+          {
+            "num_masks": 5,
+            "kept_masks": 5,
+            "scores": [
+              0.2720988988876343,
+              0.30061060190200806,
+              0.7598615288734436,
+              0.3446342945098877,
+              0.3506423830986023
+            ],
+            "boxes_xyxy": [
+              [
+                238.32437133789062,
+                75.17774963378906,
+                273.4174499511719,
+                93.5413818359375
+              ],
+              [
+                234.21102905273438,
+                41.470802307128906,
+                276.2835693359375,
+                94.6469497680664
+              ],
+              [
+                221.59754943847656,
+                40.98307800292969,
+                290.07403564453125,
+                160.6358642578125
+              ],
+              [
+                233.69503784179688,
+                40.81465530395508,
+                277.92413330078125,
+                80.34965515136719
+              ],
+              [
+                234.13548278808594,
+                40.62537384033203,
+                277.86724853515625,
+                61.33119201660156
+              ]
+            ],
+            "prompt": "spout or lid",
+            "mask_pixels": 5615
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3026236295700073
+            ],
+            "boxes_xyxy": [
+              [
+                221.54510498046875,
+                40.831703186035156,
+                290.3038024902344,
+                160.62234497070312
+              ]
+            ],
+            "prompt": "kettle spout",
+            "mask_pixels": 5607
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7216634750366211
+            ],
+            "boxes_xyxy": [
+              [
+                221.4471893310547,
+                40.94788360595703,
+                290.31536865234375,
+                160.65823364257812
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 5605
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "lid",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.7598615288734436,
+        "mask_pixels": 5638,
+        "prompt": "kettle spout or lid",
+        "prompt_variants": [
+          "kettle spout or lid",
+          "spout or lid",
+          "kettle spout",
+          "spout",
+          "lid"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 1519
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3026236295700073
+            ],
+            "boxes_xyxy": [
+              [
+                221.54510498046875,
+                40.831703186035156,
+                290.3038024902344,
+                160.62234497070312
+              ]
+            ],
+            "prompt": "kettle spout",
+            "mask_pixels": 5607
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7216634750366211
+            ],
+            "boxes_xyxy": [
+              [
+                221.4471893310547,
+                40.94788360595703,
+                290.31536865234375,
+                160.65823364257812
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 5605
+          }
+        ],
+        "best_score": 0.7216634750366211,
+        "mask_pixels": 5612,
+        "prompt": "kettle spout",
+        "prompt_variants": [
+          "kettle spout",
+          "spout"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 1511
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.740024209022522
+            ],
+            "boxes_xyxy": [
+              [
+                320.041015625,
+                157.09829711914062,
+                455.13092041015625,
+                471.1210632324219
+              ]
+            ],
+            "prompt": "kettle handle",
+            "mask_pixels": 5786
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.7612067461013794,
+              0.31997036933898926
+            ],
+            "boxes_xyxy": [
+              [
+                320.6513671875,
+                157.107666015625,
+                455.04736328125,
+                471.0145263671875
+              ],
+              [
+                301.67181396484375,
+                291.28167724609375,
+                337.56268310546875,
+                348.4171142578125
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 7299
+          }
+        ],
+        "best_score": 0.7612067461013794,
+        "mask_pixels": 7318,
+        "prompt": "kettle handle",
+        "prompt_variants": [
+          "kettle handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 2083
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5579464435577393
+            ],
+            "boxes_xyxy": [
+              [
+                142.2025146484375,
+                41.56346893310547,
+                292.7498779296875,
+                163.91848754882812
+              ]
+            ],
+            "prompt": "kettle spout or lid",
+            "mask_pixels": 7924
+          },
+          {
+            "num_masks": 5,
+            "kept_masks": 5,
+            "scores": [
+              0.5355370044708252,
+              0.29941242933273315,
+              0.869600236415863,
+              0.2611980438232422,
+              0.3163072466850281
+            ],
+            "boxes_xyxy": [
+              [
+                301.49737548828125,
+                291.40570068359375,
+                337.3997802734375,
+                348.293701171875
+              ],
+              [
+                262.3026428222656,
+                205.46673583984375,
+                301.8088073730469,
+                427.76812744140625
+              ],
+              [
+                142.43991088867188,
+                41.774192810058594,
+                292.2258605957031,
+                163.57858276367188
+              ],
+              [
+                261.86968994140625,
+                206.922607421875,
+                337.65032958984375,
+                428.28515625
+              ],
+              [
+                268.5374450683594,
+                72.7401351928711,
+                334.0656433105469,
+                110.2587661743164
+              ]
+            ],
+            "prompt": "spout or lid",
+            "mask_pixels": 16682
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7581323981285095
+            ],
+            "boxes_xyxy": [
+              [
+                142.35025024414062,
+                41.661991119384766,
+                292.3456115722656,
+                163.63763427734375
+              ]
+            ],
+            "prompt": "kettle spout",
+            "mask_pixels": 7899
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.31950509548187256,
+              0.8818945288658142
+            ],
+            "boxes_xyxy": [
+              [
+                301.5400085449219,
+                291.5020751953125,
+                337.3309020996094,
+                348.4534912109375
+              ],
+              [
+                142.46630859375,
+                41.80771255493164,
+                292.30206298828125,
+                163.53305053710938
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 9371
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "lid",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.8818945288658142,
+        "mask_pixels": 16716,
+        "prompt": "kettle spout or lid",
+        "prompt_variants": [
+          "kettle spout or lid",
+          "spout or lid",
+          "kettle spout",
+          "spout",
+          "lid"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 2806
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7581323981285095
+            ],
+            "boxes_xyxy": [
+              [
+                142.35025024414062,
+                41.661991119384766,
+                292.3456115722656,
+                163.63763427734375
+              ]
+            ],
+            "prompt": "kettle spout",
+            "mask_pixels": 7899
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.31950509548187256,
+              0.8818945288658142
+            ],
+            "boxes_xyxy": [
+              [
+                301.5400085449219,
+                291.5020751953125,
+                337.3309020996094,
+                348.4534912109375
+              ],
+              [
+                142.46630859375,
+                41.80771255493164,
+                292.30206298828125,
+                163.53305053710938
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 9371
+          }
+        ],
+        "best_score": 0.8818945288658142,
+        "mask_pixels": 9386,
+        "prompt": "kettle spout",
+        "prompt_variants": [
+          "kettle spout",
+          "spout"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 1405
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8563955426216125
+            ],
+            "boxes_xyxy": [
+              [
+                57.07807159423828,
+                156.82545471191406,
+                190.37222290039062,
+                470.9326171875
+              ]
+            ],
+            "prompt": "kettle handle",
+            "mask_pixels": 5798
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.3169133961200714,
+              0.8322773575782776
+            ],
+            "boxes_xyxy": [
+              [
+                174.4092254638672,
+                291.18212890625,
+                209.9947052001953,
+                348.63134765625
+              ],
+              [
+                57.070396423339844,
+                156.73443603515625,
+                190.31112670898438,
+                470.8753662109375
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 7278
+          }
+        ],
+        "best_score": 0.8563955426216125,
+        "mask_pixels": 7290,
+        "prompt": "kettle handle",
+        "prompt_variants": [
+          "kettle handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 2046
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6064791679382324
+            ],
+            "boxes_xyxy": [
+              [
+                219.37225341796875,
+                41.325862884521484,
+                369.510009765625,
+                163.18797302246094
+              ]
+            ],
+            "prompt": "kettle spout or lid",
+            "mask_pixels": 7826
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.3196675479412079,
+              0.5376225709915161,
+              0.8782457709312439
+            ],
+            "boxes_xyxy": [
+              [
+                172.7960205078125,
+                207.82467651367188,
+                249.88754272460938,
+                426.9314880371094
+              ],
+              [
+                174.52099609375,
+                291.50494384765625,
+                209.74246215820312,
+                348.2222900390625
+              ],
+              [
+                219.72964477539062,
+                41.495933532714844,
+                369.3573303222656,
+                162.8314208984375
+              ]
+            ],
+            "prompt": "spout or lid",
+            "mask_pixels": 15538
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6954724192619324
+            ],
+            "boxes_xyxy": [
+              [
+                219.67303466796875,
+                41.40182876586914,
+                369.3980712890625,
+                163.0078887939453
+              ]
+            ],
+            "prompt": "kettle spout",
+            "mask_pixels": 7806
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.3495725691318512,
+              0.847971498966217
+            ],
+            "boxes_xyxy": [
+              [
+                174.57977294921875,
+                291.32952880859375,
+                209.75775146484375,
+                348.34539794921875
+              ],
+              [
+                219.7301025390625,
+                41.57207107543945,
+                369.31317138671875,
+                162.8174285888672
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 9259
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "lid",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.8782457709312439,
+        "mask_pixels": 15584,
+        "prompt": "kettle spout or lid",
+        "prompt_variants": [
+          "kettle spout or lid",
+          "spout or lid",
+          "kettle spout",
+          "spout",
+          "lid"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 2483
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6954724192619324
+            ],
+            "boxes_xyxy": [
+              [
+                219.67303466796875,
+                41.40182876586914,
+                369.3980712890625,
+                163.0078887939453
+              ]
+            ],
+            "prompt": "kettle spout",
+            "mask_pixels": 7806
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.3495725691318512,
+              0.847971498966217
+            ],
+            "boxes_xyxy": [
+              [
+                174.57977294921875,
+                291.32952880859375,
+                209.75775146484375,
+                348.34539794921875
+              ],
+              [
+                219.7301025390625,
+                41.57207107543945,
+                369.31317138671875,
+                162.8174285888672
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 9259
+          }
+        ],
+        "best_score": 0.847971498966217,
+        "mask_pixels": 9278,
+        "prompt": "kettle spout",
+        "prompt_variants": [
+          "kettle spout",
+          "spout"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 1370
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.3382427394390106,
+              0.25463080406188965
+            ],
+            "boxes_xyxy": [
+              [
+                224.21722412109375,
+                167.79696655273438,
+                287.9141845703125,
+                207.21514892578125
+              ],
+              [
+                217.35850524902344,
+                172.1309356689453,
+                294.3514099121094,
+                377.66546630859375
+              ]
+            ],
+            "prompt": "kettle handle",
+            "mask_pixels": 10845
+          },
+          {
+            "num_masks": 7,
+            "kept_masks": 7,
+            "scores": [
+              0.25402823090553284,
+              0.36164775490760803,
+              0.2857178747653961,
+              0.29665273427963257,
+              0.3651815354824066,
+              0.5258346199989319,
+              0.518503725528717
+            ],
+            "boxes_xyxy": [
+              [
+                231.51510620117188,
+                217.90866088867188,
+                278.9340515136719,
+                259.3934020996094
+              ],
+              [
+                224.14439392089844,
+                167.93321228027344,
+                287.9150695800781,
+                207.21726989746094
+              ],
+              [
+                236.70228576660156,
+                171.2566375732422,
+                274.69329833984375,
+                216.6692657470703
+              ],
+              [
+                217.84390258789062,
+                171.2286834716797,
+                293.3810729980469,
+                377.38861083984375
+              ],
+              [
+                217.77232360839844,
+                171.48703002929688,
+                293.02459716796875,
+                377.5256652832031
+              ],
+              [
+                231.89540100097656,
+                172.6622314453125,
+                279.2632141113281,
+                259.406982421875
+              ],
+              [
+                241.19134521484375,
+                41.081321716308594,
+                270.87298583984375,
+                174.71810913085938
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 14778
+          }
+        ],
+        "best_score": 0.5258346199989319,
+        "mask_pixels": 14829,
+        "prompt": "kettle handle",
+        "prompt_variants": [
+          "kettle handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 2818
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 4,
+            "kept_masks": 4,
+            "scores": [
+              0.36712008714675903,
+              0.29067185521125793,
+              0.2685658931732178,
+              0.3984125554561615
+            ],
+            "boxes_xyxy": [
+              [
+                133.74765014648438,
+                166.930419921875,
+                377.6552734375,
+                251.19342041015625
+              ],
+              [
+                217.71551513671875,
+                172.03598022460938,
+                294.27850341796875,
+                377.6603088378906
+              ],
+              [
+                224.4036865234375,
+                167.82003784179688,
+                287.41717529296875,
+                208.02557373046875
+              ],
+              [
+                133.92652893066406,
+                41.01225280761719,
+                377.2664794921875,
+                252.02427673339844
+              ]
+            ],
+            "prompt": "kettle spout or lid",
+            "mask_pixels": 20588
+          },
+          {
+            "num_masks": 9,
+            "kept_masks": 9,
+            "scores": [
+              0.5288270115852356,
+              0.35884660482406616,
+              0.25637903809547424,
+              0.4194607436656952,
+              0.41861870884895325,
+              0.4160967767238617,
+              0.3234133720397949,
+              0.25650107860565186,
+              0.5770677328109741
+            ],
+            "boxes_xyxy": [
+              [
+                133.8896942138672,
+                167.48193359375,
+                378.03955078125,
+                250.5701904296875
+              ],
+              [
+                224.79205322265625,
+                167.82763671875,
+                288.21337890625,
+                207.3095703125
+              ],
+              [
+                217.38136291503906,
+                247.82553100585938,
+                294.0215759277344,
+                377.6184997558594
+              ],
+              [
+                240.87644958496094,
+                41.15680694580078,
+                270.6811828613281,
+                174.726318359375
+              ],
+              [
+                231.56321716308594,
+                172.77261352539062,
+                280.0628662109375,
+                259.1669006347656
+              ],
+              [
+                217.8730010986328,
+                171.27139282226562,
+                294.0711364746094,
+                377.8252258300781
+              ],
+              [
+                236.13607788085938,
+                170.66969299316406,
+                274.7605285644531,
+                216.5448760986328
+              ],
+              [
+                231.97952270507812,
+                217.00827026367188,
+                279.4981689453125,
+                259.38287353515625
+              ],
+              [
+                134.222900390625,
+                41.43080139160156,
+                377.4978332519531,
+                251.3594207763672
+              ]
+            ],
+            "prompt": "spout or lid",
+            "mask_pixels": 20751
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6711251139640808,
+              0.6522150039672852
+            ],
+            "boxes_xyxy": [
+              [
+                217.6251678466797,
+                249.19573974609375,
+                294.11370849609375,
+                377.69268798828125
+              ],
+              [
+                217.16053771972656,
+                172.07838439941406,
+                294.15802001953125,
+                377.7744140625
+              ]
+            ],
+            "prompt": "kettle spout",
+            "mask_pixels": 10241
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.6288782358169556,
+              0.7529487609863281,
+              0.26927727460861206
+            ],
+            "boxes_xyxy": [
+              [
+                217.62522888183594,
+                249.9167938232422,
+                293.99554443359375,
+                377.49365234375
+              ],
+              [
+                217.26022338867188,
+                172.7501983642578,
+                294.2461242675781,
+                377.5338134765625
+              ],
+              [
+                224.24761962890625,
+                167.9654541015625,
+                288.22784423828125,
+                206.99514770507812
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 10718
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6607034802436829,
+              0.7027201056480408
+            ],
+            "boxes_xyxy": [
+              [
+                134.56527709960938,
+                42.44379425048828,
+                376.9074401855469,
+                251.53842163085938
+              ],
+              [
+                134.27328491210938,
+                168.24000549316406,
+                377.391357421875,
+                250.80564880371094
+              ]
+            ],
+            "prompt": "lid",
+            "mask_pixels": 10151
+          }
+        ],
+        "best_score": 0.7529487609863281,
+        "mask_pixels": 20812,
+        "prompt": "kettle spout or lid",
+        "prompt_variants": [
+          "kettle spout or lid",
+          "spout or lid",
+          "kettle spout",
+          "spout",
+          "lid"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 3899
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6711251139640808,
+              0.6522150039672852
+            ],
+            "boxes_xyxy": [
+              [
+                217.6251678466797,
+                249.19573974609375,
+                294.11370849609375,
+                377.69268798828125
+              ],
+              [
+                217.16053771972656,
+                172.07838439941406,
+                294.15802001953125,
+                377.7744140625
+              ]
+            ],
+            "prompt": "kettle spout",
+            "mask_pixels": 10241
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.6288782358169556,
+              0.7529487609863281,
+              0.26927727460861206
+            ],
+            "boxes_xyxy": [
+              [
+                217.62522888183594,
+                249.9167938232422,
+                293.99554443359375,
+                377.49365234375
+              ],
+              [
+                217.26022338867188,
+                172.7501983642578,
+                294.2461242675781,
+                377.5338134765625
+              ],
+              [
+                224.24761962890625,
+                167.9654541015625,
+                288.22784423828125,
+                206.99514770507812
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 10718
+          }
+        ],
+        "best_score": 0.7529487609863281,
+        "mask_pixels": 10806,
+        "prompt": "kettle spout",
+        "prompt_variants": [
+          "kettle spout",
+          "spout"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 1959
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "kettle handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.32509076595306396
+            ],
+            "boxes_xyxy": [
+              [
+                240.76637268066406,
+                326.4958801269531,
+                271.24102783203125,
+                470.9192810058594
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 4224
+          }
+        ],
+        "best_score": 0.32509076595306396,
+        "mask_pixels": 4224,
+        "prompt": "kettle handle",
+        "prompt_variants": [
+          "kettle handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 933
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "kettle spout or lid",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spout or lid",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "kettle spout",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.41912591457366943
+            ],
+            "boxes_xyxy": [
+              [
+                224.8363800048828,
+                305.7015075683594,
+                287.46722412109375,
+                344.1287536621094
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 952
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2703690230846405
+            ],
+            "boxes_xyxy": [
+              [
+                91.80067443847656,
+                40.56513214111328,
+                419.24420166015625,
+                57.749412536621094
+              ]
+            ],
+            "prompt": "lid",
+            "mask_pixels": 3750
+          }
+        ],
+        "best_score": 0.41912591457366943,
+        "mask_pixels": 4702,
+        "prompt": "kettle spout or lid",
+        "prompt_variants": [
+          "kettle spout or lid",
+          "spout or lid",
+          "kettle spout",
+          "spout",
+          "lid"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 759
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "kettle spout",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.41912591457366943
+            ],
+            "boxes_xyxy": [
+              [
+                224.8363800048828,
+                305.7015075683594,
+                287.46722412109375,
+                344.1287536621094
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 952
+          }
+        ],
+        "best_score": 0.41912591457366943,
+        "mask_pixels": 952,
+        "prompt": "kettle spout",
+        "prompt_variants": [
+          "kettle spout",
+          "spout"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 311
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9134719371795654
+            ],
+            "boxes_xyxy": [
+              [
+                67.09701538085938,
+                85.079833984375,
+                173.62290954589844,
+                360.8330383300781
+              ]
+            ],
+            "prompt": "kettle handle",
+            "mask_pixels": 8339
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8724703788757324
+            ],
+            "boxes_xyxy": [
+              [
+                67.06736755371094,
+                84.92735290527344,
+                173.38507080078125,
+                360.85882568359375
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 8319
+          }
+        ],
+        "best_score": 0.9134719371795654,
+        "mask_pixels": 8340,
+        "prompt": "kettle handle",
+        "prompt_variants": [
+          "kettle handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 2843
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.46568816900253296
+            ],
+            "boxes_xyxy": [
+              [
+                155.44313049316406,
+                41.3791389465332,
+                265.6917419433594,
+                135.98605346679688
+              ]
+            ],
+            "prompt": "kettle spout or lid",
+            "mask_pixels": 3943
+          },
+          {
+            "num_masks": 4,
+            "kept_masks": 4,
+            "scores": [
+              0.25135567784309387,
+              0.5991255640983582,
+              0.5037001967430115,
+              0.716702938079834
+            ],
+            "boxes_xyxy": [
+              [
+                154.45037841796875,
+                57.22935485839844,
+                208.6800537109375,
+                95.69754028320312
+              ],
+              [
+                135.97314453125,
+                209.98243713378906,
+                193.91162109375,
+                266.61328125
+              ],
+              [
+                127.34647369384766,
+                164.1444854736328,
+                281.3957214355469,
+                356.3194580078125
+              ],
+              [
+                180.36911010742188,
+                41.26531219482422,
+                265.479736328125,
+                135.27798461914062
+              ]
+            ],
+            "prompt": "spout or lid",
+            "mask_pixels": 25130
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6346555352210999
+            ],
+            "boxes_xyxy": [
+              [
+                180.5987091064453,
+                41.140018463134766,
+                265.51171875,
+                135.62220764160156
+              ]
+            ],
+            "prompt": "kettle spout",
+            "mask_pixels": 3394
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.32550108432769775,
+              0.8070310354232788
+            ],
+            "boxes_xyxy": [
+              [
+                135.9809112548828,
+                210.0364990234375,
+                193.7414093017578,
+                266.9935607910156
+              ],
+              [
+                180.95367431640625,
+                41.28361892700195,
+                265.3605651855469,
+                135.54196166992188
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 5630
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.7254921197891235,
+              0.2768562436103821
+            ],
+            "boxes_xyxy": [
+              [
+                126.95958709716797,
+                164.01422119140625,
+                281.60968017578125,
+                355.63818359375
+              ],
+              [
+                103.48825073242188,
+                124.12666320800781,
+                315.81439208984375,
+                398.2135009765625
+              ]
+            ],
+            "prompt": "lid",
+            "mask_pixels": 36259
+          }
+        ],
+        "best_score": 0.8070310354232788,
+        "mask_pixels": 42923,
+        "prompt": "kettle spout or lid",
+        "prompt_variants": [
+          "kettle spout or lid",
+          "spout or lid",
+          "kettle spout",
+          "spout",
+          "lid"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 7380
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6346555352210999
+            ],
+            "boxes_xyxy": [
+              [
+                180.5987091064453,
+                41.140018463134766,
+                265.51171875,
+                135.62220764160156
+              ]
+            ],
+            "prompt": "kettle spout",
+            "mask_pixels": 3394
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.32550108432769775,
+              0.8070310354232788
+            ],
+            "boxes_xyxy": [
+              [
+                135.9809112548828,
+                210.0364990234375,
+                193.7414093017578,
+                266.9935607910156
+              ],
+              [
+                180.95367431640625,
+                41.28361892700195,
+                265.3605651855469,
+                135.54196166992188
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 5630
+          }
+        ],
+        "best_score": 0.8070310354232788,
+        "mask_pixels": 5647,
+        "prompt": "kettle spout",
+        "prompt_variants": [
+          "kettle spout",
+          "spout"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 1456
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8912382125854492
+            ],
+            "boxes_xyxy": [
+              [
+                66.93495178222656,
+                85.09172058105469,
+                173.8202667236328,
+                360.90093994140625
+              ]
+            ],
+            "prompt": "kettle handle",
+            "mask_pixels": 8344
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8500730395317078
+            ],
+            "boxes_xyxy": [
+              [
+                66.88166809082031,
+                84.98165893554688,
+                173.59129333496094,
+                360.86285400390625
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 8324
+          }
+        ],
+        "best_score": 0.8912382125854492,
+        "mask_pixels": 8347,
+        "prompt": "kettle handle",
+        "prompt_variants": [
+          "kettle handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 2837
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.37177935242652893
+            ],
+            "boxes_xyxy": [
+              [
+                156.03103637695312,
+                41.18380355834961,
+                266.7904357910156,
+                134.93577575683594
+              ]
+            ],
+            "prompt": "kettle spout or lid",
+            "mask_pixels": 3818
+          },
+          {
+            "num_masks": 4,
+            "kept_masks": 4,
+            "scores": [
+              0.49230194091796875,
+              0.2716789245605469,
+              0.32387709617614746,
+              0.7521324753761292
+            ],
+            "boxes_xyxy": [
+              [
+                135.71363830566406,
+                210.5572509765625,
+                193.5204315185547,
+                265.17340087890625
+              ],
+              [
+                154.06126403808594,
+                55.184715270996094,
+                192.7410125732422,
+                68.93807220458984
+              ],
+              [
+                127.21542358398438,
+                163.71841430664062,
+                282.2357177734375,
+                356.5227355957031
+              ],
+              [
+                180.5830841064453,
+                41.131046295166016,
+                266.3106689453125,
+                134.32131958007812
+              ]
+            ],
+            "prompt": "spout or lid",
+            "mask_pixels": 24572
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.46857595443725586
+            ],
+            "boxes_xyxy": [
+              [
+                180.5823516845703,
+                40.946388244628906,
+                266.4604187011719,
+                134.57473754882812
+              ]
+            ],
+            "prompt": "kettle spout",
+            "mask_pixels": 3429
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.35552290081977844,
+              0.7519809007644653
+            ],
+            "boxes_xyxy": [
+              [
+                135.62136840820312,
+                210.6808319091797,
+                193.4691162109375,
+                265.5435791015625
+              ],
+              [
+                181.00534057617188,
+                41.17938995361328,
+                266.2460021972656,
+                134.53128051757812
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 5639
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3524610102176666
+            ],
+            "boxes_xyxy": [
+              [
+                127.2381362915039,
+                163.08999633789062,
+                282.4465637207031,
+                355.8419494628906
+              ]
+            ],
+            "prompt": "lid",
+            "mask_pixels": 18451
+          }
+        ],
+        "best_score": 0.7521324753761292,
+        "mask_pixels": 24682,
+        "prompt": "kettle spout or lid",
+        "prompt_variants": [
+          "kettle spout or lid",
+          "spout or lid",
+          "kettle spout",
+          "spout",
+          "lid"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 3705
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.46857595443725586
+            ],
+            "boxes_xyxy": [
+              [
+                180.5823516845703,
+                40.946388244628906,
+                266.4604187011719,
+                134.57473754882812
+              ]
+            ],
+            "prompt": "kettle spout",
+            "mask_pixels": 3429
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.35552290081977844,
+              0.7519809007644653
+            ],
+            "boxes_xyxy": [
+              [
+                135.62136840820312,
+                210.6808319091797,
+                193.4691162109375,
+                265.5435791015625
+              ],
+              [
+                181.00534057617188,
+                41.17938995361328,
+                266.2460021972656,
+                134.53128051757812
+              ]
+            ],
+            "prompt": "spout",
+            "mask_pixels": 5639
+          }
+        ],
+        "best_score": 0.7519809007644653,
+        "mask_pixels": 5659,
+        "prompt": "kettle spout",
+        "prompt_variants": [
+          "kettle spout",
+          "spout"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 1446
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/kettle/affordance.npz",
+  "num_vertices": 19932,
+  "labeled_vertices": 6767,
+  "class_vertex_counts": {
+    "background": 13165,
+    "positive_grasp": 2459,
+    "negative_grasp": 4308,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 3355,
+    "negative_grasp": 4888,
+    "tool_use_surface": 1930,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 2194
+}

@@ -1,0 +1,37 @@
+{
+  "asset_id": "dextoolbench/brush/red_brush",
+  "label_path": "/data1/linsixu/simtoolreal_lab/assets/affordance_labels/dextoolbench/brush/red_brush/grasp_affordance_clean_v2.npz",
+  "obj_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/brush/red_brush/red_brush.obj",
+  "mtl_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/brush/red_brush/red_brush.mtl",
+  "urdf_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/dextoolbench/brush/red_brush/red_brush.urdf",
+  "vertex_count": 11953,
+  "face_count": 12825,
+  "material_face_counts": {
+    "aff_ignore": 3461,
+    "aff_negative": 8414,
+    "aff_neutral": 0,
+    "aff_positive": 950
+  },
+  "mass": 0.07,
+  "source_bounds_min": [
+    -0.06772545725107193,
+    -0.04924776032567024,
+    -0.013798180036246777
+  ],
+  "source_bounds_max": [
+    0.25142091512680054,
+    0.04573998972773552,
+    0.07875967025756836
+  ],
+  "source_up_axis": "Z",
+  "target_size": [
+    0.21,
+    0.065,
+    0.045
+  ],
+  "scale": [
+    0.6580052858985905,
+    0.6842987644559905,
+    0.4861824238263123
+  ]
+}

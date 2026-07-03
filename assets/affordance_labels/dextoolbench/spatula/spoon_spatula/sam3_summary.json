@@ -1,0 +1,1835 @@
+{
+  "asset_id": "dextoolbench/spatula/spoon_spatula",
+  "label": "spoon_spatula",
+  "mesh_path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/spatula/spoon_spatula/spoon_spatula.obj",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula",
+  "prompts": {
+    "positive_grasp": "spoon spatula handle",
+    "negative_grasp": "spoon spatula blade or scoop",
+    "tool_use_surface": "spoon spatula blade or scoop"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.28033754229545593,
+              0.3055397868156433
+            ],
+            "boxes_xyxy": [
+              [
+                51.49496841430664,
+                238.34242248535156,
+                162.22463989257812,
+                269.2799072265625
+              ],
+              [
+                42.73081970214844,
+                234.79029846191406,
+                206.50503540039062,
+                269.77880859375
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 4961
+          }
+        ],
+        "best_score": 0.3055397868156433,
+        "mask_pixels": 4961,
+        "prompt": "spoon spatula handle",
+        "prompt_variants": [
+          "spoon spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 266
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.4182923436164856,
+              0.435696542263031
+            ],
+            "boxes_xyxy": [
+              [
+                206.6034698486328,
+                227.20755004882812,
+                471.06951904296875,
+                284.6942138671875
+              ],
+              [
+                336.3670654296875,
+                227.07815551757812,
+                470.927490234375,
+                284.5523681640625
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 5359
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6057848930358887
+            ],
+            "boxes_xyxy": [
+              [
+                337.4280090332031,
+                227.28173828125,
+                470.7515563964844,
+                284.90777587890625
+              ]
+            ],
+            "prompt": "blade",
+            "mask_pixels": 3555
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.3862192928791046,
+              0.3162844479084015
+            ],
+            "boxes_xyxy": [
+              [
+                41.5413818359375,
+                226.8134765625,
+                470.656982421875,
+                285.11376953125
+              ],
+              [
+                205.82330322265625,
+                227.2911376953125,
+                471.176513671875,
+                284.7789306640625
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 10493
+          }
+        ],
+        "best_score": 0.6057848930358887,
+        "mask_pixels": 10501,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 830
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.4182923436164856,
+              0.435696542263031
+            ],
+            "boxes_xyxy": [
+              [
+                206.6034698486328,
+                227.20755004882812,
+                471.06951904296875,
+                284.6942138671875
+              ],
+              [
+                336.3670654296875,
+                227.07815551757812,
+                470.927490234375,
+                284.5523681640625
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 5359
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6057848930358887
+            ],
+            "boxes_xyxy": [
+              [
+                337.4280090332031,
+                227.28173828125,
+                470.7515563964844,
+                284.90777587890625
+              ]
+            ],
+            "prompt": "blade",
+            "mask_pixels": 3555
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.3862192928791046,
+              0.3162844479084015
+            ],
+            "boxes_xyxy": [
+              [
+                41.5413818359375,
+                226.8134765625,
+                470.656982421875,
+                285.11376953125
+              ],
+              [
+                205.82330322265625,
+                227.2911376953125,
+                471.176513671875,
+                284.7789306640625
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 10493
+          }
+        ],
+        "best_score": 0.6057848930358887,
+        "mask_pixels": 10501,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 830
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.42305633425712585,
+              0.30299893021583557,
+              0.35766616463661194
+            ],
+            "boxes_xyxy": [
+              [
+                305.21710205078125,
+                228.97276306152344,
+                470.635498046875,
+                269.90802001953125
+              ],
+              [
+                177.13510131835938,
+                230.09939575195312,
+                469.7228698730469,
+                270.6449279785156
+              ],
+              [
+                349.51361083984375,
+                237.82809448242188,
+                461.34625244140625,
+                269.4803161621094
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 6931
+          }
+        ],
+        "best_score": 0.42305633425712585,
+        "mask_pixels": 6931,
+        "prompt": "spoon spatula handle",
+        "prompt_variants": [
+          "spoon spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 487
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6382413506507874,
+              0.3485718071460724
+            ],
+            "boxes_xyxy": [
+              [
+                41.04676055908203,
+                227.34487915039062,
+                172.29315185546875,
+                284.6744079589844
+              ],
+              [
+                41.30360412597656,
+                227.1353759765625,
+                306.4202880859375,
+                284.5834045410156
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 5422
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2842625379562378
+            ],
+            "boxes_xyxy": [
+              [
+                41.00904083251953,
+                227.22314453125,
+                171.702392578125,
+                284.8153076171875
+              ]
+            ],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 3580
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7951939702033997
+            ],
+            "boxes_xyxy": [
+              [
+                41.052513122558594,
+                227.29954528808594,
+                172.44064331054688,
+                284.7955627441406
+              ]
+            ],
+            "prompt": "blade",
+            "mask_pixels": 3585
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.27656710147857666
+            ],
+            "boxes_xyxy": [
+              [
+                41.2567138671875,
+                226.7719268798828,
+                470.69659423828125,
+                285.20147705078125
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 10612
+          }
+        ],
+        "best_score": 0.7951939702033997,
+        "mask_pixels": 10646,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 811
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6382413506507874,
+              0.3485718071460724
+            ],
+            "boxes_xyxy": [
+              [
+                41.04676055908203,
+                227.34487915039062,
+                172.29315185546875,
+                284.6744079589844
+              ],
+              [
+                41.30360412597656,
+                227.1353759765625,
+                306.4202880859375,
+                284.5834045410156
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 5422
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2842625379562378
+            ],
+            "boxes_xyxy": [
+              [
+                41.00904083251953,
+                227.22314453125,
+                171.702392578125,
+                284.8153076171875
+              ]
+            ],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 3580
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7951939702033997
+            ],
+            "boxes_xyxy": [
+              [
+                41.052513122558594,
+                227.29954528808594,
+                172.44064331054688,
+                284.7955627441406
+              ]
+            ],
+            "prompt": "blade",
+            "mask_pixels": 3585
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.27656710147857666
+            ],
+            "boxes_xyxy": [
+              [
+                41.2567138671875,
+                226.7719268798828,
+                470.69659423828125,
+                285.20147705078125
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 10612
+          }
+        ],
+        "best_score": 0.7951939702033997,
+        "mask_pixels": 10646,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 811
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "spoon spatula handle",
+        "prompt_variants": [
+          "spoon spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scoop",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scoop",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "spoon spatula handle",
+        "prompt_variants": [
+          "spoon spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scoop",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scoop",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.5156058669090271,
+              0.4384731352329254,
+              0.5074886679649353
+            ],
+            "boxes_xyxy": [
+              [
+                43.06172180175781,
+                245.15106201171875,
+                204.32313537597656,
+                277.339599609375
+              ],
+              [
+                41.30329895019531,
+                244.52972412109375,
+                318.3427734375,
+                276.92279052734375
+              ],
+              [
+                205.91477966308594,
+                246.0611114501953,
+                313.1247863769531,
+                272.6807556152344
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 7221
+          }
+        ],
+        "best_score": 0.5156058669090271,
+        "mask_pixels": 7221,
+        "prompt": "spoon spatula handle",
+        "prompt_variants": [
+          "spoon spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 451
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.6355652213096619,
+              0.38143259286880493,
+              0.3277412950992584
+            ],
+            "boxes_xyxy": [
+              [
+                41.34834289550781,
+                210.49232482910156,
+                470.35009765625,
+                301.0672607421875
+              ],
+              [
+                312.063232421875,
+                210.14053344726562,
+                470.48492431640625,
+                300.3740539550781
+              ],
+              [
+                206.71226501464844,
+                210.44532775878906,
+                470.52197265625,
+                300.6620178222656
+              ]
+            ],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 16883
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.5491240620613098,
+              0.3035644590854645,
+              0.4030947685241699
+            ],
+            "boxes_xyxy": [
+              [
+                312.2615661621094,
+                210.45510864257812,
+                470.3016052246094,
+                300.2687683105469
+              ],
+              [
+                42.513427734375,
+                210.1341552734375,
+                470.357177734375,
+                300.44183349609375
+              ],
+              [
+                207.61209106445312,
+                210.40805053710938,
+                470.6109924316406,
+                300.8568115234375
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 17011
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.263089120388031
+            ],
+            "boxes_xyxy": [
+              [
+                41.412445068359375,
+                210.49365234375,
+                470.4213562011719,
+                301.0967102050781
+              ]
+            ],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 16883
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.5127487778663635,
+              0.689069390296936
+            ],
+            "boxes_xyxy": [
+              [
+                206.28736877441406,
+                210.09165954589844,
+                470.85614013671875,
+                300.5246887207031
+              ],
+              [
+                41.501373291015625,
+                210.21292114257812,
+                470.5925598144531,
+                300.96502685546875
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 16923
+          }
+        ],
+        "best_score": 0.689069390296936,
+        "mask_pixels": 17065,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 1089
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.6355652213096619,
+              0.38143259286880493,
+              0.3277412950992584
+            ],
+            "boxes_xyxy": [
+              [
+                41.34834289550781,
+                210.49232482910156,
+                470.35009765625,
+                301.0672607421875
+              ],
+              [
+                312.063232421875,
+                210.14053344726562,
+                470.48492431640625,
+                300.3740539550781
+              ],
+              [
+                206.71226501464844,
+                210.44532775878906,
+                470.52197265625,
+                300.6620178222656
+              ]
+            ],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 16883
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.5491240620613098,
+              0.3035644590854645,
+              0.4030947685241699
+            ],
+            "boxes_xyxy": [
+              [
+                312.2615661621094,
+                210.45510864257812,
+                470.3016052246094,
+                300.2687683105469
+              ],
+              [
+                42.513427734375,
+                210.1341552734375,
+                470.357177734375,
+                300.44183349609375
+              ],
+              [
+                207.61209106445312,
+                210.40805053710938,
+                470.6109924316406,
+                300.8568115234375
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 17011
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.263089120388031
+            ],
+            "boxes_xyxy": [
+              [
+                41.412445068359375,
+                210.49365234375,
+                470.4213562011719,
+                301.0967102050781
+              ]
+            ],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 16883
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.5127487778663635,
+              0.689069390296936
+            ],
+            "boxes_xyxy": [
+              [
+                206.28736877441406,
+                210.09165954589844,
+                470.85614013671875,
+                300.5246887207031
+              ],
+              [
+                41.501373291015625,
+                210.21292114257812,
+                470.5925598144531,
+                300.96502685546875
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 16923
+          }
+        ],
+        "best_score": 0.689069390296936,
+        "mask_pixels": 17065,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 1089
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2648279070854187
+            ],
+            "boxes_xyxy": [
+              [
+                42.35874938964844,
+                234.03591918945312,
+                309.10986328125,
+                267.6920166015625
+              ]
+            ],
+            "prompt": "spoon spatula handle",
+            "mask_pixels": 7078
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.5019413828849792,
+              0.4718156158924103,
+              0.4852995276451111
+            ],
+            "boxes_xyxy": [
+              [
+                43.545249938964844,
+                234.4806365966797,
+                194.77032470703125,
+                266.95635986328125
+              ],
+              [
+                41.764251708984375,
+                234.1304168701172,
+                313.6463623046875,
+                267.90411376953125
+              ],
+              [
+                195.25450134277344,
+                239.0970916748047,
+                311.43902587890625,
+                267.01177978515625
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 7178
+          }
+        ],
+        "best_score": 0.5019413828849792,
+        "mask_pixels": 7184,
+        "prompt": "spoon spatula handle",
+        "prompt_variants": [
+          "spoon spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 430
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6678937673568726,
+              0.4133630692958832
+            ],
+            "boxes_xyxy": [
+              [
+                41.595458984375,
+                210.51702880859375,
+                470.890625,
+                301.91522216796875
+              ],
+              [
+                307.49395751953125,
+                210.28639221191406,
+                471.10211181640625,
+                301.4872131347656
+              ]
+            ],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 17103
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5505915284156799
+            ],
+            "boxes_xyxy": [
+              [
+                311.3638000488281,
+                210.57839965820312,
+                470.8668518066406,
+                301.4943542480469
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 9989
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.26211556792259216
+            ],
+            "boxes_xyxy": [
+              [
+                41.57255554199219,
+                210.55227661132812,
+                470.94586181640625,
+                301.7832336425781
+              ]
+            ],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 17087
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.62697833776474,
+              0.49617722630500793
+            ],
+            "boxes_xyxy": [
+              [
+                41.85136413574219,
+                210.2848663330078,
+                471.22601318359375,
+                301.78070068359375
+              ],
+              [
+                202.96847534179688,
+                210.1783905029297,
+                471.3626403808594,
+                301.7330322265625
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 17161
+          }
+        ],
+        "best_score": 0.6678937673568726,
+        "mask_pixels": 17165,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 972
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6678937673568726,
+              0.4133630692958832
+            ],
+            "boxes_xyxy": [
+              [
+                41.595458984375,
+                210.51702880859375,
+                470.890625,
+                301.91522216796875
+              ],
+              [
+                307.49395751953125,
+                210.28639221191406,
+                471.10211181640625,
+                301.4872131347656
+              ]
+            ],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 17103
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5505915284156799
+            ],
+            "boxes_xyxy": [
+              [
+                311.3638000488281,
+                210.57839965820312,
+                470.8668518066406,
+                301.4943542480469
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 9989
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.26211556792259216
+            ],
+            "boxes_xyxy": [
+              [
+                41.57255554199219,
+                210.55227661132812,
+                470.94586181640625,
+                301.7832336425781
+              ]
+            ],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 17087
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.62697833776474,
+              0.49617722630500793
+            ],
+            "boxes_xyxy": [
+              [
+                41.85136413574219,
+                210.2848663330078,
+                471.22601318359375,
+                301.78070068359375
+              ],
+              [
+                202.96847534179688,
+                210.1783905029297,
+                471.3626403808594,
+                301.7330322265625
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 17161
+          }
+        ],
+        "best_score": 0.6678937673568726,
+        "mask_pixels": 17165,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 972
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.29425033926963806
+            ],
+            "boxes_xyxy": [
+              [
+                41.000732421875,
+                283.104736328125,
+                208.64013671875,
+                400.29217529296875
+              ]
+            ],
+            "prompt": "spoon spatula handle",
+            "mask_pixels": 6964
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.3122703731060028,
+              0.8386696577072144,
+              0.39551982283592224
+            ],
+            "boxes_xyxy": [
+              [
+                197.75796508789062,
+                224.3717498779297,
+                314.119140625,
+                309.1745300292969
+              ],
+              [
+                40.922935485839844,
+                282.9537353515625,
+                209.77517700195312,
+                400.44830322265625
+              ],
+              [
+                41.53102111816406,
+                225.7455596923828,
+                313.516357421875,
+                401.07958984375
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 10881
+          }
+        ],
+        "best_score": 0.8386696577072144,
+        "mask_pixels": 10902,
+        "prompt": "spoon spatula handle",
+        "prompt_variants": [
+          "spoon spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 493
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6143265962600708
+            ],
+            "boxes_xyxy": [
+              [
+                41.170135498046875,
+                110.43795776367188,
+                470.9506530761719,
+                400.7889099121094
+              ]
+            ],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 24852
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.37153303623199463,
+              0.7561976313591003,
+              0.5377787351608276
+            ],
+            "boxes_xyxy": [
+              [
+                41.30122375488281,
+                109.95497131347656,
+                472.49920654296875,
+                400.942138671875
+              ],
+              [
+                309.1043701171875,
+                110.67251586914062,
+                471.248779296875,
+                243.5252685546875
+              ],
+              [
+                197.11215209960938,
+                110.30329895019531,
+                471.4214172363281,
+                309.1361083984375
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 25102
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.2691238522529602,
+              0.8196064829826355,
+              0.271803081035614
+            ],
+            "boxes_xyxy": [
+              [
+                196.45631408691406,
+                110.26879119873047,
+                470.83233642578125,
+                308.827392578125
+              ],
+              [
+                41.068878173828125,
+                110.29774475097656,
+                471.3739318847656,
+                400.68621826171875
+              ],
+              [
+                310.50482177734375,
+                109.30138397216797,
+                470.58831787109375,
+                243.76153564453125
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 24874
+          }
+        ],
+        "best_score": 0.8196064829826355,
+        "mask_pixels": 25192,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 946
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6143265962600708
+            ],
+            "boxes_xyxy": [
+              [
+                41.170135498046875,
+                110.43795776367188,
+                470.9506530761719,
+                400.7889099121094
+              ]
+            ],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 24852
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.37153303623199463,
+              0.7561976313591003,
+              0.5377787351608276
+            ],
+            "boxes_xyxy": [
+              [
+                41.30122375488281,
+                109.95497131347656,
+                472.49920654296875,
+                400.942138671875
+              ],
+              [
+                309.1043701171875,
+                110.67251586914062,
+                471.248779296875,
+                243.5252685546875
+              ],
+              [
+                197.11215209960938,
+                110.30329895019531,
+                471.4214172363281,
+                309.1361083984375
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 25102
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.2691238522529602,
+              0.8196064829826355,
+              0.271803081035614
+            ],
+            "boxes_xyxy": [
+              [
+                196.45631408691406,
+                110.26879119873047,
+                470.83233642578125,
+                308.827392578125
+              ],
+              [
+                41.068878173828125,
+                110.29774475097656,
+                471.3739318847656,
+                400.68621826171875
+              ],
+              [
+                310.50482177734375,
+                109.30138397216797,
+                470.58831787109375,
+                243.76153564453125
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 24874
+          }
+        ],
+        "best_score": 0.8196064829826355,
+        "mask_pixels": 25192,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 946
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3546808958053589
+            ],
+            "boxes_xyxy": [
+              [
+                191.95968627929688,
+                131.15145874023438,
+                470.3692932128906,
+                304.2445068359375
+              ]
+            ],
+            "prompt": "spoon spatula handle",
+            "mask_pixels": 10434
+          },
+          {
+            "num_masks": 4,
+            "kept_masks": 4,
+            "scores": [
+              0.26337867975234985,
+              0.30210694670677185,
+              0.6945555806159973,
+              0.3183126747608185
+            ],
+            "boxes_xyxy": [
+              [
+                179.5968780517578,
+                223.00967407226562,
+                307.6796875,
+                306.4814758300781
+              ],
+              [
+                287.8916015625,
+                187.63018798828125,
+                355.27178955078125,
+                250.7216796875
+              ],
+              [
+                187.29173278808594,
+                131.18231201171875,
+                470.4041748046875,
+                305.46307373046875
+              ],
+              [
+                332.3719177246094,
+                131.1497039794922,
+                470.4429626464844,
+                229.22996520996094
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 10658
+          }
+        ],
+        "best_score": 0.6945555806159973,
+        "mask_pixels": 10662,
+        "prompt": "spoon spatula handle",
+        "prompt_variants": [
+          "spoon spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 507
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.28078463673591614
+            ],
+            "boxes_xyxy": [
+              [
+                41.71150207519531,
+                131.06321716308594,
+                470.98529052734375,
+                380.96893310546875
+              ]
+            ],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 20140
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.27644503116607666
+            ],
+            "boxes_xyxy": [
+              [
+                41.75294494628906,
+                291.77862548828125,
+                206.51571655273438,
+                380.77490234375
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 9605
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5950736403465271
+            ],
+            "boxes_xyxy": [
+              [
+                41.55885314941406,
+                130.8501434326172,
+                471.1378173828125,
+                380.871826171875
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 20162
+          }
+        ],
+        "best_score": 0.5950736403465271,
+        "mask_pixels": 20186,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 893
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.28078463673591614
+            ],
+            "boxes_xyxy": [
+              [
+                41.71150207519531,
+                131.06321716308594,
+                470.98529052734375,
+                380.96893310546875
+              ]
+            ],
+            "prompt": "spoon spatula blade or scoop",
+            "mask_pixels": 20140
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.27644503116607666
+            ],
+            "boxes_xyxy": [
+              [
+                41.75294494628906,
+                291.77862548828125,
+                206.51571655273438,
+                380.77490234375
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 9605
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spoon spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5950736403465271
+            ],
+            "boxes_xyxy": [
+              [
+                41.55885314941406,
+                130.8501434326172,
+                471.1378173828125,
+                380.871826171875
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 20162
+          }
+        ],
+        "best_score": 0.5950736403465271,
+        "mask_pixels": 20186,
+        "prompt": "spoon spatula blade or scoop",
+        "prompt_variants": [
+          "spoon spatula blade or scoop",
+          "blade or scoop",
+          "spoon spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 893
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/affordance.npz",
+  "num_vertices": 1524,
+  "labeled_vertices": 1307,
+  "class_vertex_counts": {
+    "background": 217,
+    "positive_grasp": 434,
+    "negative_grasp": 873,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 610,
+    "negative_grasp": 1306,
+    "tool_use_surface": 1306,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 1306
+}

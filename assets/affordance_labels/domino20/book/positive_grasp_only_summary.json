@@ -1,0 +1,1742 @@
+{
+  "asset_id": "domino20/book",
+  "label": "book",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/043_book/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book",
+  "positive_prompt": "book spine or cover",
+  "positive_prompt_variants": [
+    "book spine or cover",
+    "spine or cover",
+    "book spine",
+    "spine",
+    "cover"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "book spine or cover",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.41254088282585144,
+            0.502568244934082,
+            0.41329139471054077
+          ],
+          "boxes_xyxy": [
+            [
+              145.1468505859375,
+              62.12214660644531,
+              162.14212036132812,
+              707.462890625
+            ],
+            [
+              144.33697509765625,
+              62.36840057373047,
+              622.7447509765625,
+              706.259521484375
+            ],
+            [
+              605.39892578125,
+              62.11676788330078,
+              622.8280029296875,
+              706.4404907226562
+            ]
+          ],
+          "mask_pixels": 20786
+        },
+        {
+          "prompt": "spine or cover",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.43692919611930847,
+            0.4737010598182678,
+            0.42471426725387573
+          ],
+          "boxes_xyxy": [
+            [
+              145.01309204101562,
+              62.02775573730469,
+              161.95408630371094,
+              706.8606567382812
+            ],
+            [
+              144.84671020507812,
+              62.46372985839844,
+              622.8492431640625,
+              706.0311889648438
+            ],
+            [
+              605.2942504882812,
+              62.0767822265625,
+              622.9063720703125,
+              706.1549072265625
+            ]
+          ],
+          "mask_pixels": 20588
+        },
+        {
+          "prompt": "book spine",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.3672783374786377,
+            0.3646056056022644
+          ],
+          "boxes_xyxy": [
+            [
+              605.9056396484375,
+              61.713478088378906,
+              623.2568359375,
+              706.42822265625
+            ],
+            [
+              145.1834716796875,
+              62.32019805908203,
+              162.2501678466797,
+              706.3433837890625
+            ]
+          ],
+          "mask_pixels": 20144
+        },
+        {
+          "prompt": "spine",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.24666303396224976,
+            0.24715925753116608
+          ],
+          "boxes_xyxy": [
+            [
+              605.7896118164062,
+              61.58649444580078,
+              623.2828369140625,
+              706.2982177734375
+            ],
+            [
+              145.1448211669922,
+              62.415367126464844,
+              162.31842041015625,
+              706.3624877929688
+            ]
+          ],
+          "mask_pixels": 20069
+        },
+        {
+          "prompt": "cover",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "book spine or cover",
+          "score": 0.502568244934082,
+          "mask_pixels": 20418,
+          "box_xyxy": [
+            144.33697509765625,
+            62.36840057373047,
+            622.7447509765625,
+            706.259521484375
+          ]
+        }
+      ],
+      "best_score": 0.502568244934082,
+      "mask_pixels": 20418,
+      "prompt": "book spine or cover",
+      "prompt_variants": [
+        "book spine or cover",
+        "spine or cover",
+        "book spine",
+        "spine",
+        "cover"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 1775
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "book spine or cover",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.5371168851852417,
+            0.6306148171424866,
+            0.5145888328552246
+          ],
+          "boxes_xyxy": [
+            [
+              145.42697143554688,
+              61.793792724609375,
+              163.5751190185547,
+              706.4331665039062
+            ],
+            [
+              144.44915771484375,
+              62.21147918701172,
+              622.8757934570312,
+              706.184326171875
+            ],
+            [
+              604.248291015625,
+              61.755821228027344,
+              622.6425170898438,
+              706.63232421875
+            ]
+          ],
+          "mask_pixels": 22232
+        },
+        {
+          "prompt": "spine or cover",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.5809470415115356,
+            0.6892982721328735,
+            0.5517708659172058
+          ],
+          "boxes_xyxy": [
+            [
+              145.35464477539062,
+              61.95945739746094,
+              163.42625427246094,
+              706.1506958007812
+            ],
+            [
+              144.68673706054688,
+              62.316192626953125,
+              622.783203125,
+              706.0001220703125
+            ],
+            [
+              604.0302124023438,
+              61.68408966064453,
+              622.7545776367188,
+              706.346435546875
+            ]
+          ],
+          "mask_pixels": 21861
+        },
+        {
+          "prompt": "book spine",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.5153443217277527,
+            0.5510071516036987
+          ],
+          "boxes_xyxy": [
+            [
+              604.1309204101562,
+              61.194236755371094,
+              622.851806640625,
+              706.411865234375
+            ],
+            [
+              145.36920166015625,
+              61.657470703125,
+              163.8316650390625,
+              706.2791748046875
+            ]
+          ],
+          "mask_pixels": 21925
+        },
+        {
+          "prompt": "spine",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.5042940378189087,
+            0.543042004108429
+          ],
+          "boxes_xyxy": [
+            [
+              604.0556640625,
+              61.18812561035156,
+              622.90869140625,
+              706.3946533203125
+            ],
+            [
+              145.23167419433594,
+              61.65740203857422,
+              163.7619171142578,
+              706.17236328125
+            ]
+          ],
+          "mask_pixels": 21953
+        },
+        {
+          "prompt": "cover",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.2950836718082428
+          ],
+          "boxes_xyxy": [
+            [
+              146.04345703125,
+              62.544456481933594,
+              622.1533813476562,
+              705.50927734375
+            ]
+          ],
+          "mask_pixels": 302177
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "spine or cover",
+          "score": 0.6892982721328735,
+          "mask_pixels": 21621,
+          "box_xyxy": [
+            144.68673706054688,
+            62.316192626953125,
+            622.783203125,
+            706.0001220703125
+          ]
+        }
+      ],
+      "best_score": 0.6892982721328735,
+      "mask_pixels": 21621,
+      "prompt": "book spine or cover",
+      "prompt_variants": [
+        "book spine or cover",
+        "spine or cover",
+        "book spine",
+        "spine",
+        "cover"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 1972
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "book spine or cover",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.6071121096611023
+          ],
+          "boxes_xyxy": [
+            [
+              309.60015869140625,
+              62.254234313964844,
+              458.3266296386719,
+              706.3509521484375
+            ]
+          ],
+          "mask_pixels": 94287
+        },
+        {
+          "prompt": "spine or cover",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.6545434594154358
+          ],
+          "boxes_xyxy": [
+            [
+              309.55926513671875,
+              62.274375915527344,
+              458.4251403808594,
+              706.1324462890625
+            ]
+          ],
+          "mask_pixels": 94330
+        },
+        {
+          "prompt": "book spine",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "spine",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cover",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "spine or cover",
+          "score": 0.6545434594154358,
+          "mask_pixels": 94330,
+          "box_xyxy": [
+            309.55926513671875,
+            62.274375915527344,
+            458.4251403808594,
+            706.1324462890625
+          ]
+        }
+      ],
+      "best_score": 0.6545434594154358,
+      "mask_pixels": 94330,
+      "prompt": "book spine or cover",
+      "prompt_variants": [
+        "book spine or cover",
+        "spine or cover",
+        "book spine",
+        "spine",
+        "cover"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 2186
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "book spine or cover",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7225502729415894
+          ],
+          "boxes_xyxy": [
+            [
+              308.72479248046875,
+              62.16920471191406,
+              458.3011474609375,
+              706.1783447265625
+            ]
+          ],
+          "mask_pixels": 94000
+        },
+        {
+          "prompt": "spine or cover",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7865806818008423
+          ],
+          "boxes_xyxy": [
+            [
+              308.74761962890625,
+              62.174560546875,
+              458.31494140625,
+              705.9053955078125
+            ]
+          ],
+          "mask_pixels": 93987
+        },
+        {
+          "prompt": "book spine",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "spine",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cover",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "spine or cover",
+          "score": 0.7865806818008423,
+          "mask_pixels": 93987,
+          "box_xyxy": [
+            308.74761962890625,
+            62.174560546875,
+            458.31494140625,
+            705.9053955078125
+          ]
+        }
+      ],
+      "best_score": 0.7865806818008423,
+      "mask_pixels": 93987,
+      "prompt": "book spine or cover",
+      "prompt_variants": [
+        "book spine or cover",
+        "spine or cover",
+        "book spine",
+        "spine",
+        "cover"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 2172
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "book spine or cover",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.23939400911331177
+          ],
+          "boxes_xyxy": [
+            [
+              63.297821044921875,
+              283.22442626953125,
+              704.8543701171875,
+              484.3173522949219
+            ]
+          ],
+          "mask_pixels": 120747
+        },
+        {
+          "prompt": "spine or cover",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.27288302779197693
+          ],
+          "boxes_xyxy": [
+            [
+              63.25456237792969,
+              282.66461181640625,
+              705.1387329101562,
+              484.886474609375
+            ]
+          ],
+          "mask_pixels": 121748
+        },
+        {
+          "prompt": "book spine",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "spine",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cover",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "spine or cover",
+          "score": 0.27288302779197693,
+          "mask_pixels": 121748,
+          "box_xyxy": [
+            63.25456237792969,
+            282.66461181640625,
+            705.1387329101562,
+            484.886474609375
+          ]
+        }
+      ],
+      "best_score": 0.27288302779197693,
+      "mask_pixels": 121748,
+      "prompt": "book spine or cover",
+      "prompt_variants": [
+        "book spine or cover",
+        "spine or cover",
+        "book spine",
+        "spine",
+        "cover"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 8153
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "book spine or cover",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "spine or cover",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.2677384316921234
+          ],
+          "boxes_xyxy": [
+            [
+              62.993316650390625,
+              283.19085693359375,
+              705.3787841796875,
+              485.3743896484375
+            ]
+          ],
+          "mask_pixels": 98259
+        },
+        {
+          "prompt": "book spine",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "spine",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cover",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "spine or cover",
+          "score": 0.2677384316921234,
+          "mask_pixels": 98259,
+          "box_xyxy": [
+            62.993316650390625,
+            283.19085693359375,
+            705.3787841796875,
+            485.3743896484375
+          ]
+        }
+      ],
+      "best_score": 0.2677384316921234,
+      "mask_pixels": 98259,
+      "prompt": "book spine or cover",
+      "prompt_variants": [
+        "book spine or cover",
+        "spine or cover",
+        "book spine",
+        "spine",
+        "cover"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 6175
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "book spine or cover",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.7021990418434143,
+            0.3000918924808502,
+            0.5608377456665039,
+            0.23630300164222717
+          ],
+          "boxes_xyxy": [
+            [
+              467.436767578125,
+              63.44853973388672,
+              559.7005615234375,
+              550.196044921875
+            ],
+            [
+              207.03561401367188,
+              207.83755493164062,
+              218.0892791748047,
+              656.5916748046875
+            ],
+            [
+              206.95120239257812,
+              63.84104919433594,
+              559.13134765625,
+              701.7943115234375
+            ],
+            [
+              207.034912109375,
+              68.51158905029297,
+              473.9151306152344,
+              664.2412109375
+            ]
+          ],
+          "mask_pixels": 180360
+        },
+        {
+          "prompt": "spine or cover",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.723881185054779,
+            0.5963355898857117
+          ],
+          "boxes_xyxy": [
+            [
+              207.55870056152344,
+              63.19109344482422,
+              558.8319091796875,
+              702.4677734375
+            ],
+            [
+              467.0261535644531,
+              63.453575134277344,
+              559.708984375,
+              549.8846435546875
+            ]
+          ],
+          "mask_pixels": 155120
+        },
+        {
+          "prompt": "book spine",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.8029824495315552,
+            0.5500009655952454
+          ],
+          "boxes_xyxy": [
+            [
+              467.13616943359375,
+              63.99266052246094,
+              560.0371704101562,
+              550.2276611328125
+            ],
+            [
+              207.30447387695312,
+              209.13076782226562,
+              218.71878051757812,
+              653.045166015625
+            ]
+          ],
+          "mask_pixels": 42719
+        },
+        {
+          "prompt": "spine",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.7412874698638916,
+            0.5273131132125854
+          ],
+          "boxes_xyxy": [
+            [
+              467.044189453125,
+              63.96881103515625,
+              560.0081787109375,
+              550.3313598632812
+            ],
+            [
+              207.21566772460938,
+              209.1627197265625,
+              218.78115844726562,
+              653.1429443359375
+            ]
+          ],
+          "mask_pixels": 42558
+        },
+        {
+          "prompt": "cover",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.226338729262352
+          ],
+          "boxes_xyxy": [
+            [
+              207.7646026611328,
+              63.09111785888672,
+              558.7162475585938,
+              702.7210693359375
+            ]
+          ],
+          "mask_pixels": 132576
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "book spine",
+          "score": 0.8029824495315552,
+          "mask_pixels": 39159,
+          "box_xyxy": [
+            467.13616943359375,
+            63.99266052246094,
+            560.0371704101562,
+            550.2276611328125
+          ]
+        }
+      ],
+      "best_score": 0.8029824495315552,
+      "mask_pixels": 39159,
+      "prompt": "book spine or cover",
+      "prompt_variants": [
+        "book spine or cover",
+        "spine or cover",
+        "book spine",
+        "spine",
+        "cover"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 2108
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "book spine or cover",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.34375691413879395,
+            0.22837013006210327,
+            0.7151742577552795,
+            0.503861665725708
+          ],
+          "boxes_xyxy": [
+            [
+              207.20758056640625,
+              209.13958740234375,
+              217.98214721679688,
+              653.8582763671875
+            ],
+            [
+              205.0301055908203,
+              68.13725280761719,
+              475.09515380859375,
+              662.1663208007812
+            ],
+            [
+              467.97052001953125,
+              63.442909240722656,
+              559.843505859375,
+              551.1820068359375
+            ],
+            [
+              206.63827514648438,
+              64.20927429199219,
+              559.054931640625,
+              700.8056640625
+            ]
+          ],
+          "mask_pixels": 180425
+        },
+        {
+          "prompt": "spine or cover",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.7217497825622559,
+            0.5316007733345032
+          ],
+          "boxes_xyxy": [
+            [
+              207.6972198486328,
+              63.183311462402344,
+              558.8040771484375,
+              702.5366821289062
+            ],
+            [
+              467.5377502441406,
+              63.42466735839844,
+              559.8436889648438,
+              549.159912109375
+            ]
+          ],
+          "mask_pixels": 155697
+        },
+        {
+          "prompt": "book spine",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.7794764041900635,
+            0.5277081727981567
+          ],
+          "boxes_xyxy": [
+            [
+              467.26654052734375,
+              63.591087341308594,
+              560.3182373046875,
+              551.5720825195312
+            ],
+            [
+              207.29092407226562,
+              209.47601318359375,
+              218.52792358398438,
+              651.40625
+            ]
+          ],
+          "mask_pixels": 42570
+        },
+        {
+          "prompt": "spine",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.683844268321991,
+            0.4893040359020233
+          ],
+          "boxes_xyxy": [
+            [
+              467.27667236328125,
+              63.71955871582031,
+              560.3255004882812,
+              551.721923828125
+            ],
+            [
+              207.20947265625,
+              209.52310180664062,
+              218.45118713378906,
+              651.624267578125
+            ]
+          ],
+          "mask_pixels": 42210
+        },
+        {
+          "prompt": "cover",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.25923436880111694
+          ],
+          "boxes_xyxy": [
+            [
+              207.9580078125,
+              63.181068420410156,
+              558.6414184570312,
+              702.16015625
+            ]
+          ],
+          "mask_pixels": 123928
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "book spine",
+          "score": 0.7794764041900635,
+          "mask_pixels": 39076,
+          "box_xyxy": [
+            467.26654052734375,
+            63.591087341308594,
+            560.3182373046875,
+            551.5720825195312
+          ]
+        }
+      ],
+      "best_score": 0.7794764041900635,
+      "mask_pixels": 39076,
+      "prompt": "book spine or cover",
+      "prompt_variants": [
+        "book spine or cover",
+        "spine or cover",
+        "book spine",
+        "spine",
+        "cover"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 2103
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "book spine or cover",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.25251123309135437,
+            0.6687683463096619,
+            0.5043383240699768
+          ],
+          "boxes_xyxy": [
+            [
+              207.8790283203125,
+              209.93252563476562,
+              221.85614013671875,
+              652.9053955078125
+            ],
+            [
+              208.5915985107422,
+              63.561012268066406,
+              559.3397216796875,
+              703.6988525390625
+            ],
+            [
+              469.119873046875,
+              64.6900863647461,
+              559.784423828125,
+              548.577880859375
+            ]
+          ],
+          "mask_pixels": 147644
+        },
+        {
+          "prompt": "spine or cover",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.8135069608688354,
+            0.34930211305618286
+          ],
+          "boxes_xyxy": [
+            [
+              208.687255859375,
+              63.34412384033203,
+              559.2936401367188,
+              704.0835571289062
+            ],
+            [
+              470.066650390625,
+              65.2686767578125,
+              559.3805541992188,
+              545.11669921875
+            ]
+          ],
+          "mask_pixels": 157072
+        },
+        {
+          "prompt": "book spine",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.5392453074455261,
+            0.3034670054912567,
+            0.5381678342819214,
+            0.3571438789367676
+          ],
+          "boxes_xyxy": [
+            [
+              469.0122985839844,
+              65.32958221435547,
+              559.9652709960938,
+              549.706787109375
+            ],
+            [
+              551.5697021484375,
+              103.43280029296875,
+              560.8338623046875,
+              555.6809692382812
+            ],
+            [
+              208.17242431640625,
+              211.60189819335938,
+              221.85543823242188,
+              652.41064453125
+            ],
+            [
+              466.95849609375,
+              63.298370361328125,
+              480.0582275390625,
+              517.5341796875
+            ]
+          ],
+          "mask_pixels": 45021
+        },
+        {
+          "prompt": "spine",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.500546932220459,
+            0.31200355291366577,
+            0.5221799612045288,
+            0.37308067083358765
+          ],
+          "boxes_xyxy": [
+            [
+              469.385009765625,
+              65.4935531616211,
+              559.6324462890625,
+              549.1968994140625
+            ],
+            [
+              551.2520751953125,
+              105.69335174560547,
+              560.9512329101562,
+              555.092041015625
+            ],
+            [
+              208.19766235351562,
+              211.65036010742188,
+              221.68719482421875,
+              652.2713012695312
+            ],
+            [
+              466.78094482421875,
+              63.44029998779297,
+              480.01513671875,
+              514.3189697265625
+            ]
+          ],
+          "mask_pixels": 45014
+        },
+        {
+          "prompt": "cover",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.3131438195705414
+          ],
+          "boxes_xyxy": [
+            [
+              208.8450164794922,
+              63.936561584472656,
+              559.4786376953125,
+              703.5960693359375
+            ]
+          ],
+          "mask_pixels": 124344
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "spine or cover",
+          "score": 0.8135069608688354,
+          "mask_pixels": 157047,
+          "box_xyxy": [
+            208.687255859375,
+            63.34412384033203,
+            559.2936401367188,
+            704.0835571289062
+          ]
+        }
+      ],
+      "best_score": 0.8135069608688354,
+      "mask_pixels": 157047,
+      "prompt": "book spine or cover",
+      "prompt_variants": [
+        "book spine or cover",
+        "spine or cover",
+        "book spine",
+        "spine",
+        "cover"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 7030
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "book spine or cover",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.2239389717578888,
+            0.657095193862915,
+            0.24159270524978638,
+            0.48785126209259033
+          ],
+          "boxes_xyxy": [
+            [
+              546.63525390625,
+              213.7364959716797,
+              559.8623657226562,
+              654.3331909179688
+            ],
+            [
+              208.33065795898438,
+              63.415008544921875,
+              558.6498413085938,
+              704.3455810546875
+            ],
+            [
+              218.7039794921875,
+              507.03802490234375,
+              550.2050170898438,
+              697.0580444335938
+            ],
+            [
+              208.20355224609375,
+              64.7274169921875,
+              300.74481201171875,
+              548.2840576171875
+            ]
+          ],
+          "mask_pixels": 157566
+        },
+        {
+          "prompt": "spine or cover",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.7976211905479431,
+            0.25855547189712524,
+            0.3321261703968048
+          ],
+          "boxes_xyxy": [
+            [
+              208.7333984375,
+              63.496925354003906,
+              558.9570922851562,
+              704.6529541015625
+            ],
+            [
+              219.533935546875,
+              507.0286865234375,
+              549.8080444335938,
+              696.4727172851562
+            ],
+            [
+              208.4810028076172,
+              64.98623657226562,
+              300.7101745605469,
+              545.1629638671875
+            ]
+          ],
+          "mask_pixels": 179285
+        },
+        {
+          "prompt": "book spine",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.3231257200241089,
+            0.4037477970123291,
+            0.5391198396682739,
+            0.25942859053611755
+          ],
+          "boxes_xyxy": [
+            [
+              207.41940307617188,
+              98.60694122314453,
+              218.42349243164062,
+              550.52099609375
+            ],
+            [
+              545.4530029296875,
+              211.43038940429688,
+              559.7672119140625,
+              656.447998046875
+            ],
+            [
+              207.9635009765625,
+              65.14038848876953,
+              300.25323486328125,
+              552.06640625
+            ],
+            [
+              289.1125183105469,
+              64.33179473876953,
+              301.37139892578125,
+              512.9228515625
+            ]
+          ],
+          "mask_pixels": 45671
+        },
+        {
+          "prompt": "spine",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.34921666979789734,
+            0.46772587299346924,
+            0.2561514973640442,
+            0.31505367159843445
+          ],
+          "boxes_xyxy": [
+            [
+              545.5191650390625,
+              211.2509765625,
+              559.811279296875,
+              655.9612426757812
+            ],
+            [
+              208.30044555664062,
+              65.61552429199219,
+              299.6023254394531,
+              551.9424438476562
+            ],
+            [
+              288.64459228515625,
+              64.25212097167969,
+              301.2105712890625,
+              511.212890625
+            ],
+            [
+              207.49261474609375,
+              102.33824157714844,
+              218.59585571289062,
+              550.0009765625
+            ]
+          ],
+          "mask_pixels": 45416
+        },
+        {
+          "prompt": "cover",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.29156243801116943
+          ],
+          "boxes_xyxy": [
+            [
+              209.17286682128906,
+              64.1308364868164,
+              558.8623046875,
+              704.0030517578125
+            ]
+          ],
+          "mask_pixels": 117766
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "spine or cover",
+          "score": 0.7976211905479431,
+          "mask_pixels": 156681,
+          "box_xyxy": [
+            208.7333984375,
+            63.496925354003906,
+            558.9570922851562,
+            704.6529541015625
+          ]
+        }
+      ],
+      "best_score": 0.7976211905479431,
+      "mask_pixels": 156681,
+      "prompt": "book spine or cover",
+      "prompt_variants": [
+        "book spine or cover",
+        "spine or cover",
+        "book spine",
+        "spine",
+        "cover"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 6928
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "book spine or cover",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.25986310839653015,
+            0.23967809975147247,
+            0.42970409989356995
+          ],
+          "boxes_xyxy": [
+            [
+              640.3692626953125,
+              136.4285430908203,
+              660.0016479492188,
+              697.3391723632812
+            ],
+            [
+              107.79556274414062,
+              136.37342834472656,
+              127.4428939819336,
+              696.3826293945312
+            ],
+            [
+              108.22386932373047,
+              62.033042907714844,
+              659.4254150390625,
+              703.4937744140625
+            ]
+          ],
+          "mask_pixels": 32494
+        },
+        {
+          "prompt": "spine or cover",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.27064958214759827,
+            0.2680351734161377,
+            0.4781133830547333,
+            0.27615851163864136
+          ],
+          "boxes_xyxy": [
+            [
+              640.3779296875,
+              137.54400634765625,
+              660.200439453125,
+              696.5023193359375
+            ],
+            [
+              107.67243957519531,
+              137.49932861328125,
+              127.33509826660156,
+              693.324951171875
+            ],
+            [
+              108.6133804321289,
+              61.59306335449219,
+              659.283935546875,
+              703.6873779296875
+            ],
+            [
+              117.95718383789062,
+              73.96024322509766,
+              647.93017578125,
+              177.042724609375
+            ]
+          ],
+          "mask_pixels": 79444
+        },
+        {
+          "prompt": "book spine",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.28300973773002625,
+            0.3049408495426178
+          ],
+          "boxes_xyxy": [
+            [
+              640.3822631835938,
+              138.223876953125,
+              660.212158203125,
+              698.3033447265625
+            ],
+            [
+              108.00692749023438,
+              137.74923706054688,
+              128.10252380371094,
+              697.917724609375
+            ]
+          ],
+          "mask_pixels": 18036
+        },
+        {
+          "prompt": "spine",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.3281968832015991,
+            0.36364617943763733
+          ],
+          "boxes_xyxy": [
+            [
+              640.3639526367188,
+              138.84425354003906,
+              660.3246459960938,
+              698.034423828125
+            ],
+            [
+              107.95018005371094,
+              137.65310668945312,
+              128.10977172851562,
+              696.7615356445312
+            ]
+          ],
+          "mask_pixels": 17799
+        },
+        {
+          "prompt": "cover",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "spine or cover",
+          "score": 0.4781133830547333,
+          "mask_pixels": 26641,
+          "box_xyxy": [
+            108.6133804321289,
+            61.59306335449219,
+            659.283935546875,
+            703.6873779296875
+          ]
+        }
+      ],
+      "best_score": 0.4781133830547333,
+      "mask_pixels": 26641,
+      "prompt": "book spine or cover",
+      "prompt_variants": [
+        "book spine or cover",
+        "spine or cover",
+        "book spine",
+        "spine",
+        "cover"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 2414
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "book spine or cover",
+          "num_masks": 5,
+          "kept_masks": 5,
+          "scores": [
+            0.4612952470779419,
+            0.23307278752326965,
+            0.4257079064846039,
+            0.6316512227058411,
+            0.22094200551509857
+          ],
+          "boxes_xyxy": [
+            [
+              108.84757995605469,
+              137.46868896484375,
+              131.65830993652344,
+              701.92333984375
+            ],
+            [
+              627.992919921875,
+              75.26424407958984,
+              658.9417724609375,
+              698.3281860351562
+            ],
+            [
+              637.9903564453125,
+              136.8929443359375,
+              659.5658569335938,
+              700.648193359375
+            ],
+            [
+              108.76052856445312,
+              63.22979736328125,
+              658.6921997070312,
+              704.194580078125
+            ],
+            [
+              117.99517822265625,
+              73.85252380371094,
+              648.4425048828125,
+              179.02325439453125
+            ]
+          ],
+          "mask_pixels": 82402
+        },
+        {
+          "prompt": "spine or cover",
+          "num_masks": 5,
+          "kept_masks": 5,
+          "scores": [
+            0.2203916758298874,
+            0.4060859680175781,
+            0.45841237902641296,
+            0.6862598061561584,
+            0.26132646203041077
+          ],
+          "boxes_xyxy": [
+            [
+              629.7281494140625,
+              72.50404357910156,
+              658.9510498046875,
+              697.1497802734375
+            ],
+            [
+              638.4747314453125,
+              137.5183868408203,
+              659.7108154296875,
+              698.9976806640625
+            ],
+            [
+              108.87957763671875,
+              136.61544799804688,
+              131.52450561523438,
+              701.6889038085938
+            ],
+            [
+              109.04164123535156,
+              63.02423858642578,
+              658.5052490234375,
+              704.3289794921875
+            ],
+            [
+              118.55669403076172,
+              75.51762390136719,
+              648.255126953125,
+              179.32337951660156
+            ]
+          ],
+          "mask_pixels": 80813
+        },
+        {
+          "prompt": "book spine",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.531019926071167,
+            0.3366715610027313,
+            0.6756008863449097,
+            0.39659446477890015
+          ],
+          "boxes_xyxy": [
+            [
+              636.535400390625,
+              139.19415283203125,
+              659.061767578125,
+              702.0394287109375
+            ],
+            [
+              645.7691650390625,
+              141.25421142578125,
+              659.93212890625,
+              690.384521484375
+            ],
+            [
+              109.10162353515625,
+              140.5655517578125,
+              131.19647216796875,
+              702.2261352539062
+            ],
+            [
+              634.7587890625,
+              63.872703552246094,
+              658.5214233398438,
+              703.7945556640625
+            ]
+          ],
+          "mask_pixels": 21165
+        },
+        {
+          "prompt": "spine",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.5174701809883118,
+            0.3492107689380646,
+            0.6528728604316711,
+            0.20701755583286285
+          ],
+          "boxes_xyxy": [
+            [
+              636.8159790039062,
+              139.9329071044922,
+              659.031494140625,
+              701.3187255859375
+            ],
+            [
+              646.258056640625,
+              141.48684692382812,
+              659.732177734375,
+              685.5711669921875
+            ],
+            [
+              109.04138946533203,
+              140.40719604492188,
+              130.94277954101562,
+              701.9470825195312
+            ],
+            [
+              634.2222900390625,
+              62.7158203125,
+              658.6250610351562,
+              703.5126953125
+            ]
+          ],
+          "mask_pixels": 20892
+        },
+        {
+          "prompt": "cover",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "spine or cover",
+          "score": 0.6862598061561584,
+          "mask_pixels": 27883,
+          "box_xyxy": [
+            109.04164123535156,
+            63.02423858642578,
+            658.5052490234375,
+            704.3289794921875
+          ]
+        }
+      ],
+      "best_score": 0.6862598061561584,
+      "mask_pixels": 27883,
+      "prompt": "book spine or cover",
+      "prompt_variants": [
+        "book spine or cover",
+        "spine or cover",
+        "book spine",
+        "spine",
+        "cover"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 2561
+    }
+  },
+  "num_vertices": 26813,
+  "raw_positive_vertices": 14636,
+  "connected_positive_vertices": 10623,
+  "filled_positive_vertices": 11016,
+  "kept_component_sizes": [
+    2318,
+    1444,
+    1252,
+    1128,
+    1126,
+    814,
+    722,
+    303,
+    297,
+    287,
+    284,
+    237,
+    212,
+    199
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 11016,
+  "clean_v2_negative_vertices": 1390,
+  "clean_v2_ignore_vertices": 14407,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/grasp_affordance_clean_v2.npz"
+}

@@ -1,0 +1,779 @@
+{
+  "asset_id": "dextoolbench/brush/blue_brush",
+  "label": "blue_brush",
+  "mesh_path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/brush/blue_brush/blue_brush.obj",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush",
+  "positive_prompt": "blue brush handle",
+  "positive_prompt_variants": [
+    "blue brush handle",
+    "handle"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "blue brush handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9258723258972168
+          ],
+          "boxes_xyxy": [
+            [
+              62.468719482421875,
+              365.705810546875,
+              443.6329345703125,
+              410.207763671875
+            ]
+          ],
+          "mask_pixels": 14297
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.8258047699928284,
+            0.21940602362155914
+          ],
+          "boxes_xyxy": [
+            [
+              62.3206787109375,
+              365.6227111816406,
+              443.68426513671875,
+              410.3145446777344
+            ],
+            [
+              441.4710388183594,
+              345.3565673828125,
+              494.98681640625,
+              428.188720703125
+            ]
+          ],
+          "mask_pixels": 18470
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "blue brush handle",
+          "score": 0.9258723258972168,
+          "mask_pixels": 14297,
+          "box_xyxy": [
+            62.468719482421875,
+            365.705810546875,
+            443.6329345703125,
+            410.207763671875
+          ]
+        }
+      ],
+      "best_score": 0.9258723258972168,
+      "mask_pixels": 14297,
+      "prompt": "blue brush handle",
+      "prompt_variants": [
+        "blue brush handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 327
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "blue brush handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9290720224380493
+          ],
+          "boxes_xyxy": [
+            [
+              323.859619140625,
+              366.3341064453125,
+              705.3296508789062,
+              410.078369140625
+            ]
+          ],
+          "mask_pixels": 14295
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8211432099342346
+          ],
+          "boxes_xyxy": [
+            [
+              323.33111572265625,
+              366.23187255859375,
+              705.361328125,
+              410.2722473144531
+            ]
+          ],
+          "mask_pixels": 14309
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "blue brush handle",
+          "score": 0.9290720224380493,
+          "mask_pixels": 14295,
+          "box_xyxy": [
+            323.859619140625,
+            366.3341064453125,
+            705.3296508789062,
+            410.078369140625
+          ]
+        }
+      ],
+      "best_score": 0.9290720224380493,
+      "mask_pixels": 14295,
+      "prompt": "blue brush handle",
+      "prompt_variants": [
+        "blue brush handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 315
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "blue brush handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "blue brush handle",
+      "prompt_variants": [
+        "blue brush handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "blue brush handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "blue brush handle",
+      "prompt_variants": [
+        "blue brush handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "blue brush handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8038307428359985
+          ],
+          "boxes_xyxy": [
+            [
+              62.315975189208984,
+              326.7966003417969,
+              434.84112548828125,
+              454.8928527832031
+            ]
+          ],
+          "mask_pixels": 14568
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.24335449934005737,
+            0.25712284445762634,
+            0.7908957600593567
+          ],
+          "boxes_xyxy": [
+            [
+              443.2737121582031,
+              218.86024475097656,
+              495.0055847167969,
+              555.9736938476562
+            ],
+            [
+              68.2882080078125,
+              363.7767028808594,
+              341.3963623046875,
+              421.2159423828125
+            ],
+            [
+              62.225074768066406,
+              330.0489501953125,
+              434.4696350097656,
+              450.12164306640625
+            ]
+          ],
+          "mask_pixels": 40059
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "blue brush handle",
+          "score": 0.8038307428359985,
+          "mask_pixels": 14568,
+          "box_xyxy": [
+            62.315975189208984,
+            326.7966003417969,
+            434.84112548828125,
+            454.8928527832031
+          ]
+        }
+      ],
+      "best_score": 0.8038307428359985,
+      "mask_pixels": 14568,
+      "prompt": "blue brush handle",
+      "prompt_variants": [
+        "blue brush handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 354
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "blue brush handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8938419222831726
+          ],
+          "boxes_xyxy": [
+            [
+              62.23298263549805,
+              299.7303771972656,
+              443.62890625,
+              462.93048095703125
+            ]
+          ],
+          "mask_pixels": 25423
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.3447190821170807,
+            0.8127089142799377,
+            0.24757346510887146
+          ],
+          "boxes_xyxy": [
+            [
+              442.160888671875,
+              212.050537109375,
+              495.6259460449219,
+              549.0807495117188
+            ],
+            [
+              62.40696716308594,
+              300.21234130859375,
+              443.55548095703125,
+              462.36077880859375
+            ],
+            [
+              61.537193298339844,
+              209.115234375,
+              496.5539245605469,
+              550.7796630859375
+            ]
+          ],
+          "mask_pixels": 42798
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "blue brush handle",
+          "score": 0.8938419222831726,
+          "mask_pixels": 25423,
+          "box_xyxy": [
+            62.23298263549805,
+            299.7303771972656,
+            443.62890625,
+            462.93048095703125
+          ]
+        }
+      ],
+      "best_score": 0.8938419222831726,
+      "mask_pixels": 25423,
+      "prompt": "blue brush handle",
+      "prompt_variants": [
+        "blue brush handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 449
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "blue brush handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9685413837432861
+          ],
+          "boxes_xyxy": [
+            [
+              62.37271499633789,
+              398.28759765625,
+              388.4759521484375,
+              596.5934448242188
+            ]
+          ],
+          "mask_pixels": 22229
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.943042516708374
+          ],
+          "boxes_xyxy": [
+            [
+              62.30635070800781,
+              398.2814025878906,
+              388.37518310546875,
+              596.4992065429688
+            ]
+          ],
+          "mask_pixels": 22232
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "blue brush handle",
+          "score": 0.9685413837432861,
+          "mask_pixels": 22229,
+          "box_xyxy": [
+            62.37271499633789,
+            398.28759765625,
+            388.4759521484375,
+            596.5934448242188
+          ]
+        }
+      ],
+      "best_score": 0.9685413837432861,
+      "mask_pixels": 22229,
+      "prompt": "blue brush handle",
+      "prompt_variants": [
+        "blue brush handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 360
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "blue brush handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9740345478057861
+          ],
+          "boxes_xyxy": [
+            [
+              326.5438232421875,
+              191.70968627929688,
+              706.429443359375,
+              422.53997802734375
+            ]
+          ],
+          "mask_pixels": 25243
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9529937505722046
+          ],
+          "boxes_xyxy": [
+            [
+              326.2015380859375,
+              191.69338989257812,
+              706.5581665039062,
+              422.478515625
+            ]
+          ],
+          "mask_pixels": 25268
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "blue brush handle",
+          "score": 0.9740345478057861,
+          "mask_pixels": 25243,
+          "box_xyxy": [
+            326.5438232421875,
+            191.70968627929688,
+            706.429443359375,
+            422.53997802734375
+          ]
+        }
+      ],
+      "best_score": 0.9740345478057861,
+      "mask_pixels": 25243,
+      "prompt": "blue brush handle",
+      "prompt_variants": [
+        "blue brush handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 498
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "blue brush handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.97059166431427
+          ],
+          "boxes_xyxy": [
+            [
+              61.713409423828125,
+              398.0902099609375,
+              380.5921325683594,
+              583.7970581054688
+            ]
+          ],
+          "mask_pixels": 20139
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9422708749771118
+          ],
+          "boxes_xyxy": [
+            [
+              61.729248046875,
+              398.1715393066406,
+              380.4017333984375,
+              583.648681640625
+            ]
+          ],
+          "mask_pixels": 20133
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "blue brush handle",
+          "score": 0.97059166431427,
+          "mask_pixels": 20139,
+          "box_xyxy": [
+            61.713409423828125,
+            398.0902099609375,
+            380.5921325683594,
+            583.7970581054688
+          ]
+        }
+      ],
+      "best_score": 0.97059166431427,
+      "mask_pixels": 20139,
+      "prompt": "blue brush handle",
+      "prompt_variants": [
+        "blue brush handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 357
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "blue brush handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9691844582557678
+          ],
+          "boxes_xyxy": [
+            [
+              62.10557556152344,
+              174.08236694335938,
+              452.0125732421875,
+              421.48236083984375
+            ]
+          ],
+          "mask_pixels": 27556
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9426406025886536
+          ],
+          "boxes_xyxy": [
+            [
+              61.93004608154297,
+              174.20021057128906,
+              451.9787292480469,
+              421.2032470703125
+            ]
+          ],
+          "mask_pixels": 27599
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "blue brush handle",
+          "score": 0.9691844582557678,
+          "mask_pixels": 27556,
+          "box_xyxy": [
+            62.10557556152344,
+            174.08236694335938,
+            452.0125732421875,
+            421.48236083984375
+          ]
+        }
+      ],
+      "best_score": 0.9691844582557678,
+      "mask_pixels": 27556,
+      "prompt": "blue brush handle",
+      "prompt_variants": [
+        "blue brush handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 497
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "blue brush handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8660973906517029
+          ],
+          "boxes_xyxy": [
+            [
+              62.057762145996094,
+              348.696533203125,
+              440.7615966796875,
+              445.91839599609375
+            ]
+          ],
+          "mask_pixels": 16431
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.8310335278511047,
+            0.2315455824136734
+          ],
+          "boxes_xyxy": [
+            [
+              62.301429748535156,
+              352.24212646484375,
+              440.3962097167969,
+              443.84197998046875
+            ],
+            [
+              442.61383056640625,
+              249.2201385498047,
+              494.88873291015625,
+              525.2402954101562
+            ]
+          ],
+          "mask_pixels": 35438
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "blue brush handle",
+          "score": 0.8660973906517029,
+          "mask_pixels": 16431,
+          "box_xyxy": [
+            62.057762145996094,
+            348.696533203125,
+            440.7615966796875,
+            445.91839599609375
+          ]
+        }
+      ],
+      "best_score": 0.8660973906517029,
+      "mask_pixels": 16431,
+      "prompt": "blue brush handle",
+      "prompt_variants": [
+        "blue brush handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 384
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "blue brush handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9020571708679199
+          ],
+          "boxes_xyxy": [
+            [
+              326.33831787109375,
+              349.82061767578125,
+              705.419921875,
+              446.7058410644531
+            ]
+          ],
+          "mask_pixels": 21835
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8719959259033203
+          ],
+          "boxes_xyxy": [
+            [
+              326.2039489746094,
+              350.463623046875,
+              705.501708984375,
+              445.87738037109375
+            ]
+          ],
+          "mask_pixels": 21720
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "blue brush handle",
+          "score": 0.9020571708679199,
+          "mask_pixels": 21835,
+          "box_xyxy": [
+            326.33831787109375,
+            349.82061767578125,
+            705.419921875,
+            446.7058410644531
+          ]
+        }
+      ],
+      "best_score": 0.9020571708679199,
+      "mask_pixels": 21835,
+      "prompt": "blue brush handle",
+      "prompt_variants": [
+        "blue brush handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 430
+    }
+  },
+  "num_vertices": 5983,
+  "raw_positive_vertices": 635,
+  "connected_positive_vertices": 635,
+  "filled_positive_vertices": 664,
+  "kept_component_sizes": [
+    129,
+    120,
+    99,
+    96,
+    35,
+    34,
+    29,
+    27,
+    23,
+    23,
+    20
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 664,
+  "clean_v2_negative_vertices": 3889,
+  "clean_v2_ignore_vertices": 1430,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/brush/blue_brush/grasp_affordance_clean_v2.npz"
+}

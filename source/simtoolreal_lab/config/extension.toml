@@ -1,0 +1,17 @@
+[package]
+version = "0.1.0"
+title = "SimToolReal IsaacLab Tasks"
+description = "IsaacLab migration scaffold for Franka + BrainCo Revo2 grasping tasks."
+readme = "../../../README.md"
+repository = ""
+category = "robotics"
+keywords = ["robotics", "isaaclab", "revo2", "franka", "grasping"]
+
+[dependencies]
+"isaaclab" = {}
+
+[core]
+reloadable = false
+
+[[python.module]]
+name = "simtoolreal_lab"

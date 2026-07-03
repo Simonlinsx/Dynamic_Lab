@@ -1,0 +1,793 @@
+{
+  "asset_id": "domino20/screwdriver",
+  "label": "screwdriver",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/032_screwdriver/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver",
+  "positive_prompt": "screwdriver handle",
+  "positive_prompt_variants": [
+    "screwdriver handle",
+    "handle"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "screwdriver handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.20407482981681824,
+            0.21041584014892578
+          ],
+          "boxes_xyxy": [
+            [
+              646.0625610351562,
+              277.0152587890625,
+              706.358154296875,
+              480.2817077636719
+            ],
+            [
+              61.62071228027344,
+              279.6273193359375,
+              129.60182189941406,
+              486.097412109375
+            ]
+          ],
+          "mask_pixels": 18274
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": true,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.21041584014892578,
+          "mask_pixels": 9575,
+          "box_xyxy": [
+            61.62071228027344,
+            279.6273193359375,
+            129.60182189941406,
+            486.097412109375
+          ]
+        }
+      ],
+      "best_score": 0.21041584014892578,
+      "mask_pixels": 9575,
+      "prompt": "screwdriver handle",
+      "prompt_variants": [
+        "screwdriver handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 194
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "screwdriver handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "screwdriver handle",
+      "prompt_variants": [
+        "screwdriver handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "screwdriver handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8417420983314514
+          ],
+          "boxes_xyxy": [
+            [
+              61.68668746948242,
+              336.31854248046875,
+              388.917236328125,
+              431.81591796875
+            ]
+          ],
+          "mask_pixels": 25391
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8233801126480103
+          ],
+          "boxes_xyxy": [
+            [
+              61.80352020263672,
+              336.1548767089844,
+              388.329345703125,
+              431.6765441894531
+            ]
+          ],
+          "mask_pixels": 25287
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": true,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "screwdriver handle",
+          "score": 0.8417420983314514,
+          "mask_pixels": 25391,
+          "box_xyxy": [
+            61.68668746948242,
+            336.31854248046875,
+            388.917236328125,
+            431.81591796875
+          ]
+        }
+      ],
+      "best_score": 0.8417420983314514,
+      "mask_pixels": 25391,
+      "prompt": "screwdriver handle",
+      "prompt_variants": [
+        "screwdriver handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 3079
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "screwdriver handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8814534544944763
+          ],
+          "boxes_xyxy": [
+            [
+              381.2615661621094,
+              336.1625061035156,
+              706.0933837890625,
+              431.7686462402344
+            ]
+          ],
+          "mask_pixels": 25369
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8912814855575562
+          ],
+          "boxes_xyxy": [
+            [
+              381.0876159667969,
+              336.09466552734375,
+              706.2328491210938,
+              431.68902587890625
+            ]
+          ],
+          "mask_pixels": 25335
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": true,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.8912814855575562,
+          "mask_pixels": 25335,
+          "box_xyxy": [
+            381.0876159667969,
+            336.09466552734375,
+            706.2328491210938,
+            431.68902587890625
+          ]
+        }
+      ],
+      "best_score": 0.8912814855575562,
+      "mask_pixels": 25335,
+      "prompt": "screwdriver handle",
+      "prompt_variants": [
+        "screwdriver handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 3049
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "screwdriver handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8259794116020203
+          ],
+          "boxes_xyxy": [
+            [
+              335.6815185546875,
+              380.0828857421875,
+              432.2496337890625,
+              706.800537109375
+            ]
+          ],
+          "mask_pixels": 25368
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8200433254241943
+          ],
+          "boxes_xyxy": [
+            [
+              335.6839599609375,
+              381.3955993652344,
+              432.3017578125,
+              706.939453125
+            ]
+          ],
+          "mask_pixels": 25198
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": true,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "screwdriver handle",
+          "score": 0.8259794116020203,
+          "mask_pixels": 25368,
+          "box_xyxy": [
+            335.6815185546875,
+            380.0828857421875,
+            432.2496337890625,
+            706.800537109375
+          ]
+        }
+      ],
+      "best_score": 0.8259794116020203,
+      "mask_pixels": 25368,
+      "prompt": "screwdriver handle",
+      "prompt_variants": [
+        "screwdriver handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 3016
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "screwdriver handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.822485625743866
+          ],
+          "boxes_xyxy": [
+            [
+              335.83892822265625,
+              61.55781555175781,
+              432.02667236328125,
+              387.8692626953125
+            ]
+          ],
+          "mask_pixels": 25397
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8230640888214111
+          ],
+          "boxes_xyxy": [
+            [
+              335.83294677734375,
+              61.48916244506836,
+              432.0478820800781,
+              387.3082580566406
+            ]
+          ],
+          "mask_pixels": 25349
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": true,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.8230640888214111,
+          "mask_pixels": 25349,
+          "box_xyxy": [
+            335.83294677734375,
+            61.48916244506836,
+            432.0478820800781,
+            387.3082580566406
+          ]
+        }
+      ],
+      "best_score": 0.8230640888214111,
+      "mask_pixels": 25349,
+      "prompt": "screwdriver handle",
+      "prompt_variants": [
+        "screwdriver handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 2966
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "screwdriver handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.8503914475440979,
+            0.20179332792758942,
+            0.2173861414194107
+          ],
+          "boxes_xyxy": [
+            [
+              344.95355224609375,
+              332.0045166015625,
+              705.835205078125,
+              583.1478271484375
+            ],
+            [
+              60.53068542480469,
+              187.12779235839844,
+              704.3396606445312,
+              582.204833984375
+            ],
+            [
+              61.12606430053711,
+              186.04808044433594,
+              380.9840087890625,
+              380.9770202636719
+            ]
+          ],
+          "mask_pixels": 49833
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.735051691532135
+          ],
+          "boxes_xyxy": [
+            [
+              344.77947998046875,
+              331.9111328125,
+              705.912841796875,
+              583.3572998046875
+            ]
+          ],
+          "mask_pixels": 39988
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": true,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "screwdriver handle",
+          "score": 0.8503914475440979,
+          "mask_pixels": 40044,
+          "box_xyxy": [
+            344.95355224609375,
+            332.0045166015625,
+            705.835205078125,
+            583.1478271484375
+          ]
+        }
+      ],
+      "best_score": 0.8503914475440979,
+      "mask_pixels": 40044,
+      "prompt": "screwdriver handle",
+      "prompt_variants": [
+        "screwdriver handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 3787
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "screwdriver handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.8308676481246948,
+            0.23605778813362122,
+            0.2328009307384491
+          ],
+          "boxes_xyxy": [
+            [
+              345.14642333984375,
+              332.07916259765625,
+              705.5736694335938,
+              583.2705688476562
+            ],
+            [
+              60.845558166503906,
+              187.7823944091797,
+              704.62353515625,
+              582.18505859375
+            ],
+            [
+              61.38454055786133,
+              186.06443786621094,
+              380.19903564453125,
+              380.86334228515625
+            ]
+          ],
+          "mask_pixels": 49816
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.754315972328186
+          ],
+          "boxes_xyxy": [
+            [
+              344.9098205566406,
+              331.89691162109375,
+              705.7032470703125,
+              583.384521484375
+            ]
+          ],
+          "mask_pixels": 40009
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": true,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "screwdriver handle",
+          "score": 0.8308676481246948,
+          "mask_pixels": 40040,
+          "box_xyxy": [
+            345.14642333984375,
+            332.07916259765625,
+            705.5736694335938,
+            583.2705688476562
+          ]
+        }
+      ],
+      "best_score": 0.8308676481246948,
+      "mask_pixels": 40040,
+      "prompt": "screwdriver handle",
+      "prompt_variants": [
+        "screwdriver handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 3794
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "screwdriver handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8690745830535889
+          ],
+          "boxes_xyxy": [
+            [
+              61.46868896484375,
+              184.8555450439453,
+              422.4556884765625,
+              436.12945556640625
+            ]
+          ],
+          "mask_pixels": 40760
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8219506144523621
+          ],
+          "boxes_xyxy": [
+            [
+              61.3084831237793,
+              184.611083984375,
+              422.5456237792969,
+              436.1348876953125
+            ]
+          ],
+          "mask_pixels": 40728
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": true,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "screwdriver handle",
+          "score": 0.8690745830535889,
+          "mask_pixels": 40760,
+          "box_xyxy": [
+            61.46868896484375,
+            184.8555450439453,
+            422.4556884765625,
+            436.12945556640625
+          ]
+        }
+      ],
+      "best_score": 0.8690745830535889,
+      "mask_pixels": 40760,
+      "prompt": "screwdriver handle",
+      "prompt_variants": [
+        "screwdriver handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 3539
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "screwdriver handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8903687596321106
+          ],
+          "boxes_xyxy": [
+            [
+              345.4730224609375,
+              184.51370239257812,
+              706.0899658203125,
+              436.65380859375
+            ]
+          ],
+          "mask_pixels": 40748
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9003602266311646
+          ],
+          "boxes_xyxy": [
+            [
+              345.57672119140625,
+              184.62448120117188,
+              706.1975708007812,
+              436.65496826171875
+            ]
+          ],
+          "mask_pixels": 40755
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": true,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.9003602266311646,
+          "mask_pixels": 40755,
+          "box_xyxy": [
+            345.57672119140625,
+            184.62448120117188,
+            706.1975708007812,
+            436.65496826171875
+          ]
+        }
+      ],
+      "best_score": 0.9003602266311646,
+      "mask_pixels": 40755,
+      "prompt": "screwdriver handle",
+      "prompt_variants": [
+        "screwdriver handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 3550
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "screwdriver handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.5418868660926819
+          ],
+          "boxes_xyxy": [
+            [
+              317.79412841796875,
+              347.8124084472656,
+              450.2196044921875,
+              705.880615234375
+            ]
+          ],
+          "mask_pixels": 36060
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.6175206899642944
+          ],
+          "boxes_xyxy": [
+            [
+              317.7548828125,
+              348.12957763671875,
+              450.2308044433594,
+              706.1783447265625
+            ]
+          ],
+          "mask_pixels": 37550
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": true,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.6175206899642944,
+          "mask_pixels": 37550,
+          "box_xyxy": [
+            317.7548828125,
+            348.12957763671875,
+            450.2308044433594,
+            706.1783447265625
+          ]
+        }
+      ],
+      "best_score": 0.6175206899642944,
+      "mask_pixels": 37550,
+      "prompt": "screwdriver handle",
+      "prompt_variants": [
+        "screwdriver handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 3463
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "screwdriver handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.3359369933605194
+          ],
+          "boxes_xyxy": [
+            [
+              318.4203186035156,
+              62.7542610168457,
+              449.8294372558594,
+              416.54168701171875
+            ]
+          ],
+          "mask_pixels": 36535
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.2917215824127197
+          ],
+          "boxes_xyxy": [
+            [
+              317.77154541015625,
+              62.604732513427734,
+              450.1246032714844,
+              416.0321960449219
+            ]
+          ],
+          "mask_pixels": 36512
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": true,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "screwdriver handle",
+          "score": 0.3359369933605194,
+          "mask_pixels": 36535,
+          "box_xyxy": [
+            318.4203186035156,
+            62.7542610168457,
+            449.8294372558594,
+            416.54168701171875
+          ]
+        }
+      ],
+      "best_score": 0.3359369933605194,
+      "mask_pixels": 36535,
+      "prompt": "screwdriver handle",
+      "prompt_variants": [
+        "screwdriver handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 3678
+    }
+  },
+  "num_vertices": 9721,
+  "raw_positive_vertices": 5054,
+  "connected_positive_vertices": 4587,
+  "filled_positive_vertices": 4634,
+  "kept_component_sizes": [
+    1003,
+    970,
+    942,
+    927,
+    334,
+    231,
+    180
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 4634,
+  "clean_v2_negative_vertices": 3221,
+  "clean_v2_ignore_vertices": 1866,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/screwdriver/grasp_affordance_clean_v2.npz"
+}

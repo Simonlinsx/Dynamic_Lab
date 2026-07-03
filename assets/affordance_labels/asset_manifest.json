@@ -1,0 +1,1486 @@
+{
+  "schema_version": 1,
+  "description": "Offline affordance annotation manifest. DextoolBench 12 is stage 1; DOMINO20 is stage 2.",
+  "repo_root": "/data1/linsixu/simtoolreal_lab",
+  "domino_root": "/data1/linsixu/RoboTwin/assets/objects",
+  "stage": "all",
+  "num_assets": 32,
+  "missing_files": [],
+  "assets": [
+    {
+      "stage": "dextoolbench12",
+      "source": "dextoolbench",
+      "asset_id": "dextoolbench/brush/blue_brush",
+      "label": "blue_brush",
+      "category": "brush",
+      "urdf_path": "assets/urdf/dextoolbench/brush/blue_brush/blue_brush.urdf",
+      "visual_mesh_path": "assets/urdf/dextoolbench/brush/blue_brush/blue_brush.obj",
+      "collision_mesh_path": "assets/urdf/dextoolbench/brush/blue_brush/blue_brush.obj",
+      "annotation_dir": "assets/affordance_labels/dextoolbench/brush/blue_brush",
+      "part_vocab": [
+        "handle",
+        "bristles",
+        "head"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "blue brush handle",
+        "negative_grasp": "blue brush bristles",
+        "tool_use_surface": "blue brush bristles"
+      },
+      "files": {
+        "urdf": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/brush/blue_brush/blue_brush.urdf",
+          "size_bytes": 703
+        },
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/brush/blue_brush/blue_brush.obj",
+          "size_bytes": 601042
+        }
+      },
+      "mesh_stats": {
+        "vertex_count": 5983,
+        "face_count": 7678,
+        "bounds_min": [
+          -0.05127035,
+          -0.07966461,
+          -0.02193526
+        ],
+        "bounds_max": [
+          0.24843023,
+          0.08613053,
+          0.02485833
+        ],
+        "extent": [
+          0.29970058,
+          0.16579514,
+          0.04679359
+        ]
+      }
+    },
+    {
+      "stage": "dextoolbench12",
+      "source": "dextoolbench",
+      "asset_id": "dextoolbench/brush/red_brush",
+      "label": "red_brush",
+      "category": "brush",
+      "urdf_path": "assets/urdf/dextoolbench/brush/red_brush/red_brush.urdf",
+      "visual_mesh_path": "assets/urdf/dextoolbench/brush/red_brush/red_brush.obj",
+      "collision_mesh_path": "assets/urdf/dextoolbench/brush/red_brush/red_brush.obj",
+      "annotation_dir": "assets/affordance_labels/dextoolbench/brush/red_brush",
+      "part_vocab": [
+        "handle",
+        "bristles",
+        "head"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "red brush handle",
+        "negative_grasp": "red brush bristles",
+        "tool_use_surface": "red brush bristles"
+      },
+      "files": {
+        "urdf": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/brush/red_brush/red_brush.urdf",
+          "size_bytes": 684
+        },
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/brush/red_brush/red_brush.obj",
+          "size_bytes": 1137982
+        }
+      },
+      "mesh_stats": {
+        "vertex_count": 11953,
+        "face_count": 12825,
+        "bounds_min": [
+          -0.06772546,
+          -0.04924776,
+          -0.01379818
+        ],
+        "bounds_max": [
+          0.25142091,
+          0.04573999,
+          0.07875967
+        ],
+        "extent": [
+          0.31914637,
+          0.09498775000000001,
+          0.09255785
+        ]
+      }
+    },
+    {
+      "stage": "dextoolbench12",
+      "source": "dextoolbench",
+      "asset_id": "dextoolbench/eraser/flat_eraser",
+      "label": "flat_eraser",
+      "category": "eraser",
+      "urdf_path": "assets/urdf/dextoolbench/eraser/flat_eraser/flat_eraser.urdf",
+      "visual_mesh_path": "assets/urdf/dextoolbench/eraser/flat_eraser/flat_eraser.obj",
+      "collision_mesh_path": "assets/urdf/dextoolbench/eraser/flat_eraser/flat_eraser.obj",
+      "annotation_dir": "assets/affordance_labels/dextoolbench/eraser/flat_eraser",
+      "part_vocab": [
+        "handle",
+        "eraser_body",
+        "erasing_surface"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "flat eraser handle or side body",
+        "negative_grasp": "flat eraser erasing_surface",
+        "tool_use_surface": "flat eraser erasing_surface"
+      },
+      "files": {
+        "urdf": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/eraser/flat_eraser/flat_eraser.urdf",
+          "size_bytes": 482
+        },
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/eraser/flat_eraser/flat_eraser.obj",
+          "size_bytes": 628076
+        }
+      },
+      "mesh_stats": {
+        "vertex_count": 5434,
+        "face_count": 9634,
+        "bounds_min": [
+          -0.02749148,
+          -0.01420995,
+          -0.02480584
+        ],
+        "bounds_max": [
+          0.09750037,
+          0.0140522,
+          0.02482359
+        ],
+        "extent": [
+          0.12499185,
+          0.02826215,
+          0.04962943
+        ]
+      }
+    },
+    {
+      "stage": "dextoolbench12",
+      "source": "dextoolbench",
+      "asset_id": "dextoolbench/eraser/handle_eraser",
+      "label": "handle_eraser",
+      "category": "eraser",
+      "urdf_path": "assets/urdf/dextoolbench/eraser/handle_eraser/handle_eraser.urdf",
+      "visual_mesh_path": "assets/urdf/dextoolbench/eraser/handle_eraser/handle_eraser.obj",
+      "collision_mesh_path": "assets/urdf/dextoolbench/eraser/handle_eraser/handle_eraser.obj",
+      "annotation_dir": "assets/affordance_labels/dextoolbench/eraser/handle_eraser",
+      "part_vocab": [
+        "handle",
+        "eraser_body",
+        "erasing_surface"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "handle eraser handle or side body",
+        "negative_grasp": "handle eraser erasing_surface",
+        "tool_use_surface": "handle eraser erasing_surface"
+      },
+      "files": {
+        "urdf": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/eraser/handle_eraser/handle_eraser.urdf",
+          "size_bytes": 490
+        },
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/eraser/handle_eraser/handle_eraser.obj",
+          "size_bytes": 1587597
+        }
+      },
+      "mesh_stats": {
+        "vertex_count": 15098,
+        "face_count": 19562,
+        "bounds_min": [
+          -0.0876734,
+          -0.03381679,
+          -0.07576671
+        ],
+        "bounds_max": [
+          0.08170088,
+          0.03283698,
+          0.00662163
+        ],
+        "extent": [
+          0.16937428,
+          0.06665377,
+          0.08238834
+        ]
+      }
+    },
+    {
+      "stage": "dextoolbench12",
+      "source": "dextoolbench",
+      "asset_id": "dextoolbench/hammer/claw_hammer",
+      "label": "claw_hammer",
+      "category": "hammer",
+      "urdf_path": "assets/urdf/dextoolbench/hammer/claw_hammer/claw_hammer.urdf",
+      "visual_mesh_path": "assets/urdf/dextoolbench/hammer/claw_hammer/claw_hammer.obj",
+      "collision_mesh_path": "assets/urdf/dextoolbench/hammer/claw_hammer/claw_hammer.obj",
+      "annotation_dir": "assets/affordance_labels/dextoolbench/hammer/claw_hammer",
+      "part_vocab": [
+        "handle",
+        "head",
+        "claw",
+        "striking_face"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "claw hammer handle",
+        "negative_grasp": "claw hammer head or claw",
+        "tool_use_surface": "claw hammer striking_face or claw"
+      },
+      "files": {
+        "urdf": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/hammer/claw_hammer/claw_hammer.urdf",
+          "size_bytes": 482
+        },
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/hammer/claw_hammer/claw_hammer.obj",
+          "size_bytes": 212548
+        }
+      },
+      "mesh_stats": {
+        "vertex_count": 2012,
+        "face_count": 3138,
+        "bounds_min": [
+          -0.0523742,
+          -0.03821464,
+          -0.01443837
+        ],
+        "bounds_max": [
+          0.14262493,
+          0.04740918,
+          0.01353878
+        ],
+        "extent": [
+          0.19499913000000002,
+          0.08562382,
+          0.02797715
+        ]
+      }
+    },
+    {
+      "stage": "dextoolbench12",
+      "source": "dextoolbench",
+      "asset_id": "dextoolbench/hammer/mallet_hammer",
+      "label": "mallet_hammer",
+      "category": "hammer",
+      "urdf_path": "assets/urdf/dextoolbench/hammer/mallet_hammer/mallet_hammer.urdf",
+      "visual_mesh_path": "assets/urdf/dextoolbench/hammer/mallet_hammer/mallet_hammer.obj",
+      "collision_mesh_path": "assets/urdf/dextoolbench/hammer/mallet_hammer/mallet_hammer.obj",
+      "annotation_dir": "assets/affordance_labels/dextoolbench/hammer/mallet_hammer",
+      "part_vocab": [
+        "handle",
+        "head",
+        "claw",
+        "striking_face"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "mallet hammer handle",
+        "negative_grasp": "mallet hammer head or claw",
+        "tool_use_surface": "mallet hammer striking_face or claw"
+      },
+      "files": {
+        "urdf": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/hammer/mallet_hammer/mallet_hammer.urdf",
+          "size_bytes": 879
+        },
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/hammer/mallet_hammer/mallet_hammer.obj",
+          "size_bytes": 1129762
+        }
+      },
+      "mesh_stats": {
+        "vertex_count": 9909,
+        "face_count": 16728,
+        "bounds_min": [
+          -0.06529985,
+          -0.04640786,
+          -0.0259548
+        ],
+        "bounds_max": [
+          0.23186836,
+          0.040526,
+          0.02761419
+        ],
+        "extent": [
+          0.29716821,
+          0.08693386,
+          0.05356899
+        ]
+      }
+    },
+    {
+      "stage": "dextoolbench12",
+      "source": "dextoolbench",
+      "asset_id": "dextoolbench/marker/sharpie_marker",
+      "label": "sharpie_marker",
+      "category": "marker",
+      "urdf_path": "assets/urdf/dextoolbench/marker/sharpie_marker/sharpie_marker.urdf",
+      "visual_mesh_path": "assets/urdf/dextoolbench/marker/sharpie_marker/sharpie_marker.obj",
+      "collision_mesh_path": "assets/urdf/dextoolbench/marker/sharpie_marker/sharpie_marker.obj",
+      "annotation_dir": "assets/affordance_labels/dextoolbench/marker/sharpie_marker",
+      "part_vocab": [
+        "barrel",
+        "cap",
+        "tip"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "sharpie marker barrel",
+        "negative_grasp": "sharpie marker tip",
+        "tool_use_surface": "sharpie marker tip"
+      },
+      "files": {
+        "urdf": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/marker/sharpie_marker/sharpie_marker.urdf",
+          "size_bytes": 494
+        },
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/marker/sharpie_marker/sharpie_marker.obj",
+          "size_bytes": 229299
+        }
+      },
+      "mesh_stats": {
+        "vertex_count": 2134,
+        "face_count": 3420,
+        "bounds_min": [
+          -0.0432331,
+          -0.01089056,
+          -0.01220431
+        ],
+        "bounds_max": [
+          0.0997851,
+          0.0111422,
+          0.01578086
+        ],
+        "extent": [
+          0.14301819999999998,
+          0.02203276,
+          0.02798517
+        ]
+      }
+    },
+    {
+      "stage": "dextoolbench12",
+      "source": "dextoolbench",
+      "asset_id": "dextoolbench/marker/staples_marker",
+      "label": "staples_marker",
+      "category": "marker",
+      "urdf_path": "assets/urdf/dextoolbench/marker/staples_marker/staples_marker.urdf",
+      "visual_mesh_path": "assets/urdf/dextoolbench/marker/staples_marker/staples_marker.obj",
+      "collision_mesh_path": "assets/urdf/dextoolbench/marker/staples_marker/staples_marker.obj",
+      "annotation_dir": "assets/affordance_labels/dextoolbench/marker/staples_marker",
+      "part_vocab": [
+        "barrel",
+        "cap",
+        "tip"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "staples marker barrel",
+        "negative_grasp": "staples marker tip",
+        "tool_use_surface": "staples marker tip"
+      },
+      "files": {
+        "urdf": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/marker/staples_marker/staples_marker.urdf",
+          "size_bytes": 494
+        },
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/marker/staples_marker/staples_marker.obj",
+          "size_bytes": 257415
+        }
+      },
+      "mesh_stats": {
+        "vertex_count": 2455,
+        "face_count": 3672,
+        "bounds_min": [
+          -0.03639447,
+          -0.01034526,
+          -0.01036955
+        ],
+        "bounds_max": [
+          0.11351354,
+          0.0103713,
+          0.01032083
+        ],
+        "extent": [
+          0.14990800999999998,
+          0.020716560000000002,
+          0.02069038
+        ]
+      }
+    },
+    {
+      "stage": "dextoolbench12",
+      "source": "dextoolbench",
+      "asset_id": "dextoolbench/screwdriver/long_screwdriver",
+      "label": "long_screwdriver",
+      "category": "screwdriver",
+      "urdf_path": "assets/urdf/dextoolbench/screwdriver/long_screwdriver/long_screwdriver.urdf",
+      "visual_mesh_path": "assets/urdf/dextoolbench/screwdriver/long_screwdriver/long_screwdriver.obj",
+      "collision_mesh_path": "assets/urdf/dextoolbench/screwdriver/long_screwdriver/long_screwdriver.obj",
+      "annotation_dir": "assets/affordance_labels/dextoolbench/screwdriver/long_screwdriver",
+      "part_vocab": [
+        "handle",
+        "shaft",
+        "tip"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "long screwdriver handle",
+        "negative_grasp": "long screwdriver shaft or tip",
+        "tool_use_surface": "long screwdriver tip"
+      },
+      "files": {
+        "urdf": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/screwdriver/long_screwdriver/long_screwdriver.urdf",
+          "size_bytes": 892
+        },
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/screwdriver/long_screwdriver/long_screwdriver.obj",
+          "size_bytes": 608038
+        }
+      },
+      "mesh_stats": {
+        "vertex_count": 5449,
+        "face_count": 8868,
+        "bounds_min": [
+          -0.0632212,
+          -0.01694404,
+          -0.01873944
+        ],
+        "bounds_max": [
+          0.19718152,
+          0.01319365,
+          0.01520489
+        ],
+        "extent": [
+          0.26040272,
+          0.03013769,
+          0.03394433
+        ]
+      }
+    },
+    {
+      "stage": "dextoolbench12",
+      "source": "dextoolbench",
+      "asset_id": "dextoolbench/screwdriver/short_screwdriver",
+      "label": "short_screwdriver",
+      "category": "screwdriver",
+      "urdf_path": "assets/urdf/dextoolbench/screwdriver/short_screwdriver/short_screwdriver.urdf",
+      "visual_mesh_path": "assets/urdf/dextoolbench/screwdriver/short_screwdriver/short_screwdriver.obj",
+      "collision_mesh_path": "assets/urdf/dextoolbench/screwdriver/short_screwdriver/short_screwdriver.obj",
+      "annotation_dir": "assets/affordance_labels/dextoolbench/screwdriver/short_screwdriver",
+      "part_vocab": [
+        "handle",
+        "shaft",
+        "tip"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "short screwdriver handle",
+        "negative_grasp": "short screwdriver shaft or tip",
+        "tool_use_surface": "short screwdriver tip"
+      },
+      "files": {
+        "urdf": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/screwdriver/short_screwdriver/short_screwdriver.urdf",
+          "size_bytes": 506
+        },
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/screwdriver/short_screwdriver/short_screwdriver.obj",
+          "size_bytes": 249670
+        }
+      },
+      "mesh_stats": {
+        "vertex_count": 2262,
+        "face_count": 3792,
+        "bounds_min": [
+          -0.05853134,
+          -0.01807758,
+          -0.01812786
+        ],
+        "bounds_max": [
+          0.13108414,
+          0.01721935,
+          0.01717109
+        ],
+        "extent": [
+          0.18961548,
+          0.035296930000000004,
+          0.035298949999999996
+        ]
+      }
+    },
+    {
+      "stage": "dextoolbench12",
+      "source": "dextoolbench",
+      "asset_id": "dextoolbench/spatula/flat_spatula",
+      "label": "flat_spatula",
+      "category": "spatula",
+      "urdf_path": "assets/urdf/dextoolbench/spatula/flat_spatula/flat_spatula.urdf",
+      "visual_mesh_path": "assets/urdf/dextoolbench/spatula/flat_spatula/flat_spatula.obj",
+      "collision_mesh_path": "assets/urdf/dextoolbench/spatula/flat_spatula/flat_spatula.obj",
+      "annotation_dir": "assets/affordance_labels/dextoolbench/spatula/flat_spatula",
+      "part_vocab": [
+        "handle",
+        "blade",
+        "scoop"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "flat spatula handle",
+        "negative_grasp": "flat spatula blade or scoop",
+        "tool_use_surface": "flat spatula blade or scoop"
+      },
+      "files": {
+        "urdf": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/spatula/flat_spatula/flat_spatula.urdf",
+          "size_bytes": 496
+        },
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/spatula/flat_spatula/flat_spatula.obj",
+          "size_bytes": 161910
+        }
+      },
+      "mesh_stats": {
+        "vertex_count": 1567,
+        "face_count": 2366,
+        "bounds_min": [
+          -0.11784222,
+          -0.04657541,
+          -0.01761102
+        ],
+        "bounds_max": [
+          0.23182843,
+          0.04690973,
+          0.01394478
+        ],
+        "extent": [
+          0.34967064999999997,
+          0.09348514,
+          0.0315558
+        ]
+      }
+    },
+    {
+      "stage": "dextoolbench12",
+      "source": "dextoolbench",
+      "asset_id": "dextoolbench/spatula/spoon_spatula",
+      "label": "spoon_spatula",
+      "category": "spatula",
+      "urdf_path": "assets/urdf/dextoolbench/spatula/spoon_spatula/spoon_spatula.urdf",
+      "visual_mesh_path": "assets/urdf/dextoolbench/spatula/spoon_spatula/spoon_spatula.obj",
+      "collision_mesh_path": "assets/urdf/dextoolbench/spatula/spoon_spatula/spoon_spatula.obj",
+      "annotation_dir": "assets/affordance_labels/dextoolbench/spatula/spoon_spatula",
+      "part_vocab": [
+        "handle",
+        "blade",
+        "scoop"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "spoon spatula handle",
+        "negative_grasp": "spoon spatula blade or scoop",
+        "tool_use_surface": "spoon spatula blade or scoop"
+      },
+      "files": {
+        "urdf": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/spatula/spoon_spatula/spoon_spatula.urdf",
+          "size_bytes": 490
+        },
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/spatula/spoon_spatula/spoon_spatula.obj",
+          "size_bytes": 156978
+        }
+      },
+      "mesh_stats": {
+        "vertex_count": 1524,
+        "face_count": 2320,
+        "bounds_min": [
+          -0.06529327,
+          -0.03545206,
+          -0.02160118
+        ],
+        "bounds_max": [
+          0.28319475,
+          0.03835731,
+          0.02558195
+        ],
+        "extent": [
+          0.34848802,
+          0.07380937,
+          0.047183130000000004
+        ]
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/mug",
+      "label": "mug",
+      "asset_modelname": "039_mug",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/039_mug/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/039_mug/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/mug",
+      "part_vocab": [
+        "handle",
+        "rim",
+        "body"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "mug handle",
+        "negative_grasp": "mug rim",
+        "tool_use_surface": "mug rim"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/039_mug/visual/base0.glb",
+          "size_bytes": 1334244
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/039_mug/collision/base0.glb",
+          "size_bytes": 968808
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/cup",
+      "label": "cup",
+      "asset_modelname": "021_cup",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/021_cup/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/021_cup/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/cup",
+      "part_vocab": [
+        "rim",
+        "body",
+        "bottom"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "cup body",
+        "negative_grasp": "cup rim",
+        "tool_use_surface": "cup rim"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/021_cup/visual/base0.glb",
+          "size_bytes": 1886864
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/021_cup/collision/base0.glb",
+          "size_bytes": 879188
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/bottle",
+      "label": "bottle",
+      "asset_modelname": "001_bottle",
+      "asset_model_id": 13,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/001_bottle/visual/base13.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/001_bottle/collision/base13.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/bottle",
+      "part_vocab": [
+        "cap",
+        "neck",
+        "body"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "bottle body",
+        "negative_grasp": "bottle cap or neck",
+        "tool_use_surface": "bottle cap"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/001_bottle/visual/base13.glb",
+          "size_bytes": 2062028
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/001_bottle/collision/base13.glb",
+          "size_bytes": 288896
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/drill",
+      "label": "drill",
+      "asset_modelname": "030_drill",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/030_drill/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/030_drill/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/drill",
+      "part_vocab": [
+        "handle",
+        "trigger",
+        "chuck",
+        "body"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "drill handle",
+        "negative_grasp": "drill trigger or chuck",
+        "tool_use_surface": "drill chuck"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/030_drill/visual/base0.glb",
+          "size_bytes": 8740056
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/030_drill/collision/base0.glb",
+          "size_bytes": 343560
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/pill_bottle",
+      "label": "pill_bottle",
+      "asset_modelname": "080_pillbottle",
+      "asset_model_id": 1,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/080_pillbottle/visual/base1.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/080_pillbottle/collision/base1.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/pill_bottle",
+      "part_vocab": [
+        "cap",
+        "body"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "pill bottle body",
+        "negative_grasp": "pill bottle cap",
+        "tool_use_surface": "pill bottle cap"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/080_pillbottle/visual/base1.glb",
+          "size_bytes": 6079424
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/080_pillbottle/collision/base1.glb",
+          "size_bytes": 496180
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/milk_box",
+      "label": "milk_box",
+      "asset_modelname": "038_milk-box",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/038_milk-box/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/038_milk-box/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/milk_box",
+      "part_vocab": [
+        "body",
+        "top"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "milk box body",
+        "negative_grasp": "milk box top",
+        "tool_use_surface": "milk box top"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/038_milk-box/visual/base0.glb",
+          "size_bytes": 10021708
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/038_milk-box/collision/base0.glb",
+          "size_bytes": 801020
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/can",
+      "label": "can",
+      "asset_modelname": "071_can",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/071_can/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/071_can/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/can",
+      "part_vocab": [
+        "body",
+        "top",
+        "bottom"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "can body",
+        "negative_grasp": "can top",
+        "tool_use_surface": "can top"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/071_can/visual/base0.glb",
+          "size_bytes": 8508888
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/071_can/collision/base0.glb",
+          "size_bytes": 745776
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/milk_tea",
+      "label": "milk_tea",
+      "asset_modelname": "101_milk-tea",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/101_milk-tea/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/101_milk-tea/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/milk_tea",
+      "part_vocab": [
+        "cap",
+        "body"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "milk tea body or cup",
+        "negative_grasp": "milk tea cap",
+        "tool_use_surface": "milk tea cap"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/101_milk-tea/visual/base0.glb",
+          "size_bytes": 6230568
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/101_milk-tea/collision/base0.glb",
+          "size_bytes": 430908
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/sauce_can",
+      "label": "sauce_can",
+      "asset_modelname": "105_sauce-can",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/105_sauce-can/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/105_sauce-can/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/sauce_can",
+      "part_vocab": [
+        "body",
+        "top",
+        "bottom"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "sauce can body",
+        "negative_grasp": "sauce can top",
+        "tool_use_surface": "sauce can top"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/105_sauce-can/visual/base0.glb",
+          "size_bytes": 6295532
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/105_sauce-can/collision/base0.glb",
+          "size_bytes": 538844
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/tea_box",
+      "label": "tea_box",
+      "asset_modelname": "112_tea-box",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/112_tea-box/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/112_tea-box/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/tea_box",
+      "part_vocab": [
+        "body",
+        "lid"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "tea box body or box",
+        "negative_grasp": "tea box lid",
+        "tool_use_surface": "tea box lid"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/112_tea-box/visual/base0.glb",
+          "size_bytes": 12607880
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/112_tea-box/collision/base0.glb",
+          "size_bytes": 182812
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/bowl",
+      "label": "bowl",
+      "asset_modelname": "002_bowl",
+      "asset_model_id": 4,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/002_bowl/visual/base4.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/002_bowl/collision/base4.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/bowl",
+      "part_vocab": [
+        "rim",
+        "inner_surface",
+        "outer_surface",
+        "bottom"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "bowl outer surface",
+        "negative_grasp": "bowl rim or inner surface",
+        "tool_use_surface": "bowl inner surface"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/002_bowl/visual/base4.glb",
+          "size_bytes": 1531140
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/002_bowl/collision/base4.glb",
+          "size_bytes": 1283948
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/plate",
+      "label": "plate",
+      "asset_modelname": "003_plate",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/003_plate/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/003_plate/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/plate",
+      "part_vocab": [
+        "rim",
+        "center",
+        "bottom"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "plate rim",
+        "negative_grasp": "plate center",
+        "tool_use_surface": "plate center"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/003_plate/visual/base0.glb",
+          "size_bytes": 1600432
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/003_plate/collision/base0.glb",
+          "size_bytes": 807744
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/hammer",
+      "label": "hammer",
+      "asset_modelname": "020_hammer",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/020_hammer/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/020_hammer/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/hammer",
+      "part_vocab": [
+        "handle",
+        "head",
+        "striking_face"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "hammer handle",
+        "negative_grasp": "hammer head or striking face",
+        "tool_use_surface": "hammer striking face"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/020_hammer/visual/base0.glb",
+          "size_bytes": 1551784
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/020_hammer/collision/base0.glb",
+          "size_bytes": 334304
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/screwdriver",
+      "label": "screwdriver",
+      "asset_modelname": "032_screwdriver",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/032_screwdriver/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/032_screwdriver/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/screwdriver",
+      "part_vocab": [
+        "handle",
+        "shaft",
+        "tip"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "screwdriver handle",
+        "negative_grasp": "screwdriver shaft or tip",
+        "tool_use_surface": "screwdriver tip"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/032_screwdriver/visual/base0.glb",
+          "size_bytes": 1699896
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/032_screwdriver/collision/base0.glb",
+          "size_bytes": 77176
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/apple",
+      "label": "apple",
+      "asset_modelname": "035_apple",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/035_apple/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/035_apple/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/apple",
+      "part_vocab": [
+        "body",
+        "stem"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "apple body",
+        "negative_grasp": "apple stem or top",
+        "tool_use_surface": "apple body"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/035_apple/visual/base0.glb",
+          "size_bytes": 1671820
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/035_apple/collision/base0.glb",
+          "size_bytes": 2465760
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/book",
+      "label": "book",
+      "asset_modelname": "043_book",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/043_book/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/043_book/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/book",
+      "part_vocab": [
+        "cover",
+        "spine",
+        "pages"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "book spine or cover",
+        "negative_grasp": "book pages or page edges",
+        "tool_use_surface": "book pages or page edges"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/043_book/visual/base0.glb",
+          "size_bytes": 11779116
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/043_book/collision/base0.glb",
+          "size_bytes": 130364
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/mouse",
+      "label": "mouse",
+      "asset_modelname": "047_mouse",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/047_mouse/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/047_mouse/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/mouse",
+      "part_vocab": [
+        "body",
+        "buttons",
+        "scroll_wheel"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "mouse body",
+        "negative_grasp": "mouse buttons or scroll wheel",
+        "tool_use_surface": "mouse buttons"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/047_mouse/visual/base0.glb",
+          "size_bytes": 6911804
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/047_mouse/collision/base0.glb",
+          "size_bytes": 556148
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/stapler",
+      "label": "stapler",
+      "asset_modelname": "048_stapler",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/048_stapler/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/048_stapler/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/stapler",
+      "part_vocab": [
+        "body",
+        "base",
+        "metal_tip"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "stapler body or stapler",
+        "negative_grasp": "stapler metal tip or base",
+        "tool_use_surface": "stapler base or metal tip"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/048_stapler/visual/base0.glb",
+          "size_bytes": 9705776
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/048_stapler/collision/base0.glb",
+          "size_bytes": 491552
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/dumbbell",
+      "label": "dumbbell",
+      "asset_modelname": "052_dumbbell",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/052_dumbbell/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/052_dumbbell/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/dumbbell",
+      "part_vocab": [
+        "handle",
+        "weights"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "dumbbell handle",
+        "negative_grasp": "dumbbell weights",
+        "tool_use_surface": "dumbbell weights"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/052_dumbbell/visual/base0.glb",
+          "size_bytes": 8741136
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/052_dumbbell/collision/base0.glb",
+          "size_bytes": 378612
+        }
+      }
+    },
+    {
+      "stage": "domino20",
+      "source": "domino20",
+      "asset_id": "domino20/kettle",
+      "label": "kettle",
+      "asset_modelname": "091_kettle",
+      "asset_model_id": 0,
+      "visual_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/091_kettle/visual/base0.glb",
+      "collision_mesh_path": "/data1/linsixu/RoboTwin/assets/objects/091_kettle/collision/base0.glb",
+      "annotation_dir": "assets/affordance_labels/domino20/kettle",
+      "part_vocab": [
+        "handle",
+        "spout",
+        "body",
+        "lid"
+      ],
+      "affordance_vocab": [
+        "positive_grasp",
+        "negative_grasp",
+        "tool_use_surface",
+        "safe_contact"
+      ],
+      "suggested_prompts": {
+        "positive_grasp": "kettle handle",
+        "negative_grasp": "kettle spout or lid",
+        "tool_use_surface": "kettle spout"
+      },
+      "files": {
+        "visual_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/091_kettle/visual/base0.glb",
+          "size_bytes": 7543088
+        },
+        "collision_mesh": {
+          "exists": true,
+          "path": "/data1/linsixu/RoboTwin/assets/objects/091_kettle/collision/base0.glb",
+          "size_bytes": 520392
+        }
+      }
+    }
+  ]
+}

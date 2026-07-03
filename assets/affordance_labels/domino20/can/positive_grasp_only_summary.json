@@ -1,0 +1,622 @@
+{
+  "asset_id": "domino20/can",
+  "label": "can",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/071_can/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can",
+  "positive_prompt": "can body",
+  "positive_prompt_variants": [
+    "can body",
+    "body"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "can body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "can body",
+      "prompt_variants": [
+        "can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "can body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "can body",
+      "prompt_variants": [
+        "can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "can body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8431777954101562
+          ],
+          "boxes_xyxy": [
+            [
+              61.868019104003906,
+              217.49966430664062,
+              682.5284423828125,
+              549.1781005859375
+            ]
+          ],
+          "mask_pixels": 198562
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "can body",
+          "score": 0.8431777954101562,
+          "mask_pixels": 198562,
+          "box_xyxy": [
+            61.868019104003906,
+            217.49966430664062,
+            682.5284423828125,
+            549.1781005859375
+          ]
+        }
+      ],
+      "best_score": 0.8431777954101562,
+      "mask_pixels": 198562,
+      "prompt": "can body",
+      "prompt_variants": [
+        "can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 9102
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "can body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8728039264678955
+          ],
+          "boxes_xyxy": [
+            [
+              81.61516571044922,
+              217.13735961914062,
+              705.508056640625,
+              548.7936401367188
+            ]
+          ],
+          "mask_pixels": 198090
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "can body",
+          "score": 0.8728039264678955,
+          "mask_pixels": 198090,
+          "box_xyxy": [
+            81.61516571044922,
+            217.13735961914062,
+            705.508056640625,
+            548.7936401367188
+          ]
+        }
+      ],
+      "best_score": 0.8728039264678955,
+      "mask_pixels": 198090,
+      "prompt": "can body",
+      "prompt_variants": [
+        "can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 9066
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "can body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9299289584159851
+          ],
+          "boxes_xyxy": [
+            [
+              218.5994873046875,
+              86.22933197021484,
+              549.4788818359375,
+              705.3400268554688
+            ]
+          ],
+          "mask_pixels": 198174
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "can body",
+          "score": 0.9299289584159851,
+          "mask_pixels": 198174,
+          "box_xyxy": [
+            218.5994873046875,
+            86.22933197021484,
+            549.4788818359375,
+            705.3400268554688
+          ]
+        }
+      ],
+      "best_score": 0.9299289584159851,
+      "mask_pixels": 198174,
+      "prompt": "can body",
+      "prompt_variants": [
+        "can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 8719
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "can body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8721237778663635
+          ],
+          "boxes_xyxy": [
+            [
+              218.55770874023438,
+              63.124420166015625,
+              548.9866333007812,
+              682.8792724609375
+            ]
+          ],
+          "mask_pixels": 191376
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "can body",
+          "score": 0.8721237778663635,
+          "mask_pixels": 191376,
+          "box_xyxy": [
+            218.55770874023438,
+            63.124420166015625,
+            548.9866333007812,
+            682.8792724609375
+          ]
+        }
+      ],
+      "best_score": 0.8721237778663635,
+      "mask_pixels": 191376,
+      "prompt": "can body",
+      "prompt_variants": [
+        "can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 8680
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "can body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8575788140296936
+          ],
+          "boxes_xyxy": [
+            [
+              103.71684265136719,
+              135.3915252685547,
+              704.9052734375,
+              646.6780395507812
+            ]
+          ],
+          "mask_pixels": 160141
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "can body",
+          "score": 0.8575788140296936,
+          "mask_pixels": 160141,
+          "box_xyxy": [
+            103.71684265136719,
+            135.3915252685547,
+            704.9052734375,
+            646.6780395507812
+          ]
+        }
+      ],
+      "best_score": 0.8575788140296936,
+      "mask_pixels": 160141,
+      "prompt": "can body",
+      "prompt_variants": [
+        "can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 8500
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "can body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8660764098167419
+          ],
+          "boxes_xyxy": [
+            [
+              106.23900604248047,
+              134.44949340820312,
+              705.5418701171875,
+              646.0186157226562
+            ]
+          ],
+          "mask_pixels": 159874
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "can body",
+          "score": 0.8660764098167419,
+          "mask_pixels": 159874,
+          "box_xyxy": [
+            106.23900604248047,
+            134.44949340820312,
+            705.5418701171875,
+            646.0186157226562
+          ]
+        }
+      ],
+      "best_score": 0.8660764098167419,
+      "mask_pixels": 159874,
+      "prompt": "can body",
+      "prompt_variants": [
+        "can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 8415
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "can body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8290404677391052
+          ],
+          "boxes_xyxy": [
+            [
+              62.67121124267578,
+              121.79306030273438,
+              704.2307739257812,
+              640.8775634765625
+            ]
+          ],
+          "mask_pixels": 199669
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "can body",
+          "score": 0.8290404677391052,
+          "mask_pixels": 199669,
+          "box_xyxy": [
+            62.67121124267578,
+            121.79306030273438,
+            704.2307739257812,
+            640.8775634765625
+          ]
+        }
+      ],
+      "best_score": 0.8290404677391052,
+      "mask_pixels": 199669,
+      "prompt": "can body",
+      "prompt_variants": [
+        "can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 12672
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "can body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8591095805168152
+          ],
+          "boxes_xyxy": [
+            [
+              63.58788299560547,
+              121.9874038696289,
+              706.1087646484375,
+              643.3778686523438
+            ]
+          ],
+          "mask_pixels": 199730
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "can body",
+          "score": 0.8591095805168152,
+          "mask_pixels": 199730,
+          "box_xyxy": [
+            63.58788299560547,
+            121.9874038696289,
+            706.1087646484375,
+            643.3778686523438
+          ]
+        }
+      ],
+      "best_score": 0.8591095805168152,
+      "mask_pixels": 199730,
+      "prompt": "can body",
+      "prompt_variants": [
+        "can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 12729
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "can body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8921043276786804
+          ],
+          "boxes_xyxy": [
+            [
+              216.91082763671875,
+              64.45909881591797,
+              551.335205078125,
+              705.2568969726562
+            ]
+          ],
+          "mask_pixels": 188058
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "can body",
+          "score": 0.8921043276786804,
+          "mask_pixels": 188058,
+          "box_xyxy": [
+            216.91082763671875,
+            64.45909881591797,
+            551.335205078125,
+            705.2568969726562
+          ]
+        }
+      ],
+      "best_score": 0.8921043276786804,
+      "mask_pixels": 188058,
+      "prompt": "can body",
+      "prompt_variants": [
+        "can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 12511
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "can body",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8310943841934204
+          ],
+          "boxes_xyxy": [
+            [
+              216.3599395751953,
+              63.10487365722656,
+              551.0281982421875,
+              703.6193237304688
+            ]
+          ],
+          "mask_pixels": 139199
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "can body",
+          "score": 0.8310943841934204,
+          "mask_pixels": 139199,
+          "box_xyxy": [
+            216.3599395751953,
+            63.10487365722656,
+            551.0281982421875,
+            703.6193237304688
+          ]
+        }
+      ],
+      "best_score": 0.8310943841934204,
+      "mask_pixels": 139199,
+      "prompt": "can body",
+      "prompt_variants": [
+        "can body",
+        "body"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 7769
+    }
+  },
+  "num_vertices": 20738,
+  "raw_positive_vertices": 13082,
+  "connected_positive_vertices": 11782,
+  "filled_positive_vertices": 11793,
+  "kept_component_sizes": [
+    2373,
+    2366,
+    2320,
+    2307,
+    1291,
+    1125
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 11793,
+  "clean_v2_negative_vertices": 4210,
+  "clean_v2_ignore_vertices": 4735,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/can/grasp_affordance_clean_v2.npz"
+}

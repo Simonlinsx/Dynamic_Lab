@@ -1,0 +1,1622 @@
+{
+  "asset_id": "dextoolbench/spatula/flat_spatula",
+  "label": "flat_spatula",
+  "mesh_path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/spatula/flat_spatula/flat_spatula.obj",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula",
+  "prompts": {
+    "positive_grasp": "flat spatula handle",
+    "negative_grasp": "flat spatula blade or scoop",
+    "tool_use_surface": "flat spatula blade or scoop"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "flat spatula handle",
+        "prompt_variants": [
+          "flat spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scoop",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scoop",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "flat spatula handle",
+        "prompt_variants": [
+          "flat spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scoop",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scoop",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "flat spatula handle",
+        "prompt_variants": [
+          "flat spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scoop",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scoop",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "flat spatula handle",
+        "prompt_variants": [
+          "flat spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scoop",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade or scoop",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "scoop",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "flat spatula handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4554474353790283
+            ],
+            "boxes_xyxy": [
+              [
+                41.25651550292969,
+                243.989990234375,
+                317.10394287109375,
+                274.13800048828125
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 7158
+          }
+        ],
+        "best_score": 0.4554474353790283,
+        "mask_pixels": 7158,
+        "prompt": "flat spatula handle",
+        "prompt_variants": [
+          "flat spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 340
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6927340030670166,
+              0.5562719106674194
+            ],
+            "boxes_xyxy": [
+              [
+                41.40541076660156,
+                199.13671875,
+                470.608154296875,
+                312.9698486328125
+              ],
+              [
+                315.4443359375,
+                199.45681762695312,
+                470.50994873046875,
+                312.8247375488281
+              ]
+            ],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 21934
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6204371452331543,
+              0.5465233325958252
+            ],
+            "boxes_xyxy": [
+              [
+                315.03021240234375,
+                199.42742919921875,
+                470.4608154296875,
+                312.5625
+              ],
+              [
+                41.11915588378906,
+                199.1234130859375,
+                470.7325439453125,
+                312.86163330078125
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 21896
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4690166115760803
+            ],
+            "boxes_xyxy": [
+              [
+                316.2913513183594,
+                199.5157470703125,
+                470.4974060058594,
+                312.63067626953125
+              ]
+            ],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 14822
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4371662735939026
+            ],
+            "boxes_xyxy": [
+              [
+                316.08758544921875,
+                199.50274658203125,
+                470.5313720703125,
+                312.69915771484375
+              ]
+            ],
+            "prompt": "blade",
+            "mask_pixels": 14788
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7268622517585754
+            ],
+            "boxes_xyxy": [
+              [
+                41.17070007324219,
+                199.1280059814453,
+                470.72314453125,
+                312.6965026855469
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 22031
+          }
+        ],
+        "best_score": 0.7268622517585754,
+        "mask_pixels": 22097,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 770
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6927340030670166,
+              0.5562719106674194
+            ],
+            "boxes_xyxy": [
+              [
+                41.40541076660156,
+                199.13671875,
+                470.608154296875,
+                312.9698486328125
+              ],
+              [
+                315.4443359375,
+                199.45681762695312,
+                470.50994873046875,
+                312.8247375488281
+              ]
+            ],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 21934
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6204371452331543,
+              0.5465233325958252
+            ],
+            "boxes_xyxy": [
+              [
+                315.03021240234375,
+                199.42742919921875,
+                470.4608154296875,
+                312.5625
+              ],
+              [
+                41.11915588378906,
+                199.1234130859375,
+                470.7325439453125,
+                312.86163330078125
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 21896
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4690166115760803
+            ],
+            "boxes_xyxy": [
+              [
+                316.2913513183594,
+                199.5157470703125,
+                470.4974060058594,
+                312.63067626953125
+              ]
+            ],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 14822
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4371662735939026
+            ],
+            "boxes_xyxy": [
+              [
+                316.08758544921875,
+                199.50274658203125,
+                470.5313720703125,
+                312.69915771484375
+              ]
+            ],
+            "prompt": "blade",
+            "mask_pixels": 14788
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7268622517585754
+            ],
+            "boxes_xyxy": [
+              [
+                41.17070007324219,
+                199.1280059814453,
+                470.72314453125,
+                312.6965026855469
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 22031
+          }
+        ],
+        "best_score": 0.7268622517585754,
+        "mask_pixels": 22097,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 770
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3542684316635132
+            ],
+            "boxes_xyxy": [
+              [
+                40.999603271484375,
+                237.87759399414062,
+                323.0588684082031,
+                268.5166015625
+              ]
+            ],
+            "prompt": "flat spatula handle",
+            "mask_pixels": 7316
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5950719714164734
+            ],
+            "boxes_xyxy": [
+              [
+                40.954925537109375,
+                238.00694274902344,
+                324.5348205566406,
+                268.5447998046875
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 7345
+          }
+        ],
+        "best_score": 0.5950719714164734,
+        "mask_pixels": 7354,
+        "prompt": "flat spatula handle",
+        "prompt_variants": [
+          "flat spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 388
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.621614396572113,
+              0.6809864044189453
+            ],
+            "boxes_xyxy": [
+              [
+                321.2308044433594,
+                198.82260131835938,
+                470.4590148925781,
+                312.21722412109375
+              ],
+              [
+                41.096771240234375,
+                199.00694274902344,
+                470.5592346191406,
+                312.7965087890625
+              ]
+            ],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 21863
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6624578237533569,
+              0.5266977548599243
+            ],
+            "boxes_xyxy": [
+              [
+                318.9266357421875,
+                199.01309204101562,
+                470.53497314453125,
+                312.29364013671875
+              ],
+              [
+                40.820465087890625,
+                199.08099365234375,
+                470.6885986328125,
+                312.72918701171875
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 21818
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5683978796005249
+            ],
+            "boxes_xyxy": [
+              [
+                320.73480224609375,
+                199.15420532226562,
+                470.544189453125,
+                312.5699462890625
+              ]
+            ],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 14510
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3904508948326111
+            ],
+            "boxes_xyxy": [
+              [
+                320.5379943847656,
+                199.13772583007812,
+                470.5783386230469,
+                312.5071716308594
+              ]
+            ],
+            "prompt": "blade",
+            "mask_pixels": 14482
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7205625176429749
+            ],
+            "boxes_xyxy": [
+              [
+                41.00994873046875,
+                198.64077758789062,
+                470.5665588378906,
+                312.30963134765625
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 22029
+          }
+        ],
+        "best_score": 0.7205625176429749,
+        "mask_pixels": 22118,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 861
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.621614396572113,
+              0.6809864044189453
+            ],
+            "boxes_xyxy": [
+              [
+                321.2308044433594,
+                198.82260131835938,
+                470.4590148925781,
+                312.21722412109375
+              ],
+              [
+                41.096771240234375,
+                199.00694274902344,
+                470.5592346191406,
+                312.7965087890625
+              ]
+            ],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 21863
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6624578237533569,
+              0.5266977548599243
+            ],
+            "boxes_xyxy": [
+              [
+                318.9266357421875,
+                199.01309204101562,
+                470.53497314453125,
+                312.29364013671875
+              ],
+              [
+                40.820465087890625,
+                199.08099365234375,
+                470.6885986328125,
+                312.72918701171875
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 21818
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5683978796005249
+            ],
+            "boxes_xyxy": [
+              [
+                320.73480224609375,
+                199.15420532226562,
+                470.544189453125,
+                312.5699462890625
+              ]
+            ],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 14510
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3904508948326111
+            ],
+            "boxes_xyxy": [
+              [
+                320.5379943847656,
+                199.13772583007812,
+                470.5783386230469,
+                312.5071716308594
+              ]
+            ],
+            "prompt": "blade",
+            "mask_pixels": 14482
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7205625176429749
+            ],
+            "boxes_xyxy": [
+              [
+                41.00994873046875,
+                198.64077758789062,
+                470.5665588378906,
+                312.30963134765625
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 22029
+          }
+        ],
+        "best_score": 0.7205625176429749,
+        "mask_pixels": 22118,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 861
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5862064957618713
+            ],
+            "boxes_xyxy": [
+              [
+                62.346405029296875,
+                233.23753356933594,
+                307.6309814453125,
+                385.33575439453125
+              ]
+            ],
+            "prompt": "flat spatula handle",
+            "mask_pixels": 8081
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8548797369003296
+            ],
+            "boxes_xyxy": [
+              [
+                62.43074035644531,
+                233.1736602783203,
+                308.11529541015625,
+                385.21185302734375
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 8102
+          }
+        ],
+        "best_score": 0.8548797369003296,
+        "mask_pixels": 8108,
+        "prompt": "flat spatula handle",
+        "prompt_variants": [
+          "flat spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 485
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.7273391485214233,
+              0.8311526775360107
+            ],
+            "boxes_xyxy": [
+              [
+                287.06671142578125,
+                126.1969985961914,
+                470.4886474609375,
+                264.22662353515625
+              ],
+              [
+                41.66206359863281,
+                126.55851745605469,
+                470.76953125,
+                385.17578125
+              ]
+            ],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 22904
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8103619813919067,
+              0.6566228270530701
+            ],
+            "boxes_xyxy": [
+              [
+                287.12860107421875,
+                126.41751861572266,
+                470.51055908203125,
+                264.1650085449219
+              ],
+              [
+                43.64451599121094,
+                126.23538208007812,
+                470.86163330078125,
+                385.3896484375
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 22921
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6020790934562683,
+              0.27099379897117615
+            ],
+            "boxes_xyxy": [
+              [
+                286.89300537109375,
+                126.54933166503906,
+                470.5421142578125,
+                264.389892578125
+              ],
+              [
+                42.94337463378906,
+                125.884033203125,
+                470.6290283203125,
+                385.5548095703125
+              ]
+            ],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 23034
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8572362065315247
+            ],
+            "boxes_xyxy": [
+              [
+                41.63731384277344,
+                126.19940185546875,
+                470.89764404296875,
+                385.3945617675781
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 22930
+          }
+        ],
+        "best_score": 0.8572362065315247,
+        "mask_pixels": 23080,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 988
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.7273391485214233,
+              0.8311526775360107
+            ],
+            "boxes_xyxy": [
+              [
+                287.06671142578125,
+                126.1969985961914,
+                470.4886474609375,
+                264.22662353515625
+              ],
+              [
+                41.66206359863281,
+                126.55851745605469,
+                470.76953125,
+                385.17578125
+              ]
+            ],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 22904
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8103619813919067,
+              0.6566228270530701
+            ],
+            "boxes_xyxy": [
+              [
+                287.12860107421875,
+                126.41751861572266,
+                470.51055908203125,
+                264.1650085449219
+              ],
+              [
+                43.64451599121094,
+                126.23538208007812,
+                470.86163330078125,
+                385.3896484375
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 22921
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.6020790934562683,
+              0.27099379897117615
+            ],
+            "boxes_xyxy": [
+              [
+                286.89300537109375,
+                126.54933166503906,
+                470.5421142578125,
+                264.389892578125
+              ],
+              [
+                42.94337463378906,
+                125.884033203125,
+                470.6290283203125,
+                385.5548095703125
+              ]
+            ],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 23034
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "blade",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8572362065315247
+            ],
+            "boxes_xyxy": [
+              [
+                41.63731384277344,
+                126.19940185546875,
+                470.89764404296875,
+                385.3945617675781
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 22930
+          }
+        ],
+        "best_score": 0.8572362065315247,
+        "mask_pixels": 23080,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 988
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6350049376487732
+            ],
+            "boxes_xyxy": [
+              [
+                200.05894470214844,
+                135.65908813476562,
+                471.02215576171875,
+                298.30511474609375
+              ]
+            ],
+            "prompt": "flat spatula handle",
+            "mask_pixels": 8971
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.8876003623008728,
+              0.26741302013397217
+            ],
+            "boxes_xyxy": [
+              [
+                198.70755004882812,
+                135.52044677734375,
+                471.1002502441406,
+                298.7539978027344
+              ],
+              [
+                417.8119201660156,
+                135.43795776367188,
+                469.8735046386719,
+                176.98550415039062
+              ]
+            ],
+            "prompt": "handle",
+            "mask_pixels": 8989
+          }
+        ],
+        "best_score": 0.8876003623008728,
+        "mask_pixels": 9001,
+        "prompt": "flat spatula handle",
+        "prompt_variants": [
+          "flat spatula handle",
+          "handle"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 580
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.4340677559375763,
+              0.5319617390632629
+            ],
+            "boxes_xyxy": [
+              [
+                41.39555358886719,
+                288.91851806640625,
+                230.80592346191406,
+                375.831298828125
+              ],
+              [
+                41.642608642578125,
+                135.84156799316406,
+                471.4245300292969,
+                375.42462158203125
+              ]
+            ],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 19902
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.5840097665786743,
+              0.3844001889228821
+            ],
+            "boxes_xyxy": [
+              [
+                40.996559143066406,
+                288.5439453125,
+                230.32449340820312,
+                375.71038818359375
+              ],
+              [
+                41.60469055175781,
+                136.1815948486328,
+                471.64544677734375,
+                374.96868896484375
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 20049
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2572971284389496
+            ],
+            "boxes_xyxy": [
+              [
+                41.29286193847656,
+                290.87579345703125,
+                229.1226348876953,
+                375.76025390625
+              ]
+            ],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 10034
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2888476550579071
+            ],
+            "boxes_xyxy": [
+              [
+                41.345428466796875,
+                291.36871337890625,
+                227.3582763671875,
+                375.81329345703125
+              ]
+            ],
+            "prompt": "blade",
+            "mask_pixels": 8996
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8293474912643433
+            ],
+            "boxes_xyxy": [
+              [
+                41.32170104980469,
+                135.5831298828125,
+                471.4334716796875,
+                375.6922607421875
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 19970
+          }
+        ],
+        "best_score": 0.8293474912643433,
+        "mask_pixels": 20099,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 1080
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.4340677559375763,
+              0.5319617390632629
+            ],
+            "boxes_xyxy": [
+              [
+                41.39555358886719,
+                288.91851806640625,
+                230.80592346191406,
+                375.831298828125
+              ],
+              [
+                41.642608642578125,
+                135.84156799316406,
+                471.4245300292969,
+                375.42462158203125
+              ]
+            ],
+            "prompt": "flat spatula blade or scoop",
+            "mask_pixels": 19902
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.5840097665786743,
+              0.3844001889228821
+            ],
+            "boxes_xyxy": [
+              [
+                40.996559143066406,
+                288.5439453125,
+                230.32449340820312,
+                375.71038818359375
+              ],
+              [
+                41.60469055175781,
+                136.1815948486328,
+                471.64544677734375,
+                374.96868896484375
+              ]
+            ],
+            "prompt": "blade or scoop",
+            "mask_pixels": 20049
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2572971284389496
+            ],
+            "boxes_xyxy": [
+              [
+                41.29286193847656,
+                290.87579345703125,
+                229.1226348876953,
+                375.76025390625
+              ]
+            ],
+            "prompt": "flat spatula blade",
+            "mask_pixels": 10034
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2888476550579071
+            ],
+            "boxes_xyxy": [
+              [
+                41.345428466796875,
+                291.36871337890625,
+                227.3582763671875,
+                375.81329345703125
+              ]
+            ],
+            "prompt": "blade",
+            "mask_pixels": 8996
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8293474912643433
+            ],
+            "boxes_xyxy": [
+              [
+                41.32170104980469,
+                135.5831298828125,
+                471.4334716796875,
+                375.6922607421875
+              ]
+            ],
+            "prompt": "scoop",
+            "mask_pixels": 19970
+          }
+        ],
+        "best_score": 0.8293474912643433,
+        "mask_pixels": 20099,
+        "prompt": "flat spatula blade or scoop",
+        "prompt_variants": [
+          "flat spatula blade or scoop",
+          "blade or scoop",
+          "flat spatula blade",
+          "blade",
+          "scoop"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 1080
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/flat_spatula/affordance.npz",
+  "num_vertices": 1567,
+  "labeled_vertices": 895,
+  "class_vertex_counts": {
+    "background": 672,
+    "positive_grasp": 376,
+    "negative_grasp": 519,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 446,
+    "negative_grasp": 879,
+    "tool_use_surface": 879,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 879
+}

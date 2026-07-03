@@ -1,0 +1,981 @@
+{
+  "asset_id": "domino20/milk_tea",
+  "label": "milk_tea",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/101_milk-tea/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea",
+  "positive_prompt": "milk tea body or cup",
+  "positive_prompt_variants": [
+    "milk tea body or cup",
+    "body or cup",
+    "milk tea body",
+    "body",
+    "cup"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "milk tea body or cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body or cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "milk tea body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "milk tea body or cup",
+      "prompt_variants": [
+        "milk tea body or cup",
+        "body or cup",
+        "milk tea body",
+        "body",
+        "cup"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "milk tea body or cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body or cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "milk tea body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "milk tea body or cup",
+      "prompt_variants": [
+        "milk tea body or cup",
+        "body or cup",
+        "milk tea body",
+        "body",
+        "cup"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "milk tea body or cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.5293371677398682
+          ],
+          "boxes_xyxy": [
+            [
+              62.58368682861328,
+              194.53756713867188,
+              704.8309936523438,
+              576.20751953125
+            ]
+          ],
+          "mask_pixels": 178107
+        },
+        {
+          "prompt": "milk tea body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "body or cup",
+          "score": 0.5293371677398682,
+          "mask_pixels": 178107,
+          "box_xyxy": [
+            62.58368682861328,
+            194.53756713867188,
+            704.8309936523438,
+            576.20751953125
+          ]
+        }
+      ],
+      "best_score": 0.5293371677398682,
+      "mask_pixels": 178107,
+      "prompt": "milk tea body or cup",
+      "prompt_variants": [
+        "milk tea body or cup",
+        "body or cup",
+        "milk tea body",
+        "body",
+        "cup"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 9851
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "milk tea body or cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.5067294239997864
+          ],
+          "boxes_xyxy": [
+            [
+              62.365882873535156,
+              190.72152709960938,
+              705.9210205078125,
+              580.5609741210938
+            ]
+          ],
+          "mask_pixels": 178162
+        },
+        {
+          "prompt": "milk tea body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "body or cup",
+          "score": 0.5067294239997864,
+          "mask_pixels": 178162,
+          "box_xyxy": [
+            62.365882873535156,
+            190.72152709960938,
+            705.9210205078125,
+            580.5609741210938
+          ]
+        }
+      ],
+      "best_score": 0.5067294239997864,
+      "mask_pixels": 178162,
+      "prompt": "milk tea body or cup",
+      "prompt_variants": [
+        "milk tea body or cup",
+        "body or cup",
+        "milk tea body",
+        "body",
+        "cup"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 9862
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "milk tea body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.9289249181747437
+          ],
+          "boxes_xyxy": [
+            [
+              186.06861877441406,
+              63.25762939453125,
+              582.69970703125,
+              705.9446411132812
+            ]
+          ],
+          "mask_pixels": 182770
+        },
+        {
+          "prompt": "body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.8500385880470276
+          ],
+          "boxes_xyxy": [
+            [
+              204.0161590576172,
+              97.44296264648438,
+              563.148681640625,
+              705.3951416015625
+            ]
+          ],
+          "mask_pixels": 177916
+        },
+        {
+          "prompt": "milk tea body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7917451858520508
+          ],
+          "boxes_xyxy": [
+            [
+              185.93531799316406,
+              61.86577606201172,
+              582.7203979492188,
+              705.916748046875
+            ]
+          ],
+          "mask_pixels": 187501
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "milk tea body or cup",
+          "score": 0.9289249181747437,
+          "mask_pixels": 182770,
+          "box_xyxy": [
+            186.06861877441406,
+            63.25762939453125,
+            582.69970703125,
+            705.9446411132812
+          ]
+        }
+      ],
+      "best_score": 0.9289249181747437,
+      "mask_pixels": 182770,
+      "prompt": "milk tea body or cup",
+      "prompt_variants": [
+        "milk tea body or cup",
+        "body or cup",
+        "milk tea body",
+        "body",
+        "cup"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 10484
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "milk tea body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.3760102689266205
+          ],
+          "boxes_xyxy": [
+            [
+              205.49867248535156,
+              62.07463073730469,
+              563.4520263671875,
+              670.7313842773438
+            ]
+          ],
+          "mask_pixels": 177830
+        },
+        {
+          "prompt": "body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.5907203555107117
+          ],
+          "boxes_xyxy": [
+            [
+              205.21128845214844,
+              62.09699249267578,
+              564.3155517578125,
+              673.490966796875
+            ]
+          ],
+          "mask_pixels": 177986
+        },
+        {
+          "prompt": "milk tea body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "body or cup",
+          "score": 0.5907203555107117,
+          "mask_pixels": 177986,
+          "box_xyxy": [
+            205.21128845214844,
+            62.09699249267578,
+            564.3155517578125,
+            673.490966796875
+          ]
+        }
+      ],
+      "best_score": 0.5907203555107117,
+      "mask_pixels": 177986,
+      "prompt": "milk tea body or cup",
+      "prompt_variants": [
+        "milk tea body or cup",
+        "body or cup",
+        "milk tea body",
+        "body",
+        "cup"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 9874
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "milk tea body or cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.5922001004219055
+          ],
+          "boxes_xyxy": [
+            [
+              63.616241455078125,
+              121.9943618774414,
+              705.974365234375,
+              646.2269287109375
+            ]
+          ],
+          "mask_pixels": 126328
+        },
+        {
+          "prompt": "milk tea body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "body or cup",
+          "score": 0.5922001004219055,
+          "mask_pixels": 126328,
+          "box_xyxy": [
+            63.616241455078125,
+            121.9943618774414,
+            705.974365234375,
+            646.2269287109375
+          ]
+        }
+      ],
+      "best_score": 0.5922001004219055,
+      "mask_pixels": 126328,
+      "prompt": "milk tea body or cup",
+      "prompt_variants": [
+        "milk tea body or cup",
+        "body or cup",
+        "milk tea body",
+        "body",
+        "cup"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 10235
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "milk tea body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.26497092843055725
+          ],
+          "boxes_xyxy": [
+            [
+              62.926414489746094,
+              122.23777770996094,
+              705.9501953125,
+              646.4995727539062
+            ]
+          ],
+          "mask_pixels": 189024
+        },
+        {
+          "prompt": "body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.6631306409835815
+          ],
+          "boxes_xyxy": [
+            [
+              63.33851623535156,
+              122.19293975830078,
+              705.8108520507812,
+              646.22412109375
+            ]
+          ],
+          "mask_pixels": 152358
+        },
+        {
+          "prompt": "milk tea body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "body or cup",
+          "score": 0.6631306409835815,
+          "mask_pixels": 152358,
+          "box_xyxy": [
+            63.33851623535156,
+            122.19293975830078,
+            705.8108520507812,
+            646.22412109375
+          ]
+        }
+      ],
+      "best_score": 0.6631306409835815,
+      "mask_pixels": 152358,
+      "prompt": "milk tea body or cup",
+      "prompt_variants": [
+        "milk tea body or cup",
+        "body or cup",
+        "milk tea body",
+        "body",
+        "cup"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 12918
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "milk tea body or cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.5977916717529297
+          ],
+          "boxes_xyxy": [
+            [
+              62.17613983154297,
+              121.93711853027344,
+              705.0985107421875,
+              644.6360473632812
+            ]
+          ],
+          "mask_pixels": 185608
+        },
+        {
+          "prompt": "milk tea body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.2080627679824829
+          ],
+          "boxes_xyxy": [
+            [
+              61.95579528808594,
+              121.34886932373047,
+              705.8171997070312,
+              645.0869750976562
+            ]
+          ],
+          "mask_pixels": 189052
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "body or cup",
+          "score": 0.5977916717529297,
+          "mask_pixels": 185608,
+          "box_xyxy": [
+            62.17613983154297,
+            121.93711853027344,
+            705.0985107421875,
+            644.6360473632812
+          ]
+        }
+      ],
+      "best_score": 0.5977916717529297,
+      "mask_pixels": 185608,
+      "prompt": "milk tea body or cup",
+      "prompt_variants": [
+        "milk tea body or cup",
+        "body or cup",
+        "milk tea body",
+        "body",
+        "cup"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 15321
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "milk tea body or cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.6190593242645264
+          ],
+          "boxes_xyxy": [
+            [
+              66.09711456298828,
+              121.80402374267578,
+              705.9583740234375,
+              643.9556884765625
+            ]
+          ],
+          "mask_pixels": 179137
+        },
+        {
+          "prompt": "milk tea body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cup",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "body or cup",
+          "score": 0.6190593242645264,
+          "mask_pixels": 179137,
+          "box_xyxy": [
+            66.09711456298828,
+            121.80402374267578,
+            705.9583740234375,
+            643.9556884765625
+          ]
+        }
+      ],
+      "best_score": 0.6190593242645264,
+      "mask_pixels": 179137,
+      "prompt": "milk tea body or cup",
+      "prompt_variants": [
+        "milk tea body or cup",
+        "body or cup",
+        "milk tea body",
+        "body",
+        "cup"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 14262
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "milk tea body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7862889170646667
+          ],
+          "boxes_xyxy": [
+            [
+              190.343994140625,
+              63.262229919433594,
+              577.1222534179688,
+              705.4151611328125
+            ]
+          ],
+          "mask_pixels": 179756
+        },
+        {
+          "prompt": "body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7957697510719299
+          ],
+          "boxes_xyxy": [
+            [
+              190.7813720703125,
+              63.91802215576172,
+              576.9332275390625,
+              705.14013671875
+            ]
+          ],
+          "mask_pixels": 172571
+        },
+        {
+          "prompt": "milk tea body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7683932185173035
+          ],
+          "boxes_xyxy": [
+            [
+              190.1858367919922,
+              62.606597900390625,
+              577.244384765625,
+              705.329833984375
+            ]
+          ],
+          "mask_pixels": 180413
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "body or cup",
+          "score": 0.7957697510719299,
+          "mask_pixels": 172571,
+          "box_xyxy": [
+            190.7813720703125,
+            63.91802215576172,
+            576.9332275390625,
+            705.14013671875
+          ]
+        }
+      ],
+      "best_score": 0.7957697510719299,
+      "mask_pixels": 172571,
+      "prompt": "milk tea body or cup",
+      "prompt_variants": [
+        "milk tea body or cup",
+        "body or cup",
+        "milk tea body",
+        "body",
+        "cup"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 14668
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "milk tea body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.4549332559108734
+          ],
+          "boxes_xyxy": [
+            [
+              191.36019897460938,
+              62.471397399902344,
+              576.8908081054688,
+              705.5697021484375
+            ]
+          ],
+          "mask_pixels": 179628
+        },
+        {
+          "prompt": "body or cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.7052580118179321
+          ],
+          "boxes_xyxy": [
+            [
+              191.4295654296875,
+              62.28673553466797,
+              576.842529296875,
+              705.0921020507812
+            ]
+          ],
+          "mask_pixels": 179621
+        },
+        {
+          "prompt": "milk tea body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "body",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "cup",
+          "num_masks": 1,
+          "kept_masks": 1,
+          "scores": [
+            0.38136231899261475
+          ],
+          "boxes_xyxy": [
+            [
+              191.289794921875,
+              61.95611572265625,
+              577.0809326171875,
+              705.2755126953125
+            ]
+          ],
+          "mask_pixels": 180147
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "body or cup",
+          "score": 0.7052580118179321,
+          "mask_pixels": 179621,
+          "box_xyxy": [
+            191.4295654296875,
+            62.28673553466797,
+            576.842529296875,
+            705.0921020507812
+          ]
+        }
+      ],
+      "best_score": 0.7052580118179321,
+      "mask_pixels": 179621,
+      "prompt": "milk tea body or cup",
+      "prompt_variants": [
+        "milk tea body or cup",
+        "body or cup",
+        "milk tea body",
+        "body",
+        "cup"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 13785
+    }
+  },
+  "num_vertices": 17973,
+  "raw_positive_vertices": 17763,
+  "connected_positive_vertices": 17697,
+  "filled_positive_vertices": 17818,
+  "kept_component_sizes": [
+    2857,
+    2832,
+    2772,
+    2754,
+    2632,
+    1763,
+    1008,
+    275,
+    274,
+    269,
+    261
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 17818,
+  "clean_v2_negative_vertices": 0,
+  "clean_v2_ignore_vertices": 155,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/grasp_affordance_clean_v2.npz"
+}

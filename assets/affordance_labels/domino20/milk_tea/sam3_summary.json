@@ -1,0 +1,1024 @@
+{
+  "asset_id": "domino20/milk_tea",
+  "label": "milk_tea",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/101_milk-tea/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea",
+  "prompts": {
+    "positive_grasp": "milk tea body or cup",
+    "negative_grasp": "milk tea cap",
+    "tool_use_surface": "milk tea cap"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea body or cup",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body or cup",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cup",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea body or cup",
+        "prompt_variants": [
+          "milk tea body or cup",
+          "body or cup",
+          "milk tea body",
+          "body",
+          "cup"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea body or cup",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body or cup",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cup",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea body or cup",
+        "prompt_variants": [
+          "milk tea body or cup",
+          "body or cup",
+          "milk tea body",
+          "body",
+          "cup"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3031049966812134
+            ],
+            "boxes_xyxy": [
+              [
+                41.884490966796875,
+                131.70956420898438,
+                469.8771667480469,
+                381.2270812988281
+              ]
+            ],
+            "prompt": "milk tea body or cup",
+            "mask_pixels": 78997
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6068931221961975
+            ],
+            "boxes_xyxy": [
+              [
+                41.34954833984375,
+                129.30479431152344,
+                470.38702392578125,
+                382.8297119140625
+              ]
+            ],
+            "prompt": "body or cup",
+            "mask_pixels": 79162
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3767494261264801
+            ],
+            "boxes_xyxy": [
+              [
+                41.03343200683594,
+                122.70059204101562,
+                470.32537841796875,
+                388.5266418457031
+              ]
+            ],
+            "prompt": "cup",
+            "mask_pixels": 82922
+          }
+        ],
+        "best_score": 0.6068931221961975,
+        "mask_pixels": 82922,
+        "prompt": "milk tea body or cup",
+        "prompt_variants": [
+          "milk tea body or cup",
+          "body or cup",
+          "milk tea body",
+          "body",
+          "cup"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 10950
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea body or cup",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4650682210922241
+            ],
+            "boxes_xyxy": [
+              [
+                41.15155029296875,
+                125.18472290039062,
+                470.76605224609375,
+                386.58355712890625
+              ]
+            ],
+            "prompt": "body or cup",
+            "mask_pixels": 79117
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2502494752407074
+            ],
+            "boxes_xyxy": [
+              [
+                41.16217041015625,
+                122.71778869628906,
+                470.82720947265625,
+                389.24554443359375
+              ]
+            ],
+            "prompt": "cup",
+            "mask_pixels": 83113
+          }
+        ],
+        "best_score": 0.4650682210922241,
+        "mask_pixels": 83113,
+        "prompt": "milk tea body or cup",
+        "prompt_variants": [
+          "milk tea body or cup",
+          "body or cup",
+          "milk tea body",
+          "body",
+          "cup"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 10990
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.9302745461463928
+            ],
+            "boxes_xyxy": [
+              [
+                123.84330749511719,
+                41.761444091796875,
+                388.45751953125,
+                470.6377258300781
+              ]
+            ],
+            "prompt": "milk tea body or cup",
+            "mask_pixels": 82451
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8442620635032654
+            ],
+            "boxes_xyxy": [
+              [
+                136.65419006347656,
+                64.99143981933594,
+                375.46319580078125,
+                470.270263671875
+              ]
+            ],
+            "prompt": "body or cup",
+            "mask_pixels": 79113
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8413469791412354
+            ],
+            "boxes_xyxy": [
+              [
+                123.77972412109375,
+                41.08390808105469,
+                388.46337890625,
+                470.638671875
+              ]
+            ],
+            "prompt": "cup",
+            "mask_pixels": 83405
+          }
+        ],
+        "best_score": 0.9302745461463928,
+        "mask_pixels": 83409,
+        "prompt": "milk tea body or cup",
+        "prompt_variants": [
+          "milk tea body or cup",
+          "body or cup",
+          "milk tea body",
+          "body",
+          "cup"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 11055
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.41796523332595825
+            ],
+            "boxes_xyxy": [
+              [
+                123.03712463378906,
+                40.77479934692383,
+                388.755126953125,
+                66.7158432006836
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 4352
+          }
+        ],
+        "best_score": 0.41796523332595825,
+        "mask_pixels": 4352,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 1547
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.41796523332595825
+            ],
+            "boxes_xyxy": [
+              [
+                123.03712463378906,
+                40.77479934692383,
+                388.755126953125,
+                66.7158432006836
+              ]
+            ],
+            "prompt": "cap",
+            "mask_pixels": 4352
+          }
+        ],
+        "best_score": 0.41796523332595825,
+        "mask_pixels": 4352,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 1547
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.23653024435043335
+            ],
+            "boxes_xyxy": [
+              [
+                136.9286346435547,
+                41.29100036621094,
+                375.809814453125,
+                447.3997802734375
+              ]
+            ],
+            "prompt": "milk tea body or cup",
+            "mask_pixels": 79084
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.5050399303436279
+            ],
+            "boxes_xyxy": [
+              [
+                136.70819091796875,
+                41.2166748046875,
+                376.501220703125,
+                448.86224365234375
+              ]
+            ],
+            "prompt": "body or cup",
+            "mask_pixels": 79132
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cup",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.5050399303436279,
+        "mask_pixels": 79139,
+        "prompt": "milk tea body or cup",
+        "prompt_variants": [
+          "milk tea body or cup",
+          "body or cup",
+          "milk tea body",
+          "body",
+          "cup"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 9698
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2672584652900696
+            ],
+            "boxes_xyxy": [
+              [
+                41.89556884765625,
+                81.56317138671875,
+                470.9605712890625,
+                430.67889404296875
+              ]
+            ],
+            "prompt": "milk tea body or cup",
+            "mask_pixels": 84026
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6853727102279663
+            ],
+            "boxes_xyxy": [
+              [
+                42.11125183105469,
+                81.48741149902344,
+                470.894775390625,
+                430.58526611328125
+              ]
+            ],
+            "prompt": "body or cup",
+            "mask_pixels": 62239
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.238700270652771
+            ],
+            "boxes_xyxy": [
+              [
+                41.66534423828125,
+                81.16380310058594,
+                470.93682861328125,
+                430.5013427734375
+              ]
+            ],
+            "prompt": "cup",
+            "mask_pixels": 84150
+          }
+        ],
+        "best_score": 0.6853727102279663,
+        "mask_pixels": 84169,
+        "prompt": "milk tea body or cup",
+        "prompt_variants": [
+          "milk tea body or cup",
+          "body or cup",
+          "milk tea body",
+          "body",
+          "cup"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 14293
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.501428484916687
+            ],
+            "boxes_xyxy": [
+              [
+                41.71171569824219,
+                81.58074951171875,
+                470.85577392578125,
+                430.74468994140625
+              ]
+            ],
+            "prompt": "milk tea body or cup",
+            "mask_pixels": 84062
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.7103146314620972
+            ],
+            "boxes_xyxy": [
+              [
+                42.05560302734375,
+                81.56048583984375,
+                470.83551025390625,
+                430.53619384765625
+              ]
+            ],
+            "prompt": "body or cup",
+            "mask_pixels": 67772
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3651766777038574
+            ],
+            "boxes_xyxy": [
+              [
+                41.62245178222656,
+                81.21290588378906,
+                470.900390625,
+                430.4476318359375
+              ]
+            ],
+            "prompt": "cup",
+            "mask_pixels": 84209
+          }
+        ],
+        "best_score": 0.7103146314620972,
+        "mask_pixels": 84209,
+        "prompt": "milk tea body or cup",
+        "prompt_variants": [
+          "milk tea body or cup",
+          "body or cup",
+          "milk tea body",
+          "body",
+          "cup"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 14301
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "milk tea cap",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cap",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "milk tea cap",
+        "prompt_variants": [
+          "milk tea cap",
+          "cap"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/milk_tea/affordance.npz",
+  "num_vertices": 17973,
+  "labeled_vertices": 14213,
+  "class_vertex_counts": {
+    "background": 3760,
+    "positive_grasp": 14210,
+    "negative_grasp": 3,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 14212,
+    "negative_grasp": 214,
+    "tool_use_surface": 214,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 214
+}

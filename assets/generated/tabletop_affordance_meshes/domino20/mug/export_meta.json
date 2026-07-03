@@ -1,0 +1,37 @@
+{
+  "asset_id": "domino20/mug",
+  "label_path": "/data1/linsixu/simtoolreal_lab/assets/affordance_labels/domino20/mug/grasp_affordance_clean_v2.npz",
+  "obj_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/mug/mug.obj",
+  "mtl_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/mug/mug.mtl",
+  "urdf_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/mug/mug.urdf",
+  "vertex_count": 11519,
+  "face_count": 20076,
+  "material_face_counts": {
+    "aff_ignore": 13609,
+    "aff_negative": 4079,
+    "aff_neutral": 0,
+    "aff_positive": 2388
+  },
+  "mass": 0.05,
+  "source_bounds_min": [
+    -0.6746655106544495,
+    0.0,
+    -0.9507410526275635
+  ],
+  "source_bounds_max": [
+    0.6746655106544495,
+    1.3850289583206177,
+    0.9507410526275635
+  ],
+  "source_up_axis": "Y",
+  "target_size": [
+    0.07,
+    0.07,
+    0.08
+  ],
+  "scale": [
+    0.05187755924569015,
+    0.03681338878054175,
+    0.05776052516403845
+  ]
+}

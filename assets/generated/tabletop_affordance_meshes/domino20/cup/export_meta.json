@@ -1,0 +1,37 @@
+{
+  "asset_id": "domino20/cup",
+  "label_path": "/data1/linsixu/simtoolreal_lab/assets/affordance_labels/domino20/cup/grasp_affordance_clean_v2.npz",
+  "obj_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/cup/cup.obj",
+  "mtl_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/cup/cup.mtl",
+  "urdf_path": "/data1/linsixu/simtoolreal_lab/assets/generated/tabletop_affordance_meshes/domino20/cup/cup.urdf",
+  "vertex_count": 11517,
+  "face_count": 19040,
+  "material_face_counts": {
+    "aff_ignore": 6452,
+    "aff_negative": 82,
+    "aff_neutral": 0,
+    "aff_positive": 12506
+  },
+  "mass": 0.04,
+  "source_bounds_min": [
+    -0.46905699372291565,
+    0.0,
+    -0.46578449010849
+  ],
+  "source_bounds_max": [
+    0.46905699372291565,
+    1.0,
+    0.46578449010849
+  ],
+  "source_up_axis": "Y",
+  "target_size": [
+    0.064,
+    0.064,
+    0.078
+  ],
+  "scale": [
+    0.06822198672706124,
+    0.0687013000208457,
+    0.078
+  ]
+}

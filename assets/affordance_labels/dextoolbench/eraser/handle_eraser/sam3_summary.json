@@ -1,0 +1,902 @@
+{
+  "asset_id": "dextoolbench/eraser/handle_eraser",
+  "label": "handle_eraser",
+  "mesh_path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/eraser/handle_eraser/handle_eraser.obj",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser",
+  "prompts": {
+    "positive_grasp": "handle eraser handle or side body",
+    "negative_grasp": "handle eraser erasing_surface",
+    "tool_use_surface": "handle eraser erasing_surface"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3317103385925293
+            ],
+            "boxes_xyxy": [
+              [
+                41.22212219238281,
+                151.923828125,
+                461.3277587890625,
+                285.019775390625
+              ]
+            ],
+            "prompt": "handle eraser handle or side body",
+            "mask_pixels": 26835
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "side body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.3317103385925293,
+        "mask_pixels": 26835,
+        "prompt": "handle eraser handle or side body",
+        "prompt_variants": [
+          "handle eraser handle or side body",
+          "or side body",
+          "handle eraser handle",
+          "side body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 1389
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.26944699883461
+            ],
+            "boxes_xyxy": [
+              [
+                42.81318664550781,
+                278.9025573730469,
+                470.33441162109375,
+                360.0067443847656
+              ]
+            ],
+            "prompt": "erasing surface",
+            "mask_pixels": 29008
+          }
+        ],
+        "best_score": 0.26944699883461,
+        "mask_pixels": 29008,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 3400
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.26944699883461
+            ],
+            "boxes_xyxy": [
+              [
+                42.81318664550781,
+                278.9025573730469,
+                470.33441162109375,
+                360.0067443847656
+              ]
+            ],
+            "prompt": "erasing surface",
+            "mask_pixels": 29008
+          }
+        ],
+        "best_score": 0.26944699883461,
+        "mask_pixels": 29008,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 3400
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4259032607078552
+            ],
+            "boxes_xyxy": [
+              [
+                51.27418518066406,
+                151.893310546875,
+                470.60858154296875,
+                285.4288635253906
+              ]
+            ],
+            "prompt": "handle eraser handle or side body",
+            "mask_pixels": 27113
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "side body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.4259032607078552,
+        "mask_pixels": 27113,
+        "prompt": "handle eraser handle or side body",
+        "prompt_variants": [
+          "handle eraser handle or side body",
+          "or side body",
+          "handle eraser handle",
+          "side body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 1368
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "erasing surface",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "erasing surface",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "side body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "handle eraser handle or side body",
+        "prompt_variants": [
+          "handle eraser handle or side body",
+          "or side body",
+          "handle eraser handle",
+          "side body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2946670353412628
+            ],
+            "boxes_xyxy": [
+              [
+                82.49131774902344,
+                301.7956848144531,
+                418.79425048828125,
+                469.6548156738281
+              ]
+            ],
+            "prompt": "erasing surface",
+            "mask_pixels": 46598
+          }
+        ],
+        "best_score": 0.2946670353412628,
+        "mask_pixels": 46598,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 1509
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2946670353412628
+            ],
+            "boxes_xyxy": [
+              [
+                82.49131774902344,
+                301.7956848144531,
+                418.79425048828125,
+                469.6548156738281
+              ]
+            ],
+            "prompt": "erasing surface",
+            "mask_pixels": 46598
+          }
+        ],
+        "best_score": 0.2946670353412628,
+        "mask_pixels": 46598,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 1509
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "side body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "handle eraser handle or side body",
+        "prompt_variants": [
+          "handle eraser handle or side body",
+          "or side body",
+          "handle eraser handle",
+          "side body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "erasing surface",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "erasing surface",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "side body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "handle eraser handle or side body",
+        "prompt_variants": [
+          "handle eraser handle or side body",
+          "or side body",
+          "handle eraser handle",
+          "side body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "erasing surface",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "erasing surface",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "side body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "handle eraser handle or side body",
+        "prompt_variants": [
+          "handle eraser handle or side body",
+          "or side body",
+          "handle eraser handle",
+          "side body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.49175921082496643
+            ],
+            "boxes_xyxy": [
+              [
+                42.45057678222656,
+                175.03668212890625,
+                470.204833984375,
+                334.8132019042969
+              ]
+            ],
+            "prompt": "erasing surface",
+            "mask_pixels": 53903
+          }
+        ],
+        "best_score": 0.49175921082496643,
+        "mask_pixels": 53903,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 7610
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.49175921082496643
+            ],
+            "boxes_xyxy": [
+              [
+                42.45057678222656,
+                175.03668212890625,
+                470.204833984375,
+                334.8132019042969
+              ]
+            ],
+            "prompt": "erasing surface",
+            "mask_pixels": 53903
+          }
+        ],
+        "best_score": 0.49175921082496643,
+        "mask_pixels": 53903,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 7610
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "side body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "handle eraser handle or side body",
+        "prompt_variants": [
+          "handle eraser handle or side body",
+          "or side body",
+          "handle eraser handle",
+          "side body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.42194119095802307
+            ],
+            "boxes_xyxy": [
+              [
+                42.031280517578125,
+                136.1633758544922,
+                470.1553649902344,
+                443.6829833984375
+              ]
+            ],
+            "prompt": "erasing surface",
+            "mask_pixels": 65924
+          }
+        ],
+        "best_score": 0.42194119095802307,
+        "mask_pixels": 65924,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 7096
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.42194119095802307
+            ],
+            "boxes_xyxy": [
+              [
+                42.031280517578125,
+                136.1633758544922,
+                470.1553649902344,
+                443.6829833984375
+              ]
+            ],
+            "prompt": "erasing surface",
+            "mask_pixels": 65924
+          }
+        ],
+        "best_score": 0.42194119095802307,
+        "mask_pixels": 65924,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 7096
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "or side body",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser handle",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "side body",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "handle eraser handle or side body",
+        "prompt_variants": [
+          "handle eraser handle or side body",
+          "or side body",
+          "handle eraser handle",
+          "side body"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4634474515914917
+            ],
+            "boxes_xyxy": [
+              [
+                41.87371826171875,
+                147.57281494140625,
+                468.85357666015625,
+                434.378662109375
+              ]
+            ],
+            "prompt": "erasing surface",
+            "mask_pixels": 62192
+          }
+        ],
+        "best_score": 0.4634474515914917,
+        "mask_pixels": 62192,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 7315
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "handle eraser erasing surface",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.4634474515914917
+            ],
+            "boxes_xyxy": [
+              [
+                41.87371826171875,
+                147.57281494140625,
+                468.85357666015625,
+                434.378662109375
+              ]
+            ],
+            "prompt": "erasing surface",
+            "mask_pixels": 62192
+          }
+        ],
+        "best_score": 0.4634474515914917,
+        "mask_pixels": 62192,
+        "prompt": "handle eraser erasing_surface",
+        "prompt_variants": [
+          "handle eraser erasing surface",
+          "erasing surface"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 7315
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/eraser/handle_eraser/affordance.npz",
+  "num_vertices": 15098,
+  "labeled_vertices": 9696,
+  "class_vertex_counts": {
+    "background": 5402,
+    "positive_grasp": 1480,
+    "negative_grasp": 8216,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 1480,
+    "negative_grasp": 8216,
+    "tool_use_surface": 8216,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 8216
+}

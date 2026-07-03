@@ -1,0 +1,1398 @@
+{
+  "manifest_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/asset_manifest.json",
+  "stage": "domino20",
+  "num_requested": 1,
+  "num_completed": 1,
+  "num_failed": 0,
+  "render_only": false,
+  "summaries": [
+    {
+      "asset_id": "domino20/stapler",
+      "label": "stapler",
+      "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/048_stapler/visual/base0.glb",
+      "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler",
+      "prompts": {
+        "positive_grasp": "stapler body or stapler",
+        "negative_grasp": "stapler metal tip or base",
+        "tool_use_surface": "stapler base or metal tip"
+      },
+      "views": [
+        "front",
+        "back",
+        "left",
+        "right",
+        "top",
+        "bottom",
+        "iso1",
+        "iso2"
+      ],
+      "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views",
+      "render_only": false,
+      "prompt_infos": {
+        "front": {
+          "positive_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body or stapler",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body or",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.0,
+            "mask_pixels": 0,
+            "prompt": "stapler body or stapler",
+            "prompt_variants": [
+              "stapler body or stapler",
+              "body or",
+              "stapler body",
+              "body",
+              "stapler"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/front_positive_grasp_mask.png",
+            "voted_faces": 0
+          },
+          "negative_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip or base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip or base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 1,
+                "kept_masks": 1,
+                "scores": [
+                  0.34525781869888306
+                ],
+                "boxes_xyxy": [
+                  [
+                    209.26187133789062,
+                    414.36822509765625,
+                    302.7481994628906,
+                    470.7703857421875
+                  ]
+                ],
+                "prompt": "base",
+                "mask_pixels": 3595
+              }
+            ],
+            "best_score": 0.34525781869888306,
+            "mask_pixels": 3595,
+            "prompt": "stapler metal tip or base",
+            "prompt_variants": [
+              "stapler metal tip or base",
+              "metal tip or base",
+              "stapler metal tip",
+              "metal tip",
+              "base"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/front_negative_grasp_mask.png",
+            "voted_faces": 499
+          },
+          "tool_use_surface": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base or metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base or metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 1,
+                "kept_masks": 1,
+                "scores": [
+                  0.34525781869888306
+                ],
+                "boxes_xyxy": [
+                  [
+                    209.26187133789062,
+                    414.36822509765625,
+                    302.7481994628906,
+                    470.7703857421875
+                  ]
+                ],
+                "prompt": "base",
+                "mask_pixels": 3595
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.34525781869888306,
+            "mask_pixels": 3595,
+            "prompt": "stapler base or metal tip",
+            "prompt_variants": [
+              "stapler base or metal tip",
+              "base or metal tip",
+              "stapler base",
+              "base",
+              "metal tip"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/front_tool_use_surface_mask.png",
+            "voted_faces": 499
+          }
+        },
+        "back": {
+          "positive_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body or stapler",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body or",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.0,
+            "mask_pixels": 0,
+            "prompt": "stapler body or stapler",
+            "prompt_variants": [
+              "stapler body or stapler",
+              "body or",
+              "stapler body",
+              "body",
+              "stapler"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/back_positive_grasp_mask.png",
+            "voted_faces": 0
+          },
+          "negative_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip or base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip or base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.0,
+            "mask_pixels": 0,
+            "prompt": "stapler metal tip or base",
+            "prompt_variants": [
+              "stapler metal tip or base",
+              "metal tip or base",
+              "stapler metal tip",
+              "metal tip",
+              "base"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/back_negative_grasp_mask.png",
+            "voted_faces": 0
+          },
+          "tool_use_surface": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base or metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 3,
+                "kept_masks": 3,
+                "scores": [
+                  0.20006126165390015,
+                  0.21541918814182281,
+                  0.33439314365386963
+                ],
+                "boxes_xyxy": [
+                  [
+                    281.3151550292969,
+                    43.21521759033203,
+                    298.4372863769531,
+                    50.393310546875
+                  ],
+                  [
+                    213.49462890625,
+                    43.09201431274414,
+                    230.18914794921875,
+                    49.84685134887695
+                  ],
+                  [
+                    213.48377990722656,
+                    42.34498977661133,
+                    298.04205322265625,
+                    50.68996047973633
+                  ]
+                ],
+                "prompt": "base or metal tip",
+                "mask_pixels": 128
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.33439314365386963,
+            "mask_pixels": 128,
+            "prompt": "stapler base or metal tip",
+            "prompt_variants": [
+              "stapler base or metal tip",
+              "base or metal tip",
+              "stapler base",
+              "base",
+              "metal tip"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/back_tool_use_surface_mask.png",
+            "voted_faces": 74
+          }
+        },
+        "left": {
+          "positive_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body or stapler",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body or",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 1,
+                "kept_masks": 1,
+                "scores": [
+                  0.4354791045188904
+                ],
+                "boxes_xyxy": [
+                  [
+                    154.5950469970703,
+                    41.099212646484375,
+                    359.57244873046875,
+                    470.2643127441406
+                  ]
+                ],
+                "prompt": "stapler",
+                "mask_pixels": 54070
+              }
+            ],
+            "best_score": 0.4354791045188904,
+            "mask_pixels": 54070,
+            "prompt": "stapler body or stapler",
+            "prompt_variants": [
+              "stapler body or stapler",
+              "body or",
+              "stapler body",
+              "body",
+              "stapler"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/left_positive_grasp_mask.png",
+            "voted_faces": 7983
+          },
+          "negative_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip or base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 1,
+                "kept_masks": 1,
+                "scores": [
+                  0.23691384494304657
+                ],
+                "boxes_xyxy": [
+                  [
+                    157.23101806640625,
+                    413.7485046386719,
+                    186.76397705078125,
+                    432.5279846191406
+                  ]
+                ],
+                "prompt": "metal tip or base",
+                "mask_pixels": 378
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.23691384494304657,
+            "mask_pixels": 378,
+            "prompt": "stapler metal tip or base",
+            "prompt_variants": [
+              "stapler metal tip or base",
+              "metal tip or base",
+              "stapler metal tip",
+              "metal tip",
+              "base"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/left_negative_grasp_mask.png",
+            "voted_faces": 291
+          },
+          "tool_use_surface": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base or metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base or metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.0,
+            "mask_pixels": 0,
+            "prompt": "stapler base or metal tip",
+            "prompt_variants": [
+              "stapler base or metal tip",
+              "base or metal tip",
+              "stapler base",
+              "base",
+              "metal tip"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/left_tool_use_surface_mask.png",
+            "voted_faces": 0
+          }
+        },
+        "right": {
+          "positive_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body or stapler",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body or",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 1,
+                "kept_masks": 1,
+                "scores": [
+                  0.4512595236301422
+                ],
+                "boxes_xyxy": [
+                  [
+                    152.48983764648438,
+                    41.359527587890625,
+                    356.9855651855469,
+                    470.5653991699219
+                  ]
+                ],
+                "prompt": "stapler",
+                "mask_pixels": 54115
+              }
+            ],
+            "best_score": 0.4512595236301422,
+            "mask_pixels": 54115,
+            "prompt": "stapler body or stapler",
+            "prompt_variants": [
+              "stapler body or stapler",
+              "body or",
+              "stapler body",
+              "body",
+              "stapler"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/right_positive_grasp_mask.png",
+            "voted_faces": 7997
+          },
+          "negative_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip or base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 1,
+                "kept_masks": 1,
+                "scores": [
+                  0.27251744270324707
+                ],
+                "boxes_xyxy": [
+                  [
+                    325.3883361816406,
+                    412.44036865234375,
+                    354.9808044433594,
+                    432.54913330078125
+                  ]
+                ],
+                "prompt": "metal tip or base",
+                "mask_pixels": 381
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.27251744270324707,
+            "mask_pixels": 381,
+            "prompt": "stapler metal tip or base",
+            "prompt_variants": [
+              "stapler metal tip or base",
+              "metal tip or base",
+              "stapler metal tip",
+              "metal tip",
+              "base"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/right_negative_grasp_mask.png",
+            "voted_faces": 286
+          },
+          "tool_use_surface": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base or metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base or metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.0,
+            "mask_pixels": 0,
+            "prompt": "stapler base or metal tip",
+            "prompt_variants": [
+              "stapler base or metal tip",
+              "base or metal tip",
+              "stapler base",
+              "base",
+              "metal tip"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/right_tool_use_surface_mask.png",
+            "voted_faces": 0
+          }
+        },
+        "top": {
+          "positive_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body or stapler",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body or",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 1,
+                "kept_masks": 1,
+                "scores": [
+                  0.23816365003585815
+                ],
+                "boxes_xyxy": [
+                  [
+                    156.39926147460938,
+                    41.53224182128906,
+                    355.27349853515625,
+                    470.0943603515625
+                  ]
+                ],
+                "prompt": "stapler",
+                "mask_pixels": 77030
+              }
+            ],
+            "best_score": 0.23816365003585815,
+            "mask_pixels": 77030,
+            "prompt": "stapler body or stapler",
+            "prompt_variants": [
+              "stapler body or stapler",
+              "body or",
+              "stapler body",
+              "body",
+              "stapler"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/top_positive_grasp_mask.png",
+            "voted_faces": 11093
+          },
+          "negative_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip or base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 2,
+                "kept_masks": 2,
+                "scores": [
+                  0.43240731954574585,
+                  0.43210065364837646
+                ],
+                "boxes_xyxy": [
+                  [
+                    302.00567626953125,
+                    465.53594970703125,
+                    334.55352783203125,
+                    471.07696533203125
+                  ],
+                  [
+                    177.73048400878906,
+                    465.70147705078125,
+                    210.30860900878906,
+                    471.1070556640625
+                  ]
+                ],
+                "prompt": "metal tip or base",
+                "mask_pixels": 308
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 1,
+                "kept_masks": 1,
+                "scores": [
+                  0.21498844027519226
+                ],
+                "boxes_xyxy": [
+                  [
+                    157.75167846679688,
+                    398.8600158691406,
+                    354.4314880371094,
+                    467.3741149902344
+                  ]
+                ],
+                "prompt": "base",
+                "mask_pixels": 6868
+              }
+            ],
+            "best_score": 0.43240731954574585,
+            "mask_pixels": 7131,
+            "prompt": "stapler metal tip or base",
+            "prompt_variants": [
+              "stapler metal tip or base",
+              "metal tip or base",
+              "stapler metal tip",
+              "metal tip",
+              "base"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/top_negative_grasp_mask.png",
+            "voted_faces": 1364
+          },
+          "tool_use_surface": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base or metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 4,
+                "kept_masks": 4,
+                "scores": [
+                  0.37390947341918945,
+                  0.36855974793434143,
+                  0.2671097218990326,
+                  0.23880742490291595
+                ],
+                "boxes_xyxy": [
+                  [
+                    302.0338134765625,
+                    465.6610412597656,
+                    334.5347900390625,
+                    471.1686096191406
+                  ],
+                  [
+                    177.91934204101562,
+                    465.8026428222656,
+                    210.16766357421875,
+                    471.2050476074219
+                  ],
+                  [
+                    214.03564453125,
+                    424.6435852050781,
+                    220.80813598632812,
+                    433.8105163574219
+                  ],
+                  [
+                    292.223388671875,
+                    424.5101318359375,
+                    299.11456298828125,
+                    433.52471923828125
+                  ]
+                ],
+                "prompt": "base or metal tip",
+                "mask_pixels": 413
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 1,
+                "kept_masks": 1,
+                "scores": [
+                  0.21498844027519226
+                ],
+                "boxes_xyxy": [
+                  [
+                    157.75167846679688,
+                    398.8600158691406,
+                    354.4314880371094,
+                    467.3741149902344
+                  ]
+                ],
+                "prompt": "base",
+                "mask_pixels": 6868
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.37390947341918945,
+            "mask_pixels": 7233,
+            "prompt": "stapler base or metal tip",
+            "prompt_variants": [
+              "stapler base or metal tip",
+              "base or metal tip",
+              "stapler base",
+              "base",
+              "metal tip"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/top_tool_use_surface_mask.png",
+            "voted_faces": 1412
+          }
+        },
+        "bottom": {
+          "positive_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body or stapler",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body or",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.0,
+            "mask_pixels": 0,
+            "prompt": "stapler body or stapler",
+            "prompt_variants": [
+              "stapler body or stapler",
+              "body or",
+              "stapler body",
+              "body",
+              "stapler"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/bottom_positive_grasp_mask.png",
+            "voted_faces": 0
+          },
+          "negative_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip or base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip or base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.0,
+            "mask_pixels": 0,
+            "prompt": "stapler metal tip or base",
+            "prompt_variants": [
+              "stapler metal tip or base",
+              "metal tip or base",
+              "stapler metal tip",
+              "metal tip",
+              "base"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/bottom_negative_grasp_mask.png",
+            "voted_faces": 0
+          },
+          "tool_use_surface": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base or metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 2,
+                "kept_masks": 2,
+                "scores": [
+                  0.501958966255188,
+                  0.4959471523761749
+                ],
+                "boxes_xyxy": [
+                  [
+                    302.3943786621094,
+                    40.879051208496094,
+                    334.2724914550781,
+                    46.730194091796875
+                  ],
+                  [
+                    177.89407348632812,
+                    41.00518035888672,
+                    209.921142578125,
+                    46.91694641113281
+                  ]
+                ],
+                "prompt": "base or metal tip",
+                "mask_pixels": 342
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.501958966255188,
+            "mask_pixels": 342,
+            "prompt": "stapler base or metal tip",
+            "prompt_variants": [
+              "stapler base or metal tip",
+              "base or metal tip",
+              "stapler base",
+              "base",
+              "metal tip"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/bottom_tool_use_surface_mask.png",
+            "voted_faces": 136
+          }
+        },
+        "iso1": {
+          "positive_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body or stapler",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body or",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.0,
+            "mask_pixels": 0,
+            "prompt": "stapler body or stapler",
+            "prompt_variants": [
+              "stapler body or stapler",
+              "body or",
+              "stapler body",
+              "body",
+              "stapler"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/iso1_positive_grasp_mask.png",
+            "voted_faces": 0
+          },
+          "negative_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip or base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip or base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.0,
+            "mask_pixels": 0,
+            "prompt": "stapler metal tip or base",
+            "prompt_variants": [
+              "stapler metal tip or base",
+              "metal tip or base",
+              "stapler metal tip",
+              "metal tip",
+              "base"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/iso1_negative_grasp_mask.png",
+            "voted_faces": 0
+          },
+          "tool_use_surface": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base or metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 1,
+                "kept_masks": 1,
+                "scores": [
+                  0.24401192367076874
+                ],
+                "boxes_xyxy": [
+                  [
+                    301.34130859375,
+                    176.99940490722656,
+                    322.4312744140625,
+                    198.5425567626953
+                  ]
+                ],
+                "prompt": "base or metal tip",
+                "mask_pixels": 321
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.24401192367076874,
+            "mask_pixels": 321,
+            "prompt": "stapler base or metal tip",
+            "prompt_variants": [
+              "stapler base or metal tip",
+              "base or metal tip",
+              "stapler base",
+              "base",
+              "metal tip"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/iso1_tool_use_surface_mask.png",
+            "voted_faces": 198
+          }
+        },
+        "iso2": {
+          "positive_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body or stapler",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body or",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "body",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 1,
+                "kept_masks": 1,
+                "scores": [
+                  0.2088928520679474
+                ],
+                "boxes_xyxy": [
+                  [
+                    152.14218139648438,
+                    40.79071044921875,
+                    358.9057922363281,
+                    470.17889404296875
+                  ]
+                ],
+                "prompt": "stapler",
+                "mask_pixels": 67048
+              }
+            ],
+            "best_score": 0.2088928520679474,
+            "mask_pixels": 67048,
+            "prompt": "stapler body or stapler",
+            "prompt_variants": [
+              "stapler body or stapler",
+              "body or",
+              "stapler body",
+              "body",
+              "stapler"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/iso2_positive_grasp_mask.png",
+            "voted_faces": 13276
+          },
+          "negative_grasp": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip or base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip or base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.0,
+            "mask_pixels": 0,
+            "prompt": "stapler metal tip or base",
+            "prompt_variants": [
+              "stapler metal tip or base",
+              "metal tip or base",
+              "stapler metal tip",
+              "metal tip",
+              "base"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/iso2_negative_grasp_mask.png",
+            "voted_faces": 0
+          },
+          "tool_use_surface": {
+            "variants": [
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base or metal tip",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 1,
+                "kept_masks": 1,
+                "scores": [
+                  0.2726072371006012
+                ],
+                "boxes_xyxy": [
+                  [
+                    301.6895446777344,
+                    177.53805541992188,
+                    322.9479064941406,
+                    198.9998779296875
+                  ]
+                ],
+                "prompt": "base or metal tip",
+                "mask_pixels": 323
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "stapler base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "base",
+                "mask_pixels": 0
+              },
+              {
+                "num_masks": 0,
+                "scores": [],
+                "prompt": "metal tip",
+                "mask_pixels": 0
+              }
+            ],
+            "best_score": 0.2726072371006012,
+            "mask_pixels": 323,
+            "prompt": "stapler base or metal tip",
+            "prompt_variants": [
+              "stapler base or metal tip",
+              "base or metal tip",
+              "stapler base",
+              "base",
+              "metal tip"
+            ],
+            "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/sam3_views/iso2_tool_use_surface_mask.png",
+            "voted_faces": 195
+          }
+        }
+      },
+      "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/stapler/affordance.npz",
+      "num_vertices": 30202,
+      "labeled_vertices": 9441,
+      "class_vertex_counts": {
+        "background": 20761,
+        "positive_grasp": 9301,
+        "negative_grasp": 97,
+        "tool_use_surface": 43,
+        "safe_contact": 0
+      },
+      "multi_label_vertex_counts": {
+        "positive_grasp": 9336,
+        "negative_grasp": 235,
+        "tool_use_surface": 257,
+        "safe_contact": 0
+      },
+      "overlap_vertices": 243
+    }
+  ],
+  "failures": []
+}

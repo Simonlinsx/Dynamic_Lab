@@ -1,0 +1,1705 @@
+{
+  "asset_id": "domino20/book",
+  "label": "book",
+  "mesh_path": "/data1/linsixu/RoboTwin/assets/objects/043_book/visual/base0.glb",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book",
+  "prompts": {
+    "positive_grasp": "book spine or cover",
+    "negative_grasp": "book pages or page edges",
+    "tool_use_surface": "book pages or page edges"
+  },
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.33262813091278076,
+              0.4343976080417633,
+              0.33937394618988037
+            ],
+            "boxes_xyxy": [
+              [
+                97.08572387695312,
+                41.558074951171875,
+                108.02359008789062,
+                471.8614807128906
+              ],
+              [
+                96.59513854980469,
+                41.45216369628906,
+                414.9423828125,
+                471.04229736328125
+              ],
+              [
+                403.61419677734375,
+                41.39405822753906,
+                414.78863525390625,
+                470.875244140625
+              ]
+            ],
+            "prompt": "book spine or cover",
+            "mask_pixels": 8943
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.3240146338939667,
+              0.39687401056289673,
+              0.3215113580226898
+            ],
+            "boxes_xyxy": [
+              [
+                97.01068878173828,
+                41.5406494140625,
+                107.95894622802734,
+                471.55865478515625
+              ],
+              [
+                97.10716247558594,
+                41.48408508300781,
+                414.982666015625,
+                470.8707275390625
+              ],
+              [
+                403.604736328125,
+                41.35125732421875,
+                414.88494873046875,
+                470.81787109375
+              ]
+            ],
+            "prompt": "spine or cover",
+            "mask_pixels": 9092
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.22382135689258575,
+              0.22149460017681122
+            ],
+            "boxes_xyxy": [
+              [
+                403.9237060546875,
+                41.13975524902344,
+                415.25067138671875,
+                471.192138671875
+              ],
+              [
+                97.07737731933594,
+                41.54219055175781,
+                108.16761779785156,
+                471.29412841796875
+              ]
+            ],
+            "prompt": "book spine",
+            "mask_pixels": 8700
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spine",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cover",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.4343976080417633,
+        "mask_pixels": 9387,
+        "prompt": "book spine or cover",
+        "prompt_variants": [
+          "book spine or cover",
+          "spine or cover",
+          "book spine",
+          "spine",
+          "cover"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/front_positive_grasp_mask.png",
+        "voted_faces": 1692
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/front_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/front_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "back": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.5065786838531494,
+              0.5616177320480347,
+              0.4603078365325928
+            ],
+            "boxes_xyxy": [
+              [
+                97.36963653564453,
+                41.139373779296875,
+                109.6119155883789,
+                471.0938415527344
+              ],
+              [
+                96.62408447265625,
+                41.43107604980469,
+                414.7245788574219,
+                470.791259765625
+              ],
+              [
+                402.50274658203125,
+                41.37541198730469,
+                414.569580078125,
+                471.1024169921875
+              ]
+            ],
+            "prompt": "book spine or cover",
+            "mask_pixels": 9655
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.5635378360748291,
+              0.62367182970047,
+              0.5256815552711487
+            ],
+            "boxes_xyxy": [
+              [
+                97.3420181274414,
+                41.182098388671875,
+                109.5084457397461,
+                470.9340515136719
+              ],
+              [
+                96.85743713378906,
+                41.572479248046875,
+                414.693603515625,
+                470.7120666503906
+              ],
+              [
+                402.1324768066406,
+                41.1195068359375,
+                414.6764831542969,
+                471.0167236328125
+              ]
+            ],
+            "prompt": "spine or cover",
+            "mask_pixels": 9366
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.44026070833206177,
+              0.4734776020050049
+            ],
+            "boxes_xyxy": [
+              [
+                402.1899108886719,
+                40.84010314941406,
+                414.9122009277344,
+                471.12017822265625
+              ],
+              [
+                97.31361389160156,
+                40.99479675292969,
+                109.71031188964844,
+                470.8931884765625
+              ]
+            ],
+            "prompt": "book spine",
+            "mask_pixels": 9447
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.4190496504306793,
+              0.44761887192726135
+            ],
+            "boxes_xyxy": [
+              [
+                402.14971923828125,
+                40.879058837890625,
+                414.94805908203125,
+                471.0896911621094
+              ],
+              [
+                97.22673797607422,
+                40.991485595703125,
+                109.7059097290039,
+                470.8677978515625
+              ]
+            ],
+            "prompt": "spine",
+            "mask_pixels": 9363
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.24742993712425232
+            ],
+            "boxes_xyxy": [
+              [
+                97.75454711914062,
+                41.590484619140625,
+                414.1894836425781,
+                470.4015808105469
+              ]
+            ],
+            "prompt": "cover",
+            "mask_pixels": 134076
+          }
+        ],
+        "best_score": 0.62367182970047,
+        "mask_pixels": 135166,
+        "prompt": "book spine or cover",
+        "prompt_variants": [
+          "book spine or cover",
+          "spine or cover",
+          "book spine",
+          "spine",
+          "cover"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/back_positive_grasp_mask.png",
+        "voted_faces": 8934
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/back_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/back_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "left": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6105666160583496
+            ],
+            "boxes_xyxy": [
+              [
+                206.54074096679688,
+                41.560394287109375,
+                305.7270812988281,
+                471.0902404785156
+              ]
+            ],
+            "prompt": "book spine or cover",
+            "mask_pixels": 41829
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.6791011095046997
+            ],
+            "boxes_xyxy": [
+              [
+                206.5587615966797,
+                41.606414794921875,
+                305.77838134765625,
+                470.9701232910156
+              ]
+            ],
+            "prompt": "spine or cover",
+            "mask_pixels": 41800
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book spine",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spine",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cover",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.6791011095046997,
+        "mask_pixels": 41843,
+        "prompt": "book spine or cover",
+        "prompt_variants": [
+          "book spine or cover",
+          "spine or cover",
+          "book spine",
+          "spine",
+          "cover"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/left_positive_grasp_mask.png",
+        "voted_faces": 2171
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/left_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/left_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "right": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8435527682304382
+            ],
+            "boxes_xyxy": [
+              [
+                205.9297637939453,
+                41.486358642578125,
+                305.36090087890625,
+                470.8114318847656
+              ]
+            ],
+            "prompt": "book spine or cover",
+            "mask_pixels": 41653
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.8560001254081726
+            ],
+            "boxes_xyxy": [
+              [
+                205.94827270507812,
+                41.47697448730469,
+                305.36077880859375,
+                470.6949462890625
+              ]
+            ],
+            "prompt": "spine or cover",
+            "mask_pixels": 41606
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book spine",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spine",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cover",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.8560001254081726,
+        "mask_pixels": 41654,
+        "prompt": "book spine or cover",
+        "prompt_variants": [
+          "book spine or cover",
+          "spine or cover",
+          "book spine",
+          "spine",
+          "cover"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/right_positive_grasp_mask.png",
+        "voted_faces": 2156
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/right_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/right_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "top": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2387981116771698
+            ],
+            "boxes_xyxy": [
+              [
+                42.0972900390625,
+                188.95095825195312,
+                470.11102294921875,
+                322.8042907714844
+              ]
+            ],
+            "prompt": "book spine or cover",
+            "mask_pixels": 53650
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.3001694083213806
+            ],
+            "boxes_xyxy": [
+              [
+                42.13212585449219,
+                188.67739868164062,
+                470.3212890625,
+                323.1666564941406
+              ]
+            ],
+            "prompt": "spine or cover",
+            "mask_pixels": 54054
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book spine",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spine",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cover",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.3001694083213806,
+        "mask_pixels": 54054,
+        "prompt": "book spine or cover",
+        "prompt_variants": [
+          "book spine or cover",
+          "spine or cover",
+          "book spine",
+          "spine",
+          "cover"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/top_positive_grasp_mask.png",
+        "voted_faces": 7241
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/top_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/top_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "bottom": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book spine or cover",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.28128278255462646
+            ],
+            "boxes_xyxy": [
+              [
+                42.13642883300781,
+                189.08090209960938,
+                470.31988525390625,
+                323.4404602050781
+              ]
+            ],
+            "prompt": "spine or cover",
+            "mask_pixels": 54047
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book spine",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "spine",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "cover",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.28128278255462646,
+        "mask_pixels": 54047,
+        "prompt": "book spine or cover",
+        "prompt_variants": [
+          "book spine or cover",
+          "spine or cover",
+          "book spine",
+          "spine",
+          "cover"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/bottom_positive_grasp_mask.png",
+        "voted_faces": 6569
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/bottom_negative_grasp_mask.png",
+        "voted_faces": 0
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.0,
+        "mask_pixels": 0,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/bottom_tool_use_surface_mask.png",
+        "voted_faces": 0
+      }
+    },
+    "iso1": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 5,
+            "kept_masks": 5,
+            "scores": [
+              0.6844107508659363,
+              0.38992446660995483,
+              0.5547574162483215,
+              0.29325273633003235,
+              0.22207653522491455
+            ],
+            "boxes_xyxy": [
+              [
+                311.543212890625,
+                42.01481628417969,
+                372.9542236328125,
+                366.77587890625
+              ],
+              [
+                137.79598999023438,
+                138.4876708984375,
+                145.88043212890625,
+                435.26702880859375
+              ],
+              [
+                137.5172576904297,
+                42.396453857421875,
+                372.5701904296875,
+                468.1363830566406
+              ],
+              [
+                138.14356994628906,
+                44.89007568359375,
+                316.885498046875,
+                441.9403991699219
+              ],
+              [
+                145.2524871826172,
+                337.9937744140625,
+                365.80718994140625,
+                466.6429443359375
+              ]
+            ],
+            "prompt": "book spine or cover",
+            "mask_pixels": 80083
+          },
+          {
+            "num_masks": 4,
+            "kept_masks": 4,
+            "scores": [
+              0.21658840775489807,
+              0.760654866695404,
+              0.21005354821681976,
+              0.5456359386444092
+            ],
+            "boxes_xyxy": [
+              [
+                137.71990966796875,
+                136.0953826904297,
+                145.92169189453125,
+                425.16937255859375
+              ],
+              [
+                138.1337127685547,
+                41.69963073730469,
+                372.42333984375,
+                468.87213134765625
+              ],
+              [
+                145.20889282226562,
+                337.9447937011719,
+                365.8588562011719,
+                465.1624450683594
+              ],
+              [
+                311.3741455078125,
+                42.005767822265625,
+                372.96514892578125,
+                366.3752136230469
+              ]
+            ],
+            "prompt": "spine or cover",
+            "mask_pixels": 79538
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.7745701670646667,
+              0.6046306490898132,
+              0.23524031043052673
+            ],
+            "boxes_xyxy": [
+              [
+                311.1704406738281,
+                42.48551940917969,
+                373.1880187988281,
+                366.7318115234375
+              ],
+              [
+                138.0762481689453,
+                139.46340942382812,
+                145.7178497314453,
+                433.9003601074219
+              ],
+              [
+                310.9499206542969,
+                41.16131591796875,
+                326.5301818847656,
+                346.7395324707031
+              ]
+            ],
+            "prompt": "book spine",
+            "mask_pixels": 19043
+          },
+          {
+            "num_masks": 4,
+            "kept_masks": 4,
+            "scores": [
+              0.20132187008857727,
+              0.7074078321456909,
+              0.5594300627708435,
+              0.2559145987033844
+            ],
+            "boxes_xyxy": [
+              [
+                310.34271240234375,
+                42.589813232421875,
+                317.576416015625,
+                345.1357421875
+              ],
+              [
+                311.2019348144531,
+                42.74072265625,
+                373.1412048339844,
+                366.7855529785156
+              ],
+              [
+                138.0931396484375,
+                139.5293731689453,
+                145.737548828125,
+                434.017333984375
+              ],
+              [
+                311.0966491699219,
+                41.221038818359375,
+                328.3233947753906,
+                343.6324157714844
+              ]
+            ],
+            "prompt": "spine",
+            "mask_pixels": 19364
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.22520199418067932
+            ],
+            "boxes_xyxy": [
+              [
+                138.34616088867188,
+                41.777618408203125,
+                372.414306640625,
+                468.43511962890625
+              ]
+            ],
+            "prompt": "cover",
+            "mask_pixels": 52628
+          }
+        ],
+        "best_score": 0.7745701670646667,
+        "mask_pixels": 80106,
+        "prompt": "book spine or cover",
+        "prompt_variants": [
+          "book spine or cover",
+          "spine or cover",
+          "book spine",
+          "spine",
+          "cover"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/iso1_positive_grasp_mask.png",
+        "voted_faces": 12660
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.22840052843093872
+            ],
+            "boxes_xyxy": [
+              [
+                146.2781524658203,
+                337.3221435546875,
+                365.47601318359375,
+                463.8065185546875
+              ]
+            ],
+            "prompt": "pages or page edges",
+            "mask_pixels": 10201
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.22840052843093872,
+        "mask_pixels": 10201,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/iso1_negative_grasp_mask.png",
+        "voted_faces": 3581
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.22840052843093872
+            ],
+            "boxes_xyxy": [
+              [
+                146.2781524658203,
+                337.3221435546875,
+                365.47601318359375,
+                463.8065185546875
+              ]
+            ],
+            "prompt": "pages or page edges",
+            "mask_pixels": 10201
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.22840052843093872,
+        "mask_pixels": 10201,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/iso1_tool_use_surface_mask.png",
+        "voted_faces": 3581
+      }
+    },
+    "iso2": {
+      "positive_grasp": {
+        "variants": [
+          {
+            "num_masks": 5,
+            "kept_masks": 5,
+            "scores": [
+              0.6778702139854431,
+              0.2824121117591858,
+              0.5338353514671326,
+              0.33135882019996643,
+              0.2188829779624939
+            ],
+            "boxes_xyxy": [
+              [
+                311.6055603027344,
+                41.69366455078125,
+                373.1683044433594,
+                368.09075927734375
+              ],
+              [
+                137.72035217285156,
+                138.60252380371094,
+                145.9898223876953,
+                431.00714111328125
+              ],
+              [
+                137.38729858398438,
+                42.58894348144531,
+                372.5863342285156,
+                468.1419677734375
+              ],
+              [
+                137.94972229003906,
+                44.50849914550781,
+                316.64141845703125,
+                439.7666015625
+              ],
+              [
+                144.57127380371094,
+                337.7268981933594,
+                365.7659912109375,
+                466.0460510253906
+              ]
+            ],
+            "prompt": "book spine or cover",
+            "mask_pixels": 80170
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.7535034418106079,
+              0.2324136197566986,
+              0.4837260842323303
+            ],
+            "boxes_xyxy": [
+              [
+                138.12997436523438,
+                41.49580383300781,
+                372.51849365234375,
+                468.7288818359375
+              ],
+              [
+                145.15005493164062,
+                337.751708984375,
+                366.0113525390625,
+                464.8369140625
+              ],
+              [
+                311.25634765625,
+                41.99440002441406,
+                373.18621826171875,
+                366.79534912109375
+              ]
+            ],
+            "prompt": "spine or cover",
+            "mask_pixels": 79050
+          },
+          {
+            "num_masks": 2,
+            "kept_masks": 2,
+            "scores": [
+              0.7494216561317444,
+              0.5422401428222656
+            ],
+            "boxes_xyxy": [
+              [
+                311.2039489746094,
+                42.134674072265625,
+                373.4024353027344,
+                367.90081787109375
+              ],
+              [
+                138.09519958496094,
+                139.690673828125,
+                145.7790069580078,
+                433.63165283203125
+              ]
+            ],
+            "prompt": "book spine",
+            "mask_pixels": 18960
+          },
+          {
+            "num_masks": 3,
+            "kept_masks": 3,
+            "scores": [
+              0.6704639196395874,
+              0.2503194212913513,
+              0.5145388841629028
+            ],
+            "boxes_xyxy": [
+              [
+                311.19683837890625,
+                42.321044921875,
+                373.34307861328125,
+                367.8655090332031
+              ],
+              [
+                310.0598449707031,
+                42.62886047363281,
+                316.4739074707031,
+                343.7265625
+              ],
+              [
+                138.08843994140625,
+                139.81314086914062,
+                145.73065185546875,
+                433.6640930175781
+              ]
+            ],
+            "prompt": "spine",
+            "mask_pixels": 19417
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.23741278052330017
+            ],
+            "boxes_xyxy": [
+              [
+                138.38658142089844,
+                41.655517578125,
+                372.51580810546875,
+                468.2090759277344
+              ]
+            ],
+            "prompt": "cover",
+            "mask_pixels": 55635
+          }
+        ],
+        "best_score": 0.7535034418106079,
+        "mask_pixels": 80186,
+        "prompt": "book spine or cover",
+        "prompt_variants": [
+          "book spine or cover",
+          "spine or cover",
+          "book spine",
+          "spine",
+          "cover"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/iso2_positive_grasp_mask.png",
+        "voted_faces": 12698
+      },
+      "negative_grasp": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2663479447364807
+            ],
+            "boxes_xyxy": [
+              [
+                146.16114807128906,
+                337.3131103515625,
+                365.272705078125,
+                463.9527587890625
+              ]
+            ],
+            "prompt": "pages or page edges",
+            "mask_pixels": 10171
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.2663479447364807,
+        "mask_pixels": 10171,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/iso2_negative_grasp_mask.png",
+        "voted_faces": 3605
+      },
+      "tool_use_surface": {
+        "variants": [
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages or page edges",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 1,
+            "kept_masks": 1,
+            "scores": [
+              0.2663479447364807
+            ],
+            "boxes_xyxy": [
+              [
+                146.16114807128906,
+                337.3131103515625,
+                365.272705078125,
+                463.9527587890625
+              ]
+            ],
+            "prompt": "pages or page edges",
+            "mask_pixels": 10171
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "book pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "pages",
+            "mask_pixels": 0
+          },
+          {
+            "num_masks": 0,
+            "scores": [],
+            "prompt": "page edges",
+            "mask_pixels": 0
+          }
+        ],
+        "best_score": 0.2663479447364807,
+        "mask_pixels": 10171,
+        "prompt": "book pages or page edges",
+        "prompt_variants": [
+          "book pages or page edges",
+          "pages or page edges",
+          "book pages",
+          "pages",
+          "page edges"
+        ],
+        "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/sam3_views/iso2_tool_use_surface_mask.png",
+        "voted_faces": 3605
+      }
+    }
+  },
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/domino20/book/affordance.npz",
+  "num_vertices": 26813,
+  "labeled_vertices": 12563,
+  "class_vertex_counts": {
+    "background": 14250,
+    "positive_grasp": 12563,
+    "negative_grasp": 0,
+    "tool_use_surface": 0,
+    "safe_contact": 0
+  },
+  "multi_label_vertex_counts": {
+    "positive_grasp": 12563,
+    "negative_grasp": 1289,
+    "tool_use_surface": 1289,
+    "safe_contact": 0
+  },
+  "overlap_vertices": 1289
+}

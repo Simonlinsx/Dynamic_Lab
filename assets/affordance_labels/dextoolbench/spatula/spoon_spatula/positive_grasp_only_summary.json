@@ -1,0 +1,982 @@
+{
+  "asset_id": "dextoolbench/spatula/spoon_spatula",
+  "label": "spoon_spatula",
+  "mesh_path": "/data1/linsixu/simtoolreal/assets/urdf/dextoolbench/spatula/spoon_spatula/spoon_spatula.obj",
+  "annotation_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula",
+  "positive_prompt": "spoon spatula handle",
+  "positive_prompt_variants": [
+    "spoon spatula handle",
+    "handle"
+  ],
+  "views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "iso1",
+    "iso2",
+    "iso3",
+    "iso4",
+    "front_top",
+    "back_top"
+  ],
+  "render_dir": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_only_views",
+  "render_only": false,
+  "prompt_infos": {
+    "front": {
+      "variants": [
+        {
+          "prompt": "spoon spatula handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.32923924922943115,
+            0.2525155544281006,
+            0.3538583815097809,
+            0.22806118428707123
+          ],
+          "boxes_xyxy": [
+            [
+              76.65477752685547,
+              356.56683349609375,
+              243.7725830078125,
+              404.114013671875
+            ],
+            [
+              61.46250915527344,
+              351.9994812011719,
+              499.1253662109375,
+              405.43511962890625
+            ],
+            [
+              62.50220489501953,
+              343.7125549316406,
+              310.50042724609375,
+              404.9242858886719
+            ],
+            [
+              308.7130126953125,
+              361.2423400878906,
+              508.28912353515625,
+              404.6199645996094
+            ]
+          ],
+          "mask_pixels": 15728
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.3538583815097809,
+          "mask_pixels": 11381,
+          "box_xyxy": [
+            62.50220489501953,
+            343.7125549316406,
+            310.50042724609375,
+            404.9242858886719
+          ]
+        }
+      ],
+      "best_score": 0.3538583815097809,
+      "mask_pixels": 11381,
+      "prompt": "spoon spatula handle",
+      "prompt_variants": [
+        "spoon spatula handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_only_views/front_positive_grasp_mask.png",
+      "voted_faces": 292
+    },
+    "back": {
+      "variants": [
+        {
+          "prompt": "spoon spatula handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.2939585745334625,
+            0.47228455543518066,
+            0.20435574650764465,
+            0.3631720542907715
+          ],
+          "boxes_xyxy": [
+            [
+              315.2082214355469,
+              347.3555603027344,
+              707.112548828125,
+              405.66326904296875
+            ],
+            [
+              463.6264343261719,
+              348.0661926269531,
+              705.994140625,
+              405.0721435546875
+            ],
+            [
+              60.722923278808594,
+              337.928466796875,
+              705.8104248046875,
+              428.4214782714844
+            ],
+            [
+              523.188720703125,
+              355.9732971191406,
+              695.0396728515625,
+              404.3967590332031
+            ]
+          ],
+          "mask_pixels": 23704
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.47228455543518066,
+          "mask_pixels": 11207,
+          "box_xyxy": [
+            463.6264343261719,
+            348.0661926269531,
+            705.994140625,
+            405.0721435546875
+          ]
+        }
+      ],
+      "best_score": 0.47228455543518066,
+      "mask_pixels": 11207,
+      "prompt": "spoon spatula handle",
+      "prompt_variants": [
+        "spoon spatula handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_only_views/back_positive_grasp_mask.png",
+      "voted_faces": 314
+    },
+    "left": {
+      "variants": [
+        {
+          "prompt": "spoon spatula handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "spoon spatula handle",
+      "prompt_variants": [
+        "spoon spatula handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_only_views/left_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "right": {
+      "variants": [
+        {
+          "prompt": "spoon spatula handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        }
+      ],
+      "selection": "best_per_view",
+      "selected": [],
+      "best_score": 0.0,
+      "mask_pixels": 0,
+      "prompt": "spoon spatula handle",
+      "prompt_variants": [
+        "spoon spatula handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_only_views/right_positive_grasp_mask.png",
+      "voted_faces": 0
+    },
+    "top": {
+      "variants": [
+        {
+          "prompt": "spoon spatula handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.21971569955348969,
+            0.21291399002075195,
+            0.20716865360736847
+          ],
+          "boxes_xyxy": [
+            [
+              65.11129760742188,
+              367.76873779296875,
+              472.0708923339844,
+              414.54827880859375
+            ],
+            [
+              309.71923828125,
+              369.32196044921875,
+              467.1805114746094,
+              408.94329833984375
+            ],
+            [
+              61.53984832763672,
+              316.24444580078125,
+              705.1566162109375,
+              451.77386474609375
+            ]
+          ],
+          "mask_pixels": 38526
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 5,
+          "kept_masks": 5,
+          "scores": [
+            0.20984075963497162,
+            0.43640241026878357,
+            0.311443567276001,
+            0.46031612157821655,
+            0.48928409814834595
+          ],
+          "boxes_xyxy": [
+            [
+              239.33831787109375,
+              367.5036926269531,
+              291.66033935546875,
+              415.16485595703125
+            ],
+            [
+              71.16034698486328,
+              368.0889892578125,
+              307.38165283203125,
+              415.40869140625
+            ],
+            [
+              77.75875091552734,
+              368.48516845703125,
+              243.81991577148438,
+              415.44677734375
+            ],
+            [
+              63.391868591308594,
+              367.4979553222656,
+              475.3409729003906,
+              414.900390625
+            ],
+            [
+              309.8609924316406,
+              369.2549743652344,
+              470.3597717285156,
+              408.61578369140625
+            ]
+          ],
+          "mask_pixels": 16147
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.48928409814834595,
+          "mask_pixels": 4618,
+          "box_xyxy": [
+            309.8609924316406,
+            369.2549743652344,
+            470.3597717285156,
+            408.61578369140625
+          ]
+        }
+      ],
+      "best_score": 0.48928409814834595,
+      "mask_pixels": 4618,
+      "prompt": "spoon spatula handle",
+      "prompt_variants": [
+        "spoon spatula handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_only_views/top_positive_grasp_mask.png",
+      "voted_faces": 131
+    },
+    "bottom": {
+      "variants": [
+        {
+          "prompt": "spoon spatula handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 5,
+          "kept_masks": 5,
+          "scores": [
+            0.20359639823436737,
+            0.30667224526405334,
+            0.2527245283126831,
+            0.34349051117897034,
+            0.40322020649909973
+          ],
+          "boxes_xyxy": [
+            [
+              236.54348754882812,
+              352.89581298828125,
+              291.1568908691406,
+              400.5145263671875
+            ],
+            [
+              76.7574462890625,
+              352.2204284667969,
+              293.69879150390625,
+              399.990234375
+            ],
+            [
+              78.30329132080078,
+              352.371337890625,
+              239.1463623046875,
+              399.3199462890625
+            ],
+            [
+              69.5434341430664,
+              352.02813720703125,
+              472.5985107421875,
+              401.0942687988281
+            ],
+            [
+              300.1535339355469,
+              359.3271484375,
+              466.41632080078125,
+              399.9652404785156
+            ]
+          ],
+          "mask_pixels": 16034
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.40322020649909973,
+          "mask_pixels": 4771,
+          "box_xyxy": [
+            300.1535339355469,
+            359.3271484375,
+            466.41632080078125,
+            399.9652404785156
+          ]
+        }
+      ],
+      "best_score": 0.40322020649909973,
+      "mask_pixels": 4771,
+      "prompt": "spoon spatula handle",
+      "prompt_variants": [
+        "spoon spatula handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_only_views/bottom_positive_grasp_mask.png",
+      "voted_faces": 154
+    },
+    "iso1": {
+      "variants": [
+        {
+          "prompt": "spoon spatula handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.21273186802864075,
+            0.28809934854507446
+          ],
+          "boxes_xyxy": [
+            [
+              61.43181610107422,
+              339.8187255859375,
+              467.35400390625,
+              600.7649536132812
+            ],
+            [
+              62.09282684326172,
+              425.18695068359375,
+              313.3656311035156,
+              600.2711181640625
+            ]
+          ],
+          "mask_pixels": 23560
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.3156348764896393,
+            0.8306679725646973,
+            0.3037411570549011
+          ],
+          "boxes_xyxy": [
+            [
+              297.2105407714844,
+              336.42181396484375,
+              471.7409362792969,
+              464.001220703125
+            ],
+            [
+              61.73048400878906,
+              424.704833984375,
+              314.2058410644531,
+              600.649169921875
+            ],
+            [
+              62.5286865234375,
+              336.53302001953125,
+              471.02899169921875,
+              601.6514282226562
+            ]
+          ],
+          "mask_pixels": 24626
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.8306679725646973,
+          "mask_pixels": 15794,
+          "box_xyxy": [
+            61.73048400878906,
+            424.704833984375,
+            314.2058410644531,
+            600.649169921875
+          ]
+        }
+      ],
+      "best_score": 0.8306679725646973,
+      "mask_pixels": 15794,
+      "prompt": "spoon spatula handle",
+      "prompt_variants": [
+        "spoon spatula handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_only_views/iso1_positive_grasp_mask.png",
+      "voted_faces": 317
+    },
+    "iso2": {
+      "variants": [
+        {
+          "prompt": "spoon spatula handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.3764941692352295,
+            0.26410672068595886
+          ],
+          "boxes_xyxy": [
+            [
+              288.4815368652344,
+              196.35980224609375,
+              705.3843383789062,
+              453.2013244628906
+            ],
+            [
+              61.486473083496094,
+              196.29647827148438,
+              705.9937133789062,
+              571.7459716796875
+            ]
+          ],
+          "mask_pixels": 45483
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.261317640542984,
+            0.27440041303634644,
+            0.6309564113616943,
+            0.28307709097862244
+          ],
+          "boxes_xyxy": [
+            [
+              279.91937255859375,
+              333.9335632324219,
+              462.039306640625,
+              455.80609130859375
+            ],
+            [
+              433.1387939453125,
+              281.4073791503906,
+              533.9478759765625,
+              375.57891845703125
+            ],
+            [
+              286.1375732421875,
+              196.57131958007812,
+              705.8110961914062,
+              455.109619140625
+            ],
+            [
+              499.10430908203125,
+              196.63037109375,
+              705.4215087890625,
+              343.55316162109375
+            ]
+          ],
+          "mask_pixels": 23887
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.6309564113616943,
+          "mask_pixels": 23503,
+          "box_xyxy": [
+            286.1375732421875,
+            196.57131958007812,
+            705.8110961914062,
+            455.109619140625
+          ]
+        }
+      ],
+      "best_score": 0.6309564113616943,
+      "mask_pixels": 23503,
+      "prompt": "spoon spatula handle",
+      "prompt_variants": [
+        "spoon spatula handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_only_views/iso2_positive_grasp_mask.png",
+      "voted_faces": 503
+    },
+    "iso3": {
+      "variants": [
+        {
+          "prompt": "spoon spatula handle",
+          "num_masks": 0,
+          "scores": [],
+          "mask_pixels": 0
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.25307947397232056,
+            0.7598416805267334,
+            0.4017702639102936
+          ],
+          "boxes_xyxy": [
+            [
+              297.9775695800781,
+              339.84808349609375,
+              477.7592468261719,
+              459.03253173828125
+            ],
+            [
+              62.09162521362305,
+              420.4830322265625,
+              313.4158935546875,
+              589.467529296875
+            ],
+            [
+              62.501312255859375,
+              341.047607421875,
+              476.346435546875,
+              590.7219848632812
+            ]
+          ],
+          "mask_pixels": 23359
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.7598416805267334,
+          "mask_pixels": 15874,
+          "box_xyxy": [
+            62.09162521362305,
+            420.4830322265625,
+            313.4158935546875,
+            589.467529296875
+          ]
+        }
+      ],
+      "best_score": 0.7598416805267334,
+      "mask_pixels": 15874,
+      "prompt": "spoon spatula handle",
+      "prompt_variants": [
+        "spoon spatula handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_only_views/iso3_positive_grasp_mask.png",
+      "voted_faces": 286
+    },
+    "iso4": {
+      "variants": [
+        {
+          "prompt": "spoon spatula handle",
+          "num_masks": 2,
+          "kept_masks": 2,
+          "scores": [
+            0.3161911070346832,
+            0.2519049346446991
+          ],
+          "boxes_xyxy": [
+            [
+              60.61846160888672,
+              187.20591735839844,
+              471.32025146484375,
+              460.5191345214844
+            ],
+            [
+              61.44683074951172,
+              186.9470672607422,
+              706.54541015625,
+              581.0940551757812
+            ]
+          ],
+          "mask_pixels": 45840
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.2635570764541626,
+            0.29415032267570496,
+            0.6631201505661011,
+            0.596721351146698
+          ],
+          "boxes_xyxy": [
+            [
+              309.3061218261719,
+              334.494140625,
+              483.029541015625,
+              465.5408020019531
+            ],
+            [
+              60.16387939453125,
+              188.17572021484375,
+              708.061279296875,
+              581.636962890625
+            ],
+            [
+              61.31748962402344,
+              187.4678497314453,
+              477.080078125,
+              462.07501220703125
+            ],
+            [
+              60.994285583496094,
+              187.5778045654297,
+              334.3984375,
+              375.9407958984375
+            ]
+          ],
+          "mask_pixels": 45891
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.6631201505661011,
+          "mask_pixels": 24230,
+          "box_xyxy": [
+            61.31748962402344,
+            187.4678497314453,
+            477.080078125,
+            462.07501220703125
+          ]
+        }
+      ],
+      "best_score": 0.6631201505661011,
+      "mask_pixels": 24230,
+      "prompt": "spoon spatula handle",
+      "prompt_variants": [
+        "spoon spatula handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_only_views/iso4_positive_grasp_mask.png",
+      "voted_faces": 471
+    },
+    "front_top": {
+      "variants": [
+        {
+          "prompt": "spoon spatula handle",
+          "num_masks": 3,
+          "kept_masks": 3,
+          "scores": [
+            0.3188460171222687,
+            0.2538336515426636,
+            0.2810238301753998
+          ],
+          "boxes_xyxy": [
+            [
+              65.31047058105469,
+              365.33245849609375,
+              489.1995849609375,
+              416.10107421875
+            ],
+            [
+              309.2651062011719,
+              370.7608642578125,
+              481.71240234375,
+              410.59234619140625
+            ],
+            [
+              62.66466522216797,
+              326.27691650390625,
+              705.75341796875,
+              441.9923400878906
+            ]
+          ],
+          "mask_pixels": 33420
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.3152918815612793,
+            0.4141443967819214,
+            0.5163374543190002,
+            0.4370773434638977
+          ],
+          "boxes_xyxy": [
+            [
+              77.83976745605469,
+              368.6331481933594,
+              244.32911682128906,
+              415.69610595703125
+            ],
+            [
+              72.13919067382812,
+              365.9098205566406,
+              308.441162109375,
+              416.1398620605469
+            ],
+            [
+              64.25919342041016,
+              366.09710693359375,
+              495.03515625,
+              415.80218505859375
+            ],
+            [
+              309.7253723144531,
+              370.9609069824219,
+              474.6002197265625,
+              409.9722900390625
+            ]
+          ],
+          "mask_pixels": 16298
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.5163374543190002,
+          "mask_pixels": 16237,
+          "box_xyxy": [
+            64.25919342041016,
+            366.09710693359375,
+            495.03515625,
+            415.80218505859375
+          ]
+        }
+      ],
+      "best_score": 0.5163374543190002,
+      "mask_pixels": 16237,
+      "prompt": "spoon spatula handle",
+      "prompt_variants": [
+        "spoon spatula handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_only_views/front_top_positive_grasp_mask.png",
+      "voted_faces": 442
+    },
+    "back_top": {
+      "variants": [
+        {
+          "prompt": "spoon spatula handle",
+          "num_masks": 4,
+          "kept_masks": 4,
+          "scores": [
+            0.24601207673549652,
+            0.34900447726249695,
+            0.265195369720459,
+            0.35859009623527527
+          ],
+          "boxes_xyxy": [
+            [
+              283.59857177734375,
+              365.51995849609375,
+              457.4376525878906,
+              404.2379150390625
+            ],
+            [
+              455.2299499511719,
+              357.3890075683594,
+              704.9268798828125,
+              406.719482421875
+            ],
+            [
+              62.09358215332031,
+              329.711669921875,
+              706.173828125,
+              440.8258056640625
+            ],
+            [
+              298.2911071777344,
+              357.4853820800781,
+              704.9447021484375,
+              406.9985046386719
+            ]
+          ],
+          "mask_pixels": 32255
+        },
+        {
+          "prompt": "handle",
+          "num_masks": 6,
+          "kept_masks": 6,
+          "scores": [
+            0.26535356044769287,
+            0.36223304271698,
+            0.4820944368839264,
+            0.21948295831680298,
+            0.48699846863746643,
+            0.20729605853557587
+          ],
+          "boxes_xyxy": [
+            [
+              523.5160522460938,
+              358.2206115722656,
+              690.6414794921875,
+              405.9734802246094
+            ],
+            [
+              273.09283447265625,
+              365.06829833984375,
+              457.544921875,
+              405.2593994140625
+            ],
+            [
+              461.6476135253906,
+              357.67938232421875,
+              698.0130615234375,
+              406.9075927734375
+            ],
+            [
+              314.1785583496094,
+              365.9234313964844,
+              456.457275390625,
+              401.9369201660156
+            ],
+            [
+              272.8926086425781,
+              357.6149597167969,
+              702.8629760742188,
+              409.2682800292969
+            ],
+            [
+              476.74346923828125,
+              357.3199462890625,
+              529.5426635742188,
+              407.1187744140625
+            ]
+          ],
+          "mask_pixels": 15886
+        }
+      ],
+      "selection": "best_per_view",
+      "reject_slender": false,
+      "max_slender_aspect": 10.0,
+      "selected": [
+        {
+          "prompt": "handle",
+          "score": 0.48699846863746643,
+          "mask_pixels": 15722,
+          "box_xyxy": [
+            272.8926086425781,
+            357.6149597167969,
+            702.8629760742188,
+            409.2682800292969
+          ]
+        }
+      ],
+      "best_score": 0.48699846863746643,
+      "mask_pixels": 15722,
+      "prompt": "spoon spatula handle",
+      "prompt_variants": [
+        "spoon spatula handle",
+        "handle"
+      ],
+      "mask_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_only_views/back_top_positive_grasp_mask.png",
+      "voted_faces": 450
+    }
+  },
+  "num_vertices": 1524,
+  "raw_positive_vertices": 672,
+  "connected_positive_vertices": 634,
+  "filled_positive_vertices": 652,
+  "kept_component_sizes": [
+    147,
+    144,
+    144,
+    107,
+    60,
+    32
+  ],
+  "dilation_steps": 1,
+  "hole_fill_steps": 2,
+  "annotation_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/positive_grasp_only.npz",
+  "clean_v2_positive_vertices": 652,
+  "clean_v2_negative_vertices": 825,
+  "clean_v2_ignore_vertices": 47,
+  "clean_binary_path": "/data1/linsixu/simtoolreal/assets/affordance_labels/dextoolbench/spatula/spoon_spatula/grasp_affordance_clean_v2.npz"
+}
