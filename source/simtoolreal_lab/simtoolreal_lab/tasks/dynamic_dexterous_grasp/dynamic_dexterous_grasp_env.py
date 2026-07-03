@@ -104,6 +104,20 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             self._sim_hand_joint_ids = list(self._hand_joint_ids)
             self._sim_hand_joint_names = list(self._hand_joint_names)
             self._control_hand_joint_ids = list(self._hand_joint_ids)
+        self._inspire_semantic_close_targets = None
+        if self._uses_inspire_active_hand_actions():
+            close_targets_cfg = getattr(self.cfg, "inspire_semantic_close_targets", None)
+            if close_targets_cfg is not None:
+                close_targets = torch.tensor(close_targets_cfg, dtype=torch.float32, device=self.device).flatten()
+                if close_targets.numel() != len(self._control_hand_joint_ids):
+                    raise ValueError(
+                        "inspire_semantic_close_targets must match sim_hand_joint_names; "
+                        f"got {close_targets.numel()} values for {len(self._control_hand_joint_ids)} joints "
+                        f"{self._sim_hand_joint_names}."
+                    )
+                hand_lower = self._joint_lower_limits[self._control_hand_joint_ids]
+                hand_upper = self._joint_upper_limits[self._control_hand_joint_ids]
+                self._inspire_semantic_close_targets = torch.clamp(close_targets, hand_lower, hand_upper)
         self._dynamic_speed_curriculum_success_alpha = 0.0
         self._dynamic_speed_curriculum_metric_value = 0.0
         self._dynamic_speed_curriculum_metric_ema = 0.0
@@ -1009,10 +1023,14 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         def write_joint(joint_name: str, fraction: torch.Tensor) -> None:
             if joint_name not in local_index:
                 return
+            local_id = local_index[joint_name]
             jid = joint_index[joint_name]
             open_target = torch.clamp(self._default_joint_pos[:, jid], lower[jid], upper[jid])
-            close_target = upper[jid].expand_as(open_target)
-            targets[:, local_index[joint_name]] = open_target + fraction * (close_target - open_target)
+            if self._inspire_semantic_close_targets is None:
+                close_target = upper[jid].expand_as(open_target)
+            else:
+                close_target = self._inspire_semantic_close_targets[local_id].expand_as(open_target)
+            targets[:, local_id] = open_target + fraction * (close_target - open_target)
 
         write_joint("thumb_proximal_yaw_joint", fractions[:, 0])
         for joint_name in ("thumb_proximal_pitch_joint", "thumb_intermediate_joint", "thumb_distal_joint"):

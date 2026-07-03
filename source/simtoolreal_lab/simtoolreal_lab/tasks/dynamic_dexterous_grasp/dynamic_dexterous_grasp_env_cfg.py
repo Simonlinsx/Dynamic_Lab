@@ -89,6 +89,24 @@ INSPIRE_ACTIVE_HAND_JOINT_NAMES = (
     "ring_proximal_joint",
     "pinky_proximal_joint",
 )
+# Conservative 6-active-DOF Inspire close envelope derived from AnyDex's
+# width_12Dangle_6Dangle table, converted to the Isaac/URDF joint order above.
+# This keeps the simulated follower joints inside the real hand's coupled
+# motion range instead of driving every revolute joint to its URDF limit.
+INSPIRE_ANYDEX_P80_CLOSE_TARGETS = (
+    0.541,  # index_proximal_joint
+    0.478,  # index_intermediate_joint
+    0.617,  # middle_proximal_joint
+    0.558,  # middle_intermediate_joint
+    0.705,  # pinky_proximal_joint
+    0.647,  # pinky_intermediate_joint
+    0.719,  # ring_proximal_joint
+    0.660,  # ring_intermediate_joint
+    1.300,  # thumb_proximal_yaw_joint
+    0.272,  # thumb_proximal_pitch_joint
+    0.180,  # thumb_intermediate_joint
+    0.443,  # thumb_distal_joint
+)
 INSPIRE_FINGERTIP_BODY_NAMES = (
     "thumb_tip",
     "index_tip",
@@ -673,6 +691,7 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     reset_arm_pos_noise = 0.0
     reset_object_pos_noise = (0.035, 0.045, 0.015)
     reference_hand_fractions = (1.0,) * 6
+    inspire_semantic_close_targets: tuple[float, ...] | None = None
     scripted_tabletop_pregrasp_prior_enabled = False
     scripted_tabletop_pregrasp_arm_pos = FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS
     scripted_tabletop_pregrasp_prior_start_step = 0
@@ -3397,6 +3416,7 @@ class InspireDynamicDexterousTeacherEnvCfg(Revo2DynamicDexterousTeacherEnvCfg):
     palm_offset = INSPIRE_PALM_OFFSET
     fingertip_body_offsets = INSPIRE_FINGERTIP_BODY_OFFSETS
     reference_hand_fractions = (1.0,) * 6
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_P80_CLOSE_TARGETS
     hand_moving_average = 0.78
     contact_distance = 0.060
     contact_score_scale = 0.060
@@ -3423,6 +3443,7 @@ class InspireDynamicTabletopTeacherEnvCfg(Revo2DynamicTabletopTeacherEnvCfg):
     palm_offset = INSPIRE_PALM_OFFSET
     fingertip_body_offsets = INSPIRE_FINGERTIP_BODY_OFFSETS
     reference_hand_fractions = (1.0,) * 6
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_P80_CLOSE_TARGETS
     hand_moving_average = 0.78
     contact_distance = 0.060
     contact_score_scale = 0.060
@@ -3768,6 +3789,7 @@ class InspireFallingBatonTeacherEnvCfg(Revo2FallingBatonTeacherEnvCfg):
     palm_offset = INSPIRE_PALM_OFFSET
     fingertip_body_offsets = INSPIRE_FINGERTIP_BODY_OFFSETS
     reference_hand_fractions = (1.0,) * 6
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_P80_CLOSE_TARGETS
     hand_moving_average = 0.78
     contact_distance = 0.060
     contact_score_scale = 0.060
