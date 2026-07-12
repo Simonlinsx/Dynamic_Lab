@@ -1040,6 +1040,7 @@ class _UnifiedRollingLiftHoldStage3Contract:
     tabletop_object_carry_uses_grasp_seen = False
     tabletop_object_carry_min_grasp_streak = 3
     tabletop_object_carry_streak_ramp_steps = 4
+    tabletop_object_carry_uses_lift_baseline_grasp_streak = True
     tabletop_no_lift_uses_force_grasp_gate = False
     tabletop_success_requires_force_grasp = False
     tabletop_lift_without_object_min_arm_progress = 0.08

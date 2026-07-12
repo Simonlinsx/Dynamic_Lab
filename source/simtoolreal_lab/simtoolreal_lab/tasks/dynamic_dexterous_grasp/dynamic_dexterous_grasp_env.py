@@ -2507,8 +2507,20 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             carry_min_streak = float(getattr(self.cfg, "tabletop_object_carry_min_grasp_streak", 0.0))
             if carry_min_streak > 0.0:
                 carry_streak_ramp = max(float(getattr(self.cfg, "tabletop_object_carry_streak_ramp_steps", 1.0)), 1.0)
+                carry_grasp_streak = reward_grasp_streak
+                if bool(
+                    getattr(
+                        self.cfg,
+                        "tabletop_object_carry_uses_lift_baseline_grasp_streak",
+                        False,
+                    )
+                ):
+                    # The no-lift streak intentionally resets once lift starts.
+                    # Carry shaping instead needs the current strict-grasp streak,
+                    # which is tracked continuously by the strict lift baseline.
+                    carry_grasp_streak = self._tabletop_arm_lift_baseline_grasp_streak
                 carry_streak_gate = torch.clamp(
-                    (reward_grasp_streak.float() - carry_min_streak + 1.0) / carry_streak_ramp,
+                    (carry_grasp_streak.float() - carry_min_streak + 1.0) / carry_streak_ramp,
                     0.0,
                     1.0,
                 )

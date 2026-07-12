@@ -40,7 +40,7 @@
       "student_observation": "fixed_camera_masked_rgbd_pointcloud",
       "force_contact_role": "diagnostic_only_not_success_gate",
       "checker": "scripts/check_unified_rolling_protocol.py",
-      "status": "revo2_teacher_validated_inspire_continuation",
+      "status": "revo2_teacher_validated_inspire_carry_streak_fix_training",
       "revo2_force_gate_fix_validation": {
         "checkpoint": "logs/rl_games/revo2_rolling_assetpriv_hardreplay_from_ep100_256env_240ep_online_20260711/nn/last_simtoolreal_dynamic_dexterous_teacher_direct_ep_160_rew_7145104.5.pth",
         "static_apple_success": "183/256",

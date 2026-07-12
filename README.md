@@ -468,6 +468,12 @@ same unified task ID for the selected hand; the student script changes only the
 observation source to fixed-camera masked RGB-D point clouds. It must not swap
 back to a sphere-only or other legacy environment.
 
+Stage 3 keeps two grasp streaks semantically separate. The no-lift streak resets
+as soon as the object starts rising and is used only for the stationary-grasp
+penalty. Object-up-velocity and carry rewards use the continuously tracked
+strict lift-baseline streak, so their gate remains active while a valid grasp
+actually lifts the object.
+
 New falling-baton comparisons must use
 `SimToolReal-Revo2-Franka-UnifiedFallingBatonBenchmark-Teacher-Direct-v0` and
 `SimToolReal-Inspire-Franka-UnifiedFallingBatonBenchmark-Teacher-Direct-v0`.
