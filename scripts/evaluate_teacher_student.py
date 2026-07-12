@@ -298,6 +298,25 @@ parser.add_argument(
 )
 parser.add_argument("--video-camera-focal-length", type=float, default=24.0)
 parser.add_argument("--video-camera-resolution", type=int, nargs=2, default=(960, 544))
+parser.add_argument(
+    "--video-pointcloud-visualization",
+    choices=("none", "inset", "separate", "both"),
+    default="none",
+    help=(
+        "Visualize the exact current point-cloud observation as a top-right inset, "
+        "a synchronized companion MP4, or both."
+    ),
+)
+parser.add_argument(
+    "--video-pointcloud-panel-resolution",
+    type=int,
+    nargs=2,
+    default=(320, 192),
+    metavar=("WIDTH", "HEIGHT"),
+)
+parser.add_argument("--video-pointcloud-range", type=float, default=0.30)
+parser.add_argument("--video-pointcloud-point-radius", type=int, default=2)
+parser.add_argument("--video-pointcloud-inset-margin", type=int, default=12)
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 
@@ -315,6 +334,14 @@ if float(args_cli.action_rate_limit) < 0.0:
     raise ValueError("--action-rate-limit must be non-negative.")
 if float(args_cli.student_action_std_scale) < 0.0:
     raise ValueError("--student-action-std-scale must be non-negative.")
+if any(int(value) <= 0 for value in args_cli.video_pointcloud_panel_resolution):
+    raise ValueError("--video-pointcloud-panel-resolution values must be positive.")
+if float(args_cli.video_pointcloud_range) <= 0.0:
+    raise ValueError("--video-pointcloud-range must be positive.")
+if int(args_cli.video_pointcloud_point_radius) <= 0:
+    raise ValueError("--video-pointcloud-point-radius must be positive.")
+if int(args_cli.video_pointcloud_inset_margin) < 0:
+    raise ValueError("--video-pointcloud-inset-margin must be non-negative.")
 if not (0.0 <= float(args_cli.predicted_grasp_hold_blend) <= 1.0):
     raise ValueError("--predicted-grasp-hold-blend must be in [0, 1].")
 if int(args_cli.predicted_grasp_arm_lock_delay_steps) < -1:
@@ -362,6 +389,10 @@ from simtoolreal_lab.teacher_student.evaluation import (  # noqa: E402
     EpisodeFunnelAccumulator,
     EpisodeFunnelTracker,
     flatten_numeric_metrics,
+)
+from simtoolreal_lab.teacher_student.visualization import (  # noqa: E402
+    add_pointcloud_inset,
+    render_pointcloud_panel,
 )
 
 
@@ -1289,26 +1320,115 @@ def _frames_have_signal(frames: list[np.ndarray]) -> bool:
     return False
 
 
-def _capture_video_frames(env, frames_by_env: list[list[np.ndarray]]) -> None:
+def _pointcloud_inset_enabled() -> bool:
+    return args_cli.video_pointcloud_visualization in {"inset", "both"}
+
+
+def _pointcloud_separate_enabled() -> bool:
+    return args_cli.video_pointcloud_visualization in {"separate", "both"}
+
+
+def _read_video_frames(env, num_envs: int) -> list[np.ndarray | None]:
     unwrapped = env.unwrapped
     camera = getattr(unwrapped, "_video_camera", None)
     if camera is None:
         frame = unwrapped.render(recompute=True)
-        if frame is not None and frame.size > 0:
-            for frames in frames_by_env:
-                frames.append(frame.copy())
-        return
+        if frame is None or frame.size == 0:
+            return [None for _ in range(num_envs)]
+        return [frame.copy() for _ in range(num_envs)]
     _set_video_camera_poses(unwrapped)
     _force_camera_update(camera, float(unwrapped.dt))
     rgb = camera.data.output.get("rgb")
     if rgb is None or rgb.numel() == 0:
-        return
+        return [None for _ in range(num_envs)]
     rgb = rgb[..., :3].detach().cpu().numpy()
     if rgb.dtype != np.uint8:
         rgb = np.clip(rgb * 255.0 if rgb.max() <= 1.0 else rgb, 0, 255).astype(np.uint8)
+    return [
+        rgb[env_id].copy() if env_id < rgb.shape[0] and rgb[env_id].size > 0 else None
+        for env_id in range(num_envs)
+    ]
+
+
+def _pointcloud_panels(
+    current_points: torch.Tensor | None,
+    valid: torch.Tensor | None,
+    num_envs: int,
+) -> list[np.ndarray]:
+    if current_points is None or valid is None:
+        features_np = np.zeros((num_envs, 1, 3), dtype=np.float32)
+        valid_np = np.zeros((num_envs, 1), dtype=np.float32)
+    else:
+        features_np = current_points[:num_envs].detach().float().cpu().numpy()
+        valid_np = valid[:num_envs].detach().float().cpu().numpy()
+    resolution = tuple(int(value) for value in args_cli.video_pointcloud_panel_resolution)
+    return [
+        render_pointcloud_panel(
+            features_np[env_id],
+            valid_np[env_id],
+            resolution=resolution,
+            view_range=float(args_cli.video_pointcloud_range),
+            point_radius=int(args_cli.video_pointcloud_point_radius),
+        )
+        for env_id in range(num_envs)
+    ]
+
+
+def _current_visualization_pointcloud(
+    unwrapped,
+    pointcloud_source: str,
+    local_points: torch.Tensor,
+    rgbd_mask_points: torch.Tensor | None,
+    point_feature_dim: int,
+    point_hist: torch.Tensor,
+    valid_hist: torch.Tensor,
+) -> tuple[torch.Tensor | None, torch.Tensor | None]:
+    if args_cli.video_pointcloud_visualization == "none":
+        return None, None
+    current_points, valid, _ = _current_pointcloud(
+        unwrapped,
+        pointcloud_source,
+        local_points,
+        rgbd_mask_points,
+        point_feature_dim,
+    )
+    if pointcloud_source == "rgbd_projected_mask":
+        _apply_rgbd_temporal_fallback(current_points, valid, point_hist, valid_hist)
+    return current_points, valid
+
+
+def _capture_video_frames(
+    env,
+    frames_by_env: list[list[np.ndarray]],
+    current_points: torch.Tensor | None = None,
+    valid: torch.Tensor | None = None,
+    pointcloud_frames_by_env: list[list[np.ndarray]] | None = None,
+) -> None:
+    raw_frames = _read_video_frames(env, len(frames_by_env))
+    visualize_pointcloud = args_cli.video_pointcloud_visualization != "none"
+    panels = (
+        _pointcloud_panels(current_points, valid, len(frames_by_env))
+        if visualize_pointcloud
+        else [None for _ in frames_by_env]
+    )
     for env_id, frames in enumerate(frames_by_env):
-        if env_id < rgb.shape[0] and rgb[env_id].size > 0:
-            frames.append(rgb[env_id].copy())
+        frame = raw_frames[env_id]
+        if frame is None:
+            continue
+        panel = panels[env_id]
+        if panel is not None and _pointcloud_inset_enabled():
+            frame = add_pointcloud_inset(
+                frame,
+                panel,
+                margin=int(args_cli.video_pointcloud_inset_margin),
+            )
+        frames.append(frame)
+        if (
+            panel is not None
+            and _pointcloud_separate_enabled()
+            and pointcloud_frames_by_env is not None
+        ):
+            pointcloud_frames_by_env[env_id].append(panel)
 
 
 def _trace_tensor(unwrapped_env, name: str, num_envs: int, default: float = 0.0) -> torch.Tensor:
@@ -1357,13 +1477,28 @@ def _append_video_trace(env, traces_by_env: list[list[dict]], extras: dict, step
         )
 
 
-def _write_video_trace(video_path: Path, trace: list[dict], attempt: int, env_id: int, frame_count: int) -> Path:
+def _write_video_trace(
+    video_path: Path,
+    trace: list[dict],
+    attempt: int,
+    env_id: int,
+    frame_count: int,
+    pointcloud_video_path: Path | None = None,
+) -> Path:
     lift_values = [float(item["object_height_delta"]) for item in trace]
     success_steps = [int(item["step"]) for item in trace if item.get("success")]
     lifted_steps = [int(item["step"]) for item in trace if item.get("lifted")]
     stable_steps = [int(item["step"]) for item in trace if item.get("stable_hold")]
     payload = {
         "video_path": str(video_path),
+        "pointcloud_video_path": (
+            str(pointcloud_video_path) if pointcloud_video_path is not None else None
+        ),
+        "pointcloud_visualization": str(args_cli.video_pointcloud_visualization),
+        "pointcloud_coordinate_frame": "palm",
+        "pointcloud_source": str(
+            getattr(args_cli, "resolved_pointcloud_source", args_cli.pointcloud_source)
+        ),
         "attempt": int(attempt),
         "env_id": int(env_id),
         "frame_count": int(frame_count),
@@ -1457,14 +1592,15 @@ def _save_success_videos(
     pointcloud_source: str,
     output_dir: Path,
     log_std: torch.Tensor | None,
-) -> list[str]:
+) -> tuple[list[str], list[str]]:
     if args_cli.save_success_videos <= 0:
-        return []
+        return [], []
 
     video_dir = output_dir / "videos"
     video_dir.mkdir(parents=True, exist_ok=True)
     progress_path = output_dir / "video_progress.jsonl"
     video_paths: list[str] = []
+    pointcloud_video_paths: list[str] = []
     video_envs = max(1, int(args_cli.video_envs))
 
     env = _make_env(args_cli.task, video_envs, "rgb_array", pointcloud_source)
@@ -1516,6 +1652,9 @@ def _save_success_videos(
             history_initialized = torch.zeros(video_envs, dtype=torch.bool, device=device)
             pending_reset = torch.zeros(video_envs, dtype=torch.bool, device=device)
             frames_by_env: list[list[np.ndarray]] = [[] for _ in range(video_envs)]
+            pointcloud_frames_by_env: list[list[np.ndarray]] = [
+                [] for _ in range(video_envs)
+            ]
             traces_by_env: list[list[dict]] = [[] for _ in range(video_envs)]
             saved_env_ids: set[int] = set()
             pending_success_steps: dict[int, int] = {}
@@ -1531,7 +1670,32 @@ def _save_success_videos(
                     f"success_attempt_{attempt:03d}_env_{env_id:03d}_idx_{len(video_paths):03d}.mp4"
                 )
                 imageio.mimsave(video_path, frames, fps=args_cli.video_fps, macro_block_size=16)
-                trace_path = _write_video_trace(video_path, traces_by_env[env_id], attempt, env_id, len(frames))
+                pointcloud_video_path = None
+                if _pointcloud_separate_enabled():
+                    pointcloud_frames = pointcloud_frames_by_env[env_id]
+                    if len(pointcloud_frames) != len(frames):
+                        raise RuntimeError(
+                            "Point-cloud and scene video frame counts diverged: "
+                            f"{len(pointcloud_frames)} != {len(frames)}"
+                        )
+                    pointcloud_video_path = video_path.with_name(
+                        f"{video_path.stem}_pointcloud.mp4"
+                    )
+                    imageio.mimsave(
+                        pointcloud_video_path,
+                        pointcloud_frames,
+                        fps=args_cli.video_fps,
+                        macro_block_size=16,
+                    )
+                    pointcloud_video_paths.append(str(pointcloud_video_path))
+                trace_path = _write_video_trace(
+                    video_path,
+                    traces_by_env[env_id],
+                    attempt,
+                    env_id,
+                    len(frames),
+                    pointcloud_video_path,
+                )
                 video_paths.append(str(video_path))
                 saved_env_ids.add(env_id)
                 _trace(f"saved success video: {video_path} (trace={trace_path})")
@@ -1544,8 +1708,6 @@ def _save_success_videos(
                         hold_latch[pending_reset] = False
                         arm_lock_age[pending_reset] = -1
                         arm_lock_target[pending_reset] = 0.0
-                    if step % max(int(args_cli.video_stride), 1) == 0:
-                        _capture_video_frames(env, frames_by_env)
                     current_points, valid, _pc_info = _current_pointcloud(
                         unwrapped,
                         pointcloud_source,
@@ -1559,6 +1721,14 @@ def _save_success_videos(
                             valid,
                             point_hist,
                             valid_hist,
+                        )
+                    if step % max(int(args_cli.video_stride), 1) == 0:
+                        _capture_video_frames(
+                            env,
+                            frames_by_env,
+                            current_points,
+                            valid,
+                            pointcloud_frames_by_env,
                         )
                     proprio = _current_proprio(unwrapped, obs)
                     if proprio.shape[-1] != int(spec["proprio_dim"]):
@@ -1606,7 +1776,22 @@ def _save_success_videos(
                     _append_video_trace(env, traces_by_env, extras, step)
                     success_now = _tensor_bool(extras, "success_env", video_envs, device)
                     if bool(success_now.any()):
-                        _capture_video_frames(env, frames_by_env)
+                        post_points, post_valid = _current_visualization_pointcloud(
+                            unwrapped,
+                            pointcloud_source,
+                            local_points,
+                            rgbd_mask_points,
+                            int(spec.get("point_feature_dim", 3)),
+                            point_hist,
+                            valid_hist,
+                        )
+                        _capture_video_frames(
+                            env,
+                            frames_by_env,
+                            post_points,
+                            post_valid,
+                            pointcloud_frames_by_env,
+                        )
                         for env_tensor in success_now.nonzero(as_tuple=False).squeeze(-1):
                             env_id = int(env_tensor.item())
                             if env_id in saved_env_ids:
@@ -1632,7 +1817,22 @@ def _save_success_videos(
                     pending_reset = dones
                     history_initialized[dones] = False
 
-                _capture_video_frames(env, frames_by_env)
+                final_points, final_valid = _current_visualization_pointcloud(
+                    unwrapped,
+                    pointcloud_source,
+                    local_points,
+                    rgbd_mask_points,
+                    int(spec.get("point_feature_dim", 3)),
+                    point_hist,
+                    valid_hist,
+                )
+                _capture_video_frames(
+                    env,
+                    frames_by_env,
+                    final_points,
+                    final_valid,
+                    pointcloud_frames_by_env,
+                )
                 for env_id in list(pending_success_steps):
                     if env_id not in saved_env_ids and len(video_paths) < int(args_cli.save_success_videos):
                         save_video(env_id)
@@ -1646,12 +1846,29 @@ def _save_success_videos(
                             continue
                         debug_path = video_dir / f"rollout_attempt_{attempt:03d}_env_{env_id:03d}.mp4"
                         imageio.mimsave(debug_path, frames, fps=args_cli.video_fps, macro_block_size=16)
+                        debug_pointcloud_path = None
+                        if _pointcloud_separate_enabled():
+                            if len(pointcloud_frames_by_env[env_id]) != len(frames):
+                                raise RuntimeError(
+                                    "Point-cloud and debug scene frame counts diverged: "
+                                    f"{len(pointcloud_frames_by_env[env_id])} != {len(frames)}"
+                                )
+                            debug_pointcloud_path = debug_path.with_name(
+                                f"{debug_path.stem}_pointcloud.mp4"
+                            )
+                            imageio.mimsave(
+                                debug_pointcloud_path,
+                                pointcloud_frames_by_env[env_id],
+                                fps=args_cli.video_fps,
+                                macro_block_size=16,
+                            )
                         trace_path = _write_video_trace(
                             debug_path,
                             traces_by_env[env_id],
                             attempt,
                             env_id,
                             len(frames),
+                            debug_pointcloud_path,
                         )
                         _trace(f"saved debug rollout video: {debug_path} (trace={trace_path})")
             with progress_path.open("a", encoding="utf-8") as progress_file:
@@ -1673,7 +1890,7 @@ def _save_success_videos(
             )
     finally:
         env.close()
-    return video_paths
+    return video_paths, pointcloud_video_paths
 
 
 def _write_trial_sequence_trace(
@@ -1681,6 +1898,7 @@ def _write_trial_sequence_trace(
     trials: list[dict],
     frame_count: int,
     input_normalization: bool,
+    pointcloud_video_path: Path | None = None,
 ) -> Path:
     success_count = sum(1 for trial in trials if bool(trial.get("success", False)))
     raw_success_count = sum(1 for trial in trials if bool(trial.get("raw_success", False)))
@@ -1691,6 +1909,16 @@ def _write_trial_sequence_trace(
     video_target = args_cli.video_camera_target or args_cli.student_camera_target
     payload = {
         "video_path": str(video_path),
+        "pointcloud_video_path": (
+            str(pointcloud_video_path) if pointcloud_video_path is not None else None
+        ),
+        "pointcloud_visualization": str(args_cli.video_pointcloud_visualization),
+        "pointcloud_coordinate_frame": "palm",
+        "pointcloud_source": str(
+            getattr(args_cli, "resolved_pointcloud_source", args_cli.pointcloud_source)
+        ),
+        "pointcloud_panel_resolution": list(args_cli.video_pointcloud_panel_resolution),
+        "pointcloud_range": float(args_cli.video_pointcloud_range),
         "checkpoint": str(Path(args_cli.checkpoint).expanduser().resolve()),
         "task": args_cli.task,
         "trials": trials,
@@ -1730,12 +1958,13 @@ def _save_trial_sequence_videos(
     pointcloud_source: str,
     output_dir: Path,
     log_std: torch.Tensor | None,
-) -> tuple[list[str], list[str]]:
+) -> tuple[list[str], list[str], list[str]]:
     if args_cli.save_trial_sequence_videos <= 0:
-        return [], []
+        return [], [], []
 
     sequence_paths: list[str] = []
     trace_paths: list[str] = []
+    pointcloud_sequence_paths: list[str] = []
     video_dir = output_dir / "videos"
     video_dir.mkdir(parents=True, exist_ok=True)
     trial_count = max(1, int(args_cli.trial_sequence_trials))
@@ -1769,16 +1998,41 @@ def _save_trial_sequence_videos(
                 unwrapped.seed(sequence_seed)
             tmp_path = video_dir / f"trial_sequence_{sequence_idx:03d}_pending.mp4"
             writer = imageio.get_writer(tmp_path, fps=args_cli.video_fps, macro_block_size=16)
+            pointcloud_tmp_path = video_dir / (
+                f"trial_sequence_{sequence_idx:03d}_pointcloud_pending.mp4"
+            )
+            pointcloud_writer = (
+                imageio.get_writer(
+                    pointcloud_tmp_path,
+                    fps=args_cli.video_fps,
+                    macro_block_size=16,
+                )
+                if _pointcloud_separate_enabled()
+                else None
+            )
             trials: list[dict] = []
             frame_count = 0
             last_frame: np.ndarray | None = None
+            last_pointcloud_frame: np.ndarray | None = None
 
-            def append_frames(frames: list[np.ndarray]) -> None:
-                nonlocal frame_count, last_frame
+            def append_frames(
+                frames: list[np.ndarray],
+                pointcloud_frames: list[np.ndarray] | None = None,
+            ) -> None:
+                nonlocal frame_count, last_frame, last_pointcloud_frame
+                if pointcloud_writer is not None and len(pointcloud_frames or []) != len(frames):
+                    raise RuntimeError(
+                        "Point-cloud and scene sequence frame counts diverged: "
+                        f"{len(pointcloud_frames or [])} != {len(frames)}"
+                    )
                 for frame in frames:
                     writer.append_data(frame)
                     frame_count += 1
                     last_frame = frame
+                if pointcloud_writer is not None:
+                    for pointcloud_frame in pointcloud_frames or []:
+                        pointcloud_writer.append_data(pointcloud_frame)
+                        last_pointcloud_frame = pointcloud_frame
 
             try:
                 obs, _ = env.reset()
@@ -1806,6 +2060,7 @@ def _save_trial_sequence_videos(
                     arm_lock_age = torch.full((1,), -1, dtype=torch.long, device=device)
                     arm_lock_target = torch.zeros((1, int(spec["arm_dim"])), device=device)
                     frames_by_env: list[list[np.ndarray]] = [[]]
+                    pointcloud_frames_by_env: list[list[np.ndarray]] = [[]]
                     traces_by_env: list[list[dict]] = [[]]
                     first_success_step: int | None = None
                     post_success_detail = ""
@@ -1813,8 +2068,23 @@ def _save_trial_sequence_videos(
                     trial_ended_with_done = False
                     max_steps = int(args_cli.video_max_steps or unwrapped.max_episode_length)
 
+                    preview_points, preview_valid = _current_visualization_pointcloud(
+                        unwrapped,
+                        pointcloud_source,
+                        local_points,
+                        rgbd_mask_points,
+                        int(spec.get("point_feature_dim", 3)),
+                        point_hist,
+                        valid_hist,
+                    )
                     for _ in range(pre_roll_frames):
-                        _capture_video_frames(env, frames_by_env)
+                        _capture_video_frames(
+                            env,
+                            frames_by_env,
+                            preview_points,
+                            preview_valid,
+                            pointcloud_frames_by_env,
+                        )
 
                     with torch.inference_mode():
                         for step in range(max_steps):
@@ -1834,8 +2104,6 @@ def _save_trial_sequence_videos(
                                 if trial_ended_with_done:
                                     break
                                 continue
-                            if not recording_complete and step % stride == 0:
-                                _capture_video_frames(env, frames_by_env)
                             current_points, valid, _pc_info = _current_pointcloud(
                                 unwrapped,
                                 pointcloud_source,
@@ -1849,6 +2117,14 @@ def _save_trial_sequence_videos(
                                     valid,
                                     point_hist,
                                     valid_hist,
+                                )
+                            if step % stride == 0:
+                                _capture_video_frames(
+                                    env,
+                                    frames_by_env,
+                                    current_points,
+                                    valid,
+                                    pointcloud_frames_by_env,
                                 )
                             proprio = _current_proprio(unwrapped, obs)
                             if proprio.shape[-1] != int(spec["proprio_dim"]):
@@ -1901,12 +2177,42 @@ def _save_trial_sequence_videos(
                                     first_success_step is not None
                                     and step - first_success_step >= post_success_steps
                                 ):
-                                    _capture_video_frames(env, frames_by_env)
+                                    post_points, post_valid = _current_visualization_pointcloud(
+                                        unwrapped,
+                                        pointcloud_source,
+                                        local_points,
+                                        rgbd_mask_points,
+                                        int(spec.get("point_feature_dim", 3)),
+                                        point_hist,
+                                        valid_hist,
+                                    )
+                                    _capture_video_frames(
+                                        env,
+                                        frames_by_env,
+                                        post_points,
+                                        post_valid,
+                                        pointcloud_frames_by_env,
+                                    )
                                     recording_complete = True
                             if trial_ended_with_done:
                                 break
                     if not recording_complete:
-                        _capture_video_frames(env, frames_by_env)
+                        final_points, final_valid = _current_visualization_pointcloud(
+                            unwrapped,
+                            pointcloud_source,
+                            local_points,
+                            rgbd_mask_points,
+                            int(spec.get("point_feature_dim", 3)),
+                            point_hist,
+                            valid_hist,
+                        )
+                        _capture_video_frames(
+                            env,
+                            frames_by_env,
+                            final_points,
+                            final_valid,
+                            pointcloud_frames_by_env,
+                        )
 
                     trace = traces_by_env[0]
                     raw_success = first_success_step is not None
@@ -1929,14 +2235,30 @@ def _save_trial_sequence_videos(
                         else True
                     )
                     frames = frames_by_env[0]
+                    pointcloud_frames = pointcloud_frames_by_env[0]
                     visual_ok = _frames_have_signal(frames)
                     if visual_ok:
-                        append_frames(frames)
+                        append_frames(frames, pointcloud_frames)
                     elif last_frame is not None:
-                        append_frames([last_frame.copy()])
+                        fallback_pointcloud_frames = (
+                            [last_pointcloud_frame.copy()]
+                            if pointcloud_writer is not None
+                            and last_pointcloud_frame is not None
+                            else None
+                        )
+                        append_frames([last_frame.copy()], fallback_pointcloud_frames)
                     if gap_frames > 0 and last_frame is not None and trial_idx < trial_count - 1:
                         gap_frame = np.zeros_like(last_frame)
-                        append_frames([gap_frame.copy() for _ in range(gap_frames)])
+                        gap_pointcloud_frames = None
+                        if pointcloud_writer is not None and last_pointcloud_frame is not None:
+                            gap_pointcloud_frame = np.zeros_like(last_pointcloud_frame)
+                            gap_pointcloud_frames = [
+                                gap_pointcloud_frame.copy() for _ in range(gap_frames)
+                            ]
+                        append_frames(
+                            [gap_frame.copy() for _ in range(gap_frames)],
+                            gap_pointcloud_frames,
+                        )
 
                     trials.append(
                         {
@@ -1971,6 +2293,8 @@ def _save_trial_sequence_videos(
                         )
             finally:
                 writer.close()
+                if pointcloud_writer is not None:
+                    pointcloud_writer.close()
 
             success_count = sum(1 for trial in trials if bool(trial.get("success", False)))
             final_path = video_dir / (
@@ -1979,14 +2303,23 @@ def _save_trial_sequence_videos(
             )
             if frame_count <= 0:
                 tmp_path.unlink(missing_ok=True)
+                pointcloud_tmp_path.unlink(missing_ok=True)
                 _trace(f"trial-sequence {sequence_idx:03d} produced no frames")
                 continue
             tmp_path.replace(final_path)
+            pointcloud_final_path = None
+            if pointcloud_writer is not None:
+                pointcloud_final_path = final_path.with_name(
+                    f"{final_path.stem}_pointcloud.mp4"
+                )
+                pointcloud_tmp_path.replace(pointcloud_final_path)
+                pointcloud_sequence_paths.append(str(pointcloud_final_path))
             trace_path = _write_trial_sequence_trace(
                 final_path,
                 trials,
                 frame_count,
                 bool(getattr(model, "input_normalization", None) is not None),
+                pointcloud_final_path,
             )
             sequence_paths.append(str(final_path))
             trace_paths.append(str(trace_path))
@@ -1994,7 +2327,7 @@ def _save_trial_sequence_videos(
     finally:
         env.close()
 
-    return sequence_paths, trace_paths
+    return sequence_paths, trace_paths, pointcloud_sequence_paths
 
 
 def _maybe_init_wandb(checkpoint: Path, metadata: dict, spec: dict, output_dir: Path):
@@ -2034,6 +2367,9 @@ def _maybe_init_wandb(checkpoint: Path, metadata: dict, spec: dict, output_dir: 
             "trial_sequence_seed_mode": args_cli.trial_sequence_seed_mode,
             "student_camera_eye": args_cli.student_camera_eye,
             "student_camera_target": args_cli.student_camera_target,
+            "video_pointcloud_visualization": args_cli.video_pointcloud_visualization,
+            "video_pointcloud_panel_resolution": args_cli.video_pointcloud_panel_resolution,
+            "video_pointcloud_range": float(args_cli.video_pointcloud_range),
             "metadata": metadata,
             "spec": spec,
         },
@@ -2054,6 +2390,7 @@ def main() -> None:
     pointcloud_source = _resolve_pointcloud_source(metadata)
     if pointcloud_source not in ("clean", "rgbd_projected_mask"):
         raise RuntimeError(f"Unsupported pointcloud source in metadata: {pointcloud_source!r}")
+    args_cli.resolved_pointcloud_source = pointcloud_source
     args_cli.resolved_proprio_source = _resolve_proprio_source(metadata)
     if args_cli.resolved_proprio_source not in ("policy", "deployable_robot"):
         raise RuntimeError(
@@ -2090,21 +2427,26 @@ def main() -> None:
             render_mode=None,
         )
         vector_passed = eval_summary["success_rate"] >= float(args_cli.success_threshold)
-    video_paths = _save_success_videos(model, spec, pointcloud_source, output_dir, log_std)
+    video_paths, success_pointcloud_video_paths = _save_success_videos(
+        model, spec, pointcloud_source, output_dir, log_std
+    )
     trace_paths = [
         str(Path(path).with_suffix(".trace.json"))
         for path in video_paths
         if Path(path).with_suffix(".trace.json").exists()
     ]
-    trial_sequence_paths, trial_sequence_trace_paths = _save_trial_sequence_videos(
-        model, spec, pointcloud_source, output_dir, log_std
-    )
+    (
+        trial_sequence_paths,
+        trial_sequence_trace_paths,
+        trial_sequence_pointcloud_paths,
+    ) = _save_trial_sequence_videos(model, spec, pointcloud_source, output_dir, log_std)
     trial_sequence_results = []
     for trace_path in trial_sequence_trace_paths:
         trace_payload = json.loads(Path(trace_path).read_text(encoding="utf-8"))
         trial_sequence_results.append(
             {
                 "video": trace_payload.get("video_path"),
+                "pointcloud_video": trace_payload.get("pointcloud_video_path"),
                 "trace": str(trace_path),
                 "trials": int(trace_payload.get("trial_count", 0)),
                 "success_count": int(trace_payload.get("success_count", 0)),
@@ -2154,6 +2496,13 @@ def main() -> None:
         "rgbd_clean_fallback": bool(args_cli.rgbd_clean_fallback),
         "rgbd_temporal_fallback": bool(args_cli.rgbd_temporal_fallback),
         "trial_sequence_seed_mode": str(args_cli.trial_sequence_seed_mode),
+        "video_pointcloud_visualization": str(args_cli.video_pointcloud_visualization),
+        "video_pointcloud_panel_resolution": [
+            int(value) for value in args_cli.video_pointcloud_panel_resolution
+        ],
+        "video_pointcloud_range": float(args_cli.video_pointcloud_range),
+        "video_pointcloud_point_radius": int(args_cli.video_pointcloud_point_radius),
+        "video_pointcloud_inset_margin": int(args_cli.video_pointcloud_inset_margin),
         "predicted_grasp_hold_threshold": float(args_cli.predicted_grasp_hold_threshold),
         "predicted_grasp_hold_mode": args_cli.predicted_grasp_hold_mode,
         "predicted_grasp_hold_target": (
@@ -2187,8 +2536,10 @@ def main() -> None:
         "trial_sequence_passed": bool(trial_sequence_passed),
         "eval": eval_summary,
         "success_videos": video_paths,
+        "success_pointcloud_videos": success_pointcloud_video_paths,
         "success_video_traces": trace_paths,
         "trial_sequence_videos": trial_sequence_paths,
+        "trial_sequence_pointcloud_videos": trial_sequence_pointcloud_paths,
         "trial_sequence_traces": trial_sequence_trace_paths,
         "trial_sequence_results": trial_sequence_results,
         "video_post_success_steps": int(args_cli.video_post_success_steps),
@@ -2220,6 +2571,10 @@ def main() -> None:
         if args_cli.wandb_log_videos:
             for index, video_path in enumerate(trial_sequence_paths):
                 scalar_metrics[f"video/trial_sequence_{index:03d}"] = wandb.Video(
+                    video_path, fps=int(args_cli.video_fps), format="mp4"
+                )
+            for index, video_path in enumerate(trial_sequence_pointcloud_paths):
+                scalar_metrics[f"video/trial_sequence_pointcloud_{index:03d}"] = wandb.Video(
                     video_path, fps=int(args_cli.video_fps), format="mp4"
                 )
         wandb.log(scalar_metrics)

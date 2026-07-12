@@ -334,6 +334,25 @@ $PYTHON scripts/evaluate_teacher_student.py \
   --device cuda:0
 ```
 
+For a synchronized continuous debug video, append:
+
+```bash
+  --skip-vector-eval \
+  --save-trial-sequence-videos 1 \
+  --trial-sequence-trials 20 \
+  --video-envs 1 \
+  --video-pointcloud-visualization both \
+  --video-pointcloud-panel-resolution 320 192 \
+  --video-pointcloud-range 0.30
+```
+
+`both` places the fallback-applied RGB-D point cloud in the main video's
+top-right corner and writes a frame-synchronized `_pointcloud.mp4` companion.
+The visualization uses the policy's current `points_palm`, RGB features, and
+valid mask after temporal fallback; it never substitutes the clean simulator
+point cloud when `--no-rgbd-clean-fallback` is active. Use `inset` or `separate`
+to keep only one output.
+
 The actor can also be fine-tuned with deployable RGB-D observations while the
 critic receives compact simulator state. The adapter applied during rollout
 must match evaluation exactly:
