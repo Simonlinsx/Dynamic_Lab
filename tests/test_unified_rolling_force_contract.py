@@ -61,6 +61,7 @@ def test_stage3_force_contacts_are_diagnostics_not_reward_or_success_gates():
     assert values["tabletop_force_stable_grasp_rew_scale"] == 0.0
     assert values["tabletop_force_grasp_loss_penalty_scale"] == 0.0
     assert values["tabletop_lift_rewards_require_force_grasp"] is False
+    assert values["tabletop_lift_rewards_require_current_strict_grasp"] is True
     assert values["tabletop_lift_gate_requires_force_grasp"] is False
     assert values["tabletop_no_lift_uses_force_grasp_gate"] is False
     assert values["tabletop_success_requires_force_grasp"] is False

@@ -1044,6 +1044,7 @@ class _UnifiedRollingLiftHoldStage3Contract:
     quality_lift_progress_min_opposition_multiplier = 0.0
     tabletop_lift_gate_requires_current_strict_grasp = True
     tabletop_lift_gate_requires_force_grasp = False
+    tabletop_lift_rewards_require_current_strict_grasp = True
     tabletop_lift_use_grasp_seen_gate = False
     tabletop_object_carry_uses_grasp_seen = False
     # Stage 3 must keep a current strict grasp. Memory-only hover gates make

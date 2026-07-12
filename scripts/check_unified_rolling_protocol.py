@@ -182,6 +182,7 @@ OBJECTIVE_SEMANTIC_FIELDS = (
     "tabletop_lift_action_prior_gate_min",
     "tabletop_lift_gate_requires_current_strict_grasp",
     "tabletop_lift_gate_requires_force_grasp",
+    "tabletop_lift_rewards_require_current_strict_grasp",
     "tabletop_lift_rewards_require_force_grasp",
     "tabletop_lift_use_grasp_seen_gate",
     "tabletop_lift_without_current_grasp_min_progress",

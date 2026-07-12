@@ -2247,6 +2247,10 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 force_lift_gate = self._force_grasp.float()
                 lift_quality = lift_quality * force_lift_gate
                 quality_lift_gate = quality_lift_gate * force_lift_gate
+            if bool(getattr(self.cfg, "tabletop_lift_rewards_require_current_strict_grasp", False)):
+                strict_lift_gate = reward_true_grasp.float()
+                lift_quality = lift_quality * strict_lift_gate
+                quality_lift_gate = quality_lift_gate * strict_lift_gate
             if self._tabletop_arm_lift_baseline_mode in {"first_strict_grasp", "first_force_grasp"}:
                 baseline_grasp = (
                     self._force_grasp
