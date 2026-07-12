@@ -421,6 +421,13 @@ residual arm action in the official comparison.
 The shared from-scratch reward uses dense fingertip approach plus explicit
 thumb-pair/opposition shaping and penalizes non-thumb-only closure; this avoids
 counting a palm scoop or four-finger push as progress toward a grasp.
+For reproducible from-scratch training, use the two-stage reward curriculum:
+start both hands with `SimToolReal-<Hand>-Franka-UnifiedRollingStage1-Teacher-Direct-v0`
+for 300 epochs, then continue their epoch-300 checkpoints on the corresponding
+`UnifiedRollingBenchmark` task. Stage 1 emphasizes home-to-pregrasp reach;
+stage 2 reduces persistent approach reward and emphasizes opposed thumb-pair
+touch, true grasp, lift, and hold. Object dynamics, observations, actions,
+success semantics, and difficulty curriculum are unchanged at the transition.
 Only embodiment-specific hand coupling, control, close posture, and collision
 clearance remain different. Run `scripts/check_unified_rolling_protocol.py` to
 verify that the shared contract has not drifted.

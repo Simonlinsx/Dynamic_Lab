@@ -762,11 +762,11 @@ class _UnifiedRollingRewardContract:
     arm_lift_progress_rew_scale = 0.0
     arm_target_delta_penalty_scale = 0.004
     catch_progress_rew_scale = 160.0
-    contact_rew_scale = 80.0
+    contact_rew_scale = 300.0
     drop_penalty = 25.0
     dynamic_tabletop_low_palm_penalty_scale = 25.0
-    dynamic_tabletop_pregrasp_height_rew_scale = 44.0
-    dynamic_tabletop_pregrasp_xy_rew_scale = 420.0
+    dynamic_tabletop_pregrasp_height_rew_scale = 20.0
+    dynamic_tabletop_pregrasp_xy_rew_scale = 80.0
     dynamic_tabletop_side_contact_penalty_scale = 0.0
     falling_affordance_negative_penalty_scale = 0.0
     falling_affordance_positive_rew_scale = 0.0
@@ -776,31 +776,31 @@ class _UnifiedRollingRewardContract:
     falling_positive_stable_rew_scale = 0.0
     falling_soft_success_progress_rew_scale = 0.0
     falling_stable_grasp_rew_scale = 0.0
-    fingertip_reach_rew_scale = 24.0
-    grasp_quality_rew_scale = 500.0
+    fingertip_reach_rew_scale = 16.0
+    grasp_quality_rew_scale = 1500.0
     hold_progress_rew_scale = 10800.0
     lift_action_prior_rew_scale = 0.0
     lift_coupling_rew_scale = 0.0
     lift_progress_linear_rew_scale = 0.0
     lift_progress_rew_scale = 1100.0
     lifted_true_grasp_rew_scale = 3800.0
-    opposition_rew_scale = 200.0
+    opposition_rew_scale = 1000.0
     palm_distance_penalty_scale = 0.0
     palm_lift_gap_penalty_scale = 90.0
     palm_lift_rew_scale = 8.0
     palm_only_lift_penalty_scale = 340.0
-    palm_reach_rew_scale = 24.0
-    pregrasp_rew_scale = 4.0
+    palm_reach_rew_scale = 12.0
+    pregrasp_rew_scale = 1.0
     premature_arm_lift_penalty_scale = 0.0
     premature_palm_lift_penalty_scale = 0.0
     quality_lift_progress_rew_scale = 1500.0
     scoop_lift_penalty_scale = 280.0
     stable_hold_rew_scale = 7800.0
-    strict_approach_rew_scale = 80.0
-    strict_multifinger_approach_rew_scale = 160.0
-    strict_opposition_approach_rew_scale = 300.0
-    strict_opposition_touch_rew_scale = 1200.0
-    strict_touch_rew_scale = 400.0
+    strict_approach_rew_scale = 20.0
+    strict_multifinger_approach_rew_scale = 40.0
+    strict_opposition_approach_rew_scale = 5000.0
+    strict_opposition_touch_rew_scale = 12000.0
+    strict_touch_rew_scale = 3000.0
     success_bonus = 32000.0
     tabletop_affordance_lift_rew_scale = 0.0
     tabletop_affordance_negative_penalty_scale = 0.0
@@ -827,7 +827,7 @@ class _UnifiedRollingRewardContract:
     tabletop_lift_without_current_grasp_penalty_scale = 0.0
     tabletop_lift_without_object_penalty_scale = 0.0
     tabletop_no_lift_after_grasp_penalty_scale = 180.0
-    tabletop_non_thumb_without_thumb_penalty_scale = 300.0
+    tabletop_non_thumb_without_thumb_penalty_scale = 800.0
     tabletop_object_carry_lift_rew_scale = 0.0
     tabletop_object_carry_stall_penalty_scale = 0.0
     tabletop_object_up_vel_rew_scale = 0.0
@@ -843,7 +843,7 @@ class _UnifiedRollingRewardContract:
     tabletop_post_success_unstable_penalty_scale = 16000.0
     tabletop_stable_catch_rew_scale = 1650.0
     tabletop_underwrap_rew_scale = 0.0
-    true_grasp_rew_scale = 500.0
+    true_grasp_rew_scale = 3000.0
 
     # Reward-component semantics. These values match the working Revo2
     # multi-shape teacher and are shared so the two hands optimize the same
@@ -937,7 +937,7 @@ class _UnifiedRollingRewardContract:
     strict_touch_reward_opposition_min_multiplier = 0.05
     strict_touch_reward_requires_thumb_pair = True
     strict_touch_reward_uses_opposition_product = True
-    strict_touch_score_scale = 0.008
+    strict_touch_score_scale = 0.012
 
     default_arm_pos = FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS
     policy_action_interface = "joint_target"
@@ -3688,6 +3688,29 @@ class Revo2UnifiedRollingBenchmarkTeacherEnvCfg(
     tabletop_post_success_hand_lock_uses_actual_joint_pos = False
     tabletop_post_success_hand_close_fraction = 0.08
     affordance_label_mode = "tabletop_rolling_assets"
+
+
+@configclass
+class Revo2UnifiedRollingStage1TeacherEnvCfg(Revo2UnifiedRollingBenchmarkTeacherEnvCfg):
+    """Home-to-pregrasp bootstrap stage for the shared rolling curriculum."""
+
+    reference_name = "revo2_unified_rolling_multishape_v1_stage1_teacher"
+    contact_rew_scale = 80.0
+    dynamic_tabletop_pregrasp_height_rew_scale = 44.0
+    dynamic_tabletop_pregrasp_xy_rew_scale = 420.0
+    fingertip_reach_rew_scale = 24.0
+    grasp_quality_rew_scale = 500.0
+    opposition_rew_scale = 200.0
+    palm_reach_rew_scale = 24.0
+    pregrasp_rew_scale = 4.0
+    strict_approach_rew_scale = 80.0
+    strict_multifinger_approach_rew_scale = 160.0
+    strict_opposition_approach_rew_scale = 300.0
+    strict_opposition_touch_rew_scale = 1200.0
+    strict_touch_rew_scale = 400.0
+    tabletop_non_thumb_without_thumb_penalty_scale = 300.0
+    true_grasp_rew_scale = 500.0
+    strict_touch_score_scale = 0.008
 
 
 @configclass
@@ -7914,6 +7937,29 @@ class InspireUnifiedRollingBenchmarkTeacherEnvCfg(
     tabletop_post_success_hand_lock_uses_actual_joint_pos = False
     tabletop_post_success_hand_close_fraction = 0.08
     affordance_label_mode = "tabletop_rolling_assets"
+
+
+@configclass
+class InspireUnifiedRollingStage1TeacherEnvCfg(InspireUnifiedRollingBenchmarkTeacherEnvCfg):
+    """Inspire adapter for the shared home-to-pregrasp bootstrap stage."""
+
+    reference_name = "inspire_unified_rolling_multishape_v1_stage1_teacher"
+    contact_rew_scale = 80.0
+    dynamic_tabletop_pregrasp_height_rew_scale = 44.0
+    dynamic_tabletop_pregrasp_xy_rew_scale = 420.0
+    fingertip_reach_rew_scale = 24.0
+    grasp_quality_rew_scale = 500.0
+    opposition_rew_scale = 200.0
+    palm_reach_rew_scale = 24.0
+    pregrasp_rew_scale = 4.0
+    strict_approach_rew_scale = 80.0
+    strict_multifinger_approach_rew_scale = 160.0
+    strict_opposition_approach_rew_scale = 300.0
+    strict_opposition_touch_rew_scale = 1200.0
+    strict_touch_rew_scale = 400.0
+    tabletop_non_thumb_without_thumb_penalty_scale = 300.0
+    true_grasp_rew_scale = 500.0
+    strict_touch_score_scale = 0.008
 
 
 @configclass

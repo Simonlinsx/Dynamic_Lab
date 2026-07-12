@@ -326,6 +326,19 @@ gym.register(
 )
 
 gym.register(
+    id="SimToolReal-Revo2-Franka-UnifiedRollingStage1-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2UnifiedRollingStage1TeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
     id=(
         "SimToolReal-Revo2-Franka-DynamicTabletopRollingAssetsFastSpeed"
         "AssetPrivilegedHardReplay-Teacher-Direct-v0"
@@ -1286,6 +1299,19 @@ gym.register(
         "env_cfg_entry_point": (
             f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
             "InspireUnifiedRollingBenchmarkTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-UnifiedRollingStage1-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireUnifiedRollingStage1TeacherEnvCfg"
         ),
         "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
     },
