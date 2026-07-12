@@ -67,3 +67,11 @@ def test_stage3_carry_reward_keeps_current_strict_grasp_streak_during_lift():
         and any(isinstance(target, ast.Name) and target.id == "carry_streak_gate" for target in assignment.targets)
         for node in ast.walk(assignment.value)
     )
+
+
+def test_stage3_lift_action_alignment_is_current_strict_grasp_gated():
+    values = _class_constants("_UnifiedRollingLiftHoldStage3Contract")
+
+    assert values["tabletop_lift_action_prior_rew_scale"] == 9000.0
+    assert values["tabletop_lift_action_prior_gate_min"] == 0.0
+    assert values["tabletop_lift_gate_requires_current_strict_grasp"] is True
