@@ -81,6 +81,21 @@ def main() -> None:
         "parse_cfg_done",
         observation_space=int(env_cfg.observation_space),
         action_space=int(env_cfg.action_space),
+        default_arm_pos=list(env_cfg.default_arm_pos),
+        arm_action_scale=float(env_cfg.arm_action_scale),
+        arm_moving_average=float(env_cfg.arm_moving_average),
+        initial_arm_target_lock_steps=int(env_cfg.initial_arm_target_lock_steps),
+        initial_hand_target_lock_steps=int(env_cfg.initial_hand_target_lock_steps),
+        scripted_action_prior_enabled=bool(env_cfg.scripted_action_prior_enabled),
+        scripted_tabletop_pregrasp_prior_enabled=bool(
+            env_cfg.scripted_tabletop_pregrasp_prior_enabled
+        ),
+        scripted_tabletop_relative_lift_target_prior_enabled=bool(
+            env_cfg.scripted_tabletop_relative_lift_target_prior_enabled
+        ),
+        scripted_tabletop_hand_grasp_memory_prior_enabled=bool(
+            env_cfg.scripted_tabletop_hand_grasp_memory_prior_enabled
+        ),
         asset_count=len(tuple(getattr(env_cfg, "tabletop_object_asset_specs", ()))),
         asset_ids=[
             str(spec.get("asset_id", ""))

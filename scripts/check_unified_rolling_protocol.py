@@ -39,6 +39,12 @@ PROTOCOL_FIELDS = (
     "task_family",
     "observation_space",
     "action_space",
+    "default_arm_pos",
+    "arm_action_scale",
+    "arm_moving_average",
+    "initial_arm_target_lock_steps",
+    "initial_hand_target_lock_steps",
+    "tabletop_arm_lift_progress_baseline_pos",
     "create_table",
     "table_top_z",
     "workspace_xy_limit",
@@ -286,6 +292,11 @@ def _snapshot(cfg) -> dict:
         field: _normalize(getattr(cfg, field)) for field in OBJECTIVE_SEMANTIC_FIELDS
     }
     snapshot["tabletop_object_asset_specs"] = _asset_snapshot(cfg)
+    snapshot["robot_arm_init_joint_pos"] = {
+        key: _normalize(value)
+        for key, value in sorted(cfg.robot_cfg.init_state.joint_pos.items())
+        if str(key).startswith("panda_joint")
+    }
     snapshot["sim_dt"] = float(cfg.sim.dt)
     snapshot["sim_render_interval"] = int(cfg.sim.render_interval)
     snapshot["decimation"] = int(cfg.decimation)

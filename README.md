@@ -413,7 +413,9 @@ bottle physics and uniform evaluation distribution, a shared static-to-
 0.10--0.40 m/s curriculum, 13-D action and 86-D privileged observation
 contracts, reward weights, strict lift/hold success, hover target, episode
 length, cameras, and direct-policy control with scripted reach/close/lift priors
-disabled.
+disabled. Both rolling embodiments reset the Franka arm to the same upright
+IsaacLab default home pose and use the same arm action scale, smoothing, and
+initial target-lock duration.
 Only embodiment-specific hand coupling, control, close posture, and collision
 clearance remain different. Run `scripts/check_unified_rolling_protocol.py` to
 verify that the shared contract has not drifted.

@@ -38,6 +38,11 @@ PROTOCOL_FIELDS = (
     "task_family",
     "observation_space",
     "action_space",
+    "default_arm_pos",
+    "arm_action_scale",
+    "arm_moving_average",
+    "initial_arm_target_lock_steps",
+    "initial_hand_target_lock_steps",
     "create_table",
     "episode_length_s",
     "object_shape",
@@ -200,6 +205,11 @@ def _snapshot(cfg) -> dict:
         field: _normalize(getattr(cfg, field)) for field in reward_fields
     }
     snapshot["object_physics"] = _object_snapshot(cfg)
+    snapshot["robot_arm_init_joint_pos"] = {
+        key: _normalize(value)
+        for key, value in sorted(cfg.robot_cfg.init_state.joint_pos.items())
+        if str(key).startswith("panda_joint")
+    }
     snapshot["affordance_markers"] = {
         region: _marker_snapshot(cfg, region) for region in ("positive", "neutral", "negative")
     }

@@ -759,7 +759,7 @@ class _UnifiedRollingRewardContract:
     """Embodiment-independent reward contract for rolling comparisons."""
 
     action_penalty_scale = 0.003
-    arm_lift_progress_rew_scale = 8.0
+    arm_lift_progress_rew_scale = 0.0
     arm_target_delta_penalty_scale = 0.004
     catch_progress_rew_scale = 160.0
     contact_rew_scale = 18.0
@@ -779,8 +779,8 @@ class _UnifiedRollingRewardContract:
     fingertip_reach_rew_scale = 24.0
     grasp_quality_rew_scale = 210.0
     hold_progress_rew_scale = 10800.0
-    lift_action_prior_rew_scale = 45.0
-    lift_coupling_rew_scale = 180.0
+    lift_action_prior_rew_scale = 0.0
+    lift_coupling_rew_scale = 0.0
     lift_progress_linear_rew_scale = 0.0
     lift_progress_rew_scale = 1100.0
     lifted_true_grasp_rew_scale = 3800.0
@@ -806,8 +806,8 @@ class _UnifiedRollingRewardContract:
     tabletop_affordance_negative_penalty_scale = 0.0
     tabletop_affordance_positive_rew_scale = 0.0
     tabletop_arm_clearance_penalty_scale = 0.0
-    tabletop_arm_object_lift_gap_penalty_scale = 280.0
-    tabletop_grasped_arm_lift_rew_scale = 820.0
+    tabletop_arm_object_lift_gap_penalty_scale = 0.0
+    tabletop_grasped_arm_lift_rew_scale = 0.0
     tabletop_grasped_palm_lift_rew_scale = 700.0
     tabletop_hover_goal_rew_scale = 360.0
     tabletop_hover_grasp_loss_penalty_scale = 260.0
@@ -825,7 +825,7 @@ class _UnifiedRollingRewardContract:
     tabletop_hover_z_vel_penalty_scale = 120.0
     tabletop_lift_action_prior_rew_scale = 0.0
     tabletop_lift_without_current_grasp_penalty_scale = 0.0
-    tabletop_lift_without_object_penalty_scale = 150.0
+    tabletop_lift_without_object_penalty_scale = 0.0
     tabletop_no_lift_after_grasp_penalty_scale = 180.0
     tabletop_non_thumb_without_thumb_penalty_scale = 0.0
     tabletop_object_carry_lift_rew_scale = 0.0
@@ -934,6 +934,13 @@ class _UnifiedRollingRewardContract:
     strict_touch_reward_requires_thumb_pair = False
     strict_touch_reward_uses_opposition_product = False
     strict_touch_score_scale = 0.008
+
+    default_arm_pos = FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS
+    arm_action_scale = 0.50
+    arm_moving_average = 0.96
+    initial_arm_target_lock_steps = 12
+    initial_hand_target_lock_steps = 12
+    tabletop_arm_lift_progress_baseline_pos = FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS
 
     # The official comparison is direct RL, not a different scripted residual
     # controller per hand. Geometry-specific target scaling remains in the
@@ -3588,6 +3595,7 @@ class Revo2UnifiedRollingBenchmarkTeacherEnvCfg(
 
     reference_name = "revo2_unified_rolling_multishape_v1_teacher"
     benchmark_protocol = UNIFIED_ROLLING_BENCHMARK_NAME
+    robot_cfg: ArticulationCfg = _v699_revo2_robot_cfg(FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS)
 
     observation_space = 86
     tabletop_object_asset_specs = UNIFIED_ROLLING_OBJECT_SPECS
@@ -7813,6 +7821,7 @@ class InspireUnifiedRollingBenchmarkTeacherEnvCfg(
 
     reference_name = "inspire_unified_rolling_multishape_v1_teacher"
     benchmark_protocol = UNIFIED_ROLLING_BENCHMARK_NAME
+    robot_cfg: ArticulationCfg = _inspire_z180_robot_cfg(FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS)
 
     observation_space = 86
     tabletop_object_asset_specs = UNIFIED_ROLLING_OBJECT_SPECS
