@@ -614,6 +614,9 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             return min(max(float(override_alpha), 0.0), 1.0)
         if not bool(getattr(self.cfg, "tabletop_asset_curriculum", False)):
             return 1.0
+        mode = str(getattr(self.cfg, "tabletop_asset_curriculum_mode", "steps")).lower()
+        if mode in {"dynamic_speed", "shared_performance", "speed_curriculum"}:
+            return self._dynamic_speed_curriculum_alpha()
         steps = int(getattr(self.cfg, "tabletop_asset_curriculum_steps", 0))
         if steps <= 0:
             return 1.0
