@@ -45,6 +45,9 @@ def _validate(payload: dict[str, Any]) -> None:
         action_contract=metadata.get("action_contract", "revo2_semantic_13d"),
         history=int(metadata.get("history", payload["pointcloud_seq"].shape[1])),
         num_object_points=int(metadata.get("object_points", payload["pointcloud_seq"].shape[2])),
+        point_feature_dim=int(
+            metadata.get("point_feature_dim", payload["pointcloud_seq"].shape[-1])
+        ),
         proprio_dim=int(metadata.get("proprio_dim", payload["proprio_seq"].shape[-1])),
         compact_privileged_dim=int(metadata.get("compact_privileged_dim", payload["compact_privileged"].shape[-1])),
     )
@@ -58,6 +61,7 @@ def _compatible_metadata(first: dict[str, Any], current: dict[str, Any], path: P
         "task",
         "history",
         "object_points",
+        "point_feature_dim",
         "proprio_dim",
         "action_dim",
         "compact_privileged_dim",
@@ -70,6 +74,30 @@ def _compatible_metadata(first: dict[str, Any], current: dict[str, Any], path: P
     for key in keys:
         if first.get(key) != current.get(key):
             mismatches.append(f"{key}: first={first.get(key)!r} current={current.get(key)!r}")
+    if first.get("pointcloud_source") == "rgbd_projected_mask":
+        first_rgbd = dict(first.get("rgbd_camera", {}))
+        current_rgbd = dict(current.get("rgbd_camera", {}))
+        rgbd_keys = (
+            "width",
+            "height",
+            "focal_length",
+            "track_object",
+            "eye",
+            "target",
+            "mask_points",
+            "mask_dilation",
+            "depth_tolerance",
+            "mask_geometry",
+            "depth_matching",
+            "clean_fallback_enabled",
+            "temporal_fallback_enabled",
+        )
+        for key in rgbd_keys:
+            if first_rgbd.get(key) != current_rgbd.get(key):
+                mismatches.append(
+                    f"rgbd_camera.{key}: first={first_rgbd.get(key)!r} "
+                    f"current={current_rgbd.get(key)!r}"
+                )
     if mismatches:
         raise RuntimeError(f"Dataset {path} is not metadata-compatible: " + "; ".join(mismatches))
 

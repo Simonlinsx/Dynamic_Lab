@@ -316,6 +316,9 @@ def _dataset_spec_from_payload(payload: dict[str, Any]) -> Any:
         action_contract=metadata.get("action_contract", "revo2_semantic_13d"),
         history=int(metadata.get("history", payload["pointcloud_seq"].shape[1])),
         num_object_points=int(metadata.get("object_points", payload["pointcloud_seq"].shape[2])),
+        point_feature_dim=int(
+            metadata.get("point_feature_dim", payload["pointcloud_seq"].shape[-1])
+        ),
         proprio_dim=int(metadata.get("proprio_dim", payload["proprio_seq"].shape[-1])),
         compact_privileged_dim=int(metadata.get("compact_privileged_dim", payload["compact_privileged"].shape[-1])),
     )
@@ -526,6 +529,22 @@ def _check_trace(path: Path, result: CheckResult, label: str) -> dict[str, Any]:
     trace = _load_json(path, result, f"{label} trace")
     if not trace:
         return {}
+    trials = trace.get("trials")
+    if isinstance(trials, list):
+        successful_trials = [trial for trial in trials if bool(trial.get("success"))]
+        if not successful_trials:
+            result.error(f"{label} trial-sequence trace has no successful trial")
+        return {
+            "trial_count": int(trace.get("trial_count", len(trials))),
+            "success_count": int(trace.get("success_count", len(successful_trials))),
+            "success_rate": trace.get("success_rate"),
+            "raw_success_count": trace.get("raw_success_count"),
+            "post_success_hold_count": trace.get("post_success_hold_count"),
+            "camera_eye": trace.get("camera_eye"),
+            "camera_target": trace.get("camera_target"),
+            "camera_track_object": trace.get("camera_track_object"),
+        }
+
     first_success_step = trace.get("first_success_step")
     success_steps = trace.get("success_steps") or []
     if first_success_step is None and not success_steps:
@@ -546,9 +565,18 @@ def _check_video_summary(
     summary: dict[str, Any],
     label: str,
     args: argparse.Namespace,
+    video_override: str | list[str] | None = None,
+    trace_override: str | list[str] | None = None,
+    require_trace: bool = True,
 ) -> dict[str, Any]:
-    videos = summary.get("success_videos") or []
-    traces = summary.get("success_video_traces") or []
+    if video_override is None:
+        videos = summary.get("trial_sequence_videos") or summary.get("success_videos") or []
+    else:
+        videos = video_override if isinstance(video_override, list) else [video_override]
+    if trace_override is None:
+        traces = summary.get("trial_sequence_traces") or summary.get("success_video_traces") or []
+    else:
+        traces = trace_override if isinstance(trace_override, list) else [trace_override]
     if not videos:
         result.error(f"{label} summary has no success_videos")
         return {"videos": [], "traces": []}
@@ -588,7 +616,7 @@ def _check_video_summary(
         video_records.append(record)
 
     trace_records = []
-    if not traces:
+    if not traces and require_trace:
         result.error(f"{label} summary has no success_video_traces")
     for trace in traces:
         trace_path = _as_project_path(root, trace)
@@ -671,8 +699,26 @@ def _audit_case(root: Path, case: dict[str, Any], args: argparse.Namespace) -> d
         int(case.get("expected_arm_dim", 7)),
         int(case["expected_hand_dim"]),
     )
-    teacher_video = _check_video_summary(root, result, teacher_video_summary, f"{case_id} teacher", args)
-    student_video = _check_video_summary(root, result, student_video_summary, f"{case_id} student", args)
+    teacher_video = _check_video_summary(
+        root,
+        result,
+        teacher_video_summary,
+        f"{case_id} teacher",
+        args,
+        video_override=case.get("teacher_video"),
+        trace_override=case.get("teacher_video_trace"),
+        require_trace=bool(case.get("teacher_video_trace_required", True)),
+    )
+    student_video = _check_video_summary(
+        root,
+        result,
+        student_video_summary,
+        f"{case_id} student",
+        args,
+        video_override=case.get("student_video"),
+        trace_override=case.get("student_video_trace"),
+        require_trace=bool(case.get("student_video_trace_required", True)),
+    )
 
     return {
         "case_id": case_id,

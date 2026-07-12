@@ -147,7 +147,10 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 device=self.device,
             ).view(1, -1)
         self._tabletop_true_grasp_streak = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
+        self._tabletop_strict_true_grasp_streak = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
+        self._scripted_lift_grasp_recent_steps = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
         self._success_seen = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
+        self._strict_grasp_seen = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
         self._post_success_stability_latched = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
         self._post_success_arm_joint_target = torch.zeros(
             (self.num_envs, len(self._arm_joint_ids)), dtype=torch.float32, device=self.device
@@ -156,6 +159,14 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             (self.num_envs, len(self._control_hand_joint_ids)), dtype=torch.float32, device=self.device
         )
         self._post_success_palm_pos_w = torch.zeros((self.num_envs, 3), dtype=torch.float32, device=self.device)
+        self._scripted_relative_lift_target_latched = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
+        self._scripted_relative_lift_target_arm_pos = torch.zeros(
+            (self.num_envs, len(self._arm_joint_ids)), dtype=torch.float32, device=self.device
+        )
+        self._scripted_relative_lift_target_delta = torch.zeros(
+            (self.num_envs, len(self._arm_joint_ids)), dtype=torch.float32, device=self.device
+        )
+        self._scripted_relative_lift_target_candidate_labels = None
         clearance_names = tuple(getattr(self.cfg, "tabletop_arm_clearance_body_names", ()))
         clearance_margins = tuple(getattr(self.cfg, "tabletop_arm_clearance_body_margins", ()))
         default_clearance_margin = float(getattr(self.cfg, "tabletop_arm_clearance_margin", 0.040))
@@ -187,6 +198,95 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self._tabletop_arm_clearance_active_fraction = torch.zeros(self.num_envs, dtype=torch.float32, device=self.device)
         self._tabletop_arm_clearance_ok = torch.ones(self.num_envs, dtype=torch.bool, device=self.device)
         self._init_tabletop_asset_tensors()
+        self._scripted_lift_action_candidate_labels = None
+        self._scripted_tabletop_hand_grasp_memory_action = None
+        self._scripted_tabletop_hand_grasp_memory_action_candidate_labels = None
+        self._apply_scripted_lift_action_candidates()
+        self._apply_scripted_relative_lift_target_candidates()
+        self._apply_scripted_tabletop_hand_grasp_memory_action_candidates()
+
+    def _apply_scripted_lift_action_candidates(self) -> None:
+        candidate_cfg = getattr(self.cfg, "scripted_action_prior_lift_candidate_actions", None)
+        if candidate_cfg is None:
+            return
+        candidates = torch.tensor(candidate_cfg, dtype=torch.float32, device=self.device)
+        if candidates.ndim != 2 or candidates.shape[-1] != len(self._arm_joint_ids):
+            raise ValueError(
+                "scripted_action_prior_lift_candidate_actions must have shape "
+                f"(N, {len(self._arm_joint_ids)}), got {tuple(candidates.shape)}"
+            )
+        if candidates.shape[0] <= 0:
+            return
+        env_candidate_ids = torch.arange(self.num_envs, device=self.device, dtype=torch.long) % candidates.shape[0]
+        self._scripted_lift_action = candidates[env_candidate_ids]
+
+        labels_cfg = tuple(getattr(self.cfg, "scripted_action_prior_lift_candidate_labels", ()))
+        if len(labels_cfg) != candidates.shape[0]:
+            labels_cfg = tuple(f"candidate_{idx:02d}" for idx in range(candidates.shape[0]))
+        self._scripted_lift_action_candidate_labels = [labels_cfg[int(idx)] for idx in env_candidate_ids.cpu().tolist()]
+
+    def _apply_scripted_tabletop_hand_grasp_memory_action_candidates(self) -> None:
+        candidate_cfg = getattr(self.cfg, "scripted_tabletop_hand_grasp_memory_action_candidates", None)
+        if candidate_cfg is None:
+            return
+        hand_dim = int(getattr(self.cfg, "action_space", len(self._arm_joint_ids))) - len(self._arm_joint_ids)
+        if hand_dim <= 0:
+            return
+        candidates = torch.tensor(candidate_cfg, dtype=torch.float32, device=self.device)
+        if candidates.ndim == 1:
+            candidates = candidates.view(1, -1)
+        if candidates.ndim != 2 or candidates.shape[-1] != hand_dim:
+            raise ValueError(
+                "scripted_tabletop_hand_grasp_memory_action_candidates must have shape "
+                f"(N, {hand_dim}), got {tuple(candidates.shape)}"
+            )
+        if candidates.shape[0] <= 0:
+            return
+        env_candidate_ids = torch.arange(self.num_envs, device=self.device, dtype=torch.long) % candidates.shape[0]
+        self._scripted_tabletop_hand_grasp_memory_action = candidates[env_candidate_ids]
+
+        labels_cfg = tuple(getattr(self.cfg, "scripted_tabletop_hand_grasp_memory_action_candidate_labels", ()))
+        if len(labels_cfg) != candidates.shape[0]:
+            labels_cfg = tuple(f"hand_candidate_{idx:02d}" for idx in range(candidates.shape[0]))
+        self._scripted_tabletop_hand_grasp_memory_action_candidate_labels = [
+            labels_cfg[int(idx)] for idx in env_candidate_ids.cpu().tolist()
+        ]
+
+    def _apply_scripted_relative_lift_target_candidates(self) -> None:
+        base_delta = torch.tensor(
+            getattr(self.cfg, "scripted_tabletop_relative_lift_target_arm_delta", (0.0,) * len(self._arm_joint_ids)),
+            dtype=torch.float32,
+            device=self.device,
+        ).view(1, -1)
+        if base_delta.shape[-1] != len(self._arm_joint_ids):
+            raise ValueError(
+                "scripted_tabletop_relative_lift_target_arm_delta must contain "
+                f"{len(self._arm_joint_ids)} values, got {base_delta.shape[-1]}"
+            )
+        self._scripted_relative_lift_target_delta[:] = base_delta.expand_as(
+            self._scripted_relative_lift_target_delta
+        )
+
+        candidate_cfg = getattr(self.cfg, "scripted_tabletop_relative_lift_target_candidate_deltas", None)
+        if candidate_cfg is None:
+            return
+        candidates = torch.tensor(candidate_cfg, dtype=torch.float32, device=self.device)
+        if candidates.ndim != 2 or candidates.shape[-1] != len(self._arm_joint_ids):
+            raise ValueError(
+                "scripted_tabletop_relative_lift_target_candidate_deltas must have shape "
+                f"(N, {len(self._arm_joint_ids)}), got {tuple(candidates.shape)}"
+            )
+        if candidates.shape[0] <= 0:
+            return
+        env_candidate_ids = torch.arange(self.num_envs, device=self.device, dtype=torch.long) % candidates.shape[0]
+        self._scripted_relative_lift_target_delta[:] = candidates[env_candidate_ids]
+
+        labels_cfg = tuple(getattr(self.cfg, "scripted_tabletop_relative_lift_target_candidate_labels", ()))
+        if len(labels_cfg) != candidates.shape[0]:
+            labels_cfg = tuple(f"relative_candidate_{idx:02d}" for idx in range(candidates.shape[0]))
+        self._scripted_relative_lift_target_candidate_labels = [
+            labels_cfg[int(idx)] for idx in env_candidate_ids.cpu().tolist()
+        ]
 
     def _uses_tabletop_asset_set_cfg(self) -> bool:
         specs = tuple(getattr(self.cfg, "tabletop_object_asset_specs", ()))
@@ -407,6 +507,22 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self._tabletop_asset_negative_fractions = torch.tensor(
             [float(spec.get("negative_fraction", 0.0)) for spec in specs], dtype=torch.float32, device=self.device
         )
+        sampling_weights = getattr(self.cfg, "tabletop_asset_sampling_weights", None)
+        if sampling_weights is None:
+            self._tabletop_asset_sampling_weights = torch.ones(
+                self._tabletop_asset_count, dtype=torch.float32, device=self.device
+            )
+        else:
+            if len(sampling_weights) != self._tabletop_asset_count:
+                raise ValueError(
+                    "tabletop_asset_sampling_weights must contain one weight per tabletop asset "
+                    f"({len(sampling_weights)} != {self._tabletop_asset_count})"
+                )
+            self._tabletop_asset_sampling_weights = torch.tensor(
+                sampling_weights, dtype=torch.float32, device=self.device
+            ).clamp_min(0.0)
+            if float(self._tabletop_asset_sampling_weights.sum().item()) <= 0.0:
+                raise ValueError("tabletop_asset_sampling_weights must contain at least one positive weight")
         (
             self._tabletop_affordance_pos_points_l,
             self._tabletop_affordance_neg_points_l,
@@ -477,7 +593,12 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
 
     def _sample_tabletop_asset_ids(self, count: int) -> torch.Tensor:
         current_count = max(1, self._tabletop_current_asset_count())
-        return torch.randint(0, current_count, (count,), dtype=torch.long, device=self.device)
+        weights = self._tabletop_asset_sampling_weights[:current_count]
+        if bool(torch.all(weights == weights[0])):
+            return torch.randint(0, current_count, (count,), dtype=torch.long, device=self.device)
+        if float(weights.sum().item()) <= 0.0:
+            raise ValueError("Active tabletop curriculum assets must include a positive sampling weight")
+        return torch.multinomial(weights, count, replacement=True)
 
     def _sample_tabletop_motion_mode_ids(self, count: int) -> torch.Tensor:
         current_count = max(1, self._tabletop_current_motion_mode_count())
@@ -530,9 +651,75 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             asset_ids, env_index
         ]
 
+    def _clear_tabletop_arm_clearance(self) -> None:
+        self._tabletop_arm_clearance_penalty.zero_()
+        self._tabletop_arm_clearance_min_margin.zero_()
+        self._tabletop_arm_clearance_active_fraction.zero_()
+        self._tabletop_arm_clearance_ok.fill_(True)
+
+    def _update_tabletop_arm_clearance(self) -> None:
+        if self.cfg.task_family != "dynamic_tabletop_grasp":
+            self._clear_tabletop_arm_clearance()
+            return
+
+        sample_pos_parts = []
+        sample_margin_parts = []
+        if self._tabletop_arm_clearance_body_ids:
+            sample_pos_parts.append(self.robot.data.body_pos_w[:, self._tabletop_arm_clearance_body_ids])
+            sample_margin_parts.append(self._tabletop_arm_clearance_body_margins.expand(self.num_envs, -1))
+
+        if bool(getattr(self.cfg, "tabletop_arm_clearance_include_fingertip_points", True)) and hasattr(
+            self, "_fingertip_pos_w"
+        ):
+            fingertip_margin = max(float(getattr(self.cfg, "tabletop_arm_clearance_fingertip_point_margin", 0.006)), 0.0)
+            sample_pos_parts.append(self._fingertip_pos_w)
+            sample_margin_parts.append(
+                torch.full(
+                    (self.num_envs, self._fingertip_pos_w.shape[1]),
+                    fingertip_margin,
+                    dtype=torch.float32,
+                    device=self.device,
+                )
+            )
+
+        if bool(getattr(self.cfg, "tabletop_arm_clearance_include_palm_point", True)) and hasattr(self, "_palm_pos_w"):
+            palm_margin = max(float(getattr(self.cfg, "tabletop_arm_clearance_palm_point_margin", 0.012)), 0.0)
+            sample_pos_parts.append(self._palm_pos_w.unsqueeze(1))
+            sample_margin_parts.append(
+                torch.full((self.num_envs, 1), palm_margin, dtype=torch.float32, device=self.device)
+            )
+
+        if not sample_pos_parts:
+            self._clear_tabletop_arm_clearance()
+            return
+
+        clearance_pos = torch.cat(sample_pos_parts, dim=1)
+        clearance_margins = torch.cat(sample_margin_parts, dim=1)
+        clearance_z = clearance_pos[:, :, 2]
+        clearance_xy = clearance_pos[:, :, :2] - self.scene.env_origins[:, None, :2]
+        active_xy = torch.all(
+            torch.abs(clearance_xy - self._tabletop_arm_clearance_xy_center)
+            <= (self._tabletop_arm_clearance_xy_half_extent + self._tabletop_arm_clearance_xy_padding),
+            dim=-1,
+        )
+        min_z = self.scene.env_origins[:, 2:3] + float(self.cfg.table_top_z) + clearance_margins
+        clearance_margin = clearance_z - min_z
+        deficit = torch.where(active_xy, torch.relu(-clearance_margin), torch.zeros_like(clearance_margin))
+        scale = max(float(getattr(self.cfg, "tabletop_arm_clearance_scale", 0.060)), 1.0e-6)
+        max_penalty = float(getattr(self.cfg, "tabletop_arm_clearance_max_penalty", 2.0))
+        self._tabletop_arm_clearance_penalty = torch.clamp(deficit / scale, 0.0, max_penalty).max(dim=-1).values
+        masked_margin = torch.where(active_xy, clearance_margin, torch.full_like(clearance_margin, float("inf")))
+        min_margin = masked_margin.min(dim=-1).values
+        self._tabletop_arm_clearance_min_margin = torch.where(active_xy.any(dim=-1), min_margin, torch.zeros_like(min_margin))
+        self._tabletop_arm_clearance_active_fraction = active_xy.float().mean(dim=-1)
+        ok_threshold = max(float(getattr(self.cfg, "tabletop_arm_clearance_ok_penalty_threshold", 1.0e-4)), 0.0)
+        self._tabletop_arm_clearance_ok = self._tabletop_arm_clearance_penalty <= ok_threshold
+
     def _compute_intermediate_values(self) -> None:
         if not self._uses_tabletop_asset_set():
             super()._compute_intermediate_values()
+            self._update_tabletop_arm_clearance()
+            self._compute_strict_contact_metrics_from_current_state()
             self._sync_falling_baton_affordance_markers()
             return
 
@@ -552,35 +739,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             fingertip_offsets.reshape(-1, 3),
         ).reshape(self.num_envs, len(self._fingertip_body_ids), 3)
         self._palm_min_z = torch.minimum(self._palm_min_z, self._palm_pos_w[:, 2])
-        if self.cfg.task_family == "dynamic_tabletop_grasp" and self._tabletop_arm_clearance_body_ids:
-            clearance_body_pos = self.robot.data.body_pos_w[:, self._tabletop_arm_clearance_body_ids]
-            clearance_body_z = clearance_body_pos[:, :, 2]
-            clearance_body_xy = clearance_body_pos[:, :, :2] - self.scene.env_origins[:, None, :2]
-            active_xy = torch.all(
-                torch.abs(clearance_body_xy - self._tabletop_arm_clearance_xy_center)
-                <= (self._tabletop_arm_clearance_xy_half_extent + self._tabletop_arm_clearance_xy_padding),
-                dim=-1,
-            )
-            min_z = (
-                self.scene.env_origins[:, 2:3]
-                + float(self.cfg.table_top_z)
-                + self._tabletop_arm_clearance_body_margins
-            )
-            clearance_margin = clearance_body_z - min_z
-            deficit = torch.where(active_xy, torch.relu(-clearance_margin), torch.zeros_like(clearance_margin))
-            scale = max(float(getattr(self.cfg, "tabletop_arm_clearance_scale", 0.060)), 1.0e-6)
-            max_penalty = float(getattr(self.cfg, "tabletop_arm_clearance_max_penalty", 2.0))
-            self._tabletop_arm_clearance_penalty = torch.clamp(deficit / scale, 0.0, max_penalty).max(dim=-1).values
-            masked_margin = torch.where(active_xy, clearance_margin, torch.full_like(clearance_margin, float("inf")))
-            min_margin = masked_margin.min(dim=-1).values
-            self._tabletop_arm_clearance_min_margin = torch.where(active_xy.any(dim=-1), min_margin, torch.zeros_like(min_margin))
-            self._tabletop_arm_clearance_active_fraction = active_xy.float().mean(dim=-1)
-            self._tabletop_arm_clearance_ok = self._tabletop_arm_clearance_penalty <= 1.0e-4
-        else:
-            self._tabletop_arm_clearance_penalty.zero_()
-            self._tabletop_arm_clearance_min_margin.zero_()
-            self._tabletop_arm_clearance_active_fraction.zero_()
-            self._tabletop_arm_clearance_ok.fill_(True)
+        self._update_tabletop_arm_clearance()
 
         rel = self._fingertip_pos_w - self._object_pos_w.unsqueeze(1)
         self._surface_dist = self._object_surface_distance(rel)
@@ -644,12 +803,121 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             & (self._finger_contact_count >= min_finger_contacts)
             & opposition_gate
         )
+        strict_contact_distance = max(
+            float(getattr(self.cfg, "strict_success_contact_distance", self.cfg.contact_distance)),
+            1.0e-6,
+        )
+        strict_contacts = self._surface_dist < strict_contact_distance
+        self._strict_thumb_contact = strict_contacts[:, 0]
+        strict_non_thumb_contacts = strict_contacts[:, 1:]
+        self._strict_finger_contact_count = torch.sum(strict_contacts.float(), dim=-1)
+        self._strict_non_thumb_contact_count = torch.sum(strict_non_thumb_contacts.float(), dim=-1)
+        strict_threshold = float(
+            getattr(self.cfg, "strict_success_opposition_cos_threshold", self.cfg.opposition_cos_threshold)
+        )
+        self._strict_opposing_contact = (
+            (cos < strict_threshold) & strict_non_thumb_contacts & self._strict_thumb_contact.unsqueeze(-1)
+        ).any(dim=-1)
+        strict_min_finger_contacts = max(
+            float(getattr(self.cfg, "strict_success_min_finger_contacts", min_finger_contacts)),
+            1.0,
+        )
+        strict_min_non_thumb_contacts = max(
+            float(getattr(self.cfg, "strict_success_min_non_thumb_contacts", self.cfg.min_non_thumb_contacts)),
+            1.0,
+        )
+        strict_opposition_mode = str(getattr(self.cfg, "strict_success_opposition_mode", "dot")).lower()
+        if strict_opposition_mode in {"none", "off"}:
+            strict_opposition_gate = torch.ones_like(self._strict_thumb_contact)
+        elif strict_opposition_mode == "score":
+            strict_opposition_gate = self._opposition_score > strict_threshold
+        else:
+            strict_opposition_gate = self._strict_opposing_contact
+        self._strict_true_grasp = (
+            self._strict_thumb_contact
+            & (self._strict_non_thumb_contact_count >= strict_min_non_thumb_contacts)
+            & (self._strict_finger_contact_count >= strict_min_finger_contacts)
+            & strict_opposition_gate
+        )
+        strict_reward_score_scale = getattr(self.cfg, "strict_reward_contact_score_scale", None)
+        if strict_reward_score_scale is None:
+            strict_reward_score_scale = strict_contact_distance
+        strict_reward_score_scale = max(float(strict_reward_score_scale), 1.0e-6)
+        self._strict_contact_score = torch.exp(torch.neg(torch.relu(self._surface_dist) / strict_reward_score_scale))
+        strict_approach_scale = max(float(getattr(self.cfg, "strict_approach_score_scale", 0.08)), 1.0e-6)
+        strict_approach_scores = torch.exp(torch.neg(torch.relu(self._surface_dist) / strict_approach_scale))
+        self._strict_approach_score = torch.max(strict_approach_scores, dim=-1).values
+        self._strict_thumb_approach_score = strict_approach_scores[:, 0]
+        strict_non_thumb_approach = strict_approach_scores[:, 1:]
+        strict_pair_k = min(max(int(strict_min_non_thumb_contacts), 1), strict_non_thumb_approach.shape[-1])
+        strict_non_thumb_pair = torch.topk(strict_non_thumb_approach, k=strict_pair_k, dim=-1).values.mean(dim=-1)
+        self._strict_non_thumb_pair_approach_score = strict_non_thumb_pair
+        self._strict_multifinger_approach_score = torch.clamp(
+            0.25 * self._strict_approach_score
+            + 0.25 * self._strict_thumb_approach_score
+            + 0.25 * self._strict_non_thumb_pair_approach_score
+            + 0.25 * torch.minimum(self._strict_thumb_approach_score, self._strict_non_thumb_pair_approach_score),
+            0.0,
+            1.0,
+        )
+        strict_touch_scale = max(float(getattr(self.cfg, "strict_touch_score_scale", 0.008)), 1.0e-6)
+        strict_touch_gap = torch.relu(self._surface_dist - strict_contact_distance)
+        strict_touch_scores = torch.exp(torch.neg(strict_touch_gap / strict_touch_scale))
+        self._strict_thumb_touch_score = strict_touch_scores[:, 0]
+        strict_non_thumb_touch = strict_touch_scores[:, 1:]
+        strict_non_thumb_touch_pair = torch.topk(strict_non_thumb_touch, k=strict_pair_k, dim=-1).values.mean(dim=-1)
+        self._strict_non_thumb_pair_touch_score = strict_non_thumb_touch_pair
+        self._strict_multifinger_touch_score = torch.clamp(
+            0.25 * torch.max(strict_touch_scores, dim=-1).values
+            + 0.25 * self._strict_thumb_touch_score
+            + 0.25 * self._strict_non_thumb_pair_touch_score
+            + 0.25 * torch.minimum(self._strict_thumb_touch_score, self._strict_non_thumb_pair_touch_score),
+            0.0,
+            1.0,
+        )
+        self._strict_opposition_approach_score = torch.max(
+            opposition_progress * strict_non_thumb_approach * self._strict_thumb_approach_score.unsqueeze(-1),
+            dim=-1,
+        ).values
+        self._strict_opposition_touch_score = torch.max(
+            opposition_progress * strict_non_thumb_touch * self._strict_thumb_touch_score.unsqueeze(-1),
+            dim=-1,
+        ).values
+        strict_thumb_score = self._strict_contact_score[:, 0]
+        strict_non_thumb_scores = self._strict_contact_score[:, 1:]
+        self._strict_finger_count_quality = torch.clamp(
+            torch.sum(self._strict_contact_score, dim=-1) / strict_min_finger_contacts,
+            0.0,
+            1.0,
+        )
+        self._strict_non_thumb_quality = torch.clamp(
+            torch.sum(strict_non_thumb_scores, dim=-1) / strict_min_non_thumb_contacts,
+            0.0,
+            1.0,
+        )
+        self._strict_weighted_opposition_score = torch.max(
+            opposition_progress * strict_non_thumb_scores * strict_thumb_score.unsqueeze(-1),
+            dim=-1,
+        ).values
+        self._strict_grasp_quality = torch.clamp(
+            float(getattr(self.cfg, "grasp_quality_finger_count_weight", 0.30)) * self._strict_finger_count_quality
+            + float(getattr(self.cfg, "grasp_quality_non_thumb_weight", 0.25)) * self._strict_non_thumb_quality
+            + float(getattr(self.cfg, "grasp_quality_thumb_weight", 0.25)) * strict_thumb_score
+            + float(getattr(self.cfg, "grasp_quality_opposition_weight", 0.20))
+            * self._strict_weighted_opposition_score,
+            0.0,
+            1.0,
+        )
         self._grasp_seen = self._grasp_seen | self._true_grasp
+        self._strict_grasp_seen = self._strict_grasp_seen | self._strict_true_grasp
         self._object_height_delta = self._object_pos_w[:, 2] - self._active_object_start_z
         self._lifted = self._object_height_delta > self.cfg.lift_success_height
         rel_vel = self._object_lin_vel_w - self._palm_lin_vel_w
         self._object_palm_rel_vel = torch.norm(rel_vel, dim=-1)
         self._stable_hold = self._lifted & self._true_grasp & (self._object_palm_rel_vel < self.cfg.stable_object_palm_vel)
+        self._strict_stable_hold = (
+            self._lifted & self._strict_true_grasp & (self._object_palm_rel_vel < self.cfg.stable_object_palm_vel)
+        )
         palm_only_lift_dist = float(getattr(self.cfg, "palm_only_lift_dist", 0.12))
         self._scoop_lift = self._lifted & (~self._true_grasp)
         self._palm_only_lift = (
@@ -661,6 +929,136 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 | (~self._thumb_contact)
             )
         )
+
+    def _compute_strict_contact_metrics_from_current_state(self) -> None:
+        rel = self._fingertip_pos_w - self._object_pos_w.unsqueeze(1)
+        thumb_vec = rel[:, 0]
+        non_thumb_vec = rel[:, 1:]
+        denom = torch.clamp(
+            torch.norm(thumb_vec, dim=-1, keepdim=True) * torch.norm(non_thumb_vec, dim=-1),
+            min=1.0e-6,
+        )
+        cos = torch.sum(thumb_vec.unsqueeze(1) * non_thumb_vec, dim=-1) / denom
+
+        strict_contact_distance = max(
+            float(getattr(self.cfg, "strict_success_contact_distance", self.cfg.contact_distance)),
+            1.0e-6,
+        )
+        strict_contacts = self._surface_dist < strict_contact_distance
+        self._strict_thumb_contact = strict_contacts[:, 0]
+        strict_non_thumb_contacts = strict_contacts[:, 1:]
+        self._strict_finger_contact_count = torch.sum(strict_contacts.float(), dim=-1)
+        self._strict_non_thumb_contact_count = torch.sum(strict_non_thumb_contacts.float(), dim=-1)
+
+        strict_threshold = float(
+            getattr(self.cfg, "strict_success_opposition_cos_threshold", self.cfg.opposition_cos_threshold)
+        )
+        self._strict_opposing_contact = (
+            (cos < strict_threshold) & strict_non_thumb_contacts & self._strict_thumb_contact.unsqueeze(-1)
+        ).any(dim=-1)
+        min_finger_contacts = max(float(getattr(self.cfg, "min_finger_contacts", 2)), 1.0)
+        strict_min_finger_contacts = max(
+            float(getattr(self.cfg, "strict_success_min_finger_contacts", min_finger_contacts)),
+            1.0,
+        )
+        strict_min_non_thumb_contacts = max(
+            float(getattr(self.cfg, "strict_success_min_non_thumb_contacts", self.cfg.min_non_thumb_contacts)),
+            1.0,
+        )
+        strict_opposition_mode = str(getattr(self.cfg, "strict_success_opposition_mode", "dot")).lower()
+        if strict_opposition_mode in {"none", "off"}:
+            strict_opposition_gate = torch.ones_like(self._strict_thumb_contact)
+        elif strict_opposition_mode == "score":
+            strict_opposition_gate = self._opposition_score > strict_threshold
+        else:
+            strict_opposition_gate = self._strict_opposing_contact
+        self._strict_true_grasp = (
+            self._strict_thumb_contact
+            & (self._strict_non_thumb_contact_count >= strict_min_non_thumb_contacts)
+            & (self._strict_finger_contact_count >= strict_min_finger_contacts)
+            & strict_opposition_gate
+        )
+
+        strict_reward_score_scale = getattr(self.cfg, "strict_reward_contact_score_scale", None)
+        if strict_reward_score_scale is None:
+            strict_reward_score_scale = strict_contact_distance
+        strict_reward_score_scale = max(float(strict_reward_score_scale), 1.0e-6)
+        self._strict_contact_score = torch.exp(torch.neg(torch.relu(self._surface_dist) / strict_reward_score_scale))
+        threshold = float(self.cfg.opposition_cos_threshold)
+        opposition_den = max(threshold + 1.0, 1.0e-6)
+        opposition_progress = torch.clamp((threshold - cos) / opposition_den, 0.0, 1.0)
+
+        strict_approach_scale = max(float(getattr(self.cfg, "strict_approach_score_scale", 0.08)), 1.0e-6)
+        strict_approach_scores = torch.exp(torch.neg(torch.relu(self._surface_dist) / strict_approach_scale))
+        self._strict_approach_score = torch.max(strict_approach_scores, dim=-1).values
+        self._strict_thumb_approach_score = strict_approach_scores[:, 0]
+        strict_non_thumb_approach = strict_approach_scores[:, 1:]
+        strict_pair_k = min(max(int(strict_min_non_thumb_contacts), 1), strict_non_thumb_approach.shape[-1])
+        strict_non_thumb_pair = torch.topk(strict_non_thumb_approach, k=strict_pair_k, dim=-1).values.mean(dim=-1)
+        self._strict_non_thumb_pair_approach_score = strict_non_thumb_pair
+        self._strict_multifinger_approach_score = torch.clamp(
+            0.25 * self._strict_approach_score
+            + 0.25 * self._strict_thumb_approach_score
+            + 0.25 * self._strict_non_thumb_pair_approach_score
+            + 0.25 * torch.minimum(self._strict_thumb_approach_score, self._strict_non_thumb_pair_approach_score),
+            0.0,
+            1.0,
+        )
+
+        strict_touch_scale = max(float(getattr(self.cfg, "strict_touch_score_scale", 0.008)), 1.0e-6)
+        strict_touch_gap = torch.relu(self._surface_dist - strict_contact_distance)
+        strict_touch_scores = torch.exp(torch.neg(strict_touch_gap / strict_touch_scale))
+        self._strict_thumb_touch_score = strict_touch_scores[:, 0]
+        strict_non_thumb_touch = strict_touch_scores[:, 1:]
+        strict_non_thumb_touch_pair = torch.topk(strict_non_thumb_touch, k=strict_pair_k, dim=-1).values.mean(dim=-1)
+        self._strict_non_thumb_pair_touch_score = strict_non_thumb_touch_pair
+        self._strict_multifinger_touch_score = torch.clamp(
+            0.25 * torch.max(strict_touch_scores, dim=-1).values
+            + 0.25 * self._strict_thumb_touch_score
+            + 0.25 * self._strict_non_thumb_pair_touch_score
+            + 0.25 * torch.minimum(self._strict_thumb_touch_score, self._strict_non_thumb_pair_touch_score),
+            0.0,
+            1.0,
+        )
+        self._strict_opposition_approach_score = torch.max(
+            opposition_progress * strict_non_thumb_approach * self._strict_thumb_approach_score.unsqueeze(-1),
+            dim=-1,
+        ).values
+        self._strict_opposition_touch_score = torch.max(
+            opposition_progress * strict_non_thumb_touch * self._strict_thumb_touch_score.unsqueeze(-1),
+            dim=-1,
+        ).values
+
+        strict_thumb_score = self._strict_contact_score[:, 0]
+        strict_non_thumb_scores = self._strict_contact_score[:, 1:]
+        self._strict_finger_count_quality = torch.clamp(
+            torch.sum(self._strict_contact_score, dim=-1) / strict_min_finger_contacts,
+            0.0,
+            1.0,
+        )
+        self._strict_non_thumb_quality = torch.clamp(
+            torch.sum(strict_non_thumb_scores, dim=-1) / strict_min_non_thumb_contacts,
+            0.0,
+            1.0,
+        )
+        self._strict_weighted_opposition_score = torch.max(
+            opposition_progress * strict_non_thumb_scores * strict_thumb_score.unsqueeze(-1),
+            dim=-1,
+        ).values
+        self._strict_grasp_quality = torch.clamp(
+            float(getattr(self.cfg, "grasp_quality_finger_count_weight", 0.30)) * self._strict_finger_count_quality
+            + float(getattr(self.cfg, "grasp_quality_non_thumb_weight", 0.25)) * self._strict_non_thumb_quality
+            + float(getattr(self.cfg, "grasp_quality_thumb_weight", 0.25)) * strict_thumb_score
+            + float(getattr(self.cfg, "grasp_quality_opposition_weight", 0.20))
+            * self._strict_weighted_opposition_score,
+            0.0,
+            1.0,
+        )
+        self._strict_grasp_seen = self._strict_grasp_seen | self._strict_true_grasp
+        if hasattr(self, "_lifted") and hasattr(self, "_object_palm_rel_vel"):
+            self._strict_stable_hold = (
+                self._lifted & self._strict_true_grasp & (self._object_palm_rel_vel < self.cfg.stable_object_palm_vel)
+            )
 
     def _sync_falling_baton_affordance_markers(self) -> None:
         markers = getattr(self, "_falling_baton_affordance_markers", ())
@@ -686,6 +1084,9 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 "neg_contact": zeros,
                 "pos_min_dist": zeros,
                 "neg_min_dist": zeros,
+                "thumb_pos_geom_score": zeros,
+                "thumb_pos_score": zeros,
+                "thumb_pos_contact": zeros,
             }
 
         asset_ids = self._tabletop_active_asset_ids
@@ -730,6 +1131,9 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 "neg_contact": zeros,
                 "pos_min_dist": zeros,
                 "neg_min_dist": zeros,
+                "thumb_pos_geom_score": zeros,
+                "thumb_pos_score": zeros,
+                "thumb_pos_contact": zeros,
             }
 
         quat = self._object_quat_w[:, None, :].expand(-1, self._fingertip_pos_w.shape[1], -1).reshape(-1, 4)
@@ -753,8 +1157,11 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         dist_scale = max(float(getattr(self.cfg, "falling_affordance_distance_scale", 0.025)), 1.0e-6)
         contact_dist = max(float(getattr(self.cfg, "falling_affordance_contact_distance", 0.040)), 1.0e-6)
         contact_weight = torch.clamp(self._contact_score, 0.0, 1.0)
-        pos_tip_score = torch.exp(-pos_dist / dist_scale) * contact_weight
-        neg_tip_score = torch.exp(-neg_dist / dist_scale) * contact_weight
+        pos_geom_score = torch.exp(-pos_dist / dist_scale)
+        neg_geom_score = torch.exp(-neg_dist / dist_scale)
+        pos_tip_score = pos_geom_score * contact_weight
+        neg_tip_score = neg_geom_score * contact_weight
+        thumb_pos_contact = ((pos_dist[:, 0] < contact_dist) & (contact_weight[:, 0] > 0.30)).float()
         return {
             "pos_score": pos_tip_score.max(dim=-1).values,
             "neg_score": neg_tip_score.max(dim=-1).values,
@@ -762,6 +1169,9 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             "neg_contact": ((neg_dist < contact_dist) & (contact_weight > 0.30)).float().max(dim=-1).values,
             "pos_min_dist": pos_dist.min(dim=-1).values,
             "neg_min_dist": neg_dist.min(dim=-1).values,
+            "thumb_pos_geom_score": pos_geom_score[:, 0],
+            "thumb_pos_score": pos_tip_score[:, 0],
+            "thumb_pos_contact": thumb_pos_contact,
         }
 
     def _pre_physics_step(self, actions: torch.Tensor) -> None:
@@ -818,7 +1228,132 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         action_prior = super()._compute_scripted_action_prior()
         if self.cfg.task_family != "dynamic_tabletop_grasp":
             return action_prior
+        default_strict_grasp_prior = bool(
+            getattr(self.cfg, "strict_reward_enabled", False) or getattr(self.cfg, "strict_success_enabled", False)
+        )
+        use_strict_grasp_prior = bool(
+            getattr(self.cfg, "scripted_action_prior_uses_strict_grasp", default_strict_grasp_prior)
+        )
+        default_grasp = getattr(
+            self, "_true_grasp", torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
+        )
+        prior_true_grasp = getattr(self, "_strict_true_grasp", default_grasp) if use_strict_grasp_prior else default_grasp
+        prior_grasp_seen = self._strict_grasp_seen if use_strict_grasp_prior else self._grasp_seen
+        prior_grasp_streak = (
+            self._tabletop_strict_true_grasp_streak
+            if use_strict_grasp_prior
+            else self._tabletop_true_grasp_streak
+        )
+        lift_recent_memory_cache: dict[int, torch.Tensor] = {}
+
+        def lift_grasp_memory(min_memory_steps: int) -> torch.Tensor:
+            min_memory_steps = int(min_memory_steps)
+            requires_current_streak = bool(
+                getattr(self.cfg, "scripted_action_prior_lift_memory_requires_streak", False)
+            )
+            if requires_current_streak and min_memory_steps > 0 and hasattr(self, "_tabletop_true_grasp_streak"):
+                base_memory = prior_grasp_streak >= min_memory_steps
+            elif min_memory_steps > 0 and hasattr(self, "_tabletop_true_grasp_streak"):
+                base_memory = prior_grasp_seen | (prior_grasp_streak >= min_memory_steps)
+            else:
+                base_memory = prior_grasp_seen
+
+            recent_steps = max(int(getattr(self.cfg, "scripted_action_prior_lift_grasp_recent_steps", 0)), 0)
+            if recent_steps <= 0:
+                return base_memory
+            if min_memory_steps in lift_recent_memory_cache:
+                recent_memory = lift_recent_memory_cache[min_memory_steps]
+            else:
+                if min_memory_steps > 0 and hasattr(self, "_tabletop_true_grasp_streak"):
+                    recent_arm = prior_grasp_streak >= min_memory_steps
+                else:
+                    recent_arm = prior_true_grasp
+                recent_value = torch.full_like(self._scripted_lift_grasp_recent_steps, recent_steps)
+                self._scripted_lift_grasp_recent_steps[:] = torch.where(
+                    recent_arm,
+                    recent_value,
+                    torch.clamp(self._scripted_lift_grasp_recent_steps - 1, min=0),
+                )
+                recent_memory = self._scripted_lift_grasp_recent_steps > 0
+                lift_recent_memory_cache[min_memory_steps] = recent_memory
+            if requires_current_streak:
+                return recent_memory
+            return base_memory | recent_memory
+
+        if bool(getattr(self.cfg, "scripted_tabletop_approach_action_prior_enabled", False)):
+            approach_start_step = int(getattr(self.cfg, "scripted_tabletop_approach_action_prior_start_step", 0))
+            approach_steps = int(getattr(self.cfg, "scripted_tabletop_approach_action_prior_steps", 0))
+            approach_stop_step = approach_start_step + max(approach_steps, 0)
+            approach_unlocked = (self.episode_length_buf >= approach_start_step) & (
+                (approach_steps <= 0) | (self.episode_length_buf < approach_stop_step)
+            )
+            arm_has_prior = torch.any(torch.abs(action_prior[:, :7]) > 1.0e-6, dim=-1)
+            approach_write_mask = approach_unlocked & (~arm_has_prior)
+            if torch.any(approach_write_mask):
+                approach_action = torch.tensor(
+                    getattr(self.cfg, "scripted_tabletop_approach_action_prior", (0.0,) * len(self._arm_joint_ids)),
+                    dtype=torch.float32,
+                    device=self.device,
+                ).view(1, -1)
+                if approach_action.shape[-1] != len(self._arm_joint_ids):
+                    raise ValueError(
+                        "scripted_tabletop_approach_action_prior must contain "
+                        f"{len(self._arm_joint_ids)} values, got {approach_action.shape[-1]}"
+                    )
+                approach_ramp_steps = max(
+                    int(getattr(self.cfg, "scripted_tabletop_approach_action_prior_ramp_steps", 1)), 1
+                )
+                approach_age = self.episode_length_buf[approach_write_mask] - approach_start_step
+                approach_alpha = torch.clamp(
+                    (approach_age + 1).float() / float(approach_ramp_steps), 0.0, 1.0
+                ).unsqueeze(-1)
+                action_prior[approach_write_mask, :7] = approach_alpha * approach_action.expand_as(
+                    action_prior[:, :7]
+                )[approach_write_mask]
+
         if not bool(getattr(self.cfg, "scripted_tabletop_pregrasp_prior_enabled", False)):
+            if bool(getattr(self.cfg, "scripted_tabletop_relative_lift_target_prior_enabled", False)):
+                lift_start_step = int(getattr(self.cfg, "scripted_action_prior_lift_start_step", 0))
+                lift_steps = int(getattr(self.cfg, "scripted_action_prior_lift_steps", 0))
+                lift_stop_step = lift_start_step + max(lift_steps, 0)
+                lift_unlocked = (self.episode_length_buf >= lift_start_step) & (
+                    (lift_steps <= 0) | (self.episode_length_buf < lift_stop_step)
+                )
+                if bool(getattr(self.cfg, "scripted_action_prior_lift_requires_grasp", False)):
+                    min_memory_steps = int(getattr(self.cfg, "scripted_action_prior_lift_grasp_memory_min_steps", 0))
+                    lift_unlocked = lift_unlocked & lift_grasp_memory(min_memory_steps)
+                if torch.any(lift_unlocked):
+                    arm_lower = self._joint_lower_limits[self._arm_joint_ids].unsqueeze(0)
+                    arm_upper = self._joint_upper_limits[self._arm_joint_ids].unsqueeze(0)
+                    current_arm_targets = self._joint_targets[:, self._arm_joint_ids]
+                    new_latch = lift_unlocked & (~self._scripted_relative_lift_target_latched)
+                    if torch.any(new_latch):
+                        self._scripted_relative_lift_target_arm_pos[new_latch] = torch.clamp(
+                            current_arm_targets[new_latch] + self._scripted_relative_lift_target_delta[new_latch],
+                            arm_lower,
+                            arm_upper,
+                        )
+                        self._scripted_relative_lift_target_latched[new_latch] = True
+
+                    target_arm_pos = torch.clamp(self._scripted_relative_lift_target_arm_pos, arm_lower, arm_upper)
+                    arm_center = torch.clamp(self._default_joint_pos[:, self._arm_joint_ids], arm_lower, arm_upper)
+                    positive_span = torch.clamp(arm_upper - arm_center, min=1.0e-6)
+                    negative_span = torch.clamp(arm_center - arm_lower, min=1.0e-6)
+                    remaining_steps = torch.clamp(lift_stop_step - self.episode_length_buf, min=1).float().unsqueeze(-1)
+                    if self.cfg.policy_action_interface == "joint_target":
+                        desired_next = current_arm_targets + (target_arm_pos - current_arm_targets) / remaining_steps
+                        arm_ma = max(float(self.cfg.arm_moving_average), 1.0e-6)
+                        raw_target = (desired_next - (1.0 - arm_ma) * current_arm_targets) / arm_ma
+                        raw_target = torch.clamp(raw_target, arm_lower, arm_upper)
+                        delta = raw_target - arm_center
+                        target_action = torch.where(delta >= 0.0, delta / positive_span, delta / negative_span)
+                    else:
+                        effective_gain = max(
+                            float(self.cfg.arm_action_scale) * float(self.cfg.arm_moving_average) * self.dt,
+                            1.0e-6,
+                        )
+                        target_action = (target_arm_pos - current_arm_targets) / (effective_gain * remaining_steps)
+                    action_prior[lift_unlocked, :7] = torch.clamp(target_action, -1.0, 1.0)[lift_unlocked]
             if bool(getattr(self.cfg, "scripted_action_prior_lift_uses_grasp_memory", False)):
                 lift_start_step = int(getattr(self.cfg, "scripted_action_prior_lift_start_step", 0))
                 lift_steps = int(getattr(self.cfg, "scripted_action_prior_lift_steps", 0))
@@ -827,22 +1362,14 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                     (lift_steps <= 0) | (self.episode_length_buf < lift_stop_step)
                 )
                 min_memory_steps = int(getattr(self.cfg, "scripted_action_prior_lift_grasp_memory_min_steps", 0))
-                if (
-                    bool(getattr(self.cfg, "scripted_action_prior_lift_memory_requires_streak", False))
-                    and min_memory_steps > 0
-                    and hasattr(self, "_tabletop_true_grasp_streak")
-                ):
-                    grasp_memory = self._tabletop_true_grasp_streak >= min_memory_steps
-                elif min_memory_steps > 0 and hasattr(self, "_tabletop_true_grasp_streak"):
-                    grasp_memory = self._grasp_seen | (self._tabletop_true_grasp_streak >= min_memory_steps)
-                else:
-                    grasp_memory = self._grasp_seen
-                lift_unlocked = lift_unlocked & grasp_memory
-                if torch.any(lift_unlocked):
+                lift_unlocked = lift_unlocked & lift_grasp_memory(min_memory_steps)
+                arm_has_prior = torch.any(torch.abs(action_prior[:, :7]) > 1.0e-6, dim=-1)
+                lift_write_mask = lift_unlocked & (~arm_has_prior)
+                if torch.any(lift_write_mask):
                     if self._scripted_lift_action.shape[0] == self.num_envs:
-                        action_prior[lift_unlocked, :7] = self._scripted_lift_action[lift_unlocked]
+                        action_prior[lift_write_mask, :7] = self._scripted_lift_action[lift_write_mask]
                     else:
-                        action_prior[lift_unlocked, :7] = self._scripted_lift_action
+                        action_prior[lift_write_mask, :7] = self._scripted_lift_action
             if bool(getattr(self.cfg, "scripted_tabletop_hand_grasp_memory_prior_enabled", False)):
                 hand_start_step = int(getattr(self.cfg, "scripted_tabletop_hand_grasp_memory_prior_start_step", 0))
                 hand_steps = int(getattr(self.cfg, "scripted_tabletop_hand_grasp_memory_prior_steps", 0))
@@ -854,20 +1381,47 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                     getattr(self.cfg, "scripted_tabletop_hand_grasp_memory_min_steps", 0)
                 )
                 if min_memory_steps > 0 and hasattr(self, "_tabletop_true_grasp_streak"):
-                    grasp_memory = self._grasp_seen | (self._tabletop_true_grasp_streak >= min_memory_steps)
+                    grasp_memory = prior_grasp_seen | (prior_grasp_streak >= min_memory_steps)
                 else:
-                    grasp_memory = self._grasp_seen
+                    grasp_memory = prior_grasp_seen
                 hand_unlocked = hand_unlocked & grasp_memory
                 if torch.any(hand_unlocked):
-                    hand_action = float(getattr(self.cfg, "scripted_tabletop_hand_grasp_memory_action", 1.0))
+                    hand_dim = action_prior.shape[-1] - len(self._arm_joint_ids)
+                    hand_action_tensor = getattr(
+                        self, "_scripted_tabletop_hand_grasp_memory_action", None
+                    )
+                    if torch.is_tensor(hand_action_tensor):
+                        hand_action = hand_action_tensor[hand_unlocked]
+                    else:
+                        hand_action_vector = getattr(
+                            self.cfg, "scripted_tabletop_hand_grasp_memory_action_vector", None
+                        )
+                        if hand_action_vector is None:
+                            hand_action = torch.full(
+                                (int(hand_unlocked.sum().item()), hand_dim),
+                                float(getattr(self.cfg, "scripted_tabletop_hand_grasp_memory_action", 1.0)),
+                                dtype=torch.float32,
+                                device=self.device,
+                            )
+                        else:
+                            hand_action = torch.tensor(
+                                hand_action_vector, dtype=torch.float32, device=self.device
+                            ).view(1, -1)
+                            if hand_action.shape[-1] != hand_dim:
+                                raise ValueError(
+                                    "scripted_tabletop_hand_grasp_memory_action_vector must contain "
+                                    f"{hand_dim} values, got {hand_action.shape[-1]}"
+                                )
+                            hand_action = hand_action.expand(int(hand_unlocked.sum().item()), -1)
                     hand_ramp_steps = int(
                         getattr(self.cfg, "scripted_tabletop_hand_grasp_memory_ramp_steps", 0)
                     )
                     if hand_ramp_steps > 0:
                         hand_age = self.episode_length_buf[hand_unlocked] - hand_start_step
-                        hand_alpha = torch.clamp((hand_age + 1).float() / float(hand_ramp_steps), 0.0, 1.0)
-                        ramped_hand_action = -1.0 + hand_alpha * (hand_action + 1.0)
-                        action_prior[hand_unlocked, 7:] = ramped_hand_action.unsqueeze(-1)
+                        hand_alpha = torch.clamp(
+                            (hand_age + 1).float() / float(hand_ramp_steps), 0.0, 1.0
+                        ).unsqueeze(-1)
+                        action_prior[hand_unlocked, 7:] = -1.0 + hand_alpha * (hand_action + 1.0)
                     else:
                         action_prior[hand_unlocked, 7:] = hand_action
             return action_prior
@@ -894,6 +1448,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         arm_center = torch.clamp(self._default_joint_pos[:, self._arm_joint_ids], arm_lower, arm_upper)
         positive_span = torch.clamp(arm_upper - arm_center, min=1.0e-6)
         negative_span = torch.clamp(arm_center - arm_lower, min=1.0e-6)
+        prior_control_mode = str(getattr(self.cfg, "scripted_tabletop_pregrasp_prior_control_mode", "normalized_action"))
 
         def arm_pos_to_action(target_arm_pos: torch.Tensor) -> torch.Tensor:
             target_arm_pos = torch.clamp(target_arm_pos.expand_as(arm_center), arm_lower, arm_upper)
@@ -901,7 +1456,33 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             target_action = torch.where(delta >= 0.0, delta / positive_span, delta / negative_span)
             return torch.clamp(target_action, -1.0, 1.0)
 
-        pregrasp_action = arm_pos_to_action(desired_arm_pos)
+        def arm_target_track_action(target_arm_pos: torch.Tensor, stop_step: int) -> torch.Tensor:
+            target_arm_pos = torch.clamp(target_arm_pos.expand_as(arm_center), arm_lower, arm_upper)
+            current_arm_targets = self._joint_targets[:, self._arm_joint_ids]
+            remaining_steps = torch.clamp(stop_step - self.episode_length_buf, min=1).float().unsqueeze(-1)
+            if self.cfg.policy_action_interface == "joint_target":
+                desired_next = current_arm_targets + (target_arm_pos - current_arm_targets) / remaining_steps
+                arm_ma = max(float(self.cfg.arm_moving_average), 1.0e-6)
+                raw_target = (desired_next - (1.0 - arm_ma) * current_arm_targets) / arm_ma
+                raw_target = torch.clamp(raw_target, arm_lower, arm_upper)
+                delta = raw_target - arm_center
+                target_action = torch.where(delta >= 0.0, delta / positive_span, delta / negative_span)
+            else:
+                effective_gain = max(
+                    float(self.cfg.arm_action_scale) * float(self.cfg.arm_moving_average) * self.dt,
+                    1.0e-6,
+                )
+                target_action = (target_arm_pos - current_arm_targets) / (effective_gain * remaining_steps)
+            return torch.clamp(target_action, -1.0, 1.0)
+
+        pregrasp_stop_step = start_step + max(
+            int(getattr(self.cfg, "scripted_tabletop_pregrasp_prior_steps", 0)), 0
+        )
+        if prior_control_mode == "target_track" and pregrasp_stop_step > start_step:
+            pregrasp_action = arm_target_track_action(desired_arm_pos, pregrasp_stop_step)
+            pregrasp_unlocked = pregrasp_unlocked & (self.episode_length_buf < pregrasp_stop_step)
+        else:
+            pregrasp_action = arm_pos_to_action(desired_arm_pos)
 
         if bool(getattr(self.cfg, "scripted_tabletop_lift_target_prior_enabled", False)):
             lift_start_step = int(getattr(self.cfg, "scripted_action_prior_lift_start_step", 0))
@@ -911,16 +1492,23 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 (lift_steps <= 0) | (self.episode_length_buf < lift_stop_step)
             )
             if bool(getattr(self.cfg, "scripted_action_prior_lift_requires_grasp", False)):
-                grasp_unlock = self._true_grasp
+                grasp_unlock = prior_true_grasp
+                if bool(getattr(self.cfg, "scripted_action_prior_lift_uses_proximity", False)):
+                    proximity_dist = float(getattr(self.cfg, "scripted_action_prior_lift_proximity_distance", 0.0))
+                    proximity_unlock = torch.zeros_like(grasp_unlock)
+                    if proximity_dist > 0.0 and hasattr(self, "_surface_dist"):
+                        proximity_unlock = proximity_unlock | (
+                            self._surface_dist.min(dim=-1).values < proximity_dist
+                        )
+                    min_contacts = float(getattr(self.cfg, "scripted_action_prior_lift_proximity_min_contacts", 0.0))
+                    if min_contacts > 0.0 and hasattr(self, "_finger_contact_count"):
+                        proximity_unlock = proximity_unlock | (self._finger_contact_count >= min_contacts)
+                    grasp_unlock = grasp_unlock | proximity_unlock
                 if bool(getattr(self.cfg, "scripted_action_prior_lift_uses_grasp_memory", False)):
                     min_memory_steps = int(
                         getattr(self.cfg, "scripted_action_prior_lift_grasp_memory_min_steps", 0)
                     )
-                    if min_memory_steps > 0 and hasattr(self, "_tabletop_true_grasp_streak"):
-                        grasp_memory = self._tabletop_true_grasp_streak >= min_memory_steps
-                    else:
-                        grasp_memory = self._grasp_seen
-                    grasp_unlock = grasp_unlock | grasp_memory
+                    grasp_unlock = grasp_unlock | lift_grasp_memory(min_memory_steps)
                 lift_unlocked = lift_unlocked & grasp_unlock
             if torch.any(lift_unlocked):
                 lift_target_pos_cfg = getattr(self.cfg, "scripted_tabletop_lift_target_arm_pos", None)
@@ -938,16 +1526,20 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                         "scripted_tabletop_lift_target arm target must contain "
                         f"{len(self._arm_joint_ids)} values, got {lift_target_pos.shape[-1]}"
                     )
-                lift_action = arm_pos_to_action(lift_target_pos)
-                lift_ramp_steps = max(
-                    int(getattr(self.cfg, "scripted_tabletop_lift_target_prior_ramp_steps", 1)), 1
-                )
-                lift_age = self.episode_length_buf[lift_unlocked] - lift_start_step
-                lift_alpha = torch.clamp((lift_age + 1).float() / float(lift_ramp_steps), 0.0, 1.0).unsqueeze(-1)
-                action_prior[lift_unlocked, :7] = (
-                    pregrasp_action[lift_unlocked]
-                    + lift_alpha * (lift_action[lift_unlocked] - pregrasp_action[lift_unlocked])
-                )
+                if prior_control_mode == "target_track" and lift_stop_step > lift_start_step:
+                    lift_action = arm_target_track_action(lift_target_pos, lift_stop_step)
+                    action_prior[lift_unlocked, :7] = lift_action[lift_unlocked]
+                else:
+                    lift_action = arm_pos_to_action(lift_target_pos)
+                    lift_ramp_steps = max(
+                        int(getattr(self.cfg, "scripted_tabletop_lift_target_prior_ramp_steps", 1)), 1
+                    )
+                    lift_age = self.episode_length_buf[lift_unlocked] - lift_start_step
+                    lift_alpha = torch.clamp((lift_age + 1).float() / float(lift_ramp_steps), 0.0, 1.0).unsqueeze(-1)
+                    action_prior[lift_unlocked, :7] = (
+                        pregrasp_action[lift_unlocked]
+                        + lift_alpha * (lift_action[lift_unlocked] - pregrasp_action[lift_unlocked])
+                    )
 
         arm_has_lift_prior = torch.any(torch.abs(action_prior[:, :7]) > 1.0e-6, dim=-1)
         write_mask = pregrasp_unlocked & (~arm_has_lift_prior)
@@ -1090,8 +1682,14 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 self._default_joint_pos[lock_hand][:, self._control_hand_joint_ids]
             )
 
+    def _post_success_stability_enabled(self) -> bool:
+        return self.cfg.task_family == "dynamic_tabletop_grasp" or (
+            self.cfg.task_family == "falling_baton_grasp"
+            and bool(getattr(self.cfg, "falling_post_success_stability_enabled", False))
+        )
+
     def _apply_post_success_target_locks(self) -> None:
-        if self.cfg.task_family != "dynamic_tabletop_grasp":
+        if not self._post_success_stability_enabled():
             return
         if not bool(getattr(self.cfg, "tabletop_post_success_stability_latch_enabled", False)):
             return
@@ -1117,37 +1715,91 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         palm_reach = torch.exp(-palm_distance / self.cfg.reach_distance_scale)
         fingertip_reach = torch.mean(torch.exp(-torch.relu(self._surface_dist) / self.cfg.fingertip_distance_scale), dim=-1)
 
-        thumb_score = self._contact_score[:, 0]
-        non_thumb_score = torch.sum(self._contact_score[:, 1:], dim=-1) / 4.0
+        strict_reward_enabled = bool(getattr(self.cfg, "strict_reward_enabled", False))
+        reward_contact_score = self._strict_contact_score if strict_reward_enabled else self._contact_score
+        reward_true_grasp = self._strict_true_grasp if strict_reward_enabled else self._true_grasp
+        reward_grasp_seen = self._strict_grasp_seen if strict_reward_enabled else self._grasp_seen
+        if (
+            self.cfg.task_family == "dynamic_tabletop_grasp"
+            and bool(getattr(self.cfg, "tabletop_gate_boolean_grasp_rewards_by_clearance", False))
+        ):
+            reward_true_grasp = reward_true_grasp & self._tabletop_arm_clearance_ok
+            reward_grasp_seen = reward_grasp_seen & self._tabletop_arm_clearance_ok
+        reward_grasp_streak = (
+            self._tabletop_strict_true_grasp_streak
+            if strict_reward_enabled
+            else self._tabletop_true_grasp_streak
+        )
+        reward_weighted_opposition_score = (
+            self._strict_weighted_opposition_score if strict_reward_enabled else self._weighted_opposition_score
+        )
+
+        thumb_score = reward_contact_score[:, 0]
+        non_thumb_score = torch.sum(reward_contact_score[:, 1:], dim=-1) / 4.0
         thumb_contact_weight = float(getattr(self.cfg, "thumb_contact_reward_weight", 0.45))
         thumb_contact_weight = min(max(thumb_contact_weight, 0.0), 1.0)
         thumb_true_grasp_weight = float(getattr(self.cfg, "thumb_true_grasp_score_weight", 0.50))
         thumb_true_grasp_weight = min(max(thumb_true_grasp_weight, 0.0), 1.0)
-        contact_rew = thumb_contact_weight * thumb_score + (1.0 - thumb_contact_weight) * non_thumb_score
+        thumb_pair_contact_score = torch.minimum(thumb_score, non_thumb_score)
+        if bool(getattr(self.cfg, "contact_reward_requires_thumb_pair", False)):
+            contact_rew = thumb_pair_contact_score
+        else:
+            contact_rew = thumb_contact_weight * thumb_score + (1.0 - thumb_contact_weight) * non_thumb_score
         opposition_reward_score = (
-            self._weighted_opposition_score
+            reward_weighted_opposition_score
             if bool(getattr(self.cfg, "opposition_reward_uses_weighted_score", False))
-            else self._opposition_score
+            else reward_weighted_opposition_score if strict_reward_enabled else self._opposition_score
         )
-        true_grasp_score = torch.clamp(
-            thumb_true_grasp_weight * thumb_score
-            + (1.0 - thumb_true_grasp_weight) * non_thumb_score
-            + opposition_reward_score,
-            0.0,
-            1.0,
-        )
-        grasp_quality = self._grasp_quality
+        if bool(getattr(self.cfg, "contact_reward_uses_opposition_product", False)):
+            min_contact_opposition = min(
+                max(float(getattr(self.cfg, "contact_reward_opposition_min_multiplier", 0.0)), 0.0),
+                1.0,
+            )
+            contact_opposition_multiplier = min_contact_opposition + (1.0 - min_contact_opposition) * torch.clamp(
+                opposition_reward_score,
+                0.0,
+                1.0,
+            )
+            contact_rew = contact_rew * contact_opposition_multiplier
+        if bool(getattr(self.cfg, "true_grasp_score_requires_thumb_pair", False)):
+            true_grasp_base_score = thumb_pair_contact_score
+        else:
+            true_grasp_base_score = (
+                thumb_true_grasp_weight * thumb_score + (1.0 - thumb_true_grasp_weight) * non_thumb_score
+            )
+        if bool(getattr(self.cfg, "true_grasp_score_uses_opposition_product", False)):
+            min_opposition_multiplier = min(
+                max(float(getattr(self.cfg, "true_grasp_score_opposition_min_multiplier", 0.0)), 0.0),
+                1.0,
+            )
+            opposition_multiplier = min_opposition_multiplier + (1.0 - min_opposition_multiplier) * torch.clamp(
+                opposition_reward_score,
+                0.0,
+                1.0,
+            )
+            true_grasp_score = torch.clamp(true_grasp_base_score * opposition_multiplier, 0.0, 1.0)
+        else:
+            true_grasp_score = torch.clamp(
+                true_grasp_base_score + opposition_reward_score,
+                0.0,
+                1.0,
+            )
+        grasp_quality = self._strict_grasp_quality if strict_reward_enabled else self._grasp_quality
         lifted_true_grasp = lift_quality = torch.zeros_like(thumb_score)
+        lift_progress = torch.zeros_like(thumb_score)
 
         object_pos_local = self._object_pos_w - self.scene.env_origins
         rel_vel_score = torch.exp(-self._object_palm_rel_vel / max(float(self.cfg.stable_object_palm_vel), 1.0e-3))
         z_gate = object_pos_local[:, 2] > self.cfg.catch_success_min_z
         stable_object = self._object_palm_rel_vel < self.cfg.stable_object_palm_vel
-        stable_catch = self._true_grasp & stable_object
+        stable_catch = reward_true_grasp & stable_object
         pregrasp_xy_rew = torch.zeros_like(palm_distance)
         pregrasp_height_rew = torch.zeros_like(palm_distance)
         pregrasp_low_palm_penalty = torch.zeros_like(palm_distance)
         pregrasp_contact_gate = torch.ones_like(palm_distance)
+        side_contact_penalty = torch.zeros_like(palm_distance)
+        non_thumb_without_thumb_penalty = torch.zeros_like(palm_distance)
+        clearance_contact_gate = torch.ones_like(palm_distance)
         palm_pregrasp_xy_dist = torch.zeros_like(palm_distance)
         pregrasp_height_delta = self._palm_pos_w[:, 2] - self._object_pos_w[:, 2]
         object_speed = torch.norm(self._object_lin_vel_w, dim=-1)
@@ -1182,28 +1834,95 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         tabletop_arm_lift_progress = torch.zeros_like(palm_distance)
         tabletop_arm_lift_rew = torch.zeros_like(palm_distance)
         tabletop_arm_object_lift_gap_penalty = torch.zeros_like(palm_distance)
+        tabletop_lift_memory_grasp_gate = torch.zeros_like(palm_distance)
         tabletop_lift_action_prior = torch.zeros_like(palm_distance)
         tabletop_lift_action_prior_gate = torch.zeros_like(palm_distance)
         tabletop_lift_action_prior_rew = torch.zeros_like(palm_distance)
         tabletop_lift_without_object_penalty = torch.zeros_like(palm_distance)
+        tabletop_lift_without_current_grasp_penalty = torch.zeros_like(palm_distance)
+        tabletop_strict_hold_rew = torch.zeros_like(palm_distance)
+        tabletop_strict_grasp_loss_penalty = torch.zeros_like(palm_distance)
+        tabletop_object_up_vel_rew = torch.zeros_like(palm_distance)
+        tabletop_object_carry_lift_rew = torch.zeros_like(palm_distance)
+        tabletop_object_carry_stall_penalty = torch.zeros_like(palm_distance)
+        tabletop_underwrap_rew = torch.zeros_like(palm_distance)
+        tabletop_underwrap_thumb_score = torch.zeros_like(palm_distance)
+        tabletop_underwrap_non_thumb_score = torch.zeros_like(palm_distance)
+        tabletop_underwrap_pair_score = torch.zeros_like(palm_distance)
+        tabletop_underwrap_progress_score = torch.zeros_like(palm_distance)
+        tabletop_underwrap_mean_score = torch.zeros_like(palm_distance)
+        tabletop_underwrap_min_tip_z_rel = torch.zeros_like(palm_distance)
+        tabletop_underwrap_thumb_z_rel = torch.zeros_like(palm_distance)
+        tabletop_underwrap_min_non_thumb_z_rel = torch.zeros_like(palm_distance)
+        strict_approach_rew = torch.zeros_like(palm_distance)
+        strict_multifinger_approach_rew = torch.zeros_like(palm_distance)
+        strict_opposition_approach_rew = torch.zeros_like(palm_distance)
+        strict_touch_rew = torch.zeros_like(palm_distance)
+        strict_opposition_touch_rew = torch.zeros_like(palm_distance)
         falling_success_grasp_gate = torch.zeros_like(stable_object)
         falling_success_palm_gate = torch.ones_like(stable_object)
         falling_success_contact_gate = torch.ones_like(stable_object)
         tabletop_affordance = self._compute_tabletop_affordance_reward_terms()
         falling_affordance = self._compute_falling_baton_affordance_reward_terms()
+        falling_affordance_positive_rew = falling_affordance["pos_score"]
+        falling_affordance_thumb_geom_rew = falling_affordance["thumb_pos_geom_score"]
+        falling_affordance_thumb_touch_rew = falling_affordance["thumb_pos_score"]
+        falling_stable_grasp_rew = torch.zeros_like(palm_distance)
+        falling_palm_gate_rew = torch.zeros_like(palm_distance)
+        falling_positive_stable_rew = torch.zeros_like(palm_distance)
+        falling_soft_success_progress_rew = torch.zeros_like(palm_distance)
+        falling_opposed_stable_pinch_rew = torch.zeros_like(palm_distance)
+        falling_pinched_rel_vel_penalty = torch.zeros_like(palm_distance)
+
+        if self.cfg.task_family == "falling_baton_grasp":
+            if bool(getattr(self.cfg, "falling_affordance_positive_requires_thumb_pair", False)):
+                falling_affordance_positive_rew = falling_affordance_positive_rew * torch.minimum(
+                    self._strict_thumb_touch_score,
+                    self._strict_non_thumb_pair_touch_score,
+                )
+            if bool(getattr(self.cfg, "falling_affordance_positive_uses_opposition_product", False)):
+                min_affordance_opposition = min(
+                    max(float(getattr(self.cfg, "falling_affordance_positive_opposition_min_multiplier", 0.0)), 0.0),
+                    1.0,
+                )
+                affordance_opposition_multiplier = min_affordance_opposition + (
+                    1.0 - min_affordance_opposition
+                ) * torch.clamp(self._strict_opposition_touch_score, 0.0, 1.0)
+                falling_affordance_positive_rew = falling_affordance_positive_rew * affordance_opposition_multiplier
+
+            if float(getattr(self.cfg, "falling_non_thumb_without_thumb_penalty_scale", 0.0)) > 0.0:
+                non_thumb_gate_start = float(getattr(self.cfg, "falling_non_thumb_without_thumb_gate_start", 0.15))
+                non_thumb_gate_ramp = max(
+                    float(getattr(self.cfg, "falling_non_thumb_without_thumb_gate_ramp", 0.35)),
+                    1.0e-6,
+                )
+                thumb_target = max(
+                    float(getattr(self.cfg, "falling_non_thumb_without_thumb_thumb_target", 0.30)),
+                    1.0e-6,
+                )
+                non_thumb_close = torch.clamp(
+                    (self._strict_non_thumb_pair_touch_score - non_thumb_gate_start) / non_thumb_gate_ramp,
+                    0.0,
+                    1.0,
+                )
+                thumb_missing = torch.clamp((thumb_target - self._strict_thumb_touch_score) / thumb_target, 0.0, 1.0)
+                non_thumb_without_thumb_penalty = non_thumb_close * thumb_missing
 
         if self.cfg.task_family == "dynamic_tabletop_grasp":
             lift_progress = torch.clamp(self._object_height_delta / self.cfg.tabletop_success_lift_height, 0.0, 1.0)
-            lifted_true_grasp = lift_progress * self._true_grasp.float()
-            hover_latch_grasp = self._true_grasp
+            lifted_true_grasp = lift_progress * reward_true_grasp.float()
+            hover_latch_grasp = reward_true_grasp
             if bool(getattr(self.cfg, "tabletop_hover_latch_uses_grasp_seen", False)):
-                hover_latch_grasp = hover_latch_grasp | self._grasp_seen
-            hover_reward_grasp_gate = self._true_grasp.float()
+                hover_latch_grasp = hover_latch_grasp | reward_grasp_seen
+            hover_reward_grasp_gate = reward_true_grasp.float()
             if bool(getattr(self.cfg, "tabletop_hover_reward_uses_grasp_seen", False)):
-                hover_reward_grasp_gate = torch.maximum(hover_reward_grasp_gate, self._grasp_seen.float())
-            hover_success_grasp = self._true_grasp
+                hover_reward_grasp_gate = torch.maximum(hover_reward_grasp_gate, reward_grasp_seen.float())
+            hover_success_grasp = reward_true_grasp
             if bool(getattr(self.cfg, "tabletop_success_uses_grasp_seen", False)):
-                hover_success_grasp = hover_success_grasp | self._grasp_seen
+                hover_success_grasp = hover_success_grasp | reward_grasp_seen
+            tabletop_success_grasp = hover_success_grasp
+            if bool(getattr(self.cfg, "strict_success_enabled", False)):
+                tabletop_success_grasp = self._strict_true_grasp
             unlatch_mask = ~self._object_hover_target_latched
             if torch.any(unlatch_mask):
                 self._object_hover_target_pos_w[unlatch_mask, :2] = self._object_pos_w[unlatch_mask, :2]
@@ -1361,6 +2080,41 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 pregrasp_contact_gate = min_multiplier + (1.0 - min_multiplier) * pregrasp_readiness
                 contact_rew = contact_rew * pregrasp_contact_gate
                 true_grasp_score = true_grasp_score * pregrasp_contact_gate
+            side_contact_penalty_scale = float(getattr(self.cfg, "dynamic_tabletop_side_contact_penalty_scale", 0.0))
+            if side_contact_penalty_scale > 0.0:
+                side_limit = float(getattr(self.cfg, "dynamic_tabletop_side_contact_xy_limit", 0.12))
+                side_ramp = max(float(getattr(self.cfg, "dynamic_tabletop_side_contact_xy_ramp", 0.08)), 1.0e-6)
+                side_over = torch.clamp((palm_pregrasp_xy_dist - side_limit) / side_ramp, 0.0, 3.0)
+                side_contact_signal = torch.max(reward_contact_score, dim=-1).values
+                side_contact_penalty = side_over * side_contact_signal
+            non_thumb_without_thumb_penalty_scale = float(
+                getattr(self.cfg, "tabletop_non_thumb_without_thumb_penalty_scale", 0.0)
+            )
+            if non_thumb_without_thumb_penalty_scale > 0.0:
+                non_thumb_best_score = torch.max(reward_contact_score[:, 1:], dim=-1).values
+                non_thumb_gate_start = float(getattr(self.cfg, "tabletop_non_thumb_without_thumb_gate_start", 0.08))
+                non_thumb_gate_ramp = max(
+                    float(getattr(self.cfg, "tabletop_non_thumb_without_thumb_gate_ramp", 0.30)),
+                    1.0e-6,
+                )
+                thumb_target = max(float(getattr(self.cfg, "tabletop_non_thumb_without_thumb_thumb_target", 0.25)), 1.0e-6)
+                non_thumb_close = torch.clamp(
+                    (non_thumb_best_score - non_thumb_gate_start) / non_thumb_gate_ramp,
+                    0.0,
+                    1.0,
+                )
+                thumb_missing = torch.clamp((thumb_target - thumb_score) / thumb_target, 0.0, 1.0)
+                non_thumb_without_thumb_penalty = non_thumb_close * thumb_missing
+            if bool(getattr(self.cfg, "tabletop_gate_contact_rewards_by_clearance", False)):
+                min_multiplier = float(getattr(self.cfg, "tabletop_contact_clearance_gate_min", 0.0))
+                min_multiplier = min(max(min_multiplier, 0.0), 1.0)
+                scale = max(float(getattr(self.cfg, "tabletop_contact_clearance_gate_scale", 0.50)), 1.0e-6)
+                clearance_score = torch.exp(-self._tabletop_arm_clearance_penalty / scale)
+                clearance_contact_gate = min_multiplier + (1.0 - min_multiplier) * clearance_score
+                contact_rew = contact_rew * clearance_contact_gate
+                true_grasp_score = true_grasp_score * clearance_contact_gate
+                opposition_reward_score = opposition_reward_score * clearance_contact_gate
+                grasp_quality = grasp_quality * clearance_contact_gate
             opposition_lift_gate_signal = torch.clamp(
                 0.5 * self._weighted_opposition_score + 0.5 * self._opposing_contact.float(),
                 0.0,
@@ -1393,10 +2147,21 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 1.0,
             )
             current_lift_grasp_gate = torch.clamp(
-                0.55 * self._true_grasp.float() + 0.45 * true_grasp_score,
+                0.55 * reward_true_grasp.float() + 0.45 * true_grasp_score,
                 0.0,
                 1.0,
             )
+            if bool(getattr(self.cfg, "tabletop_lift_gate_requires_current_strict_grasp", False)):
+                current_lift_grasp_gate = current_lift_grasp_gate * self._strict_true_grasp.float()
+            tabletop_lift_memory_grasp_gate = current_lift_grasp_gate
+            if bool(getattr(self.cfg, "tabletop_lift_use_grasp_seen_gate", False)):
+                seen_gate = reward_grasp_seen.float() * float(
+                    getattr(self.cfg, "tabletop_lift_grasp_seen_gate", 0.35)
+                )
+                tabletop_lift_memory_grasp_gate = torch.maximum(
+                    tabletop_lift_memory_grasp_gate,
+                    seen_gate,
+                )
             lift_schedule_unlocked = (
                 self.episode_length_buf >= int(getattr(self.cfg, "scripted_action_prior_lift_start_step", 0))
             ).float()
@@ -1413,6 +2178,92 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 lift_prior_gate_min + (1.0 - lift_prior_gate_min) * current_lift_grasp_gate
             )
             remaining_lift = torch.clamp(1.0 - lift_progress, 0.0, 1.0)
+            pre_lift_hold_gate = remaining_lift * lift_schedule_unlocked
+            tabletop_strict_hold_rew = reward_true_grasp.float() * rel_vel_score * pre_lift_hold_gate
+            tabletop_strict_grasp_loss_penalty = (
+                reward_grasp_seen.float()
+                * (1.0 - reward_true_grasp.float())
+                * pre_lift_hold_gate
+            )
+            if float(getattr(self.cfg, "tabletop_underwrap_rew_scale", 0.0)) > 0.0:
+                active_radius = getattr(self, "_active_object_radius_tensor", None)
+                if torch.is_tensor(active_radius):
+                    object_radius = torch.clamp(active_radius, min=0.010).view(-1, 1)
+                else:
+                    object_radius = torch.full(
+                        (self.num_envs, 1),
+                        max(float(getattr(self.cfg, "object_radius", 0.030)), 0.010),
+                        dtype=torch.float32,
+                        device=self.device,
+                    )
+                tip_rel = self._fingertip_pos_w - self._object_pos_w.unsqueeze(1)
+                tip_z_rel = tip_rel[..., 2]
+                tabletop_underwrap_min_tip_z_rel = torch.min(tip_z_rel, dim=-1).values
+                tabletop_underwrap_thumb_z_rel = tip_z_rel[:, 0]
+                tabletop_underwrap_min_non_thumb_z_rel = torch.min(tip_z_rel[:, 1:], dim=-1).values
+                tip_xy_radius = torch.norm(tip_rel[..., :2], dim=-1)
+                below_center_fraction = float(getattr(self.cfg, "tabletop_underwrap_below_center_fraction", 0.20))
+                target_tip_z = self._object_pos_w[:, 2:3] - below_center_fraction * object_radius
+                height_scale = max(float(getattr(self.cfg, "tabletop_underwrap_height_scale", 0.012)), 1.0e-6)
+                under_height_score = torch.clamp(
+                    (target_tip_z - self._fingertip_pos_w[..., 2] + height_scale) / height_scale,
+                    0.0,
+                    1.0,
+                )
+                radial_target = float(getattr(self.cfg, "tabletop_underwrap_radial_fraction", 0.95)) * object_radius
+                radial_scale = max(float(getattr(self.cfg, "tabletop_underwrap_radial_scale", 0.020)), 1.0e-6)
+                radial_score = torch.exp(-torch.abs(tip_xy_radius - radial_target) / radial_scale)
+                contact_scale = max(float(getattr(self.cfg, "tabletop_underwrap_contact_scale", 0.018)), 1.0e-6)
+                contact_margin = max(float(getattr(self.cfg, "tabletop_underwrap_contact_margin", 0.0)), 0.0)
+                near_surface_score = torch.exp(-torch.relu(self._surface_dist - contact_margin) / contact_scale)
+                underwrap_scores = under_height_score * radial_score * near_surface_score
+                tabletop_underwrap_mean_score = torch.mean(underwrap_scores, dim=-1)
+                tabletop_underwrap_thumb_score = underwrap_scores[:, 0]
+                underwrap_non_thumb = underwrap_scores[:, 1:]
+                underwrap_k = min(
+                    max(int(getattr(self.cfg, "tabletop_underwrap_min_non_thumb_contacts", 1)), 1),
+                    underwrap_non_thumb.shape[-1],
+                )
+                tabletop_underwrap_non_thumb_score = torch.topk(
+                    underwrap_non_thumb,
+                    k=underwrap_k,
+                    dim=-1,
+                ).values.mean(dim=-1)
+                tabletop_underwrap_pair_score = torch.minimum(
+                    tabletop_underwrap_thumb_score,
+                    tabletop_underwrap_non_thumb_score,
+                )
+                tabletop_underwrap_progress_score = torch.clamp(
+                    0.5 * tabletop_underwrap_thumb_score + 0.5 * tabletop_underwrap_non_thumb_score,
+                    0.0,
+                    1.0,
+                )
+                if bool(getattr(self.cfg, "tabletop_underwrap_uses_opposition", True)):
+                    min_opposition = min(
+                        max(float(getattr(self.cfg, "tabletop_underwrap_opposition_min_multiplier", 0.10)), 0.0),
+                        1.0,
+                    )
+                    tabletop_underwrap_pair_score = tabletop_underwrap_pair_score * (
+                        min_opposition + (1.0 - min_opposition) * opposition_lift_gate_signal
+                    )
+                underwrap_progress_weight = max(
+                    float(getattr(self.cfg, "tabletop_underwrap_progress_weight", 0.0)),
+                    0.0,
+                )
+                underwrap_pair_weight = max(float(getattr(self.cfg, "tabletop_underwrap_pair_weight", 1.0)), 0.0)
+                underwrap_weight_den = max(underwrap_progress_weight + underwrap_pair_weight, 1.0e-6)
+                underwrap_reward_score = (
+                    underwrap_progress_weight * tabletop_underwrap_progress_score
+                    + underwrap_pair_weight * tabletop_underwrap_pair_score
+                ) / underwrap_weight_den
+                underwrap_gate = clearance_contact_gate
+                if bool(getattr(self.cfg, "tabletop_underwrap_uses_pregrasp_gate", True)):
+                    underwrap_gate = underwrap_gate * pregrasp_contact_gate
+                tabletop_underwrap_rew = (
+                    underwrap_reward_score
+                    * underwrap_gate
+                    * remaining_lift
+                )
             arm_lift_reward_margin = float(getattr(self.cfg, "tabletop_arm_lift_reward_object_margin", 1.0))
             object_coupled_arm_lift = torch.minimum(
                 tabletop_arm_lift_progress,
@@ -1428,7 +2279,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 1.0,
             )
             tabletop_arm_object_lift_gap_penalty = (
-                arm_object_lift_gap * current_lift_grasp_gate * lift_schedule_unlocked * remaining_lift
+                arm_object_lift_gap * tabletop_lift_memory_grasp_gate * lift_schedule_unlocked * remaining_lift
             )
             empty_lift_start = float(getattr(self.cfg, "tabletop_lift_without_object_min_arm_progress", 0.20))
             empty_lift_progress = torch.clamp(
@@ -1442,15 +2293,45 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 * remaining_lift
                 * lift_schedule_unlocked
             )
+            lift_without_grasp_start = float(
+                getattr(self.cfg, "tabletop_lift_without_current_grasp_min_progress", 0.25)
+            )
+            lift_without_grasp_ramp = max(
+                float(getattr(self.cfg, "tabletop_lift_without_current_grasp_ramp", 0.50)),
+                1.0e-6,
+            )
+            tabletop_lift_without_current_grasp_penalty = (
+                torch.clamp((lift_progress - lift_without_grasp_start) / lift_without_grasp_ramp, 0.0, 1.0)
+                * (1.0 - current_lift_grasp_gate)
+                * lift_schedule_unlocked
+            )
             no_lift_min_progress = max(float(getattr(self.cfg, "tabletop_no_lift_min_progress", 0.15)), 1.0e-6)
             no_lift_grasp = self._true_grasp & (lift_progress < no_lift_min_progress)
+            strict_no_lift_grasp = self._strict_true_grasp & (lift_progress < no_lift_min_progress)
+            if bool(getattr(self.cfg, "tabletop_no_lift_uses_soft_grasp_gate", False)):
+                soft_gate = float(getattr(self.cfg, "tabletop_no_lift_soft_grasp_gate", 0.10))
+                soft_no_lift_grasp = (current_lift_grasp_gate >= soft_gate) & (
+                    lift_progress < no_lift_min_progress
+                )
+                no_lift_grasp = soft_no_lift_grasp
+                strict_no_lift_grasp = soft_no_lift_grasp
             self._tabletop_true_grasp_streak = torch.where(
                 no_lift_grasp,
                 self._tabletop_true_grasp_streak + 1,
                 torch.zeros_like(self._tabletop_true_grasp_streak),
             )
+            self._tabletop_strict_true_grasp_streak = torch.where(
+                strict_no_lift_grasp,
+                self._tabletop_strict_true_grasp_streak + 1,
+                torch.zeros_like(self._tabletop_strict_true_grasp_streak),
+            )
+            reward_grasp_streak = (
+                self._tabletop_strict_true_grasp_streak
+                if strict_reward_enabled
+                else self._tabletop_true_grasp_streak
+            )
             no_lift_steps = torch.relu(
-                self._tabletop_true_grasp_streak.float()
+                reward_grasp_streak.float()
                 - float(getattr(self.cfg, "tabletop_no_lift_after_grasp_grace_steps", 30))
             )
             no_lift_ramp = max(float(getattr(self.cfg, "tabletop_no_lift_after_grasp_ramp_steps", 80)), 1.0)
@@ -1471,12 +2352,55 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 1.0,
             )
             grasped_palm_lift_rew = (
-                self._true_grasp.float()
+                reward_true_grasp.float()
                 * rel_vel_score
                 * palm_lift_progress
                 * torch.clamp(1.0 - lift_progress, 0.0, 1.0)
             )
-            success_now = hover_success_grasp & stable_object & (lift_progress > 0.98)
+            carry_streak_gate = torch.ones_like(lift_progress)
+            carry_min_streak = float(getattr(self.cfg, "tabletop_object_carry_min_grasp_streak", 0.0))
+            if carry_min_streak > 0.0:
+                carry_streak_ramp = max(float(getattr(self.cfg, "tabletop_object_carry_streak_ramp_steps", 1.0)), 1.0)
+                carry_streak_gate = torch.clamp(
+                    (reward_grasp_streak.float() - carry_min_streak + 1.0) / carry_streak_ramp,
+                    0.0,
+                    1.0,
+                )
+                if bool(getattr(self.cfg, "tabletop_object_carry_uses_grasp_seen", False)):
+                    seen_gate = reward_grasp_seen.float() * float(
+                        getattr(self.cfg, "tabletop_object_carry_grasp_seen_gate", 0.25)
+                    )
+                    carry_streak_gate = torch.maximum(carry_streak_gate, seen_gate)
+            object_up_vel = self._object_lin_vel_w[:, 2]
+            object_up_vel_progress = torch.clamp(
+                object_up_vel / max(float(getattr(self.cfg, "tabletop_object_up_vel_scale", 0.10)), 1.0e-6),
+                0.0,
+                1.0,
+            )
+            object_follow_arm_progress = torch.clamp(0.25 + 0.75 * tabletop_arm_lift_progress, 0.0, 1.0)
+            object_carry_gate = tabletop_lift_memory_grasp_gate * carry_streak_gate * lift_schedule_unlocked
+            tabletop_object_up_vel_rew = object_carry_gate * object_up_vel_progress * remaining_lift
+            tabletop_object_carry_lift_rew = (
+                object_carry_gate
+                * lift_progress
+                * rel_vel_score
+                * object_follow_arm_progress
+            )
+            carry_stall_arm_start = float(getattr(self.cfg, "tabletop_object_carry_stall_min_arm_progress", 0.12))
+            carry_stall_arm = torch.clamp(
+                (tabletop_arm_lift_progress - carry_stall_arm_start) / max(1.0 - carry_stall_arm_start, 1.0e-6),
+                0.0,
+                1.0,
+            )
+            carry_stall_min_z_vel = max(float(getattr(self.cfg, "tabletop_object_carry_stall_min_z_vel", 0.015)), 1.0e-6)
+            carry_stall_vel = torch.clamp((carry_stall_min_z_vel - object_up_vel) / carry_stall_min_z_vel, 0.0, 1.0)
+            tabletop_object_carry_stall_penalty = (
+                object_carry_gate
+                * carry_stall_arm
+                * carry_stall_vel
+                * remaining_lift
+            )
+            success_now = tabletop_success_grasp & stable_object & (lift_progress > 0.98)
             if bool(getattr(self.cfg, "tabletop_success_requires_hover_target", False)):
                 success_now = (
                     success_now
@@ -1496,16 +2420,33 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             lift_progress = torch.zeros_like(palm_distance)
             opposition_lift_gate_signal = torch.ones_like(lift_progress)
             quality_lift_gate = torch.ones_like(lift_progress)
+            falling_success_palm_gate_score = torch.ones_like(palm_distance)
+            falling_success_contact_gate_score = torch.ones_like(palm_distance)
+            falling_success_positive_gate_score = torch.ones_like(palm_distance)
             if bool(getattr(self.cfg, "falling_success_uses_grasp_seen", True)):
                 falling_success_grasp_gate = self._grasp_seen
             else:
                 falling_success_grasp_gate = self._true_grasp
+            if bool(getattr(self.cfg, "falling_success_uses_strict_grasp", False)):
+                falling_success_grasp_gate = self._strict_true_grasp
             max_success_palm_dist = float(getattr(self.cfg, "falling_success_max_palm_distance", 0.0))
             if max_success_palm_dist > 0.0:
                 falling_success_palm_gate = palm_distance < max_success_palm_dist
+                palm_gate_scale = max(
+                    float(getattr(self.cfg, "falling_success_palm_gate_soft_scale", 0.055)),
+                    1.0e-6,
+                )
+                falling_success_palm_gate_score = torch.exp(
+                    -torch.relu(palm_distance - max_success_palm_dist) / palm_gate_scale
+                )
             min_success_finger_contacts = float(getattr(self.cfg, "falling_success_min_finger_contacts", 0.0))
             if min_success_finger_contacts > 0.0:
                 falling_success_contact_gate = self._finger_contact_count >= min_success_finger_contacts
+                falling_success_contact_gate_score = torch.clamp(
+                    self._finger_contact_count.float() / max(min_success_finger_contacts, 1.0),
+                    0.0,
+                    1.0,
+                )
             catch_hold = (
                 falling_success_grasp_gate
                 & stable_object
@@ -1515,11 +2456,64 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             )
             if bool(getattr(self.cfg, "falling_success_requires_positive_affordance", False)):
                 catch_hold = catch_hold & (falling_affordance["pos_contact"] > 0.5)
+                falling_success_positive_gate_score = torch.clamp(
+                    0.55 * falling_affordance["pos_contact"] + 0.45 * falling_affordance["pos_score"],
+                    0.0,
+                    1.0,
+                )
             success_now = catch_hold
             catch_progress = torch.clamp(
                 (0.65 * true_grasp_score + 0.35 * self._grasp_seen.float()) * rel_vel_score * z_gate.float(),
                 0.0,
                 1.0,
+            )
+            falling_stable_grasp_rew = reward_true_grasp.float() * rel_vel_score * z_gate.float()
+            falling_palm_gate_rew = (
+                true_grasp_score
+                * rel_vel_score
+                * z_gate.float()
+                * falling_success_palm_gate_score
+            )
+            falling_positive_stable_rew = (
+                falling_stable_grasp_rew
+                * falling_success_palm_gate_score
+                * falling_success_positive_gate_score
+            )
+            falling_soft_success_progress_rew = (
+                true_grasp_score
+                * rel_vel_score
+                * z_gate.float()
+                * falling_success_palm_gate_score
+                * falling_success_contact_gate_score
+                * falling_success_positive_gate_score
+            )
+            strict_pair_touch_score = torch.minimum(
+                self._strict_thumb_touch_score,
+                self._strict_non_thumb_pair_touch_score,
+            )
+            pinch_opposition_multiplier = torch.clamp(
+                0.05 + 0.95 * self._strict_opposition_touch_score,
+                0.0,
+                1.0,
+            )
+            falling_opposed_stable_pinch_rew = (
+                strict_pair_touch_score
+                * pinch_opposition_multiplier
+                * rel_vel_score
+                * z_gate.float()
+                * falling_success_palm_gate_score
+                * falling_success_contact_gate_score
+                * falling_success_positive_gate_score
+            )
+            rel_vel_over_stable = torch.relu(
+                self._object_palm_rel_vel - float(self.cfg.stable_object_palm_vel)
+            ) / max(float(self.cfg.stable_object_palm_vel), 1.0e-6)
+            falling_pinched_rel_vel_penalty = (
+                strict_pair_touch_score
+                * falling_success_positive_gate_score
+                * falling_success_palm_gate_score
+                * z_gate.float()
+                * torch.clamp(rel_vel_over_stable, 0.0, 4.0)
             )
 
         self._success_streak = torch.where(
@@ -1533,9 +2527,8 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             1.0,
         )
         success = self._success_streak >= self.cfg.dynamic_success_hold_steps
-        if (
-            self.cfg.task_family == "dynamic_tabletop_grasp"
-            and bool(getattr(self.cfg, "tabletop_post_success_stability_latch_enabled", False))
+        if self._post_success_stability_enabled() and bool(
+            getattr(self.cfg, "tabletop_post_success_stability_latch_enabled", False)
         ):
             latch_now = success & (~self._post_success_stability_latched)
             if torch.any(latch_now):
@@ -1543,16 +2536,49 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 self._post_success_arm_joint_target[latch_ids] = self.robot.data.joint_pos[latch_ids][
                     :, self._arm_joint_ids
                 ]
-                self._post_success_hand_joint_target[latch_ids] = self._joint_targets[latch_ids][
-                    :, self._control_hand_joint_ids
-                ]
+                if bool(
+                    getattr(
+                        self.cfg,
+                        "tabletop_post_success_hand_lock_uses_actual_joint_pos",
+                        False,
+                    )
+                ):
+                    latched_hand_target = self.robot.data.joint_pos[latch_ids][
+                        :, self._control_hand_joint_ids
+                    ]
+                else:
+                    latched_hand_target = self._joint_targets[latch_ids][
+                        :, self._control_hand_joint_ids
+                    ]
+                close_fraction = min(
+                    max(float(getattr(self.cfg, "tabletop_post_success_hand_close_fraction", 0.0)), 0.0),
+                    1.0,
+                )
+                if close_fraction > 0.0:
+                    if self._uses_active_hand_actions():
+                        hand_dim = self.actions.shape[-1] - len(self._arm_joint_ids)
+                        close_actions = torch.ones(
+                            (self.num_envs, hand_dim), dtype=torch.float32, device=self.device
+                        )
+                        close_target = self._active_hand_actions_to_sim_targets(close_actions)[latch_ids]
+                    else:
+                        close_target = self._joint_upper_limits[
+                            self._control_hand_joint_ids
+                        ].unsqueeze(0).expand_as(latched_hand_target)
+                    latched_hand_target = latched_hand_target + close_fraction * (
+                        close_target - latched_hand_target
+                    )
+                self._post_success_hand_joint_target[latch_ids] = latched_hand_target
                 self._post_success_palm_pos_w[latch_ids] = self._palm_pos_w[latch_ids]
                 self._post_success_stability_latched[latch_ids] = True
         success_seen = self._success_seen | success
-        if self.cfg.task_family == "dynamic_tabletop_grasp":
+        if self._post_success_stability_enabled():
             post_success_phase = success_seen.float()
             post_success_unstable = post_success_phase * (1.0 - success_now.float())
-            post_success_grasp_loss = post_success_phase * (1.0 - self._true_grasp.float())
+            post_success_grasp_for_loss = self._true_grasp
+            if bool(getattr(self.cfg, "strict_success_enabled", False)):
+                post_success_grasp_for_loss = self._strict_true_grasp
+            post_success_grasp_loss = post_success_phase * (1.0 - post_success_grasp_for_loss.float())
             post_success_under_height_ratio = post_success_phase * hover_under_height_ratio
             post_success_speed = post_success_phase * (
                 object_speed * object_speed
@@ -1590,10 +2616,33 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self._update_dynamic_speed_curriculum(
             success=success,
             true_grasp=self._true_grasp,
+            strict_true_grasp=self._strict_true_grasp,
             stable_catch=stable_catch,
             catch_hold=success_now,
             contact_like=contact_like,
         )
+
+        if strict_reward_enabled:
+            strict_approach_rew = self._strict_approach_score * (1.0 - lift_progress)
+            strict_multifinger_approach_rew = self._strict_multifinger_approach_score * (1.0 - lift_progress)
+            strict_opposition_approach_rew = self._strict_opposition_approach_score * (1.0 - lift_progress)
+            if bool(getattr(self.cfg, "strict_touch_reward_requires_thumb_pair", False)):
+                strict_touch_rew = (
+                    torch.minimum(self._strict_thumb_touch_score, self._strict_non_thumb_pair_touch_score)
+                    * (1.0 - lift_progress)
+                )
+            else:
+                strict_touch_rew = self._strict_multifinger_touch_score * (1.0 - lift_progress)
+            if bool(getattr(self.cfg, "strict_touch_reward_uses_opposition_product", False)):
+                min_touch_opposition = min(
+                    max(float(getattr(self.cfg, "strict_touch_reward_opposition_min_multiplier", 0.0)), 0.0),
+                    1.0,
+                )
+                touch_opposition_multiplier = min_touch_opposition + (
+                    1.0 - min_touch_opposition
+                ) * torch.clamp(self._strict_opposition_touch_score, 0.0, 1.0)
+                strict_touch_rew = strict_touch_rew * touch_opposition_multiplier
+            strict_opposition_touch_rew = self._strict_opposition_touch_score * (1.0 - lift_progress)
 
         policy_action_penalty = torch.sum(self.policy_actions * self.policy_actions, dim=-1)
         target_delta = self._joint_targets[:, self._controlled_joint_ids] - self._prev_joint_targets[
@@ -1609,6 +2658,13 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         reward = (
             self.cfg.palm_reach_rew_scale * palm_reach
             + self.cfg.fingertip_reach_rew_scale * fingertip_reach
+            + float(getattr(self.cfg, "strict_approach_rew_scale", 0.0)) * strict_approach_rew
+            + float(getattr(self.cfg, "strict_multifinger_approach_rew_scale", 0.0))
+            * strict_multifinger_approach_rew
+            + float(getattr(self.cfg, "strict_opposition_approach_rew_scale", 0.0))
+            * strict_opposition_approach_rew
+            + float(getattr(self.cfg, "strict_touch_rew_scale", 0.0)) * strict_touch_rew
+            + float(getattr(self.cfg, "strict_opposition_touch_rew_scale", 0.0)) * strict_opposition_touch_rew
             + self.cfg.dynamic_tabletop_pregrasp_xy_rew_scale * pregrasp_xy_rew * (1.0 - lift_progress)
             + self.cfg.dynamic_tabletop_pregrasp_height_rew_scale * pregrasp_height_rew * (1.0 - lift_progress)
             + self.cfg.contact_rew_scale * contact_rew
@@ -1616,6 +2672,13 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             + self.cfg.opposition_rew_scale * opposition_reward_score
             + self.cfg.catch_progress_rew_scale * catch_progress
             + self.cfg.grasp_quality_rew_scale * grasp_quality
+            + float(getattr(self.cfg, "falling_stable_grasp_rew_scale", 0.0)) * falling_stable_grasp_rew
+            + float(getattr(self.cfg, "falling_palm_gate_rew_scale", 0.0)) * falling_palm_gate_rew
+            + float(getattr(self.cfg, "falling_positive_stable_rew_scale", 0.0)) * falling_positive_stable_rew
+            + float(getattr(self.cfg, "falling_soft_success_progress_rew_scale", 0.0))
+            * falling_soft_success_progress_rew
+            + float(getattr(self.cfg, "falling_opposed_stable_pinch_rew_scale", 0.0))
+            * falling_opposed_stable_pinch_rew
             + self.cfg.quality_lift_progress_rew_scale * lift_progress * grasp_quality * quality_lift_gate
             + self.cfg.lifted_true_grasp_rew_scale * lifted_true_grasp
             + float(getattr(self.cfg, "tabletop_stable_catch_rew_scale", 0.0))
@@ -1637,22 +2700,32 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             + self.cfg.tabletop_post_success_hold_rew_scale * post_success_phase * success_now.float()
             + self.cfg.tabletop_hover_height_progress_rew_scale
             * hover_height_progress
-            * self._true_grasp.float()
+            * reward_true_grasp.float()
             * quality_lift_gate
-            + self.cfg.tabletop_hover_target_rew_scale * hover_target_rew * self._true_grasp.float() * lift_progress
+            + self.cfg.tabletop_hover_target_rew_scale * hover_target_rew * reward_true_grasp.float() * lift_progress
             + self.cfg.tabletop_hover_goal_rew_scale * hover_goal_rew
             + self.cfg.tabletop_hover_stable_rew_scale * hover_stability_rew
             + self.cfg.tabletop_grasped_palm_lift_rew_scale * grasped_palm_lift_rew
             + self.cfg.tabletop_grasped_arm_lift_rew_scale * tabletop_arm_lift_rew
             + self.cfg.tabletop_lift_action_prior_rew_scale * tabletop_lift_action_prior_rew
+            + float(getattr(self.cfg, "tabletop_strict_hold_rew_scale", 0.0)) * tabletop_strict_hold_rew
+            + float(getattr(self.cfg, "tabletop_underwrap_rew_scale", 0.0)) * tabletop_underwrap_rew
+            + float(getattr(self.cfg, "tabletop_object_up_vel_rew_scale", 0.0))
+            * tabletop_object_up_vel_rew
+            + float(getattr(self.cfg, "tabletop_object_carry_lift_rew_scale", 0.0))
+            * tabletop_object_carry_lift_rew
             + float(getattr(self.cfg, "tabletop_affordance_positive_rew_scale", 0.0))
             * tabletop_affordance["pos_score"]
             + float(getattr(self.cfg, "tabletop_affordance_lift_rew_scale", 0.0))
             * tabletop_affordance["pos_contact"]
             * lift_progress
-            * self._true_grasp.float()
+            * reward_true_grasp.float()
             + float(getattr(self.cfg, "falling_affordance_positive_rew_scale", 0.0))
-            * falling_affordance["pos_score"]
+            * falling_affordance_positive_rew
+            + float(getattr(self.cfg, "falling_affordance_thumb_geom_rew_scale", 0.0))
+            * falling_affordance_thumb_geom_rew
+            + float(getattr(self.cfg, "falling_affordance_thumb_touch_rew_scale", 0.0))
+            * falling_affordance_thumb_touch_rew
             - self.cfg.action_penalty_scale * policy_action_penalty
             - self.cfg.arm_target_delta_penalty_scale * target_delta_penalty
             - float(getattr(self.cfg, "tabletop_affordance_negative_penalty_scale", 0.0))
@@ -1663,23 +2736,29 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             * self._tabletop_arm_clearance_penalty
             - self.cfg.tabletop_no_lift_after_grasp_penalty_scale * no_lift_after_grasp_penalty
             - self.cfg.tabletop_lift_without_object_penalty_scale * tabletop_lift_without_object_penalty
+            - float(getattr(self.cfg, "tabletop_lift_without_current_grasp_penalty_scale", 0.0))
+            * tabletop_lift_without_current_grasp_penalty
+            - float(getattr(self.cfg, "tabletop_strict_grasp_loss_penalty_scale", 0.0))
+            * tabletop_strict_grasp_loss_penalty
             - float(getattr(self.cfg, "tabletop_arm_object_lift_gap_penalty_scale", 0.0))
             * tabletop_arm_object_lift_gap_penalty
+            - float(getattr(self.cfg, "tabletop_object_carry_stall_penalty_scale", 0.0))
+            * tabletop_object_carry_stall_penalty
             - self.cfg.tabletop_hover_linear_penalty_scale * hover_linear_error
             - self.cfg.tabletop_hover_overshoot_penalty_scale
             * hover_z_overshoot_ratio
             * hover_z_overshoot_ratio
             * hover_latched
-            * self._true_grasp.float()
+            * reward_true_grasp.float()
             - self.cfg.tabletop_hover_z_vel_penalty_scale
             * hover_z_vel
             * hover_z_vel
             * hover_latched
-            * self._true_grasp.float()
+            * reward_true_grasp.float()
             * torch.clamp(0.35 + 0.65 * lift_progress, 0.0, 1.0)
             - self.cfg.tabletop_hover_vel_penalty_scale
             * (object_speed * object_speed + 0.02 * object_ang_speed * object_ang_speed)
-            * self._true_grasp.float()
+            * reward_true_grasp.float()
             * lift_progress
             - self.cfg.tabletop_hover_target_drift_penalty_scale
             * (hover_xy_dist * hover_xy_dist + hover_z_error * hover_z_error)
@@ -1712,6 +2791,37 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             * post_success_palm_drift_penalty
             * post_success_palm_drift_penalty
             - self.cfg.dynamic_tabletop_low_palm_penalty_scale * pregrasp_low_palm_penalty * (1.0 - lift_progress)
+            - float(getattr(self.cfg, "dynamic_tabletop_side_contact_penalty_scale", 0.0))
+            * side_contact_penalty
+            * (1.0 - lift_progress)
+            - float(getattr(self.cfg, "tabletop_non_thumb_without_thumb_penalty_scale", 0.0))
+            * non_thumb_without_thumb_penalty
+            * torch.clamp(
+                torch.maximum(
+                    1.0 - lift_progress,
+                    torch.full_like(
+                        lift_progress,
+                        float(getattr(self.cfg, "tabletop_non_thumb_without_thumb_penalty_lift_gate_min", 0.0)),
+                    ),
+                ),
+                0.0,
+                1.0,
+            )
+            - float(getattr(self.cfg, "falling_non_thumb_without_thumb_penalty_scale", 0.0))
+            * non_thumb_without_thumb_penalty
+            * torch.clamp(
+                torch.maximum(
+                    1.0 - lift_progress,
+                    torch.full_like(
+                        lift_progress,
+                        float(getattr(self.cfg, "falling_non_thumb_without_thumb_penalty_lift_gate_min", 0.0)),
+                    ),
+                ),
+                0.0,
+                1.0,
+            )
+            - float(getattr(self.cfg, "falling_pinched_rel_vel_penalty_scale", 0.0))
+            * falling_pinched_rel_vel_penalty
             - self.cfg.scoop_lift_penalty_scale * self._scoop_lift.float() * lift_progress
             - self.cfg.palm_only_lift_penalty_scale * self._palm_only_lift.float() * lift_progress
             - self.cfg.drop_penalty * dropped.float()
@@ -1724,19 +2834,57 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             "thumb_contact": self._thumb_contact.float().mean(),
             "finger_contacts": self._finger_contact_count.float().mean(),
             "non_thumb_contacts": self._non_thumb_contact_count.float().mean(),
+            "strict_thumb_contact": self._strict_thumb_contact.float().mean(),
+            "strict_finger_contacts": self._strict_finger_contact_count.float().mean(),
+            "strict_non_thumb_contacts": self._strict_non_thumb_contact_count.float().mean(),
+            "strict_opposing_contact": self._strict_opposing_contact.float().mean(),
+            "strict_true_grasp": self._strict_true_grasp.float().mean(),
+            "strict_grasp_seen": self._strict_grasp_seen.float().mean(),
             "opposition_score": self._opposition_score.mean(),
             "weighted_opposition_score": self._weighted_opposition_score.mean(),
+            "strict_weighted_opposition_score": self._strict_weighted_opposition_score.mean(),
+            "strict_approach_score": self._strict_approach_score.mean(),
+            "strict_thumb_approach_score": self._strict_thumb_approach_score.mean(),
+            "strict_non_thumb_pair_approach_score": self._strict_non_thumb_pair_approach_score.mean(),
+            "strict_multifinger_approach_score": self._strict_multifinger_approach_score.mean(),
+            "strict_thumb_touch_score": self._strict_thumb_touch_score.mean(),
+            "strict_non_thumb_pair_touch_score": self._strict_non_thumb_pair_touch_score.mean(),
+            "strict_multifinger_touch_score": self._strict_multifinger_touch_score.mean(),
+            "strict_opposition_approach_score": self._strict_opposition_approach_score.mean(),
+            "strict_opposition_touch_score": self._strict_opposition_touch_score.mean(),
+            "strict_approach_rew": strict_approach_rew.mean(),
+            "strict_multifinger_approach_rew": strict_multifinger_approach_rew.mean(),
+            "strict_opposition_approach_rew": strict_opposition_approach_rew.mean(),
+            "strict_touch_rew": strict_touch_rew.mean(),
+            "strict_opposition_touch_rew": strict_opposition_touch_rew.mean(),
+            "thumb_pair_contact_score": thumb_pair_contact_score.mean(),
             "opposition_reward_score": opposition_reward_score.mean(),
             "opposing_contact": self._opposing_contact.float().mean(),
             "finger_count_quality": self._finger_count_quality.mean(),
             "non_thumb_quality": self._non_thumb_quality.mean(),
             "grasp_quality": grasp_quality.mean(),
+            "strict_grasp_quality": self._strict_grasp_quality.mean(),
+            "reward_true_grasp": reward_true_grasp.float().mean(),
+            "reward_grasp_seen": reward_grasp_seen.float().mean(),
             "opposition_lift_gate": opposition_lift_gate_signal.mean(),
             "quality_lift_gate": quality_lift_gate.mean(),
             "pregrasp_xy_rew": pregrasp_xy_rew.mean(),
             "pregrasp_height_rew": pregrasp_height_rew.mean(),
             "pregrasp_low_palm_penalty": pregrasp_low_palm_penalty.mean(),
+            "side_contact_penalty": side_contact_penalty.mean(),
+            "non_thumb_without_thumb_penalty": non_thumb_without_thumb_penalty.mean(),
+            "falling_affordance_positive_rew": falling_affordance_positive_rew.mean(),
+            "falling_affordance_thumb_geom_rew": falling_affordance_thumb_geom_rew.mean(),
+            "falling_affordance_thumb_touch_rew": falling_affordance_thumb_touch_rew.mean(),
+            "falling_affordance_thumb_pos_contact": falling_affordance["thumb_pos_contact"].mean(),
+            "falling_stable_grasp_rew": falling_stable_grasp_rew.mean(),
+            "falling_palm_gate_rew": falling_palm_gate_rew.mean(),
+            "falling_positive_stable_rew": falling_positive_stable_rew.mean(),
+            "falling_soft_success_progress_rew": falling_soft_success_progress_rew.mean(),
+            "falling_opposed_stable_pinch_rew": falling_opposed_stable_pinch_rew.mean(),
+            "falling_pinched_rel_vel_penalty": falling_pinched_rel_vel_penalty.mean(),
             "pregrasp_contact_gate": pregrasp_contact_gate.mean(),
+            "tabletop_clearance_contact_gate": clearance_contact_gate.mean(),
             "palm_pregrasp_xy_dist": palm_pregrasp_xy_dist.mean(),
             "pregrasp_height_delta": pregrasp_height_delta.mean(),
             "palm_surface_dist": self._palm_surface_dist.mean(),
@@ -1782,18 +2930,36 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             "hover_object_ang_speed": object_ang_speed.mean(),
             "no_lift_after_grasp_penalty": no_lift_after_grasp_penalty.mean(),
             "tabletop_true_grasp_streak": self._tabletop_true_grasp_streak.float().mean(),
+            "tabletop_strict_true_grasp_streak": self._tabletop_strict_true_grasp_streak.float().mean(),
             "grasped_palm_lift_rew": grasped_palm_lift_rew.mean(),
             "tabletop_arm_lift_progress": tabletop_arm_lift_progress.mean(),
             "tabletop_arm_lift_rew": tabletop_arm_lift_rew.mean(),
             "tabletop_arm_object_lift_gap_penalty": tabletop_arm_object_lift_gap_penalty.mean(),
+            "tabletop_lift_memory_grasp_gate": tabletop_lift_memory_grasp_gate.mean(),
             "tabletop_lift_action_prior": tabletop_lift_action_prior.mean(),
             "tabletop_lift_action_prior_gate": tabletop_lift_action_prior_gate.mean(),
             "tabletop_lift_action_prior_rew": tabletop_lift_action_prior_rew.mean(),
+            "tabletop_strict_hold_rew": tabletop_strict_hold_rew.mean(),
+            "tabletop_strict_grasp_loss_penalty": tabletop_strict_grasp_loss_penalty.mean(),
             "tabletop_lift_without_object_penalty": tabletop_lift_without_object_penalty.mean(),
+            "tabletop_lift_without_current_grasp_penalty": tabletop_lift_without_current_grasp_penalty.mean(),
+            "tabletop_object_up_vel_rew": tabletop_object_up_vel_rew.mean(),
+            "tabletop_object_carry_lift_rew": tabletop_object_carry_lift_rew.mean(),
+            "tabletop_object_carry_stall_penalty": tabletop_object_carry_stall_penalty.mean(),
+            "tabletop_underwrap_rew": tabletop_underwrap_rew.mean(),
+            "tabletop_underwrap_thumb_score": tabletop_underwrap_thumb_score.mean(),
+            "tabletop_underwrap_non_thumb_score": tabletop_underwrap_non_thumb_score.mean(),
+            "tabletop_underwrap_pair_score": tabletop_underwrap_pair_score.mean(),
+            "tabletop_underwrap_progress_score": tabletop_underwrap_progress_score.mean(),
+            "tabletop_underwrap_mean_score": tabletop_underwrap_mean_score.mean(),
+            "tabletop_underwrap_min_tip_z_rel": tabletop_underwrap_min_tip_z_rel.mean(),
+            "tabletop_underwrap_thumb_z_rel": tabletop_underwrap_thumb_z_rel.mean(),
+            "tabletop_underwrap_min_non_thumb_z_rel": tabletop_underwrap_min_non_thumb_z_rel.mean(),
             "tabletop_arm_clearance_penalty": self._tabletop_arm_clearance_penalty.mean(),
             "tabletop_arm_clearance_min_margin": self._tabletop_arm_clearance_min_margin.mean(),
             "tabletop_arm_clearance_active_fraction": self._tabletop_arm_clearance_active_fraction.mean(),
             "tabletop_arm_clearance_ok": self._tabletop_arm_clearance_ok.float().mean(),
+            "object_height_delta": self._object_height_delta.mean(),
             "object_z": object_pos_local[:, 2].mean(),
             "object_palm_rel_vel": self._object_palm_rel_vel.mean(),
             "effective_action_norm": torch.norm(self.actions, dim=-1).mean(),
@@ -1883,13 +3049,38 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                     "falling_affordance_neg_min_dist": falling_affordance["neg_min_dist"].mean(),
                 }
             )
+        success_true_grasp_env = self._true_grasp
+        if bool(getattr(self.cfg, "strict_success_enabled", False)):
+            success_true_grasp_env = self._strict_true_grasp
         self.extras["success_env"] = success
-        self.extras["true_grasp_env"] = self._true_grasp
+        self.extras["true_grasp_env"] = success_true_grasp_env
+        self.extras["legacy_true_grasp_env"] = self._true_grasp
+        self.extras["strict_true_grasp_env"] = self._strict_true_grasp
+        self.extras["strict_grasp_seen_env"] = self._strict_grasp_seen
+        self.extras["thumb_contact_env"] = self._thumb_contact
+        self.extras["non_thumb_contacts_env"] = self._non_thumb_contact_count
+        self.extras["finger_contacts_env"] = self._finger_contact_count
+        self.extras["strict_thumb_contact_env"] = self._strict_thumb_contact
+        self.extras["strict_non_thumb_contacts_env"] = self._strict_non_thumb_contact_count
+        self.extras["strict_finger_contacts_env"] = self._strict_finger_contact_count
+        self.extras["strict_opposing_contact_env"] = self._strict_opposing_contact
+        self.extras["min_surface_dist_env"] = self._surface_dist.min(dim=-1).values
         self.extras["grasp_seen_env"] = self._grasp_seen
         self.extras["stable_hold_env"] = success_now
         self.extras["success_seen_env"] = self._success_seen
         self.extras["lifted_env"] = lift_progress > 0.98
         self.extras["tabletop_arm_clearance_ok_env"] = self._tabletop_arm_clearance_ok
+        self.extras["tabletop_arm_clearance_penalty_env"] = self._tabletop_arm_clearance_penalty
+        self.extras["tabletop_arm_clearance_min_margin_env"] = self._tabletop_arm_clearance_min_margin
+        self.extras["tabletop_arm_clearance_active_fraction_env"] = self._tabletop_arm_clearance_active_fraction
+        self.extras["tabletop_underwrap_thumb_score_env"] = tabletop_underwrap_thumb_score
+        self.extras["tabletop_underwrap_non_thumb_score_env"] = tabletop_underwrap_non_thumb_score
+        self.extras["tabletop_underwrap_pair_score_env"] = tabletop_underwrap_pair_score
+        self.extras["tabletop_underwrap_progress_score_env"] = tabletop_underwrap_progress_score
+        self.extras["tabletop_underwrap_mean_score_env"] = tabletop_underwrap_mean_score
+        self.extras["tabletop_underwrap_min_tip_z_rel_env"] = tabletop_underwrap_min_tip_z_rel
+        self.extras["tabletop_underwrap_thumb_z_rel_env"] = tabletop_underwrap_thumb_z_rel
+        self.extras["tabletop_underwrap_min_non_thumb_z_rel_env"] = tabletop_underwrap_min_non_thumb_z_rel
         return reward
 
     def _get_dones(self) -> tuple[torch.Tensor, torch.Tensor]:
@@ -1905,10 +3096,31 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         out_xy = torch.any(torch.abs(object_pos_local[:, :2]) > self.cfg.workspace_xy_limit, dim=-1)
         success = self._success_streak >= self.cfg.dynamic_success_hold_steps
         terminated = dropped | out_xy
+        clearance_violation = torch.zeros_like(terminated)
+        if (
+            self.cfg.task_family == "dynamic_tabletop_grasp"
+            and bool(getattr(self.cfg, "tabletop_terminate_on_arm_clearance_violation", False))
+        ):
+            start_step = int(getattr(self.cfg, "tabletop_arm_clearance_violation_terminate_start_step", 0))
+            terminate_threshold = max(
+                float(
+                    getattr(
+                        self.cfg,
+                        "tabletop_arm_clearance_terminate_penalty_threshold",
+                        getattr(self.cfg, "tabletop_arm_clearance_ok_penalty_threshold", 1.0e-4),
+                    )
+                ),
+                0.0,
+            )
+            clearance_violation = self._tabletop_arm_clearance_penalty > terminate_threshold
+            if start_step > 0:
+                clearance_violation = clearance_violation & (self.episode_length_buf >= start_step)
+            terminated = terminated | clearance_violation
         if self.cfg.terminate_on_success:
             terminated = terminated | success
         self.extras["dropped_env"] = dropped
         self.extras["out_xy_env"] = out_xy
+        self.extras["tabletop_arm_clearance_violation_env"] = clearance_violation
         self.extras["success_env"] = success
         self.extras["time_out_env"] = time_out
         return terminated, time_out
@@ -1951,9 +3163,11 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             elif self.cfg.task_family == "falling_baton_grasp" and bool(
                 getattr(self.cfg, "falling_baton_randomize_orientation", False)
             ):
-                roll_min, roll_max = self.cfg.falling_baton_roll_range
-                pitch_min, pitch_max = self.cfg.falling_baton_pitch_range
-                yaw_min, yaw_max = self.cfg.falling_baton_yaw_range
+                (
+                    (roll_min, roll_max),
+                    (pitch_min, pitch_max),
+                    (yaw_min, yaw_max),
+                ) = self._falling_baton_current_orientation_ranges()
                 roll = sample_uniform(float(roll_min), float(roll_max), (len(env_ids), 1), self.device)
                 pitch = sample_uniform(float(pitch_min), float(pitch_max), (len(env_ids), 1), self.device)
                 yaw = sample_uniform(float(yaw_min), float(yaw_max), (len(env_ids), 1), self.device)
@@ -2001,8 +3215,13 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self._success_streak[env_ids] = 0
         self._success_seen[env_ids] = False
         self._post_success_stability_latched[env_ids] = False
+        self._scripted_relative_lift_target_latched[env_ids] = False
+        self._scripted_relative_lift_target_arm_pos[env_ids] = 0.0
         self._grasp_seen[env_ids] = False
+        self._strict_grasp_seen[env_ids] = False
         self._tabletop_true_grasp_streak[env_ids] = 0
+        self._tabletop_strict_true_grasp_streak[env_ids] = 0
+        self._scripted_lift_grasp_recent_steps[env_ids] = 0
         self._compute_intermediate_values()
         self._post_success_arm_joint_target[env_ids] = self._joint_targets[env_ids][:, self._arm_joint_ids]
         self._post_success_hand_joint_target[env_ids] = self._joint_targets[env_ids][:, self._control_hand_joint_ids]
@@ -2158,6 +3377,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         *,
         success: torch.Tensor,
         true_grasp: torch.Tensor,
+        strict_true_grasp: torch.Tensor,
         stable_catch: torch.Tensor,
         catch_hold: torch.Tensor,
         contact_like: torch.Tensor,
@@ -2171,6 +3391,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         metric_tensors = {
             "success": success.float(),
             "true_grasp": true_grasp.float(),
+            "strict_true_grasp": strict_true_grasp.float(),
             "stable_catch": stable_catch.float(),
             "catch_hold": catch_hold.float(),
             "contact": contact_like.float(),
@@ -2248,6 +3469,42 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         )
         return current_min.expand_as(ang_min), current_max.expand_as(ang_max)
 
+    def _lerp_float_pair(self, start_pair: tuple[float, float], target_pair: tuple[float, float]) -> tuple[float, float]:
+        alpha = self._dynamic_speed_curriculum_alpha()
+        start_min = min(float(start_pair[0]), float(start_pair[1]))
+        start_max = max(float(start_pair[0]), float(start_pair[1]))
+        target_min = min(float(target_pair[0]), float(target_pair[1]))
+        target_max = max(float(target_pair[0]), float(target_pair[1]))
+        return (
+            start_min + (target_min - start_min) * alpha,
+            start_max + (target_max - start_max) * alpha,
+        )
+
+    def _falling_baton_current_spawn_above_palm_range(self) -> tuple[float, float]:
+        target_pair = self.cfg.falling_baton_spawn_above_palm_range
+        if not bool(getattr(self.cfg, "falling_baton_spawn_height_curriculum", False)):
+            return float(target_pair[0]), float(target_pair[1])
+        start_pair = getattr(self.cfg, "falling_baton_start_spawn_above_palm_range", target_pair)
+        return self._lerp_float_pair(start_pair, target_pair)
+
+    def _falling_baton_current_orientation_ranges(
+        self,
+    ) -> tuple[tuple[float, float], tuple[float, float], tuple[float, float]]:
+        roll_pair = self.cfg.falling_baton_roll_range
+        pitch_pair = self.cfg.falling_baton_pitch_range
+        yaw_pair = self.cfg.falling_baton_yaw_range
+        if not bool(getattr(self.cfg, "falling_baton_orientation_curriculum", False)):
+            return (
+                (float(roll_pair[0]), float(roll_pair[1])),
+                (float(pitch_pair[0]), float(pitch_pair[1])),
+                (float(yaw_pair[0]), float(yaw_pair[1])),
+            )
+        return (
+            self._lerp_float_pair(getattr(self.cfg, "falling_baton_start_roll_range", roll_pair), roll_pair),
+            self._lerp_float_pair(getattr(self.cfg, "falling_baton_start_pitch_range", pitch_pair), pitch_pair),
+            self._lerp_float_pair(getattr(self.cfg, "falling_baton_start_yaw_range", yaw_pair), yaw_pair),
+        )
+
     def _tabletop_current_speed_range(self) -> tuple[torch.Tensor, torch.Tensor]:
         target = torch.tensor(self.cfg.dynamic_tabletop_initial_speed_range, device=self.device).view(1, 2)
         return self._lerp_scalar_pair(self.cfg.dynamic_tabletop_start_speed_range, target[:, 0:1], target[:, 1:2])
@@ -2263,12 +3520,61 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         object_pos_local: torch.Tensor | None = None,
     ) -> tuple[torch.Tensor, torch.Tensor]:
         speed_min, speed_max = self._tabletop_current_speed_range()
+        yaw_min, yaw_max = self._tabletop_current_yaw_rate_range()
+        if bool(getattr(self.cfg, "dynamic_tabletop_speed_alpha_sample_enabled", False)):
+            curriculum_alpha = float(self._dynamic_speed_curriculum_alpha())
+            alpha_min = min(max(float(getattr(self.cfg, "dynamic_tabletop_speed_alpha_sample_min", 0.0)), 0.0), 1.0)
+            alpha_max = min(max(float(getattr(self.cfg, "dynamic_tabletop_speed_alpha_sample_max", 1.0)), 0.0), 1.0)
+            if bool(getattr(self.cfg, "dynamic_tabletop_speed_alpha_sample_curriculum_cap", True)):
+                alpha_max = min(alpha_max, curriculum_alpha)
+            alpha_min = min(alpha_min, alpha_max)
+            alpha = alpha_min + sample_uniform(0.0, 1.0, (count, 1), self.device) * (alpha_max - alpha_min)
+            full_fraction = min(
+                max(float(getattr(self.cfg, "dynamic_tabletop_speed_alpha_sample_full_fraction", 0.0)), 0.0),
+                1.0,
+            )
+            if full_fraction > 0.0 and alpha_max > alpha_min:
+                full_mask = sample_uniform(0.0, 1.0, (count, 1), self.device) < full_fraction
+                alpha = torch.where(full_mask, torch.full_like(alpha, alpha_max), alpha)
+
+            speed_start = torch.tensor(
+                self.cfg.dynamic_tabletop_start_speed_range,
+                dtype=torch.float32,
+                device=self.device,
+            ).view(1, 2)
+            speed_target = torch.tensor(
+                self.cfg.dynamic_tabletop_initial_speed_range,
+                dtype=torch.float32,
+                device=self.device,
+            ).view(1, 2)
+            speed_start_min = torch.minimum(speed_start[:, 0:1], speed_start[:, 1:2])
+            speed_start_max = torch.maximum(speed_start[:, 0:1], speed_start[:, 1:2])
+            speed_target_min = torch.minimum(speed_target[:, 0:1], speed_target[:, 1:2])
+            speed_target_max = torch.maximum(speed_target[:, 0:1], speed_target[:, 1:2])
+            speed_min = speed_start_min + (speed_target_min - speed_start_min) * alpha
+            speed_max = speed_start_max + (speed_target_max - speed_start_max) * alpha
+
+            yaw_start = torch.tensor(
+                self.cfg.dynamic_tabletop_start_yaw_rate_range,
+                dtype=torch.float32,
+                device=self.device,
+            ).view(1, 2)
+            yaw_target = torch.tensor(
+                self.cfg.dynamic_tabletop_initial_yaw_rate_range,
+                dtype=torch.float32,
+                device=self.device,
+            ).view(1, 2)
+            yaw_start_min = torch.minimum(yaw_start[:, 0:1], yaw_start[:, 1:2])
+            yaw_start_max = torch.maximum(yaw_start[:, 0:1], yaw_start[:, 1:2])
+            yaw_target_min = torch.minimum(yaw_target[:, 0:1], yaw_target[:, 1:2])
+            yaw_target_max = torch.maximum(yaw_target[:, 0:1], yaw_target[:, 1:2])
+            yaw_min = yaw_start_min + (yaw_target_min - yaw_start_min) * alpha
+            yaw_max = yaw_start_max + (yaw_target_max - yaw_start_max) * alpha
         speed = speed_min + sample_uniform(0.0, 1.0, (count, 1), self.device) * (speed_max - speed_min)
         heading_min, heading_max = self.cfg.dynamic_tabletop_heading_range
         heading = sample_uniform(float(heading_min), float(heading_max), (count, 1), self.device)
         lin_vel = torch.cat((torch.sin(heading) * speed, torch.cos(heading) * speed, torch.zeros_like(speed)), dim=-1)
 
-        yaw_min, yaw_max = self._tabletop_current_yaw_rate_range()
         yaw_rate = yaw_min + sample_uniform(0.0, 1.0, (count, 1), self.device) * (yaw_max - yaw_min)
         yaw_rate = yaw_rate.squeeze(-1)
         if motion_mode_ids is None or not self._uses_tabletop_asset_set():
@@ -2431,7 +3737,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             local_pos[:, 0:2] = local_xy
 
             if self.cfg.falling_baton_spawn_above_palm_enabled:
-                above_min, above_max = self.cfg.falling_baton_spawn_above_palm_range
+                above_min, above_max = self._falling_baton_current_spawn_above_palm_range()
                 palm_relative_z = catch_ref[:, 2:3] + sample_uniform(
                     float(above_min), float(above_max), (num_resets, 1), self.device
                 )

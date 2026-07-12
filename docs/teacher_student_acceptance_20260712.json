@@ -1,0 +1,50 @@
+{
+  "cases": [
+    {
+      "case_id": "revo2_rolling_rgbd",
+      "family": "dynamic_tabletop_grasp",
+      "hand": "revo2",
+      "task": "SimToolReal-Revo2-Franka-DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTargetHandLock-Teacher-Direct-v0",
+      "expected_action_dim": 13,
+      "expected_proprio_dim": 67,
+      "expected_arm_dim": 7,
+      "expected_hand_dim": 6,
+      "teacher_min_success_rate": 0.5,
+      "student_min_success_rate": 0.20390625,
+      "teacher_run_dir": "logs/rl_games/revo2_rolling_assetpriv_hardreplay_from_ep100_256env_240ep_online_20260711",
+      "student_dataset": "outputs/teacher_student_v4/datasets/revo2_rolling_assetshape_strictdepth_temporal_teacher2_dagger6_round3_hard_192k.pt",
+      "teacher_summary": "outputs/curated_artifacts/summaries/teacher/revo2_rolling_teacher_vector512.json",
+      "teacher_video_summary": "outputs/curated_artifacts/summaries/teacher/revo2_rolling_teacher_video20.json",
+      "teacher_video": "outputs/curated_videos/teacher/revo2_rolling_teacher_strict20_sr040.mp4",
+      "teacher_video_trace": [],
+      "teacher_video_trace_required": false,
+      "student_summary": "outputs/curated_artifacts/summaries/student/revo2_rolling_student_vector192_unbiased.json",
+      "student_video_summary": "outputs/curated_artifacts/summaries/student/revo2_rolling_student_video20.json",
+      "student_video": "outputs/curated_videos/student/revo2_rolling_student_rgbd_strict20_sr025.mp4",
+      "student_video_trace": "outputs/curated_artifacts/traces/student/revo2_rolling_student_video20.trace.json"
+    },
+    {
+      "case_id": "revo2_falling_baton_rgbd",
+      "family": "falling_baton_grasp",
+      "hand": "revo2",
+      "task": "SimToolReal-Revo2-Franka-FallingBatonEasyStrictAffordancePostHold-Teacher-Direct-v0",
+      "expected_action_dim": 13,
+      "expected_proprio_dim": 67,
+      "expected_arm_dim": 7,
+      "expected_hand_dim": 6,
+      "teacher_min_success_rate": 0.5,
+      "student_min_success_rate": 0.21171875,
+      "teacher_run_dir": "logs/rl_games/revo2_falling_postclose012_hold8_stage2_512env_240ep_online_20260710",
+      "student_dataset": "outputs/teacher_student_v4/datasets/revo2_falling_dagger_ppo_mean_sampled_repeat_nofallback_merged_120k.pt",
+      "teacher_summary": "outputs/curated_artifacts/summaries/teacher/revo2_falling_teacher_vector512.json",
+      "teacher_video_summary": "outputs/curated_artifacts/summaries/teacher/revo2_falling_teacher_video20.json",
+      "teacher_video": "outputs/curated_videos/teacher/revo2_falling_teacher_redgreen_strict20_sr045.mp4",
+      "teacher_video_trace": [],
+      "teacher_video_trace_required": false,
+      "student_summary": "outputs/curated_artifacts/summaries/student/revo2_falling_student_vector192.json",
+      "student_video_summary": "outputs/curated_artifacts/summaries/student/revo2_falling_student_video20.json",
+      "student_video": "outputs/curated_videos/student/revo2_falling_student_rgbd_strict20_sr025.mp4",
+      "student_video_trace": "outputs/curated_artifacts/traces/student/revo2_falling_student_video20.trace.json"
+    }
+  ]
+}

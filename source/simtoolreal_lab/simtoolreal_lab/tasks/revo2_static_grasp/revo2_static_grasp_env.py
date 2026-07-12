@@ -75,6 +75,38 @@ INSPIRE_ADJACENT_SELF_COLLISION_FILTER_PAIRS = (
     ("pinky_intermediate", "pinky_tip"),
 )
 
+INSPIRE_HAND_INTERNAL_SELF_COLLISION_FILTER_PAIRS = (
+    # Same-finger ancestor/descendant pairs that can otherwise fight official
+    # coupled close postures after URDF import into PhysX.
+    ("thumb_proximal_base", "thumb_intermediate"),
+    ("thumb_proximal_base", "thumb_distal"),
+    ("thumb_proximal_base", "thumb_tip"),
+    ("thumb_proximal", "thumb_distal"),
+    ("thumb_proximal", "thumb_tip"),
+    ("thumb_intermediate", "thumb_tip"),
+    ("index_proximal", "index_tip"),
+    ("middle_proximal", "middle_tip"),
+    ("ring_proximal", "ring_tip"),
+    ("pinky_proximal", "pinky_tip"),
+    # Adjacent fingers are intentionally close in Inspire grasp tables.  Filter
+    # those internal finger-finger pairs while preserving hand-object contact.
+    ("index_proximal", "middle_proximal"),
+    ("index_proximal", "middle_intermediate"),
+    ("index_intermediate", "middle_proximal"),
+    ("index_intermediate", "middle_intermediate"),
+    ("index_tip", "middle_tip"),
+    ("middle_proximal", "ring_proximal"),
+    ("middle_proximal", "ring_intermediate"),
+    ("middle_intermediate", "ring_proximal"),
+    ("middle_intermediate", "ring_intermediate"),
+    ("middle_tip", "ring_tip"),
+    ("ring_proximal", "pinky_proximal"),
+    ("ring_proximal", "pinky_intermediate"),
+    ("ring_intermediate", "pinky_proximal"),
+    ("ring_intermediate", "pinky_intermediate"),
+    ("ring_tip", "pinky_tip"),
+)
+
 
 class Revo2StaticGraspEnv(DirectRLEnv):
     """Static primitive lift-and-hold task for Franka + BrainCo Revo2."""
@@ -246,6 +278,7 @@ class Revo2StaticGraspEnv(DirectRLEnv):
         palm_body_name = str(getattr(self.cfg, "palm_body_name", ""))
         if hand_embodiment == "inspire" or palm_body_name == "hand_base_link":
             pairs.extend(INSPIRE_ADJACENT_SELF_COLLISION_FILTER_PAIRS)
+            pairs.extend(INSPIRE_HAND_INTERNAL_SELF_COLLISION_FILTER_PAIRS)
         else:
             pairs.extend(REVO2_ADJACENT_SELF_COLLISION_FILTER_PAIRS)
         return tuple(pairs)

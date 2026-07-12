@@ -89,6 +89,108 @@ INSPIRE_ACTIVE_HAND_JOINT_NAMES = (
     "ring_proximal_joint",
     "pinky_proximal_joint",
 )
+INSPIRE_TABLETOP_CLEARANCE_BODY_NAMES = (
+    "panda_link2",
+    "panda_link3",
+    "panda_link4",
+    "panda_link5",
+    "panda_link6",
+    "panda_link7",
+    "panda_link8",
+    "panda_hand",
+    "hand_base_link",
+    "index_proximal",
+    "index_intermediate",
+    "index_tip",
+    "middle_proximal",
+    "middle_intermediate",
+    "middle_tip",
+    "ring_proximal",
+    "ring_intermediate",
+    "ring_tip",
+    "pinky_proximal",
+    "pinky_intermediate",
+    "pinky_tip",
+    "thumb_proximal_base",
+    "thumb_proximal",
+    "thumb_intermediate",
+    "thumb_distal",
+    "thumb_tip",
+)
+INSPIRE_TABLETOP_CLEARANCE_BODY_MARGINS = (
+    0.075,
+    0.085,
+    0.075,
+    0.060,
+    0.045,
+    0.032,
+    0.024,
+    0.018,
+    0.070,
+    0.052,
+    0.040,
+    0.030,
+    0.052,
+    0.040,
+    0.030,
+    0.052,
+    0.040,
+    0.030,
+    0.052,
+    0.040,
+    0.030,
+    0.060,
+    0.050,
+    0.040,
+    0.034,
+    0.030,
+)
+INSPIRE_TABLETOP_STRICT_CLEARANCE_BODY_MARGINS = (
+    0.075,
+    0.085,
+    0.075,
+    0.060,
+    0.045,
+    0.032,
+    0.030,
+    0.040,
+    0.095,
+    0.075,
+    0.060,
+    0.050,
+    0.075,
+    0.060,
+    0.050,
+    0.075,
+    0.060,
+    0.050,
+    0.075,
+    0.060,
+    0.050,
+    0.085,
+    0.075,
+    0.060,
+    0.050,
+    0.045,
+)
+INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_NAMES = INSPIRE_TABLETOP_CLEARANCE_BODY_NAMES[7:]
+INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_MARGINS = INSPIRE_TABLETOP_CLEARANCE_BODY_MARGINS[7:]
+INSPIRE_TABLETOP_HAND_STRICT_CLEARANCE_BODY_MARGINS = INSPIRE_TABLETOP_STRICT_CLEARANCE_BODY_MARGINS[7:]
+INSPIRE_TABLETOP_HAND_CAUTION_CLEARANCE_BODY_MARGINS = tuple(
+    margin + 0.010 for margin in INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_MARGINS
+)
+# RH56BFX official speeds from Inspire Robots' product page, converted from
+# deg/s to rad/s.  The published grip forces are fingertip forces, so keep the
+# URDF torque effort unless a calibrated transmission model is available.
+INSPIRE_RH56BFX_THUMB_YAW_VEL = 4.10  # 235 deg/s
+INSPIRE_RH56BFX_THUMB_FLEX_VEL = 2.62  # 150 deg/s
+INSPIRE_RH56BFX_FINGER_FLEX_VEL = 9.95  # 570 deg/s
+# The official RH56BFX spec reports fingertip force, not URDF joint torque.
+# Use a stronger simulated servo cap so light object/table contacts do not
+# push the follower joints far away from the 6-active-DOF command manifold.
+INSPIRE_RH56BFX_HAND_EFFORT = 12.0
+INSPIRE_RH56BFX_HAND_STIFFNESS = 140.0
+INSPIRE_RH56BFX_HAND_DAMPING = 14.0
 # Conservative 6-active-DOF Inspire close envelope derived from AnyDex's
 # width_12Dangle_6Dangle table, converted to the Isaac/URDF joint order above.
 # This keeps the simulated follower joints inside the real hand's coupled
@@ -107,6 +209,231 @@ INSPIRE_ANYDEX_P80_CLOSE_TARGETS = (
     0.180,  # thumb_intermediate_joint
     0.443,  # thumb_distal_joint
 )
+# AnyDex Sphere_3_Finger width=4.0 cm target, converted to the Isaac/URDF
+# joint order.  This is still an official coupled Inspire posture, but it
+# closes the ring/pinky side enough for the 4.4 cm rolling ball.
+INSPIRE_ANYDEX_SPHERE_4CM_CLOSE_TARGETS = (
+    0.429,  # index_proximal_joint
+    0.351,  # index_intermediate_joint
+    0.543,  # middle_proximal_joint
+    0.480,  # middle_intermediate_joint
+    1.534,  # pinky_proximal_joint
+    1.306,  # pinky_intermediate_joint
+    0.909,  # ring_proximal_joint
+    0.837,  # ring_intermediate_joint
+    1.083,  # thumb_proximal_yaw_joint
+    0.180,  # thumb_proximal_pitch_joint
+    0.092,  # thumb_intermediate_joint
+    0.383,  # thumb_distal_joint
+)
+# Safer blend between P80 and Sphere_3_Finger width=4.0 cm.  The full sphere
+# posture over-flexes the pinky side in IsaacLab with self-collision enabled,
+# which can make the solver crawl.  This keeps the useful wrap bias without
+# pushing the coupled joints to their most aggressive AnyDex angle.
+INSPIRE_ANYDEX_SPHERE_SAFE_CLOSE_TARGETS = (
+    0.500,  # index_proximal_joint
+    0.420,  # index_intermediate_joint
+    0.585,  # middle_proximal_joint
+    0.520,  # middle_intermediate_joint
+    0.980,  # pinky_proximal_joint
+    0.860,  # pinky_intermediate_joint
+    0.860,  # ring_proximal_joint
+    0.780,  # ring_intermediate_joint
+    1.120,  # thumb_proximal_yaw_joint
+    0.200,  # thumb_proximal_pitch_joint
+    0.110,  # thumb_intermediate_joint
+    0.400,  # thumb_distal_joint
+)
+INSPIRE_ANYDEX_P80_THUMB_WRAP_CLOSE_TARGETS = (
+    0.541,  # index_proximal_joint
+    0.478,  # index_intermediate_joint
+    0.617,  # middle_proximal_joint
+    0.558,  # middle_intermediate_joint
+    0.705,  # pinky_proximal_joint
+    0.647,  # pinky_intermediate_joint
+    0.719,  # ring_proximal_joint
+    0.660,  # ring_intermediate_joint
+    1.580,  # thumb_proximal_yaw_joint
+    0.420,  # thumb_proximal_pitch_joint
+    0.260,  # thumb_intermediate_joint
+    0.560,  # thumb_distal_joint
+)
+# Keep the sphere-safe non-thumb posture and move only the thumb halfway toward
+# the P80 thumb-wrap target.  This probes whether lift failures are caused by a
+# too-open thumb without changing the learned grasp family.
+INSPIRE_ANYDEX_SPHERE_MILD_THUMB_WRAP_CLOSE_TARGETS = (
+    0.500,  # index_proximal_joint
+    0.420,  # index_intermediate_joint
+    0.585,  # middle_proximal_joint
+    0.520,  # middle_intermediate_joint
+    0.980,  # pinky_proximal_joint
+    0.860,  # pinky_intermediate_joint
+    0.860,  # ring_proximal_joint
+    0.780,  # ring_intermediate_joint
+    1.350,  # thumb_proximal_yaw_joint
+    0.310,  # thumb_proximal_pitch_joint
+    0.185,  # thumb_intermediate_joint
+    0.480,  # thumb_distal_joint
+)
+INSPIRE_OFFICIAL_ZERO_HAND_OPEN_POS = {joint_name: 0.0 for joint_name in INSPIRE_HAND_JOINT_NAMES}
+INSPIRE_V340_KNOWN_GOOD_ARM_POS = (
+    0.0,
+    -0.35,
+    0.0,
+    -2.20,
+    0.0,
+    2.35,
+    0.7853981633974483,
+)
+INSPIRE_V341_CLEAR_ARM_POS = (
+    0.0,
+    -0.35,
+    0.0,
+    -2.20,
+    0.0,
+    2.39,
+    0.7853981633974483,
+)
+# V340 clean-reset lift direction, measured in IsaacLab with
+# scripts/probe_arm_action_directions.py.  The old V325 lift prior drives the
+# V340 wrist far sideways; j6:+ is the cleanest table-clear upward motion.
+INSPIRE_V340_LIFT_ARM_DELTA = (
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.18,
+    0.0,
+)
+INSPIRE_V340_LIFT_ACTION_PRIOR = (
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.75,
+    0.0,
+)
+INSPIRE_P80_HOME_SEED_ARM_POS = (
+    0.0,
+    -0.5690000057,
+    0.0,
+    -2.8099999428,
+    0.0,
+    3.0369999409,
+    1.6660000086,
+)
+INSPIRE_P80_HOME_SEED_HAND_FRACTIONS = (0.70, 1.0, 0.80, 0.80, 1.0, 1.0)
+INSPIRE_P80_HOME_SEED_LIFT_DELTA = (
+    -0.005224,
+    -0.066232,
+    0.130747,
+    0.127955,
+    0.004971,
+    -0.050877,
+    0.206977,
+)
+INSPIRE_V340_LIFT_CANDIDATE_LABELS = (
+    "j6p075_current",
+    "j6p050",
+    "j6p035",
+    "j6p050_j2m025",
+    "j6p050_j2p025",
+    "j6p050_j4p030",
+    "j6p050_j7p030",
+    "j6p050_j2m020_j4p030_j7p030",
+    "p80_shape_medium",
+    "p80_shape_strong",
+    "p80_shape_no_j7",
+    "p80_shape_j6_zero",
+    "v325_prior",
+    "j3p050_j4p050_j7p050",
+    "j2m030_j3p055_j4p055_j6m020_j7p070",
+    "j2m045_j3p075_j4p075_j6m030_j7p090",
+)
+INSPIRE_V340_LIFT_CANDIDATE_ACTIONS = (
+    INSPIRE_V340_LIFT_ACTION_PRIOR,
+    (0.0, 0.0, 0.0, 0.0, 0.0, 0.50, 0.0),
+    (0.0, 0.0, 0.0, 0.0, 0.0, 0.35, 0.0),
+    (0.0, -0.25, 0.0, 0.0, 0.0, 0.50, 0.0),
+    (0.0, 0.25, 0.0, 0.0, 0.0, 0.50, 0.0),
+    (0.0, 0.0, 0.0, 0.30, 0.0, 0.50, 0.0),
+    (0.0, 0.0, 0.0, 0.0, 0.0, 0.50, 0.30),
+    (0.0, -0.20, 0.0, 0.30, 0.0, 0.50, 0.30),
+    (0.0, -0.25, 0.50, 0.50, 0.0, -0.20, 0.70),
+    (0.0, -0.40, 0.80, 0.80, 0.0, -0.35, 1.00),
+    (0.0, -0.35, 0.75, 0.75, 0.0, -0.30, 0.0),
+    (0.0, -0.35, 0.75, 0.75, 0.0, 0.0, 0.85),
+    V325_VERIFIED_LIFT_ACTION_PRIOR_120,
+    (0.0, 0.0, 0.50, 0.50, 0.0, 0.0, 0.50),
+    (0.0, -0.30, 0.55, 0.55, 0.0, -0.20, 0.70),
+    (0.0, -0.45, 0.75, 0.75, 0.0, -0.30, 0.90),
+)
+INSPIRE_V340_HAND_MEMORY_CANDIDATE_LABELS = (
+    "scalar095_baseline",
+    "all100",
+    "thumb100_finger095",
+    "thumb100_indexmid095_ring085",
+    "thumb100_indexmid085_ring095",
+    "thumb100_finger085",
+    "yaw090_flex100_finger095",
+    "yaw100_flex090_finger095",
+)
+INSPIRE_V340_HAND_MEMORY_CANDIDATE_ACTIONS = (
+    (0.95, 0.95, 0.95, 0.95, 0.95, 0.95),
+    (1.00, 1.00, 1.00, 1.00, 1.00, 1.00),
+    (1.00, 1.00, 0.95, 0.95, 0.95, 0.95),
+    (1.00, 1.00, 0.95, 0.95, 0.85, 0.85),
+    (1.00, 1.00, 0.85, 0.85, 0.95, 0.95),
+    (1.00, 1.00, 0.85, 0.85, 0.85, 0.85),
+    (0.90, 1.00, 0.95, 0.95, 0.95, 0.95),
+    (1.00, 0.90, 0.95, 0.95, 0.95, 0.95),
+)
+INSPIRE_V340_RELATIVE_LIFT_TARGET_LABELS = (
+    "p80_delta_025",
+    "p80_delta_050",
+    "p80_delta_075",
+    "p80_delta_100",
+    "p80_delta_125",
+    "j6_delta_008",
+    "j6_delta_012",
+    "j6_delta_016",
+    "j6_delta_010_j7_delta_008",
+    "mild_p80_shape",
+    "mid_p80_shape",
+    "elbow_j6pos_shape",
+)
+INSPIRE_V340_RELATIVE_LIFT_TARGET_DELTAS = (
+    (-0.001306, -0.016558, 0.032687, 0.031989, 0.001243, -0.012719, 0.051744),
+    (-0.002612, -0.033116, 0.065374, 0.063978, 0.002486, -0.025439, 0.103489),
+    (-0.003918, -0.049674, 0.098060, 0.095966, 0.003728, -0.038158, 0.155233),
+    INSPIRE_P80_HOME_SEED_LIFT_DELTA,
+    (-0.006530, -0.082790, 0.163434, 0.159944, 0.006214, -0.063596, 0.258721),
+    (0.0, 0.0, 0.0, 0.0, 0.0, 0.080000, 0.0),
+    (0.0, 0.0, 0.0, 0.0, 0.0, 0.120000, 0.0),
+    (0.0, 0.0, 0.0, 0.0, 0.0, 0.160000, 0.0),
+    (0.0, 0.0, 0.0, 0.0, 0.0, 0.100000, 0.080000),
+    (0.0, -0.030000, 0.060000, 0.060000, 0.0, -0.020000, 0.100000),
+    (0.0, -0.040000, 0.080000, 0.080000, 0.0, -0.030000, 0.140000),
+    (0.0, -0.020000, 0.040000, 0.040000, 0.0, 0.080000, 0.080000),
+)
+INSPIRE_V340_RELATIVE_LIFT_SCALE_PROBE_FACTORS = (0.65, 0.85, 1.00, 1.15)
+INSPIRE_V340_RELATIVE_LIFT_SCALE_PROBE_LABELS = tuple(
+    f"relative_lift_scale_{scale:.2f}" for scale in INSPIRE_V340_RELATIVE_LIFT_SCALE_PROBE_FACTORS
+)
+INSPIRE_V340_RELATIVE_LIFT_SCALE_PROBE_DELTAS = tuple(
+    tuple(scale * value for value in INSPIRE_V340_RELATIVE_LIFT_TARGET_DELTAS[2])
+    for scale in INSPIRE_V340_RELATIVE_LIFT_SCALE_PROBE_FACTORS
+)
+INSPIRE_V340_RELATIVE_LIFT_HIGH_SCALE_PROBE_FACTORS = (1.15, 1.30, 1.45, 1.60)
+INSPIRE_V340_RELATIVE_LIFT_HIGH_SCALE_PROBE_LABELS = tuple(
+    f"relative_lift_scale_{scale:.2f}" for scale in INSPIRE_V340_RELATIVE_LIFT_HIGH_SCALE_PROBE_FACTORS
+)
+INSPIRE_V340_RELATIVE_LIFT_HIGH_SCALE_PROBE_DELTAS = tuple(
+    tuple(scale * value for value in INSPIRE_V340_RELATIVE_LIFT_TARGET_DELTAS[2])
+    for scale in INSPIRE_V340_RELATIVE_LIFT_HIGH_SCALE_PROBE_FACTORS
+)
 INSPIRE_FINGERTIP_BODY_NAMES = (
     "thumb_tip",
     "index_tip",
@@ -123,6 +450,11 @@ INSPIRE_FINGERTIP_BODY_OFFSETS = (
     (0.0, 0.0, 0.0),
 )
 INSPIRE_DEFAULT_HAND_OPEN_POS = {joint_name: 0.0 for joint_name in INSPIRE_HAND_JOINT_NAMES}
+# With self-collision enabled, the mounted RH56 hand's neutral/open thumb yaw
+# settles near 1.1 rad in IsaacLab and DOMINO uses the same yaw during lift.
+# Treat that as the open semantic target so "open hand" does not fight the
+# hand's own geometry before contact.
+INSPIRE_DEFAULT_HAND_OPEN_POS["thumb_proximal_yaw_joint"] = 1.10
 
 TABLETOP_AFFORDANCE_ROOT = SIMTOOLREAL_LAB_ROOT / "assets/affordance_labels"
 TABLETOP_GENERATED_MESH_ROOT = SIMTOOLREAL_LAB_ROOT / "assets/generated/tabletop_affordance_meshes"
@@ -260,6 +592,13 @@ def _tabletop_asset_spec(
     axis: str = "Z",
     affordance_mode: str = "side_grasp",
     mesh_asset_path: str | Path | None = None,
+    static_friction: float = 0.75,
+    dynamic_friction: float = 0.75,
+    restitution: float = 0.0,
+    friction_combine_mode: str = "multiply",
+    restitution_combine_mode: str = "multiply",
+    contact_offset: float = 0.002,
+    rest_offset: float = 0.0,
 ) -> dict:
     stats = _asset_stats(asset_id)
     sx, sy, sz = size
@@ -278,10 +617,47 @@ def _tabletop_asset_spec(
         "mass": float(mass),
         "color": tuple(float(v) for v in color),
         "affordance_mode": affordance_mode,
+        "static_friction": float(static_friction),
+        "dynamic_friction": float(dynamic_friction),
+        "restitution": float(restitution),
+        "friction_combine_mode": str(friction_combine_mode),
+        "restitution_combine_mode": str(restitution_combine_mode),
+        "contact_offset": float(contact_offset),
+        "rest_offset": float(rest_offset),
     }
     if mesh_asset_path is not None:
         spec["mesh_asset_path"] = str(mesh_asset_path)
     return spec
+
+
+def _tabletop_object_material(spec: dict) -> sim_utils.RigidBodyMaterialCfg:
+    return sim_utils.RigidBodyMaterialCfg(
+        friction_combine_mode=str(spec.get("friction_combine_mode", "multiply")),
+        restitution_combine_mode=str(spec.get("restitution_combine_mode", "multiply")),
+        static_friction=float(spec.get("static_friction", 0.75)),
+        dynamic_friction=float(spec.get("dynamic_friction", 0.75)),
+        restitution=float(spec.get("restitution", 0.0)),
+    )
+
+
+def _with_tabletop_friction(
+    specs: tuple[dict, ...],
+    *,
+    static_friction: float,
+    dynamic_friction: float,
+    friction_combine_mode: str | None = None,
+) -> tuple[dict, ...]:
+    updated_specs = []
+    for spec in specs:
+        updated = {
+            **spec,
+            "static_friction": float(static_friction),
+            "dynamic_friction": float(dynamic_friction),
+        }
+        if friction_combine_mode is not None:
+            updated["friction_combine_mode"] = str(friction_combine_mode)
+        updated_specs.append(updated)
+    return tuple(updated_specs)
 
 
 TABLETOP_ROLLING_OBJECT_SPECS = (
@@ -340,6 +716,93 @@ TABLETOP_ROLLING_OBJECT_SPECS = (
 
 TABLETOP_ROLLING_START_SPEC = TABLETOP_ROLLING_OBJECT_SPECS[0]
 TABLETOP_ROLLING_START_Z = 0.296 + 0.5 * float(TABLETOP_ROLLING_START_SPEC["height"]) + 0.002
+
+
+def _tabletop_start_z_from_spec(spec: dict, table_top_z: float = 0.296) -> float:
+    shape = str(spec.get("proxy_shape", "box")).lower()
+    if shape == "sphere":
+        support_height = float(spec.get("radius", 0.03))
+    elif shape in {"cylinder", "cone"}:
+        support_height = 0.5 * float(spec.get("height", spec.get("size", (0.04, 0.04, 0.08))[2]))
+    else:
+        support_height = 0.5 * float(spec.get("size", (0.04, 0.04, 0.08))[2])
+    return float(table_top_z) + support_height + 0.002
+
+
+def _tabletop_sphere_spec(
+    *,
+    asset_id: str,
+    radius: float,
+    mass: float,
+    color: tuple[float, float, float],
+    static_friction: float = 0.75,
+    dynamic_friction: float = 0.75,
+    restitution: float = 0.0,
+    contact_offset: float = 0.002,
+    rest_offset: float = 0.0,
+) -> dict:
+    diameter = 2.0 * float(radius)
+    return _tabletop_asset_spec(
+        asset_id=asset_id,
+        category="small_ball",
+        proxy_shape="sphere",
+        size=(diameter, diameter, diameter),
+        radius=float(radius),
+        height=diameter,
+        mass=float(mass),
+        color=color,
+        affordance_mode="omni_grasp",
+        static_friction=float(static_friction),
+        dynamic_friction=float(dynamic_friction),
+        restitution=float(restitution),
+        contact_offset=float(contact_offset),
+        rest_offset=float(rest_offset),
+    )
+
+
+TABLETOP_INSPIRE_SPHERE_50MM_SPEC = _tabletop_sphere_spec(
+    asset_id="primitive/inspire_sphere_50mm",
+    radius=0.025,
+    mass=0.026,
+    color=(0.10, 0.55, 0.92),
+)
+TABLETOP_INSPIRE_SPHERE_60MM_SPEC = _tabletop_sphere_spec(
+    asset_id="primitive/inspire_sphere_60mm",
+    radius=0.030,
+    mass=0.046,
+    color=(0.20, 0.72, 0.38),
+)
+TABLETOP_INSPIRE_SPHERE_60MM_HIGH_FRICTION_SPEC = _tabletop_sphere_spec(
+    asset_id="primitive/inspire_sphere_60mm_high_friction",
+    radius=0.030,
+    mass=0.046,
+    color=(0.10, 0.62, 0.28),
+    static_friction=1.05,
+    dynamic_friction=0.90,
+)
+TABLETOP_INSPIRE_SPHERE_50MM_HIGH_FRICTION_SPEC = _tabletop_sphere_spec(
+    asset_id="primitive/inspire_sphere_50mm_high_friction",
+    radius=0.025,
+    mass=0.026,
+    color=(0.88, 0.20, 0.16),
+    static_friction=1.05,
+    dynamic_friction=0.90,
+)
+TABLETOP_INSPIRE_SPHERE_50MM_SOFT_CONTACT_SPEC = _tabletop_sphere_spec(
+    asset_id="primitive/inspire_sphere_50mm_soft_contact",
+    radius=0.025,
+    mass=0.026,
+    color=(0.72, 0.34, 0.84),
+    static_friction=0.85,
+    dynamic_friction=0.75,
+    contact_offset=0.004,
+)
+TABLETOP_INSPIRE_CAN_HIGH_FRICTION_SPEC = _with_tabletop_friction(
+    (TABLETOP_ROLLING_OBJECT_SPECS[1],),
+    static_friction=1.05,
+    dynamic_friction=0.90,
+    friction_combine_mode="multiply",
+)[0]
 
 TABLETOP_TRANSPORT_OBJECT_SPECS = (
     _tabletop_asset_spec(
@@ -428,7 +891,10 @@ def _object_cfg_from_tabletop_spec(spec: dict, pos: tuple[float, float, float], 
             solver_position_iteration_count=16,
             solver_velocity_iteration_count=2,
         ),
-        collision_props=sim_utils.CollisionPropertiesCfg(contact_offset=0.002, rest_offset=0.0),
+        collision_props=sim_utils.CollisionPropertiesCfg(
+            contact_offset=float(spec.get("contact_offset", 0.002)),
+            rest_offset=float(spec.get("rest_offset", 0.0)),
+        ),
     )
     mesh_asset_path = str(spec.get("mesh_asset_path", "") or "")
     if mesh_asset_path:
@@ -443,7 +909,7 @@ def _object_cfg_from_tabletop_spec(spec: dict, pos: tuple[float, float, float], 
     else:
         common = dict(
             **base_common,
-            physics_material=_object_material(),
+            physics_material=_tabletop_object_material(spec),
             visual_material=sim_utils.PreviewSurfaceCfg(
                 diffuse_color=tuple(spec["color"]),
                 roughness=0.58,
@@ -536,9 +1002,98 @@ def _v699_revo2_robot_cfg(default_arm_pos: tuple[float, ...]) -> ArticulationCfg
     )
 
 
-def _inspire_z180_robot_cfg(default_arm_pos: tuple[float, ...]) -> ArticulationCfg:
+def _inspire_z180_robot_cfg(
+    default_arm_pos: tuple[float, ...], *, default_hand_pos: dict[str, float] | None = None
+) -> ArticulationCfg:
     joint_pos = {joint_name: value for joint_name, value in zip(FRANKA_ARM_JOINT_NAMES, default_arm_pos)}
-    joint_pos.update(INSPIRE_DEFAULT_HAND_OPEN_POS)
+    joint_pos.update(INSPIRE_DEFAULT_HAND_OPEN_POS if default_hand_pos is None else default_hand_pos)
+    return ArticulationCfg(
+        prim_path="/World/envs/env_.*/Robot",
+        spawn=sim_utils.UrdfFileCfg(
+            asset_path=str(INSPIRE_Z180_URDF),
+            fix_base=True,
+            root_link_name="panda_link0",
+            merge_fixed_joints=False,
+            make_instanceable=False,
+            convert_mimic_joints_to_normal_joints=False,
+            self_collision=True,
+            joint_drive=sim_utils.UrdfConverterCfg.JointDriveCfg(
+                gains=sim_utils.UrdfConverterCfg.JointDriveCfg.PDGainsCfg(stiffness=None, damping=None)
+            ),
+            activate_contact_sensors=True,
+            rigid_props=sim_utils.RigidBodyPropertiesCfg(
+                disable_gravity=True,
+                max_depenetration_velocity=5.0,
+            ),
+            collision_props=sim_utils.CollisionPropertiesCfg(contact_offset=0.003, rest_offset=0.0),
+            articulation_props=sim_utils.ArticulationRootPropertiesCfg(
+                enabled_self_collisions=True,
+                fix_root_link=True,
+                solver_position_iteration_count=16,
+                solver_velocity_iteration_count=2,
+            ),
+        ),
+        init_state=ArticulationCfg.InitialStateCfg(
+            pos=(0.0, 0.0, 0.0),
+            rot=(1.0, 0.0, 0.0, 0.0),
+            joint_pos=joint_pos,
+            joint_vel={".*": 0.0},
+        ),
+        soft_joint_pos_limit_factor=1.0,
+        actuators={
+            "franka_shoulder": ImplicitActuatorCfg(
+                joint_names_expr=["panda_joint[1-4]"],
+                effort_limit_sim=87.0,
+                velocity_limit_sim=2.2,
+                stiffness=600.0,
+                damping=60.0,
+            ),
+            "franka_forearm": ImplicitActuatorCfg(
+                joint_names_expr=["panda_joint[5-7]"],
+                effort_limit_sim=87.0,
+                velocity_limit_sim=2.7,
+                stiffness=600.0,
+                damping=60.0,
+            ),
+            "inspire_thumb_yaw": ImplicitActuatorCfg(
+                joint_names_expr=["thumb_proximal_yaw_joint"],
+                effort_limit_sim=INSPIRE_RH56BFX_HAND_EFFORT,
+                velocity_limit_sim=INSPIRE_RH56BFX_THUMB_YAW_VEL,
+                stiffness=INSPIRE_RH56BFX_HAND_STIFFNESS,
+                damping=INSPIRE_RH56BFX_HAND_DAMPING,
+            ),
+            "inspire_thumb_flex": ImplicitActuatorCfg(
+                joint_names_expr=[
+                    "thumb_proximal_pitch_joint",
+                    "thumb_intermediate_joint",
+                    "thumb_distal_joint",
+                ],
+                effort_limit_sim=INSPIRE_RH56BFX_HAND_EFFORT,
+                velocity_limit_sim=INSPIRE_RH56BFX_THUMB_FLEX_VEL,
+                stiffness=INSPIRE_RH56BFX_HAND_STIFFNESS,
+                damping=INSPIRE_RH56BFX_HAND_DAMPING,
+            ),
+            "inspire_fingers": ImplicitActuatorCfg(
+                joint_names_expr=[
+                    "index_.*_joint",
+                    "middle_.*_joint",
+                    "ring_.*_joint",
+                    "pinky_.*_joint",
+                ],
+                effort_limit_sim=INSPIRE_RH56BFX_HAND_EFFORT,
+                velocity_limit_sim=INSPIRE_RH56BFX_FINGER_FLEX_VEL,
+                stiffness=INSPIRE_RH56BFX_HAND_STIFFNESS,
+                damping=INSPIRE_RH56BFX_HAND_DAMPING,
+            ),
+        },
+    )
+
+
+def _inspire_z180_legacy_robot_cfg(default_arm_pos: tuple[float, ...]) -> ArticulationCfg:
+    """Earlier Inspire import used by the first matched-friction positive control."""
+
+    joint_pos = {joint_name: value for joint_name, value in zip(FRANKA_ARM_JOINT_NAMES, default_arm_pos)}
+    joint_pos.update(INSPIRE_OFFICIAL_ZERO_HAND_OPEN_POS)
     return ArticulationCfg(
         prim_path="/World/envs/env_.*/Robot",
         spawn=sim_utils.UrdfFileCfg(
@@ -696,6 +1251,8 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     scripted_tabletop_pregrasp_arm_pos = FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS
     scripted_tabletop_pregrasp_prior_start_step = 0
     scripted_tabletop_pregrasp_prior_ramp_steps = 180
+    scripted_tabletop_pregrasp_prior_steps = 0
+    scripted_tabletop_pregrasp_prior_control_mode = "normalized_action"
 
     # Falling-baton aerial spawn, matching the IsaacGym reset structure.  The
     # object samples in a front workspace, then optionally snaps near a
@@ -735,6 +1292,12 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     dynamic_grasp_speed_curriculum_allow_decrease = False
     dynamic_grasp_speed_curriculum_steps = 0
     dynamic_grasp_speed_curriculum_override_alpha = None
+    falling_baton_spawn_height_curriculum = False
+    falling_baton_start_spawn_above_palm_range = (0.40, 0.76)
+    falling_baton_orientation_curriculum = False
+    falling_baton_start_roll_range = (-3.141592653589793, 3.141592653589793)
+    falling_baton_start_pitch_range = (-1.35, 1.35)
+    falling_baton_start_yaw_range = (-3.141592653589793, 3.141592653589793)
     dynamic_tabletop_persistent_motion = False
     dynamic_tabletop_bounce_at_workspace = False
     dynamic_tabletop_release_motion_on_contact = False
@@ -747,6 +1310,11 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     dynamic_tabletop_initial_yaw_rate_range = (0.0, 0.0)
     dynamic_tabletop_heading_range = (-0.45, 0.45)
     dynamic_tabletop_randomize_yaw = False
+    dynamic_tabletop_speed_alpha_sample_enabled = False
+    dynamic_tabletop_speed_alpha_sample_min = 0.0
+    dynamic_tabletop_speed_alpha_sample_max = 1.0
+    dynamic_tabletop_speed_alpha_sample_curriculum_cap = True
+    dynamic_tabletop_speed_alpha_sample_full_fraction = 0.0
     dynamic_tabletop_pregrasp_lead_time = 0.20
     dynamic_tabletop_pregrasp_ahead_distance = 0.04
     dynamic_tabletop_pregrasp_xy_distance_scale = 0.16
@@ -777,7 +1345,18 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     tabletop_arm_clearance_scale = 0.060
     tabletop_arm_clearance_max_penalty = 2.0
     tabletop_arm_clearance_penalty_scale = 0.0
+    tabletop_arm_clearance_ok_penalty_threshold = 1.0e-4
     tabletop_success_requires_arm_clearance = False
+    tabletop_terminate_on_arm_clearance_violation = False
+    tabletop_arm_clearance_terminate_penalty_threshold = 1.0e-4
+    tabletop_arm_clearance_violation_terminate_start_step = 0
+    scripted_action_prior_lift_uses_proximity = False
+    scripted_action_prior_lift_proximity_distance = 0.0
+    scripted_action_prior_lift_proximity_min_contacts = 0.0
+    scripted_action_prior_lift_grasp_recent_steps = 0
+    tabletop_gate_contact_rewards_by_clearance = False
+    tabletop_contact_clearance_gate_min = 1.0
+    tabletop_contact_clearance_gate_scale = 0.50
     dynamic_tabletop_gate_contact_rewards_by_pregrasp = False
     dynamic_tabletop_contact_pregrasp_gate_min = 1.0
     tabletop_object_asset_specs = ()
@@ -787,6 +1366,7 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     tabletop_asset_curriculum_start_count = 1
     tabletop_asset_curriculum_steps = 2_000_000
     tabletop_asset_curriculum_override_alpha = None
+    tabletop_asset_sampling_weights = None
     tabletop_motion_modes = ("linear",)
     tabletop_motion_mode_curriculum = True
     tabletop_motion_mode_curriculum_start_count = 1
@@ -806,7 +1386,9 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     workspace_xy_limit = 1.25
     stable_object_palm_vel = 0.36
     falling_success_uses_grasp_seen = True
+    falling_success_uses_strict_grasp = False
     falling_success_max_palm_distance = 0.0
+    falling_success_palm_gate_soft_scale = 0.055
     falling_success_min_finger_contacts = 0.0
     falling_success_requires_positive_affordance = False
     tabletop_success_requires_hover_target = False
@@ -831,6 +1413,19 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     true_grasp_opposition_mode = "score"
     palm_contact_distance = 0.10
     palm_only_lift_dist = 0.12
+    strict_success_enabled = False
+    strict_success_contact_distance = 0.010
+    strict_success_min_finger_contacts = 3
+    strict_success_min_non_thumb_contacts = 2
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    strict_reward_enabled = False
+    strict_reward_contact_score_scale = None
+    strict_approach_score_scale = 0.08
+    strict_approach_rew_scale = 0.0
+    strict_multifinger_approach_rew_scale = 0.0
+    strict_touch_score_scale = 0.008
+    strict_touch_rew_scale = 0.0
     grasp_quality_finger_count_weight = 0.30
     grasp_quality_non_thumb_weight = 0.25
     grasp_quality_thumb_weight = 0.25
@@ -861,6 +1456,12 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     true_grasp_rew_scale = 12.0
     opposition_rew_scale = 5.0
     catch_progress_rew_scale = 30.0
+    falling_stable_grasp_rew_scale = 0.0
+    falling_palm_gate_rew_scale = 0.0
+    falling_positive_stable_rew_scale = 0.0
+    falling_soft_success_progress_rew_scale = 0.0
+    falling_opposed_stable_pinch_rew_scale = 0.0
+    falling_pinched_rel_vel_penalty_scale = 0.0
     stable_hold_rew_scale = 80.0
     hold_progress_rew_scale = 140.0
     lift_progress_rew_scale = 45.0
@@ -905,6 +1506,29 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     tabletop_lift_action_prior_gate_min = 0.10
     tabletop_lift_without_object_penalty_scale = 0.0
     tabletop_lift_without_object_min_arm_progress = 0.20
+    tabletop_object_up_vel_rew_scale = 0.0
+    tabletop_object_up_vel_scale = 0.10
+    tabletop_object_carry_lift_rew_scale = 0.0
+    tabletop_object_carry_min_grasp_streak = 0
+    tabletop_object_carry_streak_ramp_steps = 1
+    tabletop_object_carry_uses_grasp_seen = False
+    tabletop_object_carry_grasp_seen_gate = 0.25
+    tabletop_object_carry_stall_penalty_scale = 0.0
+    tabletop_object_carry_stall_min_arm_progress = 0.12
+    tabletop_object_carry_stall_min_z_vel = 0.015
+    tabletop_underwrap_rew_scale = 0.0
+    tabletop_underwrap_below_center_fraction = 0.20
+    tabletop_underwrap_height_scale = 0.012
+    tabletop_underwrap_radial_fraction = 0.95
+    tabletop_underwrap_radial_scale = 0.020
+    tabletop_underwrap_contact_scale = 0.018
+    tabletop_underwrap_contact_margin = 0.0
+    tabletop_underwrap_min_non_thumb_contacts = 1
+    tabletop_underwrap_uses_opposition = True
+    tabletop_underwrap_opposition_min_multiplier = 0.10
+    tabletop_underwrap_progress_weight = 0.0
+    tabletop_underwrap_pair_weight = 1.0
+    tabletop_underwrap_uses_pregrasp_gate = True
     tabletop_post_success_hold_rew_scale = 0.0
     tabletop_post_success_unstable_penalty_scale = 0.0
     tabletop_post_success_grasp_loss_penalty_scale = 0.0
@@ -917,6 +1541,7 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     tabletop_post_success_arm_target_lock_blend = 1.0
     tabletop_post_success_hand_target_lock_enabled = False
     tabletop_post_success_hand_target_lock_blend = 1.0
+    tabletop_post_success_hand_lock_uses_actual_joint_pos = False
     tabletop_post_success_arm_joint_vel_penalty_scale = 0.0
     tabletop_post_success_arm_target_drift_penalty_scale = 0.0
     tabletop_post_success_arm_target_drift_tolerance = 0.10
@@ -924,6 +1549,7 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     tabletop_post_success_palm_drift_penalty_scale = 0.0
     tabletop_post_success_palm_drift_tolerance = 0.035
     tabletop_post_success_palm_drift_scale = 0.08
+    falling_post_success_stability_enabled = False
     action_penalty_scale = 0.006
     arm_target_delta_penalty_scale = 0.010
     drop_penalty = 35.0
@@ -996,10 +1622,18 @@ class Revo2FallingBatonStableTeacherEnvCfg(Revo2FallingBatonTeacherEnvCfg):
 
     reference_name = "revo2_v699_falling_baton_stable_success_teacher"
     falling_success_uses_grasp_seen = False
-    falling_success_max_palm_distance = 0.145
-    falling_success_min_finger_contacts = 2.0
-    dynamic_success_hold_steps = 14
-    stable_object_palm_vel = 0.34
+    falling_success_uses_strict_grasp = True
+    falling_success_max_palm_distance = 0.22
+    falling_success_min_finger_contacts = 3.0
+    strict_reward_enabled = True
+    strict_success_enabled = True
+    strict_success_contact_distance = 0.010
+    strict_success_min_finger_contacts = 3
+    strict_success_min_non_thumb_contacts = 2
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    dynamic_success_hold_steps = 8
+    stable_object_palm_vel = 0.38
     catch_success_min_z = 0.48
     dynamic_grasp_speed_curriculum_metric = "success"
     dynamic_grasp_speed_curriculum_start_success = 0.04
@@ -1106,6 +1740,117 @@ class Revo2FallingBatonEasyTeacherEnvCfg(Revo2FallingBatonTeacherEnvCfg):
     action_penalty_scale = 0.003
     arm_target_delta_penalty_scale = 0.005
     drop_penalty = 12.0
+
+
+@configclass
+class Revo2FallingBatonEasyStrictAffordanceTeacherEnvCfg(Revo2FallingBatonEasyTeacherEnvCfg):
+    """Easy short-baton curriculum with strict load-bearing green-region grasp rewards."""
+
+    reference_name = "revo2_v699_falling_baton_easy_strict_affordance_teacher"
+
+    falling_success_uses_grasp_seen = False
+    falling_success_uses_strict_grasp = True
+    falling_success_requires_positive_affordance = True
+    falling_success_max_palm_distance = 0.20
+    falling_success_min_finger_contacts = 3.0
+
+    contact_distance = 0.018
+    contact_score_scale = 0.018
+    palm_contact_distance = 0.050
+    strict_reward_enabled = True
+    strict_success_enabled = True
+    strict_success_contact_distance = 0.010
+    strict_success_min_finger_contacts = 3
+    strict_success_min_non_thumb_contacts = 2
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    strict_approach_rew_scale = 12.0
+    strict_multifinger_approach_rew_scale = 8.0
+    strict_opposition_approach_rew_scale = 180.0
+    strict_touch_reward_requires_thumb_pair = True
+    strict_touch_reward_uses_opposition_product = True
+    strict_touch_reward_opposition_min_multiplier = 0.02
+    strict_touch_rew_scale = 1000.0
+    strict_opposition_touch_rew_scale = 3600.0
+
+    falling_affordance_reward_enabled = True
+    falling_affordance_positive_requires_thumb_pair = True
+    falling_affordance_positive_uses_opposition_product = True
+    falling_affordance_positive_opposition_min_multiplier = 0.02
+    falling_affordance_positive_rew_scale = 80.0
+    falling_affordance_thumb_geom_rew_scale = 10.0
+    falling_affordance_thumb_touch_rew_scale = 260.0
+    falling_affordance_negative_penalty_scale = 260.0
+    falling_affordance_distance_scale = 0.018
+    falling_affordance_contact_distance = 0.016
+    falling_affordance_radial_margin = 0.010
+
+    falling_non_thumb_without_thumb_penalty_scale = 120.0
+    falling_non_thumb_without_thumb_gate_start = 0.16
+    falling_non_thumb_without_thumb_gate_ramp = 0.32
+    falling_non_thumb_without_thumb_thumb_target = 0.32
+
+    dynamic_grasp_speed_curriculum_metric = "success"
+    dynamic_grasp_speed_curriculum_start_success = 0.006
+    dynamic_grasp_speed_curriculum_full_success = 0.16
+    dynamic_grasp_speed_curriculum_ema_alpha = 0.035
+    dynamic_grasp_speed_curriculum_alpha_rise = 0.001
+    dynamic_grasp_speed_curriculum_allow_decrease = True
+    dynamic_success_hold_steps = 10
+    stable_object_palm_vel = 0.38
+
+    contact_rew_scale = 8.0
+    true_grasp_rew_scale = 80.0
+    opposition_rew_scale = 18.0
+    catch_progress_rew_scale = 24.0
+    falling_stable_grasp_rew_scale = 650.0
+    falling_palm_gate_rew_scale = 450.0
+    falling_positive_stable_rew_scale = 1700.0
+    falling_soft_success_progress_rew_scale = 2800.0
+    falling_opposed_stable_pinch_rew_scale = 4000.0
+    falling_pinched_rel_vel_penalty_scale = 700.0
+    stable_hold_rew_scale = 12000.0
+    hold_progress_rew_scale = 20000.0
+    success_bonus = 40000.0
+
+
+@configclass
+class Revo2FallingBatonEasyStrictAffordancePostHoldTeacherEnvCfg(
+    Revo2FallingBatonEasyStrictAffordanceTeacherEnvCfg
+):
+    """Strict Revo2 catch task that keeps a successful grasp stable afterward."""
+
+    reference_name = "revo2_v699_falling_baton_easy_strict_affordance_posthold_teacher"
+
+    dynamic_success_hold_steps = 20
+    stable_object_palm_vel = 0.30
+    terminate_on_success = False
+    falling_post_success_stability_enabled = True
+    tabletop_post_success_stability_latch_enabled = True
+    tabletop_post_success_arm_target_lock_enabled = True
+    tabletop_post_success_arm_target_lock_blend = 1.0
+    tabletop_post_success_hand_target_lock_enabled = True
+    tabletop_post_success_hand_target_lock_blend = 1.0
+    tabletop_post_success_hand_close_fraction = 0.06
+
+    tabletop_post_success_hold_rew_scale = 18000.0
+    tabletop_post_success_unstable_penalty_scale = 15000.0
+    tabletop_post_success_grasp_loss_penalty_scale = 12000.0
+    tabletop_post_success_under_height_penalty_scale = 0.0
+    tabletop_post_success_speed_penalty_scale = 2600.0
+    tabletop_post_success_action_penalty_scale = 0.040
+    tabletop_post_success_target_delta_penalty_scale = 0.060
+    tabletop_post_success_arm_joint_vel_penalty_scale = 60.0
+    tabletop_post_success_arm_target_drift_penalty_scale = 1100.0
+    tabletop_post_success_arm_target_drift_tolerance = 0.12
+    tabletop_post_success_arm_target_drift_scale = 0.30
+    tabletop_post_success_palm_drift_penalty_scale = 1400.0
+    tabletop_post_success_palm_drift_tolerance = 0.050
+    tabletop_post_success_palm_drift_scale = 0.10
+
+    stable_hold_rew_scale = 22000.0
+    hold_progress_rew_scale = 40000.0
+    success_bonus = 70000.0
 
 
 @configclass
@@ -2356,6 +3101,7 @@ class Revo2DynamicTabletopRollingAssetsFastSpeedTeacherEnvCfg(
     tabletop_post_success_arm_target_lock_blend = 1.0
     tabletop_post_success_hand_target_lock_enabled = True
     tabletop_post_success_hand_target_lock_blend = 1.0
+    tabletop_post_success_hand_close_fraction = 0.08
     tabletop_post_success_hold_rew_scale = 9800.0
     tabletop_post_success_unstable_penalty_scale = 5200.0
     tabletop_post_success_grasp_loss_penalty_scale = 3600.0
@@ -2370,6 +3116,130 @@ class Revo2DynamicTabletopRollingAssetsFastSpeedTeacherEnvCfg(
     tabletop_post_success_palm_drift_penalty_scale = 2400.0
     tabletop_post_success_palm_drift_tolerance = 0.035
     tabletop_post_success_palm_drift_scale = 0.085
+
+
+@configclass
+class Revo2DynamicTabletopRollingAssetsFastSpeedPostHoldTeacherEnvCfg(
+    Revo2DynamicTabletopRollingAssetsFastSpeedTeacherEnvCfg
+):
+    """Fast rolling continuation that trains the state after a successful lift."""
+
+    reference_name = "revo2_dynamic_tabletop_rolling_assets_fast_speed_posthold_teacher"
+
+    # The base fast-speed task terminates as soon as its eight-step success
+    # streak completes.  Keep the episode alive so PPO receives the actual
+    # post-grasp contact, lift, and stability returns used by video evaluation.
+    terminate_on_success = False
+    episode_length_s = 8.0
+
+    # Train against the same load-bearing contact contract used by strict
+    # evaluation: thumb + two non-thumb fingers in physical opposition.
+    strict_success_enabled = True
+    strict_reward_enabled = True
+    strict_success_contact_distance = 0.010
+    strict_success_min_finger_contacts = 3
+    strict_success_min_non_thumb_contacts = 2
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    strict_reward_contact_score_scale = 0.025
+
+    tabletop_post_success_hand_lock_uses_actual_joint_pos = True
+
+    tabletop_post_success_hold_rew_scale = 20000.0
+    tabletop_post_success_unstable_penalty_scale = 16000.0
+    tabletop_post_success_grasp_loss_penalty_scale = 15000.0
+    tabletop_post_success_under_height_penalty_scale = 2200.0
+    tabletop_post_success_speed_penalty_scale = 1400.0
+    tabletop_post_success_action_penalty_scale = 0.050
+    tabletop_post_success_target_delta_penalty_scale = 0.080
+    tabletop_post_success_arm_joint_vel_penalty_scale = 100.0
+    tabletop_post_success_arm_target_drift_penalty_scale = 1800.0
+    tabletop_post_success_palm_drift_penalty_scale = 2800.0
+
+
+@configclass
+class Revo2DynamicTabletopRollingAssetsFastSpeedStrictAcquisitionTeacherEnvCfg(
+    Revo2DynamicTabletopRollingAssetsFastSpeedPostHoldTeacherEnvCfg
+):
+    """Post-hold task with dense shaping for physical thumb-pair acquisition."""
+
+    reference_name = "revo2_dynamic_tabletop_rolling_assets_fast_speed_strict_acquisition_teacher"
+
+    # PostHold enables strict reward selection, but its inherited dense strict
+    # approach/touch scales are zero. Use the validated Revo2 falling-hand
+    # contact shaping so elongated rolling assets cannot earn lift returns from
+    # a loose or transient enclosure alone.
+    strict_approach_score_scale = 0.030
+    strict_touch_score_scale = 0.008
+    strict_approach_rew_scale = 12.0
+    strict_multifinger_approach_rew_scale = 8.0
+    strict_opposition_approach_rew_scale = 180.0
+    strict_touch_reward_requires_thumb_pair = True
+    strict_touch_reward_uses_opposition_product = True
+    strict_touch_reward_opposition_min_multiplier = 0.02
+    strict_touch_rew_scale = 1000.0
+    strict_opposition_touch_rew_scale = 3600.0
+
+
+@configclass
+class Revo2DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTeacherEnvCfg(
+    Revo2DynamicTabletopRollingAssetsFastSpeedPostHoldTeacherEnvCfg
+):
+    """Fast rolling teacher with privileged shape, size, and affordance asset state."""
+
+    reference_name = "revo2_dynamic_tabletop_rolling_assets_fast_speed_asset_privileged_teacher"
+    observation_space = 86
+    tabletop_asset_obs_enabled = True
+
+
+@configclass
+class Revo2DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTargetHandLockTeacherEnvCfg(
+    Revo2DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTeacherEnvCfg
+):
+    """Keep the successful commanded hand target so post-hold contact stays loaded."""
+
+    reference_name = "revo2_dynamic_tabletop_rolling_assets_fast_speed_asset_privileged_target_hand_lock_teacher"
+    tabletop_post_success_hand_lock_uses_actual_joint_pos = False
+
+
+@configclass
+class Revo2DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedHardReplayTeacherEnvCfg(
+    Revo2DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTeacherEnvCfg
+):
+    """Training-only replay distribution focused on the three hardest rolling assets."""
+
+    reference_name = "revo2_dynamic_tabletop_rolling_assets_fast_speed_asset_privileged_hard_replay_teacher"
+    # Asset order: apple, can, bottle, cone, pill bottle. Evaluation keeps the
+    # parent task's uniform distribution.
+    tabletop_asset_sampling_weights = (0.05, 0.25, 0.35, 0.30, 0.05)
+
+
+@configclass
+class Revo2DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedStrictAcquisitionHardReplayTeacherEnvCfg(
+    Revo2DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTargetHandLockTeacherEnvCfg
+):
+    """Asset-aware hard replay with dense physical thumb-opposition shaping."""
+
+    reference_name = (
+        "revo2_dynamic_tabletop_rolling_assets_fast_speed_asset_privileged_"
+        "strict_acquisition_hard_replay_teacher"
+    )
+
+    # Keep the final post-success target lock while replaying bottle, cone, and
+    # cylinder failures more often. The scales match the existing validated
+    # strict-acquisition task; only their missing asset-privileged combination
+    # is introduced here.
+    tabletop_asset_sampling_weights = (0.05, 0.25, 0.35, 0.30, 0.05)
+    strict_approach_score_scale = 0.030
+    strict_touch_score_scale = 0.008
+    strict_approach_rew_scale = 12.0
+    strict_multifinger_approach_rew_scale = 8.0
+    strict_opposition_approach_rew_scale = 180.0
+    strict_touch_reward_requires_thumb_pair = True
+    strict_touch_reward_uses_opposition_product = True
+    strict_touch_reward_opposition_min_multiplier = 0.02
+    strict_touch_rew_scale = 1000.0
+    strict_opposition_touch_rew_scale = 3600.0
 
 
 @configclass
@@ -3383,7 +4253,7 @@ class Revo2DynamicTabletopTransportRichPriorTargetObsTeacherEnvCfg(
     tabletop_arm_object_lift_gap_margin = 0.12
     tabletop_arm_object_lift_gap_penalty_scale = 900.0
     tabletop_lift_action_prior_rew_scale = 80.0
-    tabletop_lift_action_prior_gate_min = 0.12
+    tabletop_lift_action_prior_gate_min = 0.0
     tabletop_lift_without_object_penalty_scale = 260.0
     tabletop_no_lift_after_grasp_penalty_scale = 520.0
     tabletop_no_lift_after_grasp_grace_steps = 8
@@ -3418,8 +4288,9 @@ class InspireDynamicDexterousTeacherEnvCfg(Revo2DynamicDexterousTeacherEnvCfg):
     reference_hand_fractions = (1.0,) * 6
     inspire_semantic_close_targets = INSPIRE_ANYDEX_P80_CLOSE_TARGETS
     hand_moving_average = 0.78
-    contact_distance = 0.060
-    contact_score_scale = 0.060
+    contact_distance = 0.030
+    contact_score_scale = 0.030
+    palm_contact_distance = 0.060
 
 
 @configclass
@@ -3433,8 +4304,8 @@ class InspireDynamicTabletopTeacherEnvCfg(Revo2DynamicTabletopTeacherEnvCfg):
     action_contract = "inspire_semantic_13d"
     reference_name = "inspire_z180_dynamic_tabletop_privileged_teacher_joint_target"
     episode_length_s = 6.0
-    robot_cfg: ArticulationCfg = _inspire_z180_robot_cfg(FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS)
-    default_arm_pos = FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS
+    robot_cfg: ArticulationCfg = _inspire_z180_robot_cfg(ISAACGYM_DYNAMIC_REVO2_LOWER_SAFE_ARM_POS)
+    default_arm_pos = ISAACGYM_DYNAMIC_REVO2_LOWER_SAFE_ARM_POS
     hand_joint_names = INSPIRE_ACTIVE_HAND_JOINT_NAMES
     sim_hand_joint_names = INSPIRE_HAND_JOINT_NAMES
     fingertip_body_names = INSPIRE_FINGERTIP_BODY_NAMES
@@ -3445,8 +4316,9 @@ class InspireDynamicTabletopTeacherEnvCfg(Revo2DynamicTabletopTeacherEnvCfg):
     reference_hand_fractions = (1.0,) * 6
     inspire_semantic_close_targets = INSPIRE_ANYDEX_P80_CLOSE_TARGETS
     hand_moving_average = 0.78
-    contact_distance = 0.060
-    contact_score_scale = 0.060
+    contact_distance = 0.030
+    contact_score_scale = 0.030
+    palm_contact_distance = 0.060
     true_grasp_opposition_mode = "dot"
     opposition_cos_threshold = 0.0
     stable_object_palm_vel = 0.42
@@ -3731,6 +4603,3307 @@ class InspireDynamicTabletopRollingLiftFocusedDirectResidualTeacherEnvCfg(
 
 
 @configclass
+class InspireDynamicTabletopRollingSphereCloseLiftFastDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingLiftFocusedDirectResidualTeacherEnvCfg
+):
+    """Inspire rolling teacher with AnyDex sphere close target and earlier lift guidance."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_fast_direct_residual_teacher"
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_P80_CLOSE_TARGETS
+
+    scripted_action_prior_hand_start_step = 54
+    scripted_action_prior_hand_ramp_steps = 78
+    scripted_action_prior_lift_start_step = 80
+    scripted_action_prior_lift_steps = 150
+    scripted_tabletop_lift_target_prior_ramp_steps = 48
+    scripted_action_prior_lift_requires_grasp = True
+    scripted_action_prior_lift_uses_grasp_memory = True
+    scripted_action_prior_lift_grasp_memory_min_steps = 0
+
+    tabletop_lift_action_prior_gate_min = 0.42
+    tabletop_lift_action_prior_rew_scale = 260.0
+    tabletop_arm_lift_reward_object_margin = 0.18
+    tabletop_arm_object_lift_gap_margin = 0.18
+    tabletop_lift_without_object_min_arm_progress = 0.32
+    tabletop_lift_without_object_penalty_scale = 70.0
+    tabletop_no_lift_after_grasp_grace_steps = 8
+    tabletop_no_lift_after_grasp_ramp_steps = 30
+    tabletop_no_lift_min_progress = 0.055
+    quality_lift_progress_rew_scale = 1900.0
+    lifted_true_grasp_rew_scale = 4200.0
+    lift_progress_rew_scale = 1250.0
+    tabletop_grasped_palm_lift_rew_scale = 1900.0
+    tabletop_grasped_arm_lift_rew_scale = 1900.0
+
+    tabletop_success_lift_height = 0.035
+    dynamic_success_hold_steps = 4
+    stable_object_palm_vel = 0.54
+    tabletop_hover_latch_lift_progress = 0.12
+    tabletop_hover_success_z_tolerance = 0.075
+    tabletop_hover_success_object_speed = 0.34
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftHoldBootstrapDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftFastDirectResidualTeacherEnvCfg
+):
+    """Low-speed Inspire continuation that turns frequent true-grasps into load-bearing lift/hold."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_hold_bootstrap_direct_residual_teacher"
+
+    dynamic_tabletop_start_speed_range = (0.015, 0.080)
+    dynamic_tabletop_initial_speed_range = (0.020, 0.140)
+    dynamic_tabletop_start_yaw_rate_range = (-0.35, 0.35)
+    dynamic_tabletop_initial_yaw_rate_range = (-0.85, 0.85)
+    dynamic_grasp_speed_curriculum = True
+    dynamic_grasp_speed_curriculum_mode = "success_gate"
+    dynamic_grasp_speed_curriculum_metric = "catch_hold"
+    dynamic_grasp_speed_curriculum_start_success = 0.03
+    dynamic_grasp_speed_curriculum_full_success = 0.20
+    dynamic_grasp_speed_curriculum_alpha_rise = 0.00008
+    dynamic_grasp_speed_curriculum_allow_decrease = True
+
+    scripted_action_prior_zero_passthrough_enabled = True
+    scripted_action_prior_residual_scale = 1.0
+    scripted_action_prior_inactive_residual_scale = 1.0
+    scripted_action_prior_active_residual_scale = 0.10
+    scripted_action_prior_hand_start_step = 42
+    scripted_action_prior_hand_ramp_steps = 70
+    scripted_action_prior_lift_start_step = 86
+    scripted_action_prior_lift_steps = 260
+    scripted_tabletop_lift_target_prior_ramp_steps = 76
+    scripted_action_prior_lift_uses_grasp_memory = True
+    scripted_action_prior_lift_grasp_memory_min_steps = 2
+    scripted_action_prior_lift_memory_requires_streak = False
+    scripted_tabletop_hand_grasp_memory_prior_enabled = True
+    scripted_tabletop_hand_grasp_memory_prior_start_step = 64
+    scripted_tabletop_hand_grasp_memory_prior_steps = 260
+    scripted_tabletop_hand_grasp_memory_min_steps = 1
+    scripted_tabletop_hand_grasp_memory_action = 1.0
+    scripted_tabletop_hand_grasp_memory_ramp_steps = 20
+
+    tabletop_lift_action_prior_gate_min = 0.62
+    tabletop_lift_action_prior_rew_scale = 420.0
+    tabletop_arm_lift_reward_object_margin = 0.10
+    tabletop_arm_object_lift_gap_margin = 0.10
+    tabletop_arm_object_lift_gap_penalty_scale = 320.0
+    tabletop_lift_without_object_min_arm_progress = 0.20
+    tabletop_lift_without_object_penalty_scale = 180.0
+    tabletop_no_lift_after_grasp_penalty_scale = 640.0
+    tabletop_no_lift_after_grasp_grace_steps = 4
+    tabletop_no_lift_after_grasp_ramp_steps = 22
+    tabletop_no_lift_after_grasp_max_penalty = 8.0
+    tabletop_no_lift_min_progress = 0.035
+
+    quality_lift_progress_rew_scale = 2800.0
+    lifted_true_grasp_rew_scale = 6800.0
+    lift_progress_rew_scale = 2300.0
+    tabletop_stable_catch_rew_scale = 2600.0
+    tabletop_stable_catch_min_lift_multiplier = 0.35
+    tabletop_grasped_palm_lift_rew_scale = 2600.0
+    tabletop_grasped_arm_lift_rew_scale = 3000.0
+    tabletop_hover_height_progress_rew_scale = 2200.0
+    tabletop_hover_target_rew_scale = 1200.0
+    tabletop_hover_goal_rew_scale = 2400.0
+    tabletop_hover_stable_rew_scale = 3600.0
+    stable_hold_rew_scale = 8200.0
+    hold_progress_rew_scale = 13000.0
+    success_bonus = 36000.0
+
+    lift_reward_uses_grasp_quality_gate = True
+    lift_reward_min_grasp_quality_multiplier = 0.45
+    lift_reward_uses_opposition_gate = True
+    lift_reward_min_opposition_multiplier = 0.45
+    quality_lift_progress_uses_opposition_gate = True
+    quality_lift_progress_min_opposition_multiplier = 0.35
+
+    tabletop_success_lift_height = 0.030
+    dynamic_success_hold_steps = 3
+    stable_object_palm_vel = 0.62
+    tabletop_hover_latch_lift_progress = 0.08
+    tabletop_hover_height_delta = 0.115
+    tabletop_hover_success_z_tolerance = 0.065
+    tabletop_hover_success_object_speed = 0.32
+    tabletop_success_requires_hover_target = False
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarrySoftGateDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftFastDirectResidualTeacherEnvCfg
+):
+    """Low-speed Inspire sphere teacher that first learns load-bearing lift before strict opposition."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_softgate_direct_residual_teacher"
+    # The full 4 cm AnyDex sphere posture over-flexes the coupled fingers under
+    # ball contact in IsaacLab.  Keep the RH56 motion on the stable close
+    # manifold; reward/pregrasp can still learn tighter opposition.
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_SPHERE_SAFE_CLOSE_TARGETS
+
+    dynamic_tabletop_start_speed_range = (0.010, 0.070)
+    dynamic_tabletop_initial_speed_range = (0.020, 0.120)
+    dynamic_tabletop_start_yaw_rate_range = (-0.30, 0.30)
+    dynamic_tabletop_initial_yaw_rate_range = (-0.75, 0.75)
+    dynamic_grasp_speed_curriculum = True
+    dynamic_grasp_speed_curriculum_mode = "success_gate"
+    dynamic_grasp_speed_curriculum_metric = "catch_hold"
+    dynamic_grasp_speed_curriculum_start_success = 0.04
+    dynamic_grasp_speed_curriculum_full_success = 0.24
+    dynamic_grasp_speed_curriculum_alpha_rise = 0.00008
+    dynamic_grasp_speed_curriculum_allow_decrease = True
+
+    true_grasp_opposition_mode = "contact"
+    opposition_rew_scale = 120.0
+    grasp_quality_opposition_weight = 0.30
+    true_grasp_rew_scale = 150.0
+    contact_rew_scale = 20.0
+    catch_progress_rew_scale = 220.0
+    grasp_quality_rew_scale = 180.0
+
+    scripted_action_prior_zero_passthrough_enabled = True
+    scripted_action_prior_residual_scale = 1.0
+    scripted_action_prior_inactive_residual_scale = 1.0
+    scripted_action_prior_active_residual_scale = 0.16
+    scripted_action_prior_hand_start_step = 38
+    scripted_action_prior_hand_ramp_steps = 64
+    scripted_action_prior_lift_start_step = 80
+    scripted_action_prior_lift_steps = 280
+    scripted_tabletop_lift_target_prior_ramp_steps = 72
+    scripted_action_prior_lift_requires_grasp = True
+    scripted_action_prior_lift_uses_grasp_memory = True
+    scripted_action_prior_lift_grasp_memory_min_steps = 1
+    scripted_action_prior_lift_memory_requires_streak = False
+    scripted_action_prior_lift_uses_proximity = True
+    scripted_action_prior_lift_proximity_distance = 0.055
+    scripted_action_prior_lift_proximity_min_contacts = 1.0
+    scripted_tabletop_hand_grasp_memory_prior_enabled = True
+    scripted_tabletop_hand_grasp_memory_prior_start_step = 56
+    scripted_tabletop_hand_grasp_memory_prior_steps = 300
+    scripted_tabletop_hand_grasp_memory_min_steps = 1
+    scripted_tabletop_hand_grasp_memory_action = 1.0
+    scripted_tabletop_hand_grasp_memory_ramp_steps = 14
+
+    lift_reward_uses_grasp_quality_gate = True
+    lift_reward_min_grasp_quality_multiplier = 0.25
+    lift_reward_uses_opposition_gate = False
+    quality_lift_progress_uses_opposition_gate = False
+    tabletop_lift_action_prior_gate_min = 0.50
+    tabletop_lift_action_prior_rew_scale = 520.0
+    tabletop_arm_lift_reward_object_margin = 0.08
+    tabletop_arm_object_lift_gap_margin = 0.08
+    tabletop_arm_object_lift_gap_penalty_scale = 460.0
+    tabletop_lift_without_object_min_arm_progress = 0.18
+    tabletop_lift_without_object_penalty_scale = 260.0
+    tabletop_no_lift_after_grasp_penalty_scale = 760.0
+    tabletop_no_lift_after_grasp_grace_steps = 5
+    tabletop_no_lift_after_grasp_ramp_steps = 26
+    tabletop_no_lift_after_grasp_max_penalty = 7.0
+    tabletop_no_lift_min_progress = 0.050
+
+    quality_lift_progress_rew_scale = 3200.0
+    lifted_true_grasp_rew_scale = 7600.0
+    lift_progress_rew_scale = 2900.0
+    tabletop_stable_catch_rew_scale = 3400.0
+    tabletop_stable_catch_min_lift_multiplier = 0.25
+    tabletop_grasped_palm_lift_rew_scale = 3400.0
+    tabletop_grasped_palm_lift_height = 0.030
+    tabletop_grasped_palm_lift_scale = 0.035
+    tabletop_grasped_arm_lift_rew_scale = 3600.0
+    tabletop_hover_height_progress_rew_scale = 3000.0
+    tabletop_hover_target_rew_scale = 1200.0
+    tabletop_hover_goal_rew_scale = 2600.0
+    tabletop_hover_stable_rew_scale = 3800.0
+    stable_hold_rew_scale = 9000.0
+    hold_progress_rew_scale = 15000.0
+    success_bonus = 40000.0
+
+    tabletop_success_lift_height = 0.030
+    dynamic_success_hold_steps = 3
+    stable_object_palm_vel = 0.62
+    tabletop_hover_latch_lift_progress = 0.08
+    tabletop_hover_height_delta = 0.110
+    tabletop_hover_success_z_tolerance = 0.065
+    tabletop_hover_success_object_speed = 0.32
+    tabletop_success_requires_hover_target = False
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryStreakGateDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarrySoftGateDirectResidualTeacherEnvCfg
+):
+    """Require sustained grasp before the scripted arm lift prior can pull away from the object."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_streakgate_direct_residual_teacher"
+
+    scripted_action_prior_lift_start_step = 92
+    scripted_action_prior_lift_grasp_memory_min_steps = 8
+    scripted_action_prior_lift_memory_requires_streak = True
+    scripted_tabletop_lift_target_prior_ramp_steps = 96
+    scripted_tabletop_hand_grasp_memory_prior_start_step = 54
+    scripted_tabletop_hand_grasp_memory_min_steps = 1
+    scripted_tabletop_hand_grasp_memory_ramp_steps = 12
+
+    tabletop_lift_action_prior_gate_min = 0.05
+    tabletop_lift_action_prior_rew_scale = 360.0
+    tabletop_lift_without_object_min_arm_progress = 0.14
+    tabletop_lift_without_object_penalty_scale = 420.0
+    tabletop_arm_object_lift_gap_penalty_scale = 680.0
+    tabletop_no_lift_after_grasp_grace_steps = 10
+    tabletop_no_lift_after_grasp_ramp_steps = 32
+    tabletop_no_lift_after_grasp_penalty_scale = 560.0
+    tabletop_no_lift_min_progress = 0.045
+
+    dynamic_tabletop_pregrasp_height_offset = 0.085
+    dynamic_tabletop_pregrasp_height_scale = 0.045
+    dynamic_tabletop_min_palm_height_offset = 0.040
+    dynamic_tabletop_low_palm_penalty_scale = 70.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryObjectFollowDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryStreakGateDirectResidualTeacherEnvCfg
+):
+    """Reward the first load-bearing lift explicitly: object upward velocity and palm-object carry."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_object_follow_direct_residual_teacher"
+
+    scripted_action_prior_lift_start_step = 88
+    scripted_action_prior_lift_grasp_memory_min_steps = 3
+    scripted_action_prior_lift_memory_requires_streak = True
+    scripted_tabletop_lift_target_prior_ramp_steps = 84
+
+    tabletop_lift_action_prior_gate_min = 0.12
+    tabletop_lift_action_prior_rew_scale = 440.0
+    tabletop_arm_lift_reward_object_margin = 0.06
+    tabletop_arm_object_lift_gap_margin = 0.055
+    tabletop_arm_object_lift_gap_penalty_scale = 900.0
+    tabletop_lift_without_object_min_arm_progress = 0.10
+    tabletop_lift_without_object_penalty_scale = 620.0
+
+    tabletop_no_lift_after_grasp_grace_steps = 8
+    tabletop_no_lift_after_grasp_ramp_steps = 34
+    tabletop_no_lift_after_grasp_penalty_scale = 430.0
+    tabletop_no_lift_min_progress = 0.035
+
+    tabletop_object_up_vel_rew_scale = 2800.0
+    tabletop_object_up_vel_scale = 0.080
+    tabletop_object_carry_lift_rew_scale = 4200.0
+    tabletop_object_carry_min_grasp_streak = 2
+    tabletop_object_carry_streak_ramp_steps = 5
+    tabletop_object_carry_uses_grasp_seen = True
+    tabletop_object_carry_grasp_seen_gate = 0.30
+    tabletop_object_carry_stall_penalty_scale = 1400.0
+    tabletop_object_carry_stall_min_arm_progress = 0.07
+    tabletop_object_carry_stall_min_z_vel = 0.018
+
+    quality_lift_progress_rew_scale = 3600.0
+    lifted_true_grasp_rew_scale = 8200.0
+    lift_progress_rew_scale = 3300.0
+    tabletop_grasped_palm_lift_rew_scale = 2800.0
+    tabletop_grasped_arm_lift_rew_scale = 2400.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryObjectFollowGentleDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryObjectFollowDirectResidualTeacherEnvCfg
+):
+    """Gentler object-follow shaping that preserves contact before forcing load-bearing lift."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_object_follow_gentle_direct_residual_teacher"
+    )
+
+    scripted_action_prior_lift_start_step = 84
+    scripted_action_prior_lift_grasp_memory_min_steps = 2
+    scripted_tabletop_lift_target_prior_ramp_steps = 96
+
+    tabletop_lift_action_prior_gate_min = 0.18
+    tabletop_lift_action_prior_rew_scale = 520.0
+    tabletop_arm_object_lift_gap_margin = 0.11
+    tabletop_arm_object_lift_gap_penalty_scale = 260.0
+    tabletop_lift_without_object_min_arm_progress = 0.22
+    tabletop_lift_without_object_penalty_scale = 140.0
+
+    tabletop_no_lift_after_grasp_grace_steps = 14
+    tabletop_no_lift_after_grasp_ramp_steps = 60
+    tabletop_no_lift_after_grasp_penalty_scale = 160.0
+    tabletop_no_lift_min_progress = 0.035
+
+    tabletop_object_up_vel_rew_scale = 4200.0
+    tabletop_object_up_vel_scale = 0.070
+    tabletop_object_carry_lift_rew_scale = 5200.0
+    tabletop_object_carry_min_grasp_streak = 1
+    tabletop_object_carry_streak_ramp_steps = 8
+    tabletop_object_carry_uses_grasp_seen = False
+    tabletop_object_carry_stall_penalty_scale = 180.0
+    tabletop_object_carry_stall_min_arm_progress = 0.20
+    tabletop_object_carry_stall_min_z_vel = 0.012
+
+    quality_lift_progress_rew_scale = 4200.0
+    lifted_true_grasp_rew_scale = 9200.0
+    lift_progress_rew_scale = 4200.0
+    tabletop_grasped_palm_lift_rew_scale = 3600.0
+    tabletop_grasped_arm_lift_rew_scale = 3200.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryObjectFollowGentleDirectResidualTeacherEnvCfg
+):
+    """From-scratch Inspire rolling teacher with only the RH56 tabletop height corrected."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_heightfix_direct_residual_teacher"
+    )
+
+    # Keep the Revo2-style teacher/reward schedule intact, but raise the
+    # RH56BFX approach band so the larger fingertips do not scrape the table.
+    dynamic_tabletop_pregrasp_height_offset = 0.120
+    dynamic_tabletop_pregrasp_height_scale = 0.055
+    dynamic_tabletop_min_palm_height_offset = 0.075
+    dynamic_tabletop_low_palm_height_scale = 0.035
+    dynamic_tabletop_low_palm_max_penalty = 4.0
+    dynamic_tabletop_pregrasp_height_rew_scale = 120.0
+    dynamic_tabletop_low_palm_penalty_scale = 160.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixMediumFrictionDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixDirectResidualTeacherEnvCfg
+):
+    """A/B task with a moderate tabletop object friction increase."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_heightfix_mediumfriction_direct_residual_teacher"
+    )
+
+    tabletop_object_asset_specs = _with_tabletop_friction(
+        (TABLETOP_ROLLING_START_SPEC,),
+        static_friction=1.00,
+        dynamic_friction=0.90,
+    )
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        tabletop_object_asset_specs[0],
+        pos=(0.58, -0.16, TABLETOP_ROLLING_START_Z),
+    )
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixMatchedFrictionDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixDirectResidualTeacherEnvCfg
+):
+    """A/B task with tabletop object friction matched to the table material."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_heightfix_matchedfriction_direct_residual_teacher"
+    )
+
+    tabletop_object_asset_specs = _with_tabletop_friction(
+        (TABLETOP_ROLLING_START_SPEC,),
+        static_friction=1.20,
+        dynamic_friction=1.00,
+    )
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        tabletop_object_asset_specs[0],
+        pos=(0.58, -0.16, TABLETOP_ROLLING_START_Z),
+    )
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixMatchedFrictionStrictSuccessDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixMatchedFrictionDirectResidualTeacherEnvCfg
+):
+    """Matched-friction diagnostic with strict contact-based success only."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_heightfix_matchedfriction_strictsuccess_direct_residual_teacher"
+    )
+
+    strict_success_enabled = True
+    strict_success_contact_distance = 0.008
+    strict_success_min_finger_contacts = 3
+    strict_success_min_non_thumb_contacts = 2
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    strict_reward_enabled = True
+    strict_reward_contact_score_scale = 0.025
+    strict_approach_score_scale = 0.095
+    strict_approach_rew_scale = 90.0
+    strict_multifinger_approach_rew_scale = 900.0
+    strict_touch_score_scale = 0.0075
+    strict_touch_rew_scale = 1600.0
+    tabletop_lift_action_prior_gate_min = 0.0
+    dynamic_tabletop_pregrasp_height_offset = 0.105
+    dynamic_tabletop_min_palm_height_offset = 0.060
+    dynamic_tabletop_pregrasp_height_rew_scale = 80.0
+    dynamic_tabletop_low_palm_penalty_scale = 110.0
+    stable_object_palm_vel = 0.12
+    tabletop_hover_success_object_speed = 0.12
+    dynamic_success_hold_steps = 12
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixMatchedFrictionStrictMetricsDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixMatchedFrictionDirectResidualTeacherEnvCfg
+):
+    """Matched-friction eval with strict success metrics but unchanged policy priors."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_heightfix_"
+        "matchedfriction_strictmetrics_direct_residual_teacher"
+    )
+
+    strict_success_enabled = True
+    strict_success_contact_distance = 0.008
+    strict_success_min_finger_contacts = 3
+    strict_success_min_non_thumb_contacts = 2
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    scripted_action_prior_uses_strict_grasp = False
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixMatchedFrictionNoPriorDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixMatchedFrictionDirectResidualTeacherEnvCfg
+):
+    """Diagnostic: old matched-friction task with all scripted action priors disabled."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_heightfix_"
+        "matchedfriction_noprior_direct_residual_teacher"
+    )
+
+    scripted_action_prior_enabled = False
+    scripted_action_prior_zero_passthrough_enabled = False
+    scripted_tabletop_pregrasp_prior_enabled = False
+    scripted_tabletop_lift_target_prior_enabled = False
+    scripted_tabletop_relative_lift_target_prior_enabled = False
+    scripted_tabletop_hand_grasp_memory_prior_enabled = False
+    tabletop_lift_action_prior_rew_scale = 0.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixMatchedFrictionLegacyHandDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixMatchedFrictionDirectResidualTeacherEnvCfg
+):
+    """Diagnostic: old matched-friction task with the earlier Inspire hand actuator/open pose."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_heightfix_"
+        "matchedfriction_legacyhand_direct_residual_teacher"
+    )
+
+    robot_cfg: ArticulationCfg = _inspire_z180_legacy_robot_cfg(ISAACGYM_DYNAMIC_REVO2_LOWER_SAFE_ARM_POS)
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixMatchedFrictionLegacyHandNoPriorDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixMatchedFrictionLegacyHandDirectResidualTeacherEnvCfg
+):
+    """Diagnostic: legacy hand physics plus no scripted action prior."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_heightfix_"
+        "matchedfriction_legacyhand_noprior_direct_residual_teacher"
+    )
+
+    scripted_action_prior_enabled = False
+    scripted_action_prior_zero_passthrough_enabled = False
+    scripted_tabletop_pregrasp_prior_enabled = False
+    scripted_tabletop_lift_target_prior_enabled = False
+    scripted_tabletop_relative_lift_target_prior_enabled = False
+    scripted_tabletop_hand_grasp_memory_prior_enabled = False
+    tabletop_lift_action_prior_rew_scale = 0.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixConservativeFrictionStrictSuccessDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixDirectResidualTeacherEnvCfg
+):
+    """Conservative-friction diagnostic with strict contact-based success only."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_heightfix_conservativefriction_strictsuccess_direct_residual_teacher"
+    )
+
+    tabletop_object_asset_specs = _with_tabletop_friction(
+        (TABLETOP_ROLLING_START_SPEC,),
+        static_friction=0.80,
+        dynamic_friction=0.60,
+        friction_combine_mode="average",
+    )
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        tabletop_object_asset_specs[0],
+        pos=(0.58, -0.16, TABLETOP_ROLLING_START_Z),
+    )
+
+    strict_success_enabled = True
+    strict_success_contact_distance = 0.008
+    strict_success_min_finger_contacts = 3
+    strict_success_min_non_thumb_contacts = 2
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    strict_reward_enabled = True
+    strict_reward_contact_score_scale = 0.025
+    strict_approach_score_scale = 0.095
+    strict_approach_rew_scale = 90.0
+    strict_multifinger_approach_rew_scale = 900.0
+    strict_touch_score_scale = 0.0075
+    strict_touch_rew_scale = 1600.0
+    tabletop_lift_action_prior_gate_min = 0.0
+    dynamic_tabletop_pregrasp_height_offset = 0.105
+    dynamic_tabletop_min_palm_height_offset = 0.060
+    dynamic_tabletop_pregrasp_height_rew_scale = 80.0
+    dynamic_tabletop_low_palm_penalty_scale = 110.0
+    stable_object_palm_vel = 0.12
+    tabletop_hover_success_object_speed = 0.12
+    dynamic_success_hold_steps = 12
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixHighFrictionDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixDirectResidualTeacherEnvCfg
+):
+    """A/B task that only raises tabletop object friction for lift diagnostics."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_heightfix_highfriction_direct_residual_teacher"
+    )
+
+    tabletop_object_asset_specs = _with_tabletop_friction(
+        (TABLETOP_ROLLING_START_SPEC,),
+        static_friction=1.45,
+        dynamic_friction=1.20,
+    )
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        tabletop_object_asset_specs[0],
+        pos=(0.58, -0.16, TABLETOP_ROLLING_START_Z),
+    )
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixLoadBearingDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixDirectResidualTeacherEnvCfg
+):
+    """Height-fixed Inspire teacher with stronger load-bearing lift after first grasp."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_heightfix_load_bearing_direct_residual_teacher"
+    )
+
+    # Keep the working height-fixed approach, and only change the lift phase so
+    # the policy cannot score by raising the hand while the ball stays on table.
+    scripted_action_prior_lift_start_step = 112
+    scripted_action_prior_lift_steps = 360
+    scripted_action_prior_lift_requires_grasp = True
+    scripted_action_prior_lift_uses_grasp_memory = True
+    scripted_action_prior_lift_memory_requires_streak = True
+    scripted_action_prior_lift_grasp_memory_min_steps = 8
+    scripted_tabletop_lift_target_prior_ramp_steps = 170
+
+    tabletop_lift_use_grasp_seen_gate = True
+    tabletop_lift_grasp_seen_gate = 0.74
+    tabletop_lift_action_prior_gate_min = 0.10
+    tabletop_arm_lift_reward_object_margin = 0.040
+    tabletop_arm_object_lift_gap_margin = 0.035
+    tabletop_arm_object_lift_gap_penalty_scale = 3300.0
+    tabletop_lift_without_object_min_arm_progress = 0.055
+    tabletop_lift_without_object_penalty_scale = 2500.0
+
+    tabletop_no_lift_after_grasp_grace_steps = 10
+    tabletop_no_lift_after_grasp_ramp_steps = 40
+    tabletop_no_lift_after_grasp_penalty_scale = 900.0
+    tabletop_no_lift_min_progress = 0.030
+
+    tabletop_object_up_vel_rew_scale = 5600.0
+    tabletop_object_up_vel_scale = 0.050
+    tabletop_object_carry_lift_rew_scale = 10400.0
+    tabletop_object_carry_min_grasp_streak = 2
+    tabletop_object_carry_streak_ramp_steps = 10
+    tabletop_object_carry_uses_grasp_seen = True
+    tabletop_object_carry_grasp_seen_gate = 0.70
+    tabletop_object_carry_stall_penalty_scale = 2600.0
+    tabletop_object_carry_stall_min_arm_progress = 0.055
+    tabletop_object_carry_stall_min_z_vel = 0.010
+
+    quality_lift_progress_rew_scale = 5200.0
+    lifted_true_grasp_rew_scale = 11200.0
+    lift_progress_rew_scale = 5200.0
+    tabletop_grasped_palm_lift_rew_scale = 4400.0
+    tabletop_grasped_arm_lift_rew_scale = 3800.0
+    tabletop_stable_catch_rew_scale = 4200.0
+    stable_hold_rew_scale = 12500.0
+    hold_progress_rew_scale = 19000.0
+    success_bonus = 45000.0
+
+    tabletop_success_lift_height = 0.035
+    dynamic_success_hold_steps = 10
+    stable_object_palm_vel = 0.30
+    tabletop_hover_success_object_speed = 0.20
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryCleanStartDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryHeightFixDirectResidualTeacherEnvCfg
+):
+    """From-scratch Inspire rolling teacher with a non-penetrating Franka reset."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_cleanstart_direct_residual_teacher"
+    )
+
+    robot_cfg: ArticulationCfg = _inspire_z180_robot_cfg(ISAACGYM_DYNAMIC_REVO2_LOWER_SAFE_ARM_POS)
+    default_arm_pos = ISAACGYM_DYNAMIC_REVO2_LOWER_SAFE_ARM_POS
+    arm_target_clamp_delta = (2.30, 2.30, 2.30, 2.30, 2.30, 2.30, 2.30)
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryCleanStartSettledLiftDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryCleanStartDirectResidualTeacherEnvCfg
+):
+    """Clean-start Inspire rolling teacher that separates close/settle from load-bearing lift."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_cleanstart_settledlift_direct_residual_teacher"
+    )
+
+    dynamic_tabletop_start_speed_range = (0.0, 0.0)
+    dynamic_tabletop_initial_speed_range = (0.010, 0.080)
+    dynamic_tabletop_start_yaw_rate_range = (0.0, 0.0)
+    dynamic_tabletop_initial_yaw_rate_range = (-0.55, 0.55)
+    dynamic_grasp_speed_curriculum_start_success = 0.04
+    dynamic_grasp_speed_curriculum_full_success = 0.28
+    dynamic_grasp_speed_curriculum_alpha_rise = 0.00010
+
+    scripted_action_prior_enabled = True
+    scripted_action_prior_zero_passthrough_enabled = True
+    scripted_action_prior_residual_scale = 0.20
+    scripted_action_prior_inactive_residual_scale = 1.0
+    scripted_action_prior_active_residual_scale = 0.16
+    tabletop_arm_lift_progress_baseline_pos = V327_PREGRASP_ARM_POS
+    scripted_tabletop_pregrasp_prior_enabled = True
+    scripted_tabletop_pregrasp_arm_pos = V327_PREGRASP_ARM_POS
+    scripted_tabletop_pregrasp_prior_start_step = 0
+    scripted_tabletop_pregrasp_prior_ramp_steps = 150
+    scripted_tabletop_lift_target_prior_enabled = True
+    scripted_tabletop_lift_target_arm_delta = V325_VERIFIED_LIFT_ARM_DELTA
+    scripted_tabletop_lift_target_prior_ramp_steps = 140
+    scripted_action_prior_hand_start_step = 110
+    scripted_action_prior_hand_ramp_steps = 80
+    scripted_action_prior_hand_action = 1.0
+    scripted_action_prior_lift_start_step = 170
+    scripted_action_prior_lift_steps = 340
+    scripted_action_prior_lift_action = V325_VERIFIED_LIFT_ACTION_PRIOR_120
+    scripted_action_prior_lift_requires_grasp = True
+    scripted_action_prior_lift_uses_grasp_memory = True
+    scripted_action_prior_lift_grasp_memory_min_steps = 8
+    scripted_action_prior_lift_memory_requires_streak = True
+
+    tabletop_lift_action_prior_gate_min = 0.08
+    tabletop_lift_action_prior_rew_scale = 520.0
+    tabletop_arm_lift_reward_object_margin = 0.060
+    tabletop_arm_object_lift_gap_margin = 0.055
+    tabletop_arm_object_lift_gap_penalty_scale = 1100.0
+    tabletop_lift_without_object_min_arm_progress = 0.08
+    tabletop_lift_without_object_penalty_scale = 0.0
+    tabletop_no_lift_after_grasp_grace_steps = 14
+    tabletop_no_lift_after_grasp_ramp_steps = 42
+    tabletop_no_lift_after_grasp_penalty_scale = 320.0
+    tabletop_no_lift_min_progress = 0.035
+
+    tabletop_object_up_vel_rew_scale = 5600.0
+    tabletop_object_up_vel_scale = 0.055
+    tabletop_object_carry_lift_rew_scale = 9000.0
+    tabletop_object_carry_min_grasp_streak = 3
+    tabletop_object_carry_streak_ramp_steps = 8
+    tabletop_object_carry_uses_grasp_seen = True
+    tabletop_object_carry_grasp_seen_gate = 0.55
+    tabletop_object_carry_stall_penalty_scale = 1200.0
+    tabletop_object_carry_stall_min_arm_progress = 0.08
+    tabletop_object_carry_stall_min_z_vel = 0.012
+
+    quality_lift_progress_rew_scale = 4600.0
+    lifted_true_grasp_rew_scale = 9800.0
+    lift_progress_rew_scale = 4600.0
+    tabletop_grasped_palm_lift_rew_scale = 4200.0
+    tabletop_grasped_arm_lift_rew_scale = 3600.0
+    tabletop_stable_catch_rew_scale = 3800.0
+    stable_hold_rew_scale = 11000.0
+    hold_progress_rew_scale = 17000.0
+    success_bonus = 42000.0
+
+    tabletop_success_lift_height = 0.035
+    dynamic_success_hold_steps = 8
+    stable_object_palm_vel = 0.36
+    tabletop_hover_success_object_speed = 0.24
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryLoadBearingLiftDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryCleanStartSettledLiftDirectResidualTeacherEnvCfg
+):
+    """Clean-start Inspire teacher that keeps lift pressure active after the first grasp contact."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_load_bearing_lift_direct_residual_teacher"
+    )
+
+    scripted_action_prior_lift_start_step = 190
+    scripted_action_prior_lift_steps = 420
+    scripted_tabletop_lift_target_prior_ramp_steps = 210
+    scripted_action_prior_lift_grasp_memory_min_steps = 10
+
+    tabletop_lift_use_grasp_seen_gate = True
+    tabletop_lift_grasp_seen_gate = 0.72
+    tabletop_lift_action_prior_gate_min = 0.04
+    tabletop_arm_lift_reward_object_margin = 0.035
+    tabletop_arm_object_lift_gap_margin = 0.030
+    tabletop_arm_object_lift_gap_penalty_scale = 2600.0
+
+    tabletop_object_carry_grasp_seen_gate = 0.68
+    tabletop_object_carry_min_grasp_streak = 2
+    tabletop_object_carry_streak_ramp_steps = 10
+    tabletop_object_carry_stall_penalty_scale = 2400.0
+    tabletop_object_carry_stall_min_arm_progress = 0.05
+    tabletop_object_carry_stall_min_z_vel = 0.010
+
+    tabletop_no_lift_after_grasp_grace_steps = 18
+    tabletop_no_lift_after_grasp_ramp_steps = 52
+    tabletop_no_lift_after_grasp_penalty_scale = 240.0
+    tabletop_object_up_vel_rew_scale = 5200.0
+    tabletop_object_up_vel_scale = 0.045
+    tabletop_object_carry_lift_rew_scale = 9800.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryClearanceDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryObjectFollowGentleDirectResidualTeacherEnvCfg
+):
+    """Inspire rolling teacher with explicit hand/table clearance before contact reward."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_clearance_direct_residual_teacher"
+    )
+
+    # RH56BFX is larger than Revo2.  A palm-only height target lets the fingers
+    # scrape the table, so keep the palm higher and use clearance as a soft
+    # table-contact penalty.  The clearance estimate is intentionally not a hard
+    # success/contact gate because link origins are conservative for the coupled
+    # Inspire fingers and otherwise prevent the lift phase from unlocking.
+    dynamic_tabletop_pregrasp_height_offset = 0.135
+    dynamic_tabletop_pregrasp_height_scale = 0.055
+    dynamic_tabletop_min_palm_height_offset = 0.090
+    dynamic_tabletop_low_palm_height_scale = 0.035
+    dynamic_tabletop_low_palm_max_penalty = 4.0
+    dynamic_tabletop_pregrasp_height_rew_scale = 180.0
+    dynamic_tabletop_pregrasp_xy_rew_scale = 90.0
+    dynamic_tabletop_low_palm_penalty_scale = 260.0
+    dynamic_tabletop_gate_contact_rewards_by_pregrasp = True
+    dynamic_tabletop_contact_pregrasp_gate_min = 0.22
+
+    tabletop_arm_clearance_body_names = INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_NAMES
+    tabletop_arm_clearance_body_margins = INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_MARGINS
+    tabletop_arm_clearance_xy_padding = 0.20
+    tabletop_arm_clearance_margin = 0.030
+    tabletop_arm_clearance_scale = 0.045
+    tabletop_arm_clearance_max_penalty = 5.0
+    tabletop_arm_clearance_penalty_scale = 0.0
+    tabletop_success_requires_arm_clearance = False
+    tabletop_gate_contact_rewards_by_clearance = False
+    tabletop_contact_clearance_gate_min = 0.35
+    tabletop_contact_clearance_gate_scale = 0.70
+
+    # Once a grasp has been seen, pull upward decisively enough that the policy
+    # experiences load-bearing lift instead of settling into contact-only grasp.
+    scripted_action_prior_lift_start_step = 54
+    scripted_action_prior_lift_requires_grasp = False
+    scripted_action_prior_lift_grasp_memory_min_steps = 0
+    scripted_action_prior_lift_memory_requires_streak = False
+    scripted_tabletop_lift_target_prior_ramp_steps = 56
+    scripted_action_prior_active_residual_scale = 0.08
+    tabletop_lift_action_prior_gate_min = 0.56
+    tabletop_lift_action_prior_rew_scale = 620.0
+    tabletop_lift_without_object_min_arm_progress = 0.18
+    tabletop_lift_without_object_penalty_scale = 220.0
+    tabletop_arm_object_lift_gap_margin = 0.09
+    tabletop_arm_object_lift_gap_penalty_scale = 280.0
+    tabletop_no_lift_after_grasp_grace_steps = 5
+    tabletop_no_lift_after_grasp_ramp_steps = 28
+    tabletop_no_lift_after_grasp_penalty_scale = 760.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereCloseLiftCarryCleanStartConservativeFrictionStrictSuccessDirectResidualTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryCleanStartSettledLiftDirectResidualTeacherEnvCfg
+):
+    """Clean-start Inspire rolling teacher with conservative friction and strict physical success."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_close_lift_carry_cleanstart_"
+        "conservativefriction_strictsuccess_direct_residual_teacher"
+    )
+
+    tabletop_object_asset_specs = _with_tabletop_friction(
+        (TABLETOP_ROLLING_START_SPEC,),
+        static_friction=0.80,
+        dynamic_friction=0.60,
+        friction_combine_mode="average",
+    )
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        tabletop_object_asset_specs[0],
+        pos=(0.58, -0.16, TABLETOP_ROLLING_START_Z),
+    )
+
+    strict_success_enabled = True
+    strict_success_contact_distance = 0.008
+    strict_success_min_finger_contacts = 3
+    strict_success_min_non_thumb_contacts = 2
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    strict_reward_enabled = True
+    strict_reward_contact_score_scale = 0.025
+    strict_approach_score_scale = 0.095
+    strict_approach_rew_scale = 90.0
+    strict_multifinger_approach_rew_scale = 900.0
+    strict_touch_score_scale = 0.0075
+    strict_touch_rew_scale = 1600.0
+
+    # The reset is clean-start, but the RH56BFX fingers are large enough that
+    # approach rewards also need a palm height band with real table clearance.
+    dynamic_tabletop_pregrasp_height_offset = 0.135
+    dynamic_tabletop_pregrasp_height_scale = 0.055
+    dynamic_tabletop_min_palm_height_offset = 0.090
+    dynamic_tabletop_low_palm_height_scale = 0.035
+    dynamic_tabletop_low_palm_max_penalty = 4.0
+    dynamic_tabletop_pregrasp_height_rew_scale = 180.0
+    dynamic_tabletop_pregrasp_xy_rew_scale = 90.0
+    dynamic_tabletop_low_palm_penalty_scale = 260.0
+    dynamic_tabletop_gate_contact_rewards_by_pregrasp = True
+    dynamic_tabletop_contact_pregrasp_gate_min = 0.22
+
+    tabletop_arm_clearance_body_names = INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_NAMES
+    tabletop_arm_clearance_body_margins = INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_MARGINS
+    tabletop_arm_clearance_xy_padding = 0.20
+    tabletop_arm_clearance_margin = 0.030
+    tabletop_arm_clearance_scale = 0.045
+    tabletop_arm_clearance_max_penalty = 5.0
+    tabletop_arm_clearance_penalty_scale = 0.0
+    tabletop_success_requires_arm_clearance = False
+    tabletop_gate_contact_rewards_by_clearance = False
+    tabletop_contact_clearance_gate_min = 0.35
+    tabletop_contact_clearance_gate_scale = 0.70
+
+    tabletop_lift_action_prior_gate_min = 0.0
+    stable_object_palm_vel = 0.12
+    tabletop_hover_success_object_speed = 0.12
+    dynamic_success_hold_steps = 12
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereApproachBootstrapTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereCloseLiftCarryCleanStartDirectResidualTeacherEnvCfg
+):
+    """Clean-start Inspire rolling task that first validates approach from scratch."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_approach_bootstrap_teacher"
+
+    # This task is intentionally not residual.  The previous clean-start strict
+    # run was anchored to a Revo2-tuned pregrasp prior, which pulled the Inspire
+    # hand away from the sphere before the policy could get contact signal.
+    scripted_action_prior_enabled = False
+    scripted_tabletop_pregrasp_prior_enabled = False
+    scripted_tabletop_lift_target_prior_enabled = False
+    scripted_tabletop_hand_grasp_memory_prior_enabled = False
+
+    policy_action_interface = "isaaclab_direct"
+    arm_action_scale = 1.60
+    arm_moving_average = 0.38
+    hand_moving_average = 0.36
+    arm_target_clamp_delta = (2.30, 2.30, 2.30, 2.30, 2.30, 2.30, 2.30)
+    initial_arm_target_lock_steps = 0
+    initial_hand_target_lock_steps = 12
+
+    tabletop_object_asset_specs = _with_tabletop_friction(
+        (TABLETOP_ROLLING_START_SPEC,),
+        static_friction=0.80,
+        dynamic_friction=0.60,
+        friction_combine_mode="average",
+    )
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        tabletop_object_asset_specs[0],
+        pos=(0.58, -0.16, TABLETOP_ROLLING_START_Z),
+    )
+    object_shape = str(TABLETOP_ROLLING_START_SPEC["proxy_shape"])
+    object_radius = float(TABLETOP_ROLLING_START_SPEC["radius"])
+    object_size = tuple(TABLETOP_ROLLING_START_SPEC["size"])
+    object_start_pos = (0.58, -0.16, TABLETOP_ROLLING_START_Z)
+
+    dynamic_tabletop_persistent_motion = False
+    dynamic_tabletop_start_speed_range = (0.0, 0.0)
+    dynamic_tabletop_initial_speed_range = (0.0, 0.0)
+    dynamic_tabletop_start_yaw_rate_range = (0.0, 0.0)
+    dynamic_tabletop_initial_yaw_rate_range = (0.0, 0.0)
+    dynamic_grasp_speed_curriculum = False
+    reset_object_pos_noise = (0.020, 0.020, 0.001)
+
+    strict_success_enabled = False
+    strict_reward_enabled = False
+    contact_distance = 0.045
+    contact_score_scale = 0.045
+    true_grasp_opposition_mode = "contact"
+
+    reach_distance_scale = 0.24
+    fingertip_distance_scale = 0.070
+    dynamic_tabletop_pregrasp_lead_time = 0.0
+    dynamic_tabletop_pregrasp_ahead_distance = 0.0
+    dynamic_tabletop_pregrasp_xy_distance_scale = 0.12
+    dynamic_tabletop_pregrasp_height_offset = 0.135
+    dynamic_tabletop_pregrasp_height_scale = 0.060
+    dynamic_tabletop_min_palm_height_offset = 0.090
+    dynamic_tabletop_low_palm_height_scale = 0.035
+    dynamic_tabletop_low_palm_max_penalty = 4.0
+    dynamic_tabletop_gate_contact_rewards_by_pregrasp = False
+
+    palm_reach_rew_scale = 34.0
+    fingertip_reach_rew_scale = 30.0
+    dynamic_tabletop_pregrasp_xy_rew_scale = 620.0
+    dynamic_tabletop_pregrasp_height_rew_scale = 260.0
+    dynamic_tabletop_low_palm_penalty_scale = 180.0
+    contact_rew_scale = 24.0
+    true_grasp_rew_scale = 120.0
+    opposition_rew_scale = 40.0
+    catch_progress_rew_scale = 120.0
+    grasp_quality_rew_scale = 80.0
+
+    tabletop_arm_clearance_body_names = INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_NAMES
+    tabletop_arm_clearance_body_margins = INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_MARGINS
+    tabletop_arm_clearance_xy_padding = 0.20
+    tabletop_arm_clearance_margin = 0.030
+    tabletop_arm_clearance_scale = 0.045
+    tabletop_arm_clearance_max_penalty = 5.0
+    tabletop_arm_clearance_penalty_scale = 0.0
+    tabletop_success_requires_arm_clearance = False
+    tabletop_gate_contact_rewards_by_clearance = False
+
+    quality_lift_progress_rew_scale = 0.0
+    lifted_true_grasp_rew_scale = 0.0
+    lift_progress_rew_scale = 120.0
+    tabletop_grasped_palm_lift_rew_scale = 0.0
+    tabletop_grasped_arm_lift_rew_scale = 0.0
+    tabletop_lift_action_prior_rew_scale = 0.0
+    tabletop_lift_without_object_penalty_scale = 0.0
+    tabletop_no_lift_after_grasp_penalty_scale = 0.0
+    tabletop_object_up_vel_rew_scale = 0.0
+    tabletop_object_carry_lift_rew_scale = 0.0
+    stable_hold_rew_scale = 900.0
+    hold_progress_rew_scale = 1600.0
+    success_bonus = 6000.0
+    action_penalty_scale = 0.002
+    arm_target_delta_penalty_scale = 0.004
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereJ2ApproachBootstrapTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereApproachBootstrapTeacherEnvCfg
+):
+    """Clean-start Inspire rolling task with a minimal joint-2 approach warm start."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_j2_approach_bootstrap_teacher"
+
+    scripted_action_prior_enabled = True
+    scripted_action_prior_zero_passthrough_enabled = True
+    scripted_action_prior_residual_scale = 1.0
+    scripted_action_prior_inactive_residual_scale = 1.0
+    scripted_action_prior_active_residual_scale = 0.40
+
+    scripted_tabletop_approach_action_prior_enabled = True
+    scripted_tabletop_approach_action_prior = (0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+    scripted_tabletop_approach_action_prior_start_step = 0
+    scripted_tabletop_approach_action_prior_steps = 105
+    scripted_tabletop_approach_action_prior_ramp_steps = 24
+
+    tabletop_arm_lift_progress_baseline_pos = ISAACGYM_DYNAMIC_REVO2_LOWER_SAFE_ARM_POS
+    scripted_action_prior_hand_start_step = 96
+    scripted_action_prior_hand_ramp_steps = 88
+    scripted_action_prior_hand_action = 1.0
+    scripted_action_prior_lift_start_step = 170
+    scripted_action_prior_lift_steps = 320
+    scripted_action_prior_lift_requires_grasp = True
+    scripted_action_prior_lift_uses_grasp_memory = True
+    scripted_action_prior_lift_memory_requires_streak = True
+    scripted_action_prior_lift_grasp_memory_min_steps = 4
+
+    tabletop_lift_action_prior_gate_min = 0.0
+    tabletop_lift_action_prior_rew_scale = 0.0
+    tabletop_lift_without_object_penalty_scale = 0.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80CleanStartTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereApproachBootstrapTeacherEnvCfg
+):
+    """From-scratch Inspire rolling teacher with clean reset and P80 hand closure."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_p80_cleanstart_teacher"
+
+    robot_cfg: ArticulationCfg = _inspire_z180_robot_cfg(ISAACGYM_DYNAMIC_REVO2_LOWER_SAFE_ARM_POS)
+    default_arm_pos = ISAACGYM_DYNAMIC_REVO2_LOWER_SAFE_ARM_POS
+    episode_length_s = 8.0
+
+    object_start_pos = (0.58, 0.0, TABLETOP_ROLLING_START_Z)
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        TABLETOP_ROLLING_START_SPEC,
+        pos=object_start_pos,
+    )
+    object_shape = str(TABLETOP_ROLLING_START_SPEC["proxy_shape"])
+    object_radius = float(TABLETOP_ROLLING_START_SPEC["radius"])
+    object_size = tuple(TABLETOP_ROLLING_START_SPEC["size"])
+    tabletop_object_asset_specs = (TABLETOP_ROLLING_START_SPEC,)
+    tabletop_asset_set_enabled = False
+    tabletop_asset_obs_enabled = False
+    tabletop_asset_curriculum = False
+    reset_object_pos_noise = (0.0, 0.0, 0.0)
+
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_P80_CLOSE_TARGETS
+    reference_hand_fractions = INSPIRE_P80_HOME_SEED_HAND_FRACTIONS
+
+    scripted_action_prior_enabled = True
+    scripted_action_prior_zero_passthrough_enabled = True
+    scripted_action_prior_residual_scale = 1.0
+    scripted_action_prior_inactive_residual_scale = 1.0
+    scripted_action_prior_active_residual_scale = 0.10
+    scripted_action_prior_uses_strict_grasp = False
+    scripted_tabletop_pregrasp_prior_enabled = False
+    scripted_tabletop_lift_target_prior_enabled = False
+    scripted_tabletop_hand_grasp_memory_prior_enabled = False
+    scripted_action_prior_lift_start_step = 90
+    scripted_action_prior_lift_steps = 260
+    scripted_action_prior_lift_action = V325_VERIFIED_LIFT_ACTION_PRIOR_120
+    scripted_action_prior_lift_requires_grasp = True
+    scripted_action_prior_lift_uses_grasp_memory = True
+    scripted_action_prior_lift_memory_requires_streak = True
+    scripted_action_prior_lift_grasp_memory_min_steps = 8
+
+    arm_action_scale = 1.85
+    arm_moving_average = 0.45
+    hand_moving_average = 0.42
+    initial_hand_target_lock_steps = 8
+
+    strict_success_enabled = True
+    strict_success_contact_distance = 0.010
+    strict_success_min_finger_contacts = 3
+    strict_success_min_non_thumb_contacts = 2
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    strict_reward_enabled = False
+    contact_distance = 0.040
+    contact_score_scale = 0.035
+    min_finger_contacts = 3
+    min_non_thumb_contacts = 2
+    true_grasp_opposition_mode = "contact"
+    thumb_contact_reward_weight = 0.42
+    thumb_true_grasp_score_weight = 0.38
+    opposition_reward_uses_weighted_score = True
+    grasp_quality_finger_count_weight = 0.30
+    grasp_quality_non_thumb_weight = 0.30
+    grasp_quality_thumb_weight = 0.20
+    grasp_quality_opposition_weight = 0.20
+    strict_reward_contact_score_scale = 0.024
+    strict_approach_score_scale = 0.090
+    strict_approach_rew_scale = 65.0
+    strict_multifinger_approach_rew_scale = 520.0
+    strict_touch_score_scale = 0.010
+    strict_touch_rew_scale = 900.0
+
+    dynamic_tabletop_gate_contact_rewards_by_pregrasp = True
+    dynamic_tabletop_contact_pregrasp_gate_min = 0.25
+    dynamic_tabletop_pregrasp_xy_rew_scale = 300.0
+    dynamic_tabletop_pregrasp_height_offset = 0.125
+    dynamic_tabletop_pregrasp_height_scale = 0.045
+    dynamic_tabletop_pregrasp_height_rew_scale = 170.0
+    dynamic_tabletop_min_palm_height_offset = 0.080
+    dynamic_tabletop_low_palm_height_scale = 0.035
+    dynamic_tabletop_low_palm_penalty_scale = 200.0
+    dynamic_tabletop_side_contact_xy_limit = 0.150
+    dynamic_tabletop_side_contact_xy_ramp = 0.090
+    dynamic_tabletop_side_contact_penalty_scale = 220.0
+    contact_rew_scale = 85.0
+    true_grasp_rew_scale = 240.0
+    opposition_rew_scale = 140.0
+    catch_progress_rew_scale = 300.0
+    grasp_quality_rew_scale = 900.0
+
+    lift_reward_uses_grasp_quality_gate = True
+    lift_reward_min_grasp_quality_multiplier = 0.0
+    lift_reward_uses_opposition_gate = False
+    lift_reward_min_opposition_multiplier = 1.0
+    quality_lift_progress_uses_opposition_gate = False
+    quality_lift_progress_min_opposition_multiplier = 1.0
+
+    tabletop_lift_action_prior_gate_min = 0.0
+    tabletop_lift_action_prior_rew_scale = 320.0
+    tabletop_arm_lift_reward_object_margin = 0.080
+    quality_lift_progress_rew_scale = 3000.0
+    lifted_true_grasp_rew_scale = 7200.0
+    lift_progress_rew_scale = 3000.0
+    tabletop_grasped_palm_lift_rew_scale = 3000.0
+    tabletop_grasped_arm_lift_rew_scale = 2800.0
+    tabletop_stable_catch_rew_scale = 3200.0
+    tabletop_object_up_vel_rew_scale = 3400.0
+    tabletop_object_up_vel_scale = 0.055
+    tabletop_object_carry_lift_rew_scale = 6200.0
+    tabletop_object_carry_uses_grasp_seen = True
+    tabletop_object_carry_grasp_seen_gate = 0.45
+    tabletop_object_carry_stall_penalty_scale = 900.0
+    tabletop_object_carry_stall_min_arm_progress = 0.08
+    tabletop_object_carry_stall_min_z_vel = 0.012
+    stable_hold_rew_scale = 9000.0
+    hold_progress_rew_scale = 13000.0
+    success_bonus = 36000.0
+
+    tabletop_lift_without_object_min_arm_progress = 0.10
+    tabletop_lift_without_object_penalty_scale = 1500.0
+    tabletop_arm_object_lift_gap_margin = 0.055
+    tabletop_arm_object_lift_gap_penalty_scale = 1500.0
+    tabletop_no_lift_after_grasp_grace_steps = 8
+    tabletop_no_lift_after_grasp_ramp_steps = 36
+    tabletop_no_lift_after_grasp_penalty_scale = 760.0
+    tabletop_no_lift_min_progress = 0.035
+
+    tabletop_success_lift_height = 0.030
+    dynamic_success_hold_steps = 6
+    stable_object_palm_vel = 0.40
+    tabletop_hover_success_object_speed = 0.24
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80CleanStartStrictRewardTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80CleanStartTeacherEnvCfg
+):
+    """P80 clean-start teacher with reward gated by strict, load-bearing grasp evidence."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_p80_cleanstart_strictreward_teacher"
+
+    strict_reward_enabled = True
+    contact_distance = 0.012
+    contact_score_scale = 0.018
+    strict_success_contact_distance = 0.008
+    strict_reward_contact_score_scale = 0.014
+
+    contact_rew_scale = 30.0
+    true_grasp_rew_scale = 75.0
+    opposition_rew_scale = 80.0
+    catch_progress_rew_scale = 120.0
+    grasp_quality_rew_scale = 260.0
+    strict_approach_rew_scale = 45.0
+    strict_multifinger_approach_rew_scale = 220.0
+    strict_touch_rew_scale = 420.0
+
+    lift_reward_uses_grasp_quality_gate = True
+    lift_reward_min_grasp_quality_multiplier = 0.20
+    lift_reward_uses_opposition_gate = True
+    lift_reward_min_opposition_multiplier = 0.20
+    quality_lift_progress_uses_opposition_gate = True
+    quality_lift_progress_min_opposition_multiplier = 0.20
+
+    tabletop_lift_use_grasp_seen_gate = False
+    tabletop_object_carry_uses_grasp_seen = False
+    tabletop_lift_action_prior_rew_scale = 120.0
+    tabletop_lift_without_object_penalty_scale = 2600.0
+    tabletop_arm_object_lift_gap_penalty_scale = 2600.0
+    tabletop_no_lift_after_grasp_penalty_scale = 1300.0
+    tabletop_no_lift_after_grasp_grace_steps = 5
+    tabletop_no_lift_after_grasp_ramp_steps = 28
+    tabletop_no_lift_min_progress = 0.035
+
+    lifted_true_grasp_rew_scale = 7800.0
+    quality_lift_progress_rew_scale = 3400.0
+    lift_progress_rew_scale = 3000.0
+    tabletop_grasped_palm_lift_rew_scale = 2600.0
+    tabletop_grasped_arm_lift_rew_scale = 2400.0
+    tabletop_object_carry_lift_rew_scale = 7600.0
+    tabletop_stable_catch_rew_scale = 4200.0
+    stable_hold_rew_scale = 10500.0
+    hold_progress_rew_scale = 15000.0
+    success_bonus = 42000.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80CleanStartStrictRewardFromScratchTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80CleanStartStrictRewardTeacherEnvCfg
+):
+    """Strict-reward P80 clean-start task with no scripted action prior."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_p80_cleanstart_strictreward_fromscratch_teacher"
+
+    scripted_action_prior_enabled = False
+    scripted_action_prior_zero_passthrough_enabled = False
+    scripted_tabletop_pregrasp_prior_enabled = False
+    scripted_tabletop_lift_target_prior_enabled = False
+    scripted_tabletop_hand_grasp_memory_prior_enabled = False
+    tabletop_lift_action_prior_rew_scale = 0.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumStrictRewardFromScratchTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80CleanStartStrictRewardFromScratchTeacherEnvCfg
+):
+    """Strict P80 from-scratch rolling task with a static-to-fast speed curriculum."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "strictreward_fromscratch_teacher"
+    )
+
+    # Start as the validated static ball task, then ramp to the requested fast
+    # rolling range.  The previous "nearly static" 0-0.03 m/s start plus
+    # pregrasp lead target made from-scratch exploration optimize an ahead point
+    # while staying far from the ball, so alpha=0 should be truly static.
+    dynamic_tabletop_persistent_motion = False
+    dynamic_tabletop_start_speed_range = (0.0, 0.0)
+    dynamic_tabletop_initial_speed_range = (0.100, 0.400)
+    dynamic_tabletop_start_yaw_rate_range = (0.0, 0.0)
+    dynamic_tabletop_initial_yaw_rate_range = (-1.20, 1.20)
+    dynamic_tabletop_heading_range = (-3.141592653589793, 3.141592653589793)
+    dynamic_tabletop_randomize_yaw = True
+    dynamic_grasp_speed_curriculum = True
+    dynamic_grasp_speed_curriculum_mode = "success"
+    dynamic_grasp_speed_curriculum_metric = "true_grasp"
+    dynamic_grasp_speed_curriculum_start_success = 0.04
+    dynamic_grasp_speed_curriculum_full_success = 0.25
+    dynamic_grasp_speed_curriculum_ema_alpha = 0.03
+    dynamic_grasp_speed_curriculum_alpha_rise = 0.02
+    dynamic_grasp_speed_curriculum_allow_decrease = False
+
+    dynamic_tabletop_pregrasp_lead_time = 0.0
+    dynamic_tabletop_pregrasp_ahead_distance = 0.0
+    reset_object_pos_noise = (0.0, 0.0, 0.0)
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardFromScratchTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80CleanStartTeacherEnvCfg
+):
+    """Loose-reward P80 from-scratch rolling task with static-to-fast curriculum."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_fromscratch_teacher"
+    )
+
+    scripted_action_prior_enabled = False
+    scripted_action_prior_zero_passthrough_enabled = False
+    scripted_tabletop_pregrasp_prior_enabled = False
+    scripted_tabletop_lift_target_prior_enabled = False
+    scripted_tabletop_hand_grasp_memory_prior_enabled = False
+    tabletop_lift_action_prior_rew_scale = 0.0
+
+    dynamic_tabletop_persistent_motion = False
+    dynamic_tabletop_start_speed_range = (0.0, 0.0)
+    dynamic_tabletop_initial_speed_range = (0.100, 0.400)
+    dynamic_tabletop_start_yaw_rate_range = (0.0, 0.0)
+    dynamic_tabletop_initial_yaw_rate_range = (-1.20, 1.20)
+    dynamic_tabletop_heading_range = (-3.141592653589793, 3.141592653589793)
+    dynamic_tabletop_randomize_yaw = True
+    dynamic_grasp_speed_curriculum = True
+    dynamic_grasp_speed_curriculum_mode = "success"
+    dynamic_grasp_speed_curriculum_metric = "true_grasp"
+    dynamic_grasp_speed_curriculum_start_success = 0.04
+    dynamic_grasp_speed_curriculum_full_success = 0.25
+    dynamic_grasp_speed_curriculum_ema_alpha = 0.03
+    dynamic_grasp_speed_curriculum_alpha_rise = 0.02
+    dynamic_grasp_speed_curriculum_allow_decrease = False
+
+    dynamic_tabletop_pregrasp_lead_time = 0.0
+    dynamic_tabletop_pregrasp_ahead_distance = 0.0
+    reset_object_pos_noise = (0.0, 0.0, 0.0)
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardFromScratchTeacherEnvCfg
+):
+    """Continue the learned P80 rolling grasp with reward-only lift-and-hold guidance."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_teacher"
+    )
+
+    # The source policy already reaches and wraps the ball at full curriculum
+    # speed.  Keep the rollout distribution fixed and bias only the reward
+    # toward load-bearing lift.
+    dynamic_grasp_speed_curriculum_override_alpha = 1.0
+
+    scripted_action_prior_enabled = False
+    scripted_action_prior_zero_passthrough_enabled = False
+    scripted_action_prior_residual_scale = 1.0
+    scripted_action_prior_inactive_residual_scale = 1.0
+    scripted_action_prior_active_residual_scale = 1.0
+    scripted_action_prior_uses_strict_grasp = False
+
+    scripted_action_prior_hand_start_step = 9999
+    scripted_action_prior_hand_ramp_steps = 0
+    scripted_action_prior_hand_action = 0.0
+    scripted_action_prior_lift_start_step = 84
+    scripted_action_prior_lift_steps = 340
+    scripted_action_prior_lift_action = V325_VERIFIED_LIFT_ACTION_PRIOR_120
+    scripted_action_prior_lift_requires_grasp = True
+    scripted_action_prior_lift_uses_grasp_memory = True
+    scripted_action_prior_lift_memory_requires_streak = False
+    scripted_action_prior_lift_grasp_memory_min_steps = 1
+
+    scripted_tabletop_hand_grasp_memory_prior_enabled = False
+    scripted_tabletop_hand_grasp_memory_prior_start_step = 56
+    scripted_tabletop_hand_grasp_memory_prior_steps = 320
+    scripted_tabletop_hand_grasp_memory_min_steps = 1
+    scripted_tabletop_hand_grasp_memory_action = 0.95
+    scripted_tabletop_hand_grasp_memory_ramp_steps = 16
+
+    tabletop_lift_action_prior_gate_min = 0.0
+    tabletop_lift_action_prior_rew_scale = 0.0
+    tabletop_arm_lift_reward_object_margin = 0.070
+    tabletop_arm_object_lift_gap_margin = 0.060
+    tabletop_arm_object_lift_gap_penalty_scale = 1100.0
+    tabletop_lift_without_object_min_arm_progress = 0.12
+    tabletop_lift_without_object_penalty_scale = 900.0
+    tabletop_no_lift_after_grasp_grace_steps = 6
+    tabletop_no_lift_after_grasp_ramp_steps = 30
+    tabletop_no_lift_after_grasp_penalty_scale = 980.0
+    tabletop_no_lift_min_progress = 0.040
+
+    tabletop_object_up_vel_rew_scale = 5200.0
+    tabletop_object_up_vel_scale = 0.055
+    tabletop_object_carry_lift_rew_scale = 9800.0
+    tabletop_object_carry_min_grasp_streak = 1
+    tabletop_object_carry_streak_ramp_steps = 6
+    tabletop_object_carry_uses_grasp_seen = True
+    tabletop_object_carry_grasp_seen_gate = 0.35
+    tabletop_object_carry_stall_penalty_scale = 1400.0
+    tabletop_object_carry_stall_min_arm_progress = 0.08
+    tabletop_object_carry_stall_min_z_vel = 0.012
+
+    quality_lift_progress_rew_scale = 4200.0
+    lifted_true_grasp_rew_scale = 9800.0
+    lift_progress_rew_scale = 4400.0
+    tabletop_grasped_palm_lift_rew_scale = 3800.0
+    tabletop_grasped_arm_lift_rew_scale = 3600.0
+    tabletop_stable_catch_rew_scale = 5200.0
+    stable_hold_rew_scale = 12000.0
+    hold_progress_rew_scale = 18000.0
+    success_bonus = 48000.0
+
+    tabletop_success_lift_height = 0.030
+    dynamic_success_hold_steps = 6
+    stable_object_palm_vel = 0.34
+    tabletop_hover_success_object_speed = 0.22
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideClearanceTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideTeacherEnvCfg
+):
+    """Lift-guide continuation that rejects hand/table contact and press-down grasps."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_clearance_teacher"
+    )
+
+    # The previous lift-guide policy pressed the RH56BFX fingertips and palm
+    # into the table, then received grasp/lift reward from object motion caused
+    # by scraping.  Keep this as reward-only, but make table clearance a real
+    # constraint for contact, lift, and success rewards.
+    dynamic_tabletop_pregrasp_height_offset = 0.155
+    dynamic_tabletop_pregrasp_height_scale = 0.050
+    dynamic_tabletop_pregrasp_height_rew_scale = 260.0
+    dynamic_tabletop_min_palm_height_offset = 0.115
+    dynamic_tabletop_low_palm_height_scale = 0.028
+    dynamic_tabletop_low_palm_max_penalty = 6.0
+    dynamic_tabletop_low_palm_penalty_scale = 1400.0
+    dynamic_tabletop_gate_contact_rewards_by_pregrasp = True
+    dynamic_tabletop_contact_pregrasp_gate_min = 0.10
+    dynamic_tabletop_side_contact_penalty_scale = 900.0
+
+    tabletop_arm_clearance_body_names = INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_NAMES
+    tabletop_arm_clearance_body_margins = INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_MARGINS
+    tabletop_arm_clearance_xy_padding = 0.20
+    tabletop_arm_clearance_margin = 0.030
+    tabletop_arm_clearance_scale = 0.045
+    tabletop_arm_clearance_max_penalty = 5.0
+    tabletop_arm_clearance_penalty_scale = 12000.0
+    tabletop_gate_contact_rewards_by_clearance = True
+    tabletop_gate_boolean_grasp_rewards_by_clearance = True
+    tabletop_contact_clearance_gate_min = 0.0
+    tabletop_contact_clearance_gate_scale = 0.25
+    tabletop_success_requires_arm_clearance = True
+
+    tabletop_lift_use_grasp_seen_gate = False
+    tabletop_object_carry_uses_grasp_seen = False
+    tabletop_hover_latch_uses_grasp_seen = False
+    tabletop_hover_reward_uses_grasp_seen = False
+    tabletop_success_uses_grasp_seen = False
+
+    # With table-contact shortcuts removed, keep the lift pressure slightly
+    # gentler so the policy does not compensate by sweeping the ball away.
+    tabletop_arm_lift_reward_object_margin = 0.050
+    tabletop_arm_object_lift_gap_margin = 0.045
+    tabletop_lift_without_object_min_arm_progress = 0.10
+    tabletop_object_carry_min_grasp_streak = 3
+    tabletop_object_carry_streak_ramp_steps = 10
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideClearanceTeacherEnvCfg
+):
+    """Inspire rolling task that starts from a table-clear V340 pose before learning approach/lift."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_teacher"
+    )
+    observation_space = 76
+
+    # The previous Inspire rolling attempts often started from a low Revo2-tuned
+    # reset and scraped the RH56BFX fingers on the tabletop before learning any
+    # useful approach.  Keep the same rolling/lift curriculum, but use the older
+    # table-facing Inspire V340 arm pose as the clean reset/home.
+    robot_cfg: ArticulationCfg = _inspire_z180_robot_cfg(INSPIRE_V341_CLEAR_ARM_POS)
+    default_arm_pos = INSPIRE_V341_CLEAR_ARM_POS
+    scripted_tabletop_pregrasp_arm_pos = INSPIRE_V341_CLEAR_ARM_POS
+    tabletop_arm_lift_progress_baseline_pos = INSPIRE_V341_CLEAR_ARM_POS
+    scripted_tabletop_lift_target_arm_delta = INSPIRE_V340_LIFT_ARM_DELTA
+    lift_arm_delta = INSPIRE_V340_LIFT_ARM_DELTA
+    lift_action_prior = INSPIRE_V340_LIFT_ACTION_PRIOR
+    scripted_action_prior_lift_action = INSPIRE_V340_LIFT_ACTION_PRIOR
+    reset_arm_pos_noise = 0.0
+    initial_arm_target_lock_steps = 12
+    initial_hand_target_lock_steps = 12
+    dynamic_grasp_speed_curriculum_override_alpha = 0.0
+
+    object_start_pos = (0.58, 0.0, TABLETOP_ROLLING_START_Z)
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        TABLETOP_ROLLING_START_SPEC,
+        pos=object_start_pos,
+    )
+    reset_object_pos_noise = (0.0, 0.0, 0.0)
+
+    strict_reward_enabled = True
+    dynamic_tabletop_pregrasp_xy_distance_scale = 0.18
+    dynamic_tabletop_pregrasp_xy_rew_scale = 260.0
+    dynamic_tabletop_pregrasp_height_offset = 0.125
+    dynamic_tabletop_pregrasp_height_scale = 0.035
+    dynamic_tabletop_pregrasp_height_rew_scale = 480.0
+    dynamic_tabletop_min_palm_height_offset = 0.100
+    dynamic_tabletop_low_palm_height_scale = 0.035
+    contact_distance = 0.014
+    contact_score_scale = 0.016
+    strict_success_contact_distance = 0.0125
+    strict_reward_contact_score_scale = 0.014
+    strict_approach_score_scale = 0.050
+    strict_approach_rew_scale = 60.0
+    strict_multifinger_approach_rew_scale = 120.0
+    strict_opposition_approach_rew_scale = 9000.0
+    strict_touch_score_scale = 0.006
+    strict_touch_reward_requires_thumb_pair = True
+    strict_touch_reward_uses_opposition_product = True
+    strict_touch_reward_opposition_min_multiplier = 0.03
+    strict_touch_rew_scale = 500.0
+    strict_opposition_touch_rew_scale = 32000.0
+    contact_reward_requires_thumb_pair = True
+    contact_reward_uses_opposition_product = True
+    contact_reward_opposition_min_multiplier = 0.08
+    true_grasp_score_requires_thumb_pair = True
+    true_grasp_score_uses_opposition_product = True
+    true_grasp_score_opposition_min_multiplier = 0.18
+    thumb_contact_reward_weight = 1.0
+    thumb_true_grasp_score_weight = 1.0
+    grasp_quality_finger_count_weight = 0.0
+    grasp_quality_non_thumb_weight = 0.0
+    grasp_quality_thumb_weight = 0.0
+    grasp_quality_opposition_weight = 1.0
+    contact_rew_scale = 900.0
+    true_grasp_rew_scale = 5200.0
+    opposition_rew_scale = 22000.0
+    grasp_quality_rew_scale = 18000.0
+    lift_reward_uses_opposition_gate = True
+    lift_reward_min_opposition_multiplier = 0.0
+    quality_lift_progress_uses_opposition_gate = True
+    quality_lift_progress_min_opposition_multiplier = 0.0
+    dynamic_tabletop_low_palm_penalty_scale = 650.0
+    dynamic_tabletop_side_contact_penalty_scale = 350.0
+    tabletop_non_thumb_without_thumb_penalty_scale = 7200.0
+    tabletop_non_thumb_without_thumb_gate_start = 0.08
+    tabletop_non_thumb_without_thumb_gate_ramp = 0.30
+    tabletop_non_thumb_without_thumb_thumb_target = 0.25
+    tabletop_lift_action_prior_gate_min = 0.0
+    tabletop_lift_action_prior_rew_scale = 15000.0
+    tabletop_arm_lift_reward_object_margin = 0.100
+    tabletop_arm_object_lift_gap_margin = 0.090
+    tabletop_grasped_arm_lift_rew_scale = 6000.0
+    tabletop_no_lift_uses_soft_grasp_gate = True
+    tabletop_no_lift_soft_grasp_gate = 0.020
+    tabletop_no_lift_after_grasp_grace_steps = 8
+    tabletop_no_lift_after_grasp_ramp_steps = 24
+    tabletop_no_lift_after_grasp_penalty_scale = 90.0
+    tabletop_lift_without_object_min_arm_progress = 0.140
+    tabletop_lift_without_object_penalty_scale = 3200.0
+    tabletop_arm_clearance_body_margins = INSPIRE_TABLETOP_HAND_CAUTION_CLEARANCE_BODY_MARGINS
+    tabletop_arm_clearance_fingertip_point_margin = 0.012
+    tabletop_arm_clearance_palm_point_margin = 0.024
+    tabletop_arm_clearance_scale = 0.035
+    tabletop_arm_clearance_penalty_scale = 18000.0
+    tabletop_arm_clearance_ok_penalty_threshold = 0.020
+    tabletop_contact_clearance_gate_scale = 0.08
+    tabletop_success_requires_arm_clearance = True
+    tabletop_terminate_on_arm_clearance_violation = True
+    tabletop_arm_clearance_terminate_penalty_threshold = 0.050
+    tabletop_arm_clearance_violation_terminate_start_step = 12
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceTeacherEnvCfg
+):
+    """86-observation compatibility task for older clean-reset Inspire rolling checkpoints."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_compat86_teacher"
+    )
+    observation_space = 86
+    tabletop_asset_set_enabled = True
+    tabletop_asset_obs_enabled = True
+    tabletop_asset_curriculum = False
+    tabletop_asset_curriculum_start_count = 1
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceThumbWrapCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceCompat86TeacherEnvCfg
+):
+    """86-observation Inspire rolling task with a stronger thumb wrap close envelope."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_thumbwrap_compat86_teacher"
+    )
+
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_P80_THUMB_WRAP_CLOSE_TARGETS
+    reference_hand_fractions = (1.0, 1.0, 0.80, 0.80, 1.0, 1.0)
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceTeacherEnvCfg
+):
+    """Clean-reset Inspire rolling task with a 5 cm sphere for size/material diagnosis."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_teacher"
+    )
+
+    object_start_pos = (0.58, 0.0, _tabletop_start_z_from_spec(TABLETOP_INSPIRE_SPHERE_50MM_SPEC))
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        TABLETOP_INSPIRE_SPHERE_50MM_SPEC,
+        pos=object_start_pos,
+    )
+    object_shape = "sphere"
+    object_radius = float(TABLETOP_INSPIRE_SPHERE_50MM_SPEC["radius"])
+    object_size = tuple(TABLETOP_INSPIRE_SPHERE_50MM_SPEC["size"])
+    tabletop_object_asset_specs = (TABLETOP_INSPIRE_SPHERE_50MM_SPEC,)
+    tabletop_asset_set_enabled = False
+    tabletop_asset_obs_enabled = False
+    tabletop_asset_curriculum = False
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere60mmTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceTeacherEnvCfg
+):
+    """Clean-reset Inspire rolling task with a 6 cm sphere for size/material diagnosis."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere60mm_teacher"
+    )
+
+    object_start_pos = (0.58, 0.0, _tabletop_start_z_from_spec(TABLETOP_INSPIRE_SPHERE_60MM_SPEC))
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        TABLETOP_INSPIRE_SPHERE_60MM_SPEC,
+        pos=object_start_pos,
+    )
+    object_shape = "sphere"
+    object_radius = float(TABLETOP_INSPIRE_SPHERE_60MM_SPEC["radius"])
+    object_size = tuple(TABLETOP_INSPIRE_SPHERE_60MM_SPEC["size"])
+    tabletop_object_asset_specs = (TABLETOP_INSPIRE_SPHERE_60MM_SPEC,)
+    tabletop_asset_set_enabled = False
+    tabletop_asset_obs_enabled = False
+    tabletop_asset_curriculum = False
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceTeacherEnvCfg
+):
+    """Clean-reset Inspire rolling task with a 5 cm higher-friction sphere."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_teacher"
+    )
+
+    object_start_pos = (0.58, 0.0, _tabletop_start_z_from_spec(TABLETOP_INSPIRE_SPHERE_50MM_HIGH_FRICTION_SPEC))
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        TABLETOP_INSPIRE_SPHERE_50MM_HIGH_FRICTION_SPEC,
+        pos=object_start_pos,
+    )
+    object_shape = "sphere"
+    object_radius = float(TABLETOP_INSPIRE_SPHERE_50MM_HIGH_FRICTION_SPEC["radius"])
+    object_size = tuple(TABLETOP_INSPIRE_SPHERE_50MM_HIGH_FRICTION_SPEC["size"])
+    tabletop_object_asset_specs = (TABLETOP_INSPIRE_SPHERE_50MM_HIGH_FRICTION_SPEC,)
+    tabletop_asset_set_enabled = False
+    tabletop_asset_obs_enabled = False
+    tabletop_asset_curriculum = False
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionUnderwrapTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionTeacherEnvCfg
+):
+    """50 mm high-friction sphere teacher with explicit lower-half fingertip support shaping."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_underwrap_teacher"
+    )
+
+    tabletop_underwrap_rew_scale = 9000.0
+    tabletop_underwrap_below_center_fraction = 0.18
+    tabletop_underwrap_height_scale = 0.010
+    tabletop_underwrap_radial_fraction = 0.90
+    tabletop_underwrap_radial_scale = 0.018
+    tabletop_underwrap_contact_scale = 0.016
+    tabletop_underwrap_min_non_thumb_contacts = 1
+    tabletop_underwrap_uses_opposition = True
+    tabletop_underwrap_opposition_min_multiplier = 0.12
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionTeacherEnvCfg
+):
+    """50 mm high-friction sphere teacher with reachable lower-support shaping."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_softunderwrap_teacher"
+    )
+
+    tabletop_underwrap_rew_scale = 8500.0
+    tabletop_underwrap_below_center_fraction = 0.05
+    tabletop_underwrap_height_scale = 0.040
+    tabletop_underwrap_radial_fraction = 0.78
+    tabletop_underwrap_radial_scale = 0.045
+    tabletop_underwrap_contact_scale = 0.035
+    tabletop_underwrap_contact_margin = 0.018
+    tabletop_underwrap_min_non_thumb_contacts = 1
+    tabletop_underwrap_uses_opposition = True
+    tabletop_underwrap_opposition_min_multiplier = 0.22
+    tabletop_underwrap_progress_weight = 0.65
+    tabletop_underwrap_pair_weight = 0.35
+    tabletop_underwrap_uses_pregrasp_gate = False
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapTeacherEnvCfg
+):
+    """86-observation compatibility task for existing v344/v349 Inspire rolling checkpoints."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_softunderwrap_compat86_teacher"
+    )
+    observation_space = 86
+    tabletop_asset_set_enabled = True
+    tabletop_asset_obs_enabled = True
+    tabletop_asset_curriculum = False
+    tabletop_asset_curriculum_start_count = 1
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapTeacherEnvCfg
+):
+    """Soft-underwrap continuation that makes lifting mandatory after stable contact."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_softunderwrap_liftpush_teacher"
+    )
+
+    tabletop_underwrap_rew_scale = 4200.0
+    tabletop_underwrap_below_center_fraction = 0.28
+    tabletop_underwrap_height_scale = 0.030
+    tabletop_underwrap_radial_fraction = 0.90
+    tabletop_underwrap_radial_scale = 0.035
+    tabletop_underwrap_contact_scale = 0.030
+    tabletop_underwrap_contact_margin = 0.012
+    tabletop_underwrap_opposition_min_multiplier = 0.35
+    tabletop_underwrap_progress_weight = 0.30
+    tabletop_underwrap_pair_weight = 0.70
+
+    # Do not pay for lifting the palm alone; the object has to move up.
+    tabletop_grasped_palm_lift_rew_scale = 0.0
+    tabletop_lift_action_prior_rew_scale = 30000.0
+    tabletop_grasped_arm_lift_rew_scale = 12000.0
+    tabletop_object_up_vel_rew_scale = 11000.0
+    tabletop_object_up_vel_scale = 0.035
+    tabletop_object_carry_lift_rew_scale = 18000.0
+    quality_lift_progress_rew_scale = 7600.0
+    lifted_true_grasp_rew_scale = 14000.0
+    lift_progress_rew_scale = 7200.0
+
+    tabletop_no_lift_uses_soft_grasp_gate = True
+    tabletop_no_lift_soft_grasp_gate = 0.020
+    tabletop_no_lift_after_grasp_grace_steps = 3
+    tabletop_no_lift_after_grasp_ramp_steps = 12
+    tabletop_no_lift_after_grasp_max_penalty = 8.0
+    tabletop_no_lift_after_grasp_penalty_scale = 3200.0
+    tabletop_no_lift_min_progress = 0.025
+
+    tabletop_lift_without_object_min_arm_progress = 0.025
+    tabletop_lift_without_object_penalty_scale = 4500.0
+    tabletop_arm_object_lift_gap_margin = 0.020
+    tabletop_arm_object_lift_gap_penalty_scale = 4200.0
+    tabletop_object_carry_stall_penalty_scale = 3000.0
+    tabletop_object_carry_stall_min_arm_progress = 0.030
+    tabletop_object_carry_stall_min_z_vel = 0.010
+
+    # Keep contact quality useful, but stop it from dominating no-lift pressure.
+    strict_opposition_touch_rew_scale = 18000.0
+    opposition_rew_scale = 14000.0
+    grasp_quality_rew_scale = 12000.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushTeacherEnvCfg
+):
+    """86-observation lift-push continuation task for existing v349 Inspire rolling checkpoints."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_softunderwrap_liftpush_compat86_teacher"
+    )
+    observation_space = 86
+    tabletop_asset_set_enabled = True
+    tabletop_asset_obs_enabled = True
+    tabletop_asset_curriculum = False
+    tabletop_asset_curriculum_start_count = 1
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushFixedPriorCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushCompat86TeacherEnvCfg
+):
+    """Lift-push continuation with the lift prior routed through the pregrasp-compatible target path."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_fixedprior_compat86_teacher"
+    )
+
+    scripted_action_prior_enabled = True
+    scripted_action_prior_zero_passthrough_enabled = True
+    scripted_action_prior_residual_scale = 1.0
+    scripted_action_prior_inactive_residual_scale = 1.0
+    scripted_action_prior_active_residual_scale = 0.05
+    scripted_action_prior_uses_strict_grasp = True
+    scripted_tabletop_lift_target_prior_enabled = True
+    scripted_tabletop_lift_target_prior_ramp_steps = 12
+    scripted_tabletop_lift_target_arm_delta = INSPIRE_V340_LIFT_ARM_DELTA
+    scripted_tabletop_pregrasp_prior_control_mode = "target_track"
+    scripted_action_prior_lift_start_step = 84
+    scripted_action_prior_lift_steps = 360
+    scripted_action_prior_lift_requires_grasp = True
+    scripted_action_prior_lift_uses_grasp_memory = True
+    scripted_action_prior_lift_memory_requires_streak = False
+    scripted_action_prior_lift_grasp_memory_min_steps = 4
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative050Compat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushCompat86TeacherEnvCfg
+):
+    """Lift-push continuation using the best relative lift candidate from the load-bearing probe."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative050_compat86_teacher"
+    )
+
+    scripted_action_prior_enabled = True
+    scripted_action_prior_zero_passthrough_enabled = True
+    scripted_action_prior_residual_scale = 1.0
+    scripted_action_prior_inactive_residual_scale = 1.0
+    scripted_action_prior_active_residual_scale = 0.18
+    scripted_action_prior_uses_strict_grasp = True
+    scripted_tabletop_relative_lift_target_prior_enabled = True
+    scripted_tabletop_relative_lift_target_arm_delta = INSPIRE_V340_RELATIVE_LIFT_TARGET_DELTAS[1]
+    scripted_action_prior_lift_start_step = 84
+    scripted_action_prior_lift_steps = 260
+    scripted_action_prior_lift_requires_grasp = True
+    scripted_action_prior_lift_uses_grasp_memory = True
+    scripted_action_prior_lift_memory_requires_streak = False
+    scripted_action_prior_lift_grasp_memory_min_steps = 4
+
+    scripted_tabletop_hand_grasp_memory_prior_enabled = True
+    scripted_tabletop_hand_grasp_memory_prior_start_step = 84
+    scripted_tabletop_hand_grasp_memory_prior_steps = 360
+    scripted_tabletop_hand_grasp_memory_min_steps = 4
+    scripted_tabletop_hand_grasp_memory_action = 0.98
+    scripted_tabletop_hand_grasp_memory_ramp_steps = 4
+
+    tabletop_terminate_on_arm_clearance_violation = False
+    tabletop_arm_clearance_ok_penalty_threshold = 0.060
+    tabletop_lift_action_prior_rew_scale = 22000.0
+    tabletop_object_up_vel_rew_scale = 18000.0
+    tabletop_object_up_vel_scale = 0.035
+    tabletop_object_carry_lift_rew_scale = 26000.0
+    quality_lift_progress_rew_scale = 12000.0
+    lifted_true_grasp_rew_scale = 26000.0
+    lift_progress_rew_scale = 12000.0
+    tabletop_no_lift_after_grasp_penalty_scale = 5200.0
+    tabletop_no_lift_min_progress = 0.022
+    tabletop_lift_without_object_min_arm_progress = 0.018
+    tabletop_lift_without_object_penalty_scale = 5200.0
+    tabletop_arm_object_lift_gap_margin = 0.018
+    tabletop_arm_object_lift_gap_penalty_scale = 5200.0
+    stable_hold_rew_scale = 18000.0
+    hold_progress_rew_scale = 28000.0
+    success_bonus = 70000.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StabilityCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative050Compat86TeacherEnvCfg
+):
+    """Relative-lift continuation that pushes higher lift while preserving strict grasp."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_stability_compat86_teacher"
+    )
+
+    scripted_tabletop_relative_lift_target_arm_delta = INSPIRE_V340_RELATIVE_LIFT_TARGET_DELTAS[2]
+    scripted_action_prior_active_residual_scale = 0.12
+    scripted_action_prior_lift_steps = 300
+    scripted_tabletop_hand_grasp_memory_action = 1.0
+    scripted_tabletop_hand_grasp_memory_ramp_steps = 8
+
+    tabletop_terminate_on_arm_clearance_violation = True
+    tabletop_arm_clearance_terminate_penalty_threshold = 0.65
+    tabletop_arm_clearance_violation_terminate_start_step = 72
+    tabletop_arm_clearance_ok_penalty_threshold = 0.080
+    tabletop_arm_clearance_penalty_scale = 22000.0
+
+    strict_touch_rew_scale = 1200.0
+    strict_opposition_touch_rew_scale = 42000.0
+    opposition_rew_scale = 24000.0
+    grasp_quality_rew_scale = 22000.0
+    tabletop_stable_catch_rew_scale = 12000.0
+    tabletop_object_carry_min_grasp_streak = 2
+    tabletop_object_carry_streak_ramp_steps = 5
+    tabletop_object_carry_lift_rew_scale = 36000.0
+    quality_lift_progress_rew_scale = 18000.0
+    lifted_true_grasp_rew_scale = 42000.0
+    lift_progress_rew_scale = 16000.0
+    stable_hold_rew_scale = 36000.0
+    hold_progress_rew_scale = 54000.0
+    success_bonus = 110000.0
+    stable_object_palm_vel = 0.26
+    tabletop_hover_success_object_speed = 0.18
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictCarryCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StabilityCompat86TeacherEnvCfg
+):
+    """Relative-lift continuation that only unlocks lift from sustained strict grasp."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strictcarry_compat86_teacher"
+    )
+
+    # The previous relative075 run often touched the sphere for a few frames,
+    # unlocked the lift prior, then lifted after thumb/opposition contact was
+    # already gone.  Require a real consecutive strict-grasp streak instead.
+    scripted_action_prior_lift_memory_requires_streak = True
+    scripted_action_prior_lift_grasp_memory_min_steps = 12
+    scripted_action_prior_lift_steps = 320
+    scripted_action_prior_active_residual_scale = 0.10
+
+    scripted_tabletop_hand_grasp_memory_min_steps = 6
+    scripted_tabletop_hand_grasp_memory_action = 1.0
+    scripted_tabletop_hand_grasp_memory_ramp_steps = 4
+
+    tabletop_lift_use_grasp_seen_gate = False
+    tabletop_object_carry_uses_grasp_seen = False
+    tabletop_object_carry_min_grasp_streak = 0
+    tabletop_object_carry_streak_ramp_steps = 1
+    tabletop_object_carry_lift_rew_scale = 22000.0
+    tabletop_object_up_vel_rew_scale = 9000.0
+    tabletop_lift_action_prior_rew_scale = 16000.0
+    tabletop_grasped_arm_lift_rew_scale = 4500.0
+    quality_lift_progress_rew_scale = 9000.0
+    lifted_true_grasp_rew_scale = 52000.0
+    lift_progress_rew_scale = 6500.0
+
+    tabletop_lift_without_object_min_arm_progress = 0.055
+    tabletop_lift_without_object_penalty_scale = 11000.0
+    tabletop_arm_object_lift_gap_margin = 0.045
+    tabletop_arm_object_lift_gap_penalty_scale = 9000.0
+    scoop_lift_penalty_scale = 5200.0
+
+    strict_opposition_touch_rew_scale = 52000.0
+    opposition_rew_scale = 30000.0
+    grasp_quality_rew_scale = 26000.0
+    tabletop_non_thumb_without_thumb_penalty_scale = 9800.0
+    tabletop_underwrap_opposition_min_multiplier = 0.55
+
+    tabletop_arm_clearance_ok_penalty_threshold = 0.020
+    tabletop_arm_clearance_terminate_penalty_threshold = 0.12
+    tabletop_arm_clearance_violation_terminate_start_step = 72
+    tabletop_success_requires_arm_clearance = True
+    tabletop_gate_contact_rewards_by_clearance = True
+    tabletop_gate_boolean_grasp_rewards_by_clearance = True
+    tabletop_contact_clearance_gate_scale = 0.08
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075Streak6CarryCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictCarryCompat86TeacherEnvCfg
+):
+    """Moderate strict-carry continuation: require sustained grasp, but keep lift reachable."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_streak6carry_compat86_teacher"
+    )
+
+    scripted_action_prior_lift_grasp_memory_min_steps = 6
+    scripted_action_prior_lift_steps = 300
+    scripted_action_prior_active_residual_scale = 0.12
+    scripted_tabletop_hand_grasp_memory_min_steps = 3
+    scripted_tabletop_hand_grasp_memory_ramp_steps = 4
+
+    tabletop_lift_action_prior_rew_scale = 24000.0
+    tabletop_grasped_arm_lift_rew_scale = 7000.0
+    tabletop_object_up_vel_rew_scale = 14000.0
+    tabletop_object_carry_lift_rew_scale = 28000.0
+    quality_lift_progress_rew_scale = 11000.0
+    lifted_true_grasp_rew_scale = 56000.0
+    lift_progress_rew_scale = 8000.0
+
+    tabletop_lift_without_object_min_arm_progress = 0.050
+    tabletop_lift_without_object_penalty_scale = 9500.0
+    tabletop_arm_object_lift_gap_margin = 0.050
+    tabletop_arm_object_lift_gap_penalty_scale = 7600.0
+    scoop_lift_penalty_scale = 4200.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075HybridLiftRecoveryCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StabilityCompat86TeacherEnvCfg
+):
+    """Lift-recovery continuation for the strict ep120 Inspire rolling policy."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_hybrid_lift_recovery_compat86_teacher"
+    )
+
+    # StrictCarry ep120 preserved good thumb/opposition contact, but the stricter
+    # lift gate removed the continuous lift signal.  Keep the reachable lift
+    # prior from Relative075 while increasing the value of carrying the object.
+    scripted_action_prior_lift_memory_requires_streak = False
+    scripted_action_prior_lift_grasp_memory_min_steps = 4
+    scripted_action_prior_lift_steps = 300
+    scripted_action_prior_active_residual_scale = 0.11
+
+    scripted_tabletop_hand_grasp_memory_min_steps = 4
+    scripted_tabletop_hand_grasp_memory_action = 1.0
+    scripted_tabletop_hand_grasp_memory_ramp_steps = 6
+
+    tabletop_lift_use_grasp_seen_gate = True
+    tabletop_lift_grasp_seen_gate = 0.25
+    tabletop_object_carry_uses_grasp_seen = True
+    tabletop_object_carry_grasp_seen_gate = 0.25
+    tabletop_object_carry_min_grasp_streak = 1
+    tabletop_object_carry_streak_ramp_steps = 4
+
+    tabletop_lift_action_prior_rew_scale = 30000.0
+    tabletop_object_up_vel_rew_scale = 22000.0
+    tabletop_object_carry_lift_rew_scale = 44000.0
+    tabletop_grasped_arm_lift_rew_scale = 9000.0
+    quality_lift_progress_rew_scale = 22000.0
+    lifted_true_grasp_rew_scale = 52000.0
+    lift_progress_rew_scale = 18000.0
+    stable_hold_rew_scale = 52000.0
+    hold_progress_rew_scale = 72000.0
+    success_bonus = 140000.0
+
+    tabletop_no_lift_uses_soft_grasp_gate = True
+    tabletop_no_lift_soft_grasp_gate = 0.08
+    tabletop_no_lift_after_grasp_grace_steps = 4
+    tabletop_no_lift_after_grasp_ramp_steps = 18
+    tabletop_no_lift_after_grasp_penalty_scale = 7200.0
+    tabletop_no_lift_min_progress = 0.024
+
+    tabletop_lift_without_object_min_arm_progress = 0.035
+    tabletop_lift_without_object_penalty_scale = 7600.0
+    tabletop_arm_object_lift_gap_margin = 0.032
+    tabletop_arm_object_lift_gap_penalty_scale = 7000.0
+    tabletop_object_carry_stall_penalty_scale = 5200.0
+    tabletop_object_carry_stall_min_arm_progress = 0.045
+    tabletop_object_carry_stall_min_z_vel = 0.012
+    scoop_lift_penalty_scale = 3600.0
+
+    strict_opposition_touch_rew_scale = 46000.0
+    opposition_rew_scale = 28000.0
+    grasp_quality_rew_scale = 26000.0
+    tabletop_non_thumb_without_thumb_penalty_scale = 8200.0
+    tabletop_underwrap_opposition_min_multiplier = 0.42
+
+    tabletop_arm_clearance_ok_penalty_threshold = 0.040
+    tabletop_arm_clearance_terminate_penalty_threshold = 0.22
+    tabletop_success_requires_arm_clearance = True
+    tabletop_gate_contact_rewards_by_clearance = True
+    tabletop_gate_boolean_grasp_rewards_by_clearance = True
+    tabletop_contact_clearance_gate_scale = 0.10
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075LiftOpenGateCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075HybridLiftRecoveryCompat86TeacherEnvCfg
+):
+    """Blend a lifting checkpoint with the strict hand anchor by opening the lift prior gate."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_lift_open_gate_compat86_teacher"
+    )
+
+    tabletop_lift_action_prior_gate_min = 0.35
+    scripted_action_prior_lift_start_step = 84
+    scripted_action_prior_lift_steps = 320
+    scripted_action_prior_active_residual_scale = 0.10
+
+    tabletop_lift_action_prior_rew_scale = 28000.0
+    tabletop_object_up_vel_rew_scale = 26000.0
+    tabletop_object_carry_lift_rew_scale = 52000.0
+    tabletop_grasped_arm_lift_rew_scale = 10500.0
+    quality_lift_progress_rew_scale = 24000.0
+    lifted_true_grasp_rew_scale = 62000.0
+    lift_progress_rew_scale = 20000.0
+    stable_hold_rew_scale = 62000.0
+    hold_progress_rew_scale = 84000.0
+    success_bonus = 160000.0
+
+    tabletop_no_lift_after_grasp_penalty_scale = 8200.0
+    tabletop_lift_without_object_min_arm_progress = 0.060
+    tabletop_lift_without_object_penalty_scale = 9800.0
+    tabletop_arm_object_lift_gap_margin = 0.040
+    tabletop_arm_object_lift_gap_penalty_scale = 9200.0
+    tabletop_object_carry_stall_penalty_scale = 6800.0
+    tabletop_object_carry_stall_min_arm_progress = 0.055
+
+    strict_opposition_touch_rew_scale = 52000.0
+    opposition_rew_scale = 30000.0
+    grasp_quality_rew_scale = 30000.0
+    tabletop_underwrap_opposition_min_multiplier = 0.50
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StableHoldRewardOnlyCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StabilityCompat86TeacherEnvCfg
+):
+    """Reward-only continuation that preserves the working Relative075 lift controller."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_stablehold_rewardonly_compat86_teacher"
+    )
+
+    strict_opposition_touch_rew_scale = 52000.0
+    opposition_rew_scale = 30000.0
+    grasp_quality_rew_scale = 30000.0
+    tabletop_stable_catch_rew_scale = 18000.0
+    tabletop_object_carry_lift_rew_scale = 44000.0
+    quality_lift_progress_rew_scale = 22000.0
+    lifted_true_grasp_rew_scale = 60000.0
+    lift_progress_rew_scale = 18000.0
+    stable_hold_rew_scale = 62000.0
+    hold_progress_rew_scale = 84000.0
+    success_bonus = 160000.0
+    stable_object_palm_vel = 0.22
+
+    tabletop_no_lift_after_grasp_penalty_scale = 6500.0
+    tabletop_no_lift_min_progress = 0.024
+    tabletop_object_carry_stall_penalty_scale = 4800.0
+    tabletop_object_carry_stall_min_arm_progress = 0.040
+    tabletop_object_carry_stall_min_z_vel = 0.012
+    tabletop_non_thumb_without_thumb_penalty_scale = 7600.0
+    tabletop_underwrap_opposition_min_multiplier = 0.42
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbHoldCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StableHoldRewardOnlyCompat86TeacherEnvCfg
+):
+    """Strict-thumb continuation: reject non-thumb-only lifts and preserve opposition during carry."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strictthumb_hold_compat86_teacher"
+    )
+
+    strict_success_enabled = True
+    strict_reward_enabled = True
+    tabletop_lift_gate_requires_current_strict_grasp = True
+    tabletop_lift_use_grasp_seen_gate = False
+    tabletop_object_carry_uses_grasp_seen = False
+    tabletop_object_carry_min_grasp_streak = 2
+    tabletop_object_carry_streak_ramp_steps = 4
+
+    lift_reward_uses_opposition_gate = True
+    lift_reward_min_opposition_multiplier = 0.0
+    quality_lift_progress_uses_opposition_gate = True
+    quality_lift_progress_min_opposition_multiplier = 0.0
+    tabletop_underwrap_opposition_min_multiplier = 0.62
+
+    strict_opposition_approach_rew_scale = 18000.0
+    strict_opposition_touch_rew_scale = 76000.0
+    strict_touch_rew_scale = 2200.0
+    opposition_rew_scale = 42000.0
+    grasp_quality_rew_scale = 42000.0
+    tabletop_stable_catch_rew_scale = 22000.0
+    tabletop_object_carry_lift_rew_scale = 30000.0
+    quality_lift_progress_rew_scale = 18000.0
+    lifted_true_grasp_rew_scale = 76000.0
+    lift_progress_rew_scale = 11000.0
+    stable_hold_rew_scale = 72000.0
+    hold_progress_rew_scale = 96000.0
+    success_bonus = 190000.0
+
+    tabletop_non_thumb_without_thumb_penalty_scale = 26000.0
+    tabletop_non_thumb_without_thumb_penalty_lift_gate_min = 1.0
+    tabletop_non_thumb_without_thumb_gate_start = 0.04
+    tabletop_non_thumb_without_thumb_gate_ramp = 0.24
+    tabletop_non_thumb_without_thumb_thumb_target = 0.34
+    scoop_lift_penalty_scale = 9000.0
+    palm_only_lift_penalty_scale = 9000.0
+
+    tabletop_lift_without_object_penalty_scale = 9000.0
+    tabletop_arm_object_lift_gap_penalty_scale = 9000.0
+    tabletop_object_carry_stall_penalty_scale = 7000.0
+    tabletop_no_lift_after_grasp_penalty_scale = 5200.0
+    tabletop_no_lift_min_progress = 0.022
+
+    dynamic_success_hold_steps = 6
+    stable_object_palm_vel = 0.28
+    tabletop_success_lift_height = 0.045
+    tabletop_hover_success_object_speed = 0.20
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictLiftHoldCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbHoldCompat86TeacherEnvCfg
+):
+    """Strict lift-hold continuation: discourage lifting after the strict grasp is lost."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strictlift_hold_compat86_teacher"
+    )
+
+    lift_progress_rew_scale = 2500.0
+    quality_lift_progress_rew_scale = 9000.0
+    lifted_true_grasp_rew_scale = 125000.0
+    tabletop_stable_catch_rew_scale = 52000.0
+    tabletop_object_carry_lift_rew_scale = 58000.0
+    stable_hold_rew_scale = 105000.0
+    hold_progress_rew_scale = 150000.0
+    success_bonus = 260000.0
+
+    tabletop_lift_without_current_grasp_penalty_scale = 62000.0
+    tabletop_lift_without_current_grasp_min_progress = 0.20
+    tabletop_lift_without_current_grasp_ramp = 0.45
+    tabletop_lift_without_object_penalty_scale = 14000.0
+    tabletop_object_carry_stall_penalty_scale = 9000.0
+    tabletop_arm_object_lift_gap_penalty_scale = 12000.0
+
+    dynamic_success_hold_steps = 6
+    stable_object_palm_vel = 0.30
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictPreLiftHoldCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbHoldCompat86TeacherEnvCfg
+):
+    """Keep the strict grasp alive during the close/settle phase before lift starts."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_pre_lift_hold_compat86_teacher"
+    )
+
+    tabletop_strict_hold_rew_scale = 52000.0
+    tabletop_strict_grasp_loss_penalty_scale = 26000.0
+
+    tabletop_object_carry_lift_rew_scale = 36000.0
+    lifted_true_grasp_rew_scale = 90000.0
+    tabletop_stable_catch_rew_scale = 34000.0
+    stable_hold_rew_scale = 90000.0
+    hold_progress_rew_scale = 125000.0
+    success_bonus = 230000.0
+    lift_progress_rew_scale = 8500.0
+    quality_lift_progress_rew_scale = 16000.0
+
+    tabletop_no_lift_after_grasp_penalty_scale = 6200.0
+    tabletop_no_lift_after_grasp_grace_steps = 26
+    tabletop_no_lift_after_grasp_ramp_steps = 70
+    tabletop_object_carry_stall_penalty_scale = 7200.0
+    stable_object_palm_vel = 0.28
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictTimedLiftCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbHoldCompat86TeacherEnvCfg
+):
+    """Strict-thumb continuation that asks the hand to lift soon after a stable grasp appears."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_timed_lift_compat86_teacher"
+    )
+
+    tabletop_object_carry_lift_rew_scale = 42000.0
+    lifted_true_grasp_rew_scale = 88000.0
+    tabletop_stable_catch_rew_scale = 30000.0
+    stable_hold_rew_scale = 84000.0
+    hold_progress_rew_scale = 112000.0
+    success_bonus = 220000.0
+    lift_progress_rew_scale = 14000.0
+    quality_lift_progress_rew_scale = 22000.0
+
+    tabletop_no_lift_after_grasp_penalty_scale = 7600.0
+    tabletop_no_lift_after_grasp_grace_steps = 3
+    tabletop_no_lift_after_grasp_ramp_steps = 12
+    tabletop_no_lift_after_grasp_max_penalty = 8.0
+    tabletop_no_lift_min_progress = 0.026
+
+    tabletop_object_carry_stall_penalty_scale = 8200.0
+    tabletop_object_carry_stall_min_arm_progress = 0.038
+    tabletop_object_carry_stall_min_z_vel = 0.014
+    stable_object_palm_vel = 0.28
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictEarlyLiftCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbHoldCompat86TeacherEnvCfg
+):
+    """Strict-thumb checkpoint probe with a faster relative lift target."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_early_lift_compat86_teacher"
+    )
+
+    scripted_action_prior_lift_steps = 180
+    scripted_action_prior_active_residual_scale = 0.10
+    tabletop_object_carry_lift_rew_scale = 38000.0
+    lifted_true_grasp_rew_scale = 84000.0
+    lift_progress_rew_scale = 13000.0
+    quality_lift_progress_rew_scale = 20000.0
+    stable_hold_rew_scale = 82000.0
+    hold_progress_rew_scale = 108000.0
+    success_bonus = 220000.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairBoostCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbHoldCompat86TeacherEnvCfg
+):
+    """Strict-thumb continuation that emphasizes thumb/non-thumb opposition before and during lift."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_boost_compat86_teacher"
+    )
+
+    contact_reward_requires_thumb_pair = True
+    true_grasp_score_requires_thumb_pair = True
+    thumb_contact_reward_weight = 0.95
+    grasp_quality_thumb_weight = 0.55
+
+    strict_touch_reward_requires_thumb_pair = True
+    strict_touch_reward_uses_opposition_product = True
+    strict_touch_reward_opposition_min_multiplier = 0.18
+    strict_touch_rew_scale = 18000.0
+    strict_opposition_approach_rew_scale = 30000.0
+    strict_opposition_touch_rew_scale = 112000.0
+    opposition_rew_scale = 52000.0
+    grasp_quality_rew_scale = 52000.0
+
+    tabletop_underwrap_opposition_min_multiplier = 0.78
+    tabletop_object_carry_lift_rew_scale = 34000.0
+    lifted_true_grasp_rew_scale = 90000.0
+    tabletop_stable_catch_rew_scale = 32000.0
+    stable_hold_rew_scale = 92000.0
+    hold_progress_rew_scale = 124000.0
+    success_bonus = 230000.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairCurrentLiftCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairBoostCompat86TeacherEnvCfg
+):
+    """PairBoost reward whose lift prior remains active only while the current strict grasp is alive."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_current_lift_compat86_teacher"
+    )
+
+    scripted_action_prior_lift_memory_requires_streak = True
+    scripted_action_prior_lift_grasp_memory_min_steps = 1
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairCurrentLiftCompat86TeacherEnvCfg
+):
+    """Current-lift variant with a short strict-grasp latch to survive contact chatter during lift."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_recent_lift_compat86_teacher"
+    )
+
+    scripted_action_prior_lift_grasp_memory_min_steps = 1
+    scripted_action_prior_lift_grasp_recent_steps = 12
+    tabletop_lift_without_current_grasp_penalty_scale = 8000.0
+    tabletop_lift_without_current_grasp_min_progress = 0.12
+    tabletop_lift_without_current_grasp_ramp = 0.45
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLateLiftCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftCompat86TeacherEnvCfg
+):
+    """Recent-lift variant that delays arm lift so the Inspire thumb can settle around the ball first."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_recent_late_lift_compat86_teacher"
+    )
+
+    scripted_action_prior_lift_start_step = 124
+    tabletop_no_lift_after_grasp_grace_steps = 36
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftCandidateProbeCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftCompat86TeacherEnvCfg
+):
+    """Current best Inspire rolling task, with one scripted lift candidate assigned per env."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_recent_liftcandidate_probe_compat86_teacher"
+    )
+
+    scripted_action_prior_lift_candidate_labels = INSPIRE_V340_LIFT_CANDIDATE_LABELS
+    scripted_action_prior_lift_candidate_actions = INSPIRE_V340_LIFT_CANDIDATE_ACTIONS
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftHandMemoryCandidateProbeCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftCompat86TeacherEnvCfg
+):
+    """Current best Inspire rolling task, with one hand-memory action vector assigned per env."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_recent_lift_handmemory_probe_compat86_teacher"
+    )
+
+    scripted_tabletop_hand_grasp_memory_action_candidate_labels = (
+        INSPIRE_V340_HAND_MEMORY_CANDIDATE_LABELS
+    )
+    scripted_tabletop_hand_grasp_memory_action_candidates = INSPIRE_V340_HAND_MEMORY_CANDIDATE_ACTIONS
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftHandAll100Compat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftCompat86TeacherEnvCfg
+):
+    """Current best Inspire rolling task with fully closed 6-DOF hand-memory hold."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_recent_lift_handall100_compat86_teacher"
+    )
+
+    scripted_tabletop_hand_grasp_memory_action_vector = (1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftCompat86TeacherEnvCfg
+):
+    """Recent-lift probe that holds the 6-DOF hand as soon as the first strict grasp appears."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_recent_lift_earlyhand_compat86_teacher"
+    )
+
+    scripted_tabletop_hand_grasp_memory_prior_start_step = 56
+    scripted_tabletop_hand_grasp_memory_prior_steps = 360
+    scripted_tabletop_hand_grasp_memory_min_steps = 1
+    scripted_tabletop_hand_grasp_memory_action_vector = (1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+    scripted_tabletop_hand_grasp_memory_ramp_steps = 8
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandMixedSpeedInterceptCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandCompat86TeacherEnvCfg
+):
+    """Early-hand Inspire rolling task with mixed-speed reset sampling and a longer interception lead."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_recent_lift_"
+        "earlyhand_mixedspeed_intercept_compat86_teacher"
+    )
+
+    dynamic_grasp_speed_curriculum_override_alpha = 1.0
+    dynamic_tabletop_speed_alpha_sample_enabled = True
+    dynamic_tabletop_speed_alpha_sample_min = 0.0
+    dynamic_tabletop_speed_alpha_sample_max = 1.0
+    dynamic_tabletop_speed_alpha_sample_curriculum_cap = True
+    dynamic_tabletop_speed_alpha_sample_full_fraction = 0.35
+
+    dynamic_tabletop_pregrasp_lead_time = 0.34
+    dynamic_tabletop_pregrasp_ahead_distance = 0.09
+    dynamic_tabletop_pregrasp_xy_distance_scale = 0.22
+    dynamic_tabletop_pregrasp_xy_rew_scale = 420.0
+    dynamic_tabletop_pregrasp_height_offset = 0.130
+    dynamic_tabletop_pregrasp_height_scale = 0.045
+    dynamic_tabletop_pregrasp_height_rew_scale = 540.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandMixedSpeedInterceptEvalCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandMixedSpeedInterceptCompat86TeacherEnvCfg
+):
+    """Matched-intercept evaluation task with an exact CLI-selected speed band."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_recent_lift_"
+        "earlyhand_mixedspeed_intercept_eval_compat86_teacher"
+    )
+
+    dynamic_tabletop_speed_alpha_sample_enabled = False
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandRelativeLiftUnlockedCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandMixedSpeedInterceptCompat86TeacherEnvCfg
+):
+    """Use the latched relative lift target after the first strict grasp."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_recent_lift_"
+        "earlyhand_relative_lift_unlocked_compat86_teacher"
+    )
+
+    # The one-step strict contact can disappear before the streak cache is
+    # updated.  Keep the existing recent-grasp latch, but let grasp_seen unlock
+    # the verified relative lift target instead of falling back to joint-6-only.
+    scripted_action_prior_lift_memory_requires_streak = False
+    scripted_action_prior_lift_grasp_memory_min_steps = 1
+
+    tabletop_post_success_stability_latch_enabled = True
+    tabletop_post_success_arm_target_lock_enabled = True
+    tabletop_post_success_arm_target_lock_blend = 1.0
+    tabletop_post_success_hand_target_lock_enabled = True
+    tabletop_post_success_hand_target_lock_blend = 1.0
+    tabletop_post_success_hand_close_fraction = 0.08
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandRelativeLiftUnlockedEvalCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandRelativeLiftUnlockedCompat86TeacherEnvCfg
+):
+    """Exact-speed evaluation variant of the relative-lift-unlocked task."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_recent_lift_"
+        "earlyhand_relative_lift_unlocked_eval_compat86_teacher"
+    )
+
+    dynamic_tabletop_speed_alpha_sample_enabled = False
+
+
+@configclass
+class InspireRollingRelativeLiftScaleProbeTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandRelativeLiftUnlockedEvalCompat86TeacherEnvCfg
+):
+    """Assign four relative-lift amplitudes across environments for one-variable screening."""
+
+    reference_name = "inspire_rolling_relative_lift_scale_probe_teacher"
+    scripted_tabletop_relative_lift_target_candidate_labels = INSPIRE_V340_RELATIVE_LIFT_SCALE_PROBE_LABELS
+    scripted_tabletop_relative_lift_target_candidate_deltas = INSPIRE_V340_RELATIVE_LIFT_SCALE_PROBE_DELTAS
+
+
+@configclass
+class InspireRollingRelativeLiftHighScaleProbeTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandRelativeLiftUnlockedEvalCompat86TeacherEnvCfg
+):
+    """Screen larger relative-lift amplitudes after the first probe's monotonic gain."""
+
+    reference_name = "inspire_rolling_relative_lift_high_scale_probe_teacher"
+    scripted_tabletop_relative_lift_target_candidate_labels = INSPIRE_V340_RELATIVE_LIFT_HIGH_SCALE_PROBE_LABELS
+    scripted_tabletop_relative_lift_target_candidate_deltas = INSPIRE_V340_RELATIVE_LIFT_HIGH_SCALE_PROBE_DELTAS
+
+
+@configclass
+class InspireRollingRelativeLiftScale160TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandRelativeLiftUnlockedEvalCompat86TeacherEnvCfg
+):
+    """Full-speed Inspire rolling continuation with the verified 1.60x lift amplitude."""
+
+    reference_name = "inspire_rolling_relative_lift_scale160_teacher"
+    scripted_tabletop_relative_lift_target_arm_delta = tuple(
+        1.60 * value for value in INSPIRE_V340_RELATIVE_LIFT_TARGET_DELTAS[2]
+    )
+
+
+@configclass
+class InspireRollingRelativeLiftScale200PostHoldTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandRelativeLiftUnlockedEvalCompat86TeacherEnvCfg
+):
+    """Full-speed Inspire continuation that trains the load-bearing state after lift success."""
+
+    reference_name = "inspire_rolling_relative_lift_scale200_posthold_teacher"
+    scripted_tabletop_relative_lift_target_arm_delta = tuple(
+        2.00 * value for value in INSPIRE_V340_RELATIVE_LIFT_TARGET_DELTAS[2]
+    )
+
+    # The parent task terminates on the first six-step success streak. Keeping
+    # the episode alive exposes the same sustained grasp contract used by video
+    # evaluation, while target locks prevent post-success arm thrashing.
+    terminate_on_success = False
+    episode_length_s = 8.0
+    tabletop_post_success_stability_latch_enabled = True
+    tabletop_post_success_arm_target_lock_enabled = True
+    tabletop_post_success_arm_target_lock_blend = 1.0
+    tabletop_post_success_hand_target_lock_enabled = True
+    tabletop_post_success_hand_target_lock_blend = 1.0
+    tabletop_post_success_hand_lock_uses_actual_joint_pos = True
+    tabletop_post_success_hand_close_fraction = 0.08
+
+    tabletop_post_success_hold_rew_scale = 180000.0
+    tabletop_post_success_unstable_penalty_scale = 150000.0
+    tabletop_post_success_grasp_loss_penalty_scale = 140000.0
+    tabletop_post_success_under_height_penalty_scale = 26000.0
+    tabletop_post_success_speed_penalty_scale = 12000.0
+    tabletop_post_success_action_penalty_scale = 0.050
+    tabletop_post_success_target_delta_penalty_scale = 0.080
+    tabletop_post_success_arm_joint_vel_penalty_scale = 500.0
+    tabletop_post_success_arm_target_drift_penalty_scale = 18000.0
+    tabletop_post_success_arm_target_drift_tolerance = 0.10
+    tabletop_post_success_arm_target_drift_scale = 0.30
+    tabletop_post_success_palm_drift_penalty_scale = 28000.0
+    tabletop_post_success_palm_drift_tolerance = 0.040
+    tabletop_post_success_palm_drift_scale = 0.090
+
+
+@configclass
+class InspireRollingRelativeLiftScale200PostHoldTargetHandLockTeacherEnvCfg(
+    InspireRollingRelativeLiftScale200PostHoldTeacherEnvCfg
+):
+    """Hold the successful commanded hand target instead of its contact-deflected pose."""
+
+    reference_name = "inspire_rolling_relative_lift_scale200_posthold_target_hand_lock_teacher"
+    tabletop_post_success_hand_lock_uses_actual_joint_pos = False
+
+
+@configclass
+class InspireRollingRelativeLiftScale200PostHoldSphere60TeacherEnvCfg(
+    InspireRollingRelativeLiftScale200PostHoldTeacherEnvCfg
+):
+    """Matched 86-D diagnostic that changes only the rolling sphere to 60 mm."""
+
+    reference_name = "inspire_rolling_relative_lift_scale200_posthold_sphere60_teacher"
+    object_start_pos = (
+        0.58,
+        0.0,
+        _tabletop_start_z_from_spec(TABLETOP_INSPIRE_SPHERE_60MM_HIGH_FRICTION_SPEC),
+    )
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        TABLETOP_INSPIRE_SPHERE_60MM_HIGH_FRICTION_SPEC,
+        pos=object_start_pos,
+    )
+    object_shape = "sphere"
+    object_radius = float(TABLETOP_INSPIRE_SPHERE_60MM_HIGH_FRICTION_SPEC["radius"])
+    object_size = tuple(TABLETOP_INSPIRE_SPHERE_60MM_HIGH_FRICTION_SPEC["size"])
+    tabletop_object_asset_specs = (TABLETOP_INSPIRE_SPHERE_60MM_HIGH_FRICTION_SPEC,)
+
+
+@configclass
+class InspireRollingRelativeLiftScale200PostHoldSphereSafeCloseTeacherEnvCfg(
+    InspireRollingRelativeLiftScale200PostHoldTeacherEnvCfg
+):
+    """Matched diagnostic using the official sphere-safe coupled close posture."""
+
+    reference_name = "inspire_rolling_relative_lift_scale200_posthold_sphere_safe_close_teacher"
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_SPHERE_SAFE_CLOSE_TARGETS
+
+
+@configclass
+class InspireRollingRelativeLiftScale200PostHoldMildThumbWrapCloseTeacherEnvCfg(
+    InspireRollingRelativeLiftScale200PostHoldTeacherEnvCfg
+):
+    """Matched diagnostic using a modestly stronger load-bearing thumb wrap."""
+
+    reference_name = "inspire_rolling_relative_lift_scale200_posthold_mild_thumb_wrap_close_teacher"
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_SPHERE_MILD_THUMB_WRAP_CLOSE_TARGETS
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandHighSpeedFocusInterceptCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandMixedSpeedInterceptCompat86TeacherEnvCfg
+):
+    """Matched-intercept continuation concentrated on the full-speed rolling band."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_recent_lift_"
+        "earlyhand_highspeed_focus_intercept_compat86_teacher"
+    )
+
+    dynamic_tabletop_speed_alpha_sample_min = 0.75
+    dynamic_tabletop_speed_alpha_sample_max = 1.0
+    dynamic_tabletop_speed_alpha_sample_full_fraction = 0.75
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandFastTailInterceptCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairRecentLiftEarlyHandMixedSpeedInterceptCompat86TeacherEnvCfg
+):
+    """Matched-intercept continuation focused on the difficult 0.25-0.40 m/s tail."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_recent_lift_"
+        "earlyhand_fasttail_intercept_compat86_teacher"
+    )
+
+    dynamic_tabletop_speed_alpha_sample_enabled = False
+    dynamic_tabletop_start_speed_range = (0.25, 0.40)
+    dynamic_tabletop_initial_speed_range = (0.25, 0.40)
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairLiftHoldCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairBoostCompat86TeacherEnvCfg
+):
+    """Strict thumb-pair continuation that penalizes losing thumb/opposition contact during lift."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_lifthold_compat86_teacher"
+    )
+
+    tabletop_strict_hold_rew_scale = 28000.0
+    tabletop_strict_grasp_loss_penalty_scale = 12000.0
+
+    tabletop_lift_without_current_grasp_penalty_scale = 34000.0
+    tabletop_lift_without_current_grasp_min_progress = 0.08
+    tabletop_lift_without_current_grasp_ramp = 0.42
+
+    tabletop_object_carry_lift_rew_scale = 42000.0
+    quality_lift_progress_rew_scale = 22000.0
+    lifted_true_grasp_rew_scale = 108000.0
+    tabletop_stable_catch_rew_scale = 38000.0
+    stable_hold_rew_scale = 110000.0
+    hold_progress_rew_scale = 150000.0
+    success_bonus = 270000.0
+
+    tabletop_object_carry_stall_penalty_scale = 7600.0
+    tabletop_no_lift_after_grasp_penalty_scale = 5800.0
+    stable_object_palm_vel = 0.30
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbWrapPairBoostCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairBoostCompat86TeacherEnvCfg
+):
+    """Strict thumb-pair continuation with a stronger official thumb-wrap close envelope."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbwrap_pairboost_compat86_teacher"
+    )
+
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_P80_THUMB_WRAP_CLOSE_TARGETS
+    reference_hand_fractions = (1.0, 1.0, 0.80, 0.80, 1.0, 1.0)
+
+    tabletop_underwrap_opposition_min_multiplier = 0.70
+    tabletop_object_carry_lift_rew_scale = 36000.0
+    lifted_true_grasp_rew_scale = 98000.0
+    stable_hold_rew_scale = 100000.0
+    hold_progress_rew_scale = 138000.0
+    success_bonus = 250000.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictMildThumbWrapPairBoostCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairBoostCompat86TeacherEnvCfg
+):
+    """Strict thumb-pair reward with a mild thumb-wrap close envelope for lift retention."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_mildthumbwrap_pairboost_compat86_teacher"
+    )
+
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_SPHERE_MILD_THUMB_WRAP_CLOSE_TARGETS
+    reference_hand_fractions = (1.0, 1.0, 0.82, 0.82, 0.98, 0.98)
+    tabletop_underwrap_opposition_min_multiplier = 0.74
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairSlowLiftCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPushRelative075StrictThumbPairBoostCompat86TeacherEnvCfg
+):
+    """PairBoost reward with a slower, lower relative lift prior to reduce ball slip during carry."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_"
+        "softunderwrap_liftpush_relative075_strict_thumbpair_slowlift_compat86_teacher"
+    )
+
+    scripted_tabletop_relative_lift_target_arm_delta = INSPIRE_V340_RELATIVE_LIFT_TARGET_DELTAS[1]
+    scripted_action_prior_lift_start_step = 96
+    scripted_action_prior_lift_steps = 420
+    scripted_action_prior_active_residual_scale = 0.07
+    scripted_action_prior_lift_grasp_memory_min_steps = 4
+    scripted_action_prior_lift_memory_requires_streak = False
+
+    scripted_tabletop_hand_grasp_memory_prior_start_step = 72
+    scripted_tabletop_hand_grasp_memory_prior_steps = 460
+    scripted_tabletop_hand_grasp_memory_min_steps = 3
+    scripted_tabletop_hand_grasp_memory_action = 1.0
+    scripted_tabletop_hand_grasp_memory_ramp_steps = 10
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPriorProbeCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapCompat86TeacherEnvCfg
+):
+    """86-observation probe: learned soft-underwrap grasp, then scripted lift/hold."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_softunderwrap_liftprior_probe_compat86_teacher"
+    )
+
+    scripted_action_prior_enabled = True
+    scripted_action_prior_zero_passthrough_enabled = True
+    scripted_action_prior_residual_scale = 1.0
+    scripted_action_prior_inactive_residual_scale = 1.0
+    scripted_action_prior_active_residual_scale = 0.0
+    scripted_action_prior_uses_strict_grasp = True
+
+    scripted_action_prior_hand_start_step = 9999
+    scripted_action_prior_hand_ramp_steps = 0
+    scripted_action_prior_hand_action = 0.0
+    scripted_action_prior_lift_start_step = 84
+    scripted_action_prior_lift_steps = 360
+    scripted_action_prior_lift_action = INSPIRE_V340_LIFT_ACTION_PRIOR
+    scripted_action_prior_lift_requires_grasp = True
+    scripted_action_prior_lift_uses_grasp_memory = True
+    scripted_action_prior_lift_memory_requires_streak = False
+    scripted_action_prior_lift_grasp_memory_min_steps = 8
+
+    scripted_tabletop_hand_grasp_memory_prior_enabled = True
+    scripted_tabletop_hand_grasp_memory_prior_start_step = 84
+    scripted_tabletop_hand_grasp_memory_prior_steps = 360
+    scripted_tabletop_hand_grasp_memory_min_steps = 8
+    scripted_tabletop_hand_grasp_memory_action = 0.95
+    scripted_tabletop_hand_grasp_memory_ramp_steps = 0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapRelativeLiftCandidateProbeCompat86TeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionSoftUnderwrapLiftPriorProbeCompat86TeacherEnvCfg
+):
+    """86-observation probe: learned soft-underwrap grasp, then scan relative lift targets."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_softunderwrap_"
+        "relative_liftcandidate_probe_compat86_teacher"
+    )
+
+    scripted_tabletop_relative_lift_target_prior_enabled = True
+    scripted_tabletop_relative_lift_target_arm_delta = INSPIRE_P80_HOME_SEED_LIFT_DELTA
+    scripted_tabletop_relative_lift_target_candidate_labels = INSPIRE_V340_RELATIVE_LIFT_TARGET_LABELS
+    scripted_tabletop_relative_lift_target_candidate_deltas = INSPIRE_V340_RELATIVE_LIFT_TARGET_DELTAS
+    scripted_action_prior_lift_steps = 260
+    tabletop_terminate_on_arm_clearance_violation = False
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmSoftContactTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceTeacherEnvCfg
+):
+    """Clean-reset Inspire rolling task with a 5 cm sphere and wider contact offset."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_softcontact_teacher"
+    )
+
+    object_start_pos = (0.58, 0.0, _tabletop_start_z_from_spec(TABLETOP_INSPIRE_SPHERE_50MM_SOFT_CONTACT_SPEC))
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        TABLETOP_INSPIRE_SPHERE_50MM_SOFT_CONTACT_SPEC,
+        pos=object_start_pos,
+    )
+    object_shape = "sphere"
+    object_radius = float(TABLETOP_INSPIRE_SPHERE_50MM_SOFT_CONTACT_SPEC["radius"])
+    object_size = tuple(TABLETOP_INSPIRE_SPHERE_50MM_SOFT_CONTACT_SPEC["size"])
+    tabletop_object_asset_specs = (TABLETOP_INSPIRE_SPHERE_50MM_SOFT_CONTACT_SPEC,)
+    tabletop_asset_set_enabled = False
+    tabletop_asset_obs_enabled = False
+    tabletop_asset_curriculum = False
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionLiftPriorProbeTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionTeacherEnvCfg
+):
+    """Physics probe: let the learned policy grasp, then script only lift-and-hold."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_liftprior_probe_teacher"
+    )
+
+    scripted_action_prior_enabled = True
+    scripted_action_prior_zero_passthrough_enabled = True
+    scripted_action_prior_residual_scale = 1.0
+    scripted_action_prior_inactive_residual_scale = 1.0
+    scripted_action_prior_active_residual_scale = 0.0
+    scripted_action_prior_uses_strict_grasp = True
+
+    scripted_action_prior_hand_start_step = 9999
+    scripted_action_prior_hand_ramp_steps = 0
+    scripted_action_prior_hand_action = 0.0
+    scripted_action_prior_lift_start_step = 84
+    scripted_action_prior_lift_steps = 360
+    scripted_action_prior_lift_action = INSPIRE_V340_LIFT_ACTION_PRIOR
+    scripted_action_prior_lift_requires_grasp = True
+    scripted_action_prior_lift_uses_grasp_memory = True
+    scripted_action_prior_lift_memory_requires_streak = False
+    scripted_action_prior_lift_grasp_memory_min_steps = 8
+
+    scripted_tabletop_hand_grasp_memory_prior_enabled = True
+    scripted_tabletop_hand_grasp_memory_prior_start_step = 84
+    scripted_tabletop_hand_grasp_memory_prior_steps = 360
+    scripted_tabletop_hand_grasp_memory_min_steps = 8
+    scripted_tabletop_hand_grasp_memory_action = 0.95
+    scripted_tabletop_hand_grasp_memory_ramp_steps = 0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionLiftCandidateProbeTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionLiftPriorProbeTeacherEnvCfg
+):
+    """Physics probe: assign one scripted lift candidate per env after learned grasp."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_liftcandidate_probe_teacher"
+    )
+
+    scripted_action_prior_lift_candidate_labels = INSPIRE_V340_LIFT_CANDIDATE_LABELS
+    scripted_action_prior_lift_candidate_actions = INSPIRE_V340_LIFT_CANDIDATE_ACTIONS
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionRelativeLiftCandidateProbeTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionLiftPriorProbeTeacherEnvCfg
+):
+    """Physics probe: learned grasp, then track a relative arm-joint lift target per env."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere50mm_highfriction_relative_liftcandidate_probe_teacher"
+    )
+
+    scripted_tabletop_relative_lift_target_prior_enabled = True
+    scripted_tabletop_relative_lift_target_arm_delta = INSPIRE_P80_HOME_SEED_LIFT_DELTA
+    scripted_tabletop_relative_lift_target_candidate_labels = INSPIRE_V340_RELATIVE_LIFT_TARGET_LABELS
+    scripted_tabletop_relative_lift_target_candidate_deltas = INSPIRE_V340_RELATIVE_LIFT_TARGET_DELTAS
+    scripted_action_prior_lift_steps = 260
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere60mmHighFrictionRelativeLiftCandidateProbeTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionRelativeLiftCandidateProbeTeacherEnvCfg
+):
+    """Relative lift probe with a larger 6 cm high-friction sphere."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_sphere60mm_highfriction_relative_liftcandidate_probe_teacher"
+    )
+
+    object_start_pos = (0.58, 0.0, _tabletop_start_z_from_spec(TABLETOP_INSPIRE_SPHERE_60MM_HIGH_FRICTION_SPEC))
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        TABLETOP_INSPIRE_SPHERE_60MM_HIGH_FRICTION_SPEC,
+        pos=object_start_pos,
+    )
+    object_shape = "sphere"
+    object_radius = float(TABLETOP_INSPIRE_SPHERE_60MM_HIGH_FRICTION_SPEC["radius"])
+    object_size = tuple(TABLETOP_INSPIRE_SPHERE_60MM_HIGH_FRICTION_SPEC["size"])
+    tabletop_object_asset_specs = (TABLETOP_INSPIRE_SPHERE_60MM_HIGH_FRICTION_SPEC,)
+    tabletop_asset_set_enabled = False
+    tabletop_asset_obs_enabled = False
+    tabletop_asset_curriculum = False
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceCanHighFrictionRelativeLiftCandidateProbeTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80FastCurriculumLooseRewardLiftGuideCleanResetClearanceSphere50mmHighFrictionRelativeLiftCandidateProbeTeacherEnvCfg
+):
+    """Relative lift probe with the rolling can/cylinder asset."""
+
+    reference_name = (
+        "inspire_z180_dynamic_tabletop_rolling_sphere_p80_fast_curriculum_"
+        "loosereward_liftguide_cleanreset_clearance_can_highfriction_relative_liftcandidate_probe_teacher"
+    )
+
+    object_start_pos = (0.58, 0.0, _tabletop_start_z_from_spec(TABLETOP_INSPIRE_CAN_HIGH_FRICTION_SPEC))
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        TABLETOP_INSPIRE_CAN_HIGH_FRICTION_SPEC,
+        pos=object_start_pos,
+    )
+    object_shape = str(TABLETOP_INSPIRE_CAN_HIGH_FRICTION_SPEC["proxy_shape"])
+    object_radius = float(TABLETOP_INSPIRE_CAN_HIGH_FRICTION_SPEC["radius"])
+    object_size = tuple(TABLETOP_INSPIRE_CAN_HIGH_FRICTION_SPEC["size"])
+    tabletop_object_asset_specs = (TABLETOP_INSPIRE_CAN_HIGH_FRICTION_SPEC,)
+    tabletop_asset_set_enabled = False
+    tabletop_asset_obs_enabled = False
+    tabletop_asset_curriculum = False
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80HomeSeedBootstrapTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereApproachBootstrapTeacherEnvCfg
+):
+    """Inspire rolling teacher bootstrap from a verified P80 home-pose lift seed."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_p80_home_seed_bootstrap_teacher"
+    observation_space = 76
+
+    robot_cfg: ArticulationCfg = _inspire_z180_robot_cfg(ISAACGYM_DYNAMIC_REVO2_LOWER_SAFE_ARM_POS)
+    default_arm_pos = ISAACGYM_DYNAMIC_REVO2_LOWER_SAFE_ARM_POS
+    episode_length_s = 8.0
+
+    object_start_pos = (0.58, 0.0, TABLETOP_ROLLING_START_Z)
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        TABLETOP_ROLLING_START_SPEC,
+        pos=object_start_pos,
+    )
+    object_shape = str(TABLETOP_ROLLING_START_SPEC["proxy_shape"])
+    object_radius = float(TABLETOP_ROLLING_START_SPEC["radius"])
+    object_size = tuple(TABLETOP_ROLLING_START_SPEC["size"])
+    tabletop_object_asset_specs = (TABLETOP_ROLLING_START_SPEC,)
+    tabletop_asset_set_enabled = False
+    tabletop_asset_obs_enabled = False
+    tabletop_asset_curriculum = False
+    reset_object_pos_noise = (0.0, 0.0, 0.0)
+
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_P80_CLOSE_TARGETS
+    reference_hand_fractions = INSPIRE_P80_HOME_SEED_HAND_FRACTIONS
+
+    scripted_action_prior_enabled = True
+    scripted_action_prior_zero_passthrough_enabled = True
+    scripted_action_prior_residual_scale = 0.20
+    scripted_action_prior_inactive_residual_scale = 1.0
+    scripted_action_prior_active_residual_scale = 0.10
+
+    scripted_tabletop_pregrasp_prior_enabled = True
+    scripted_tabletop_pregrasp_prior_control_mode = "target_track"
+    scripted_tabletop_pregrasp_arm_pos = INSPIRE_P80_HOME_SEED_ARM_POS
+    scripted_tabletop_pregrasp_prior_start_step = 0
+    scripted_tabletop_pregrasp_prior_steps = 260
+    scripted_tabletop_pregrasp_prior_ramp_steps = 1
+    tabletop_arm_lift_progress_baseline_pos = INSPIRE_P80_HOME_SEED_ARM_POS
+
+    scripted_action_prior_hand_start_step = 150
+    scripted_action_prior_hand_ramp_steps = 110
+    scripted_action_prior_hand_action = 1.0
+
+    scripted_tabletop_lift_target_prior_enabled = True
+    scripted_tabletop_lift_target_arm_delta = INSPIRE_P80_HOME_SEED_LIFT_DELTA
+    scripted_tabletop_lift_target_prior_ramp_steps = 1
+    scripted_action_prior_lift_start_step = 260
+    scripted_action_prior_lift_steps = 190
+    scripted_action_prior_lift_requires_grasp = False
+    scripted_action_prior_lift_uses_grasp_memory = False
+    scripted_action_prior_lift_memory_requires_streak = False
+    scripted_action_prior_lift_grasp_memory_min_steps = 0
+
+    lift_arm_delta = INSPIRE_P80_HOME_SEED_LIFT_DELTA
+    lift_action_prior = V325_VERIFIED_LIFT_ACTION_PRIOR_120
+    scripted_action_prior_lift_action = V325_VERIFIED_LIFT_ACTION_PRIOR_120
+
+    quality_lift_progress_rew_scale = 4600.0
+    lifted_true_grasp_rew_scale = 9800.0
+    lift_progress_rew_scale = 4600.0
+    tabletop_grasped_palm_lift_rew_scale = 4200.0
+    tabletop_grasped_arm_lift_rew_scale = 3600.0
+    tabletop_stable_catch_rew_scale = 3800.0
+    tabletop_object_up_vel_rew_scale = 5200.0
+    tabletop_object_carry_lift_rew_scale = 9800.0
+    stable_hold_rew_scale = 11000.0
+    hold_progress_rew_scale = 17000.0
+    success_bonus = 42000.0
+
+    tabletop_success_lift_height = 0.035
+    dynamic_success_hold_steps = 8
+    stable_object_palm_vel = 0.36
+    tabletop_hover_success_object_speed = 0.24
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereP80HomeSeedClearanceTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereP80HomeSeedBootstrapTeacherEnvCfg
+):
+    """Home-seed bootstrap with hard hand/table clearance for Inspire rolling."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_p80_home_seed_clearance_teacher"
+
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_SPHERE_SAFE_CLOSE_TARGETS
+    reference_hand_fractions = (0.35, 1.0, 1.0, 1.0, 0.85, 0.85)
+    scripted_action_prior_active_residual_scale = 0.08
+    arm_action_scale = 1.35
+    arm_moving_average = 0.30
+    hand_moving_average = 0.34
+
+    scripted_action_prior_hand_start_step = 150
+    scripted_action_prior_hand_ramp_steps = 35
+
+    dynamic_tabletop_pregrasp_height_offset = 0.150
+    dynamic_tabletop_pregrasp_height_scale = 0.050
+    dynamic_tabletop_pregrasp_height_rew_scale = 320.0
+    dynamic_tabletop_min_palm_height_offset = 0.110
+    dynamic_tabletop_low_palm_height_scale = 0.030
+    dynamic_tabletop_low_palm_max_penalty = 5.0
+    dynamic_tabletop_low_palm_penalty_scale = 620.0
+    dynamic_tabletop_gate_contact_rewards_by_pregrasp = True
+    dynamic_tabletop_contact_pregrasp_gate_min = 0.05
+    dynamic_tabletop_side_contact_xy_limit = 0.150
+    dynamic_tabletop_side_contact_xy_ramp = 0.080
+    dynamic_tabletop_side_contact_penalty_scale = 420.0
+
+    tabletop_arm_clearance_body_names = INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_NAMES
+    tabletop_arm_clearance_body_margins = INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_MARGINS
+    tabletop_arm_clearance_xy_padding = 0.20
+    tabletop_arm_clearance_margin = 0.040
+    tabletop_arm_clearance_scale = 0.035
+    tabletop_arm_clearance_max_penalty = 5.0
+    tabletop_arm_clearance_penalty_scale = 2400.0
+    tabletop_arm_clearance_ok_penalty_threshold = 0.50
+    tabletop_gate_contact_rewards_by_clearance = True
+    tabletop_gate_boolean_grasp_rewards_by_clearance = True
+    tabletop_contact_clearance_gate_min = 0.0
+    tabletop_contact_clearance_gate_scale = 0.20
+    tabletop_success_requires_arm_clearance = True
+    tabletop_terminate_on_arm_clearance_violation = True
+    tabletop_arm_clearance_terminate_penalty_threshold = 0.95
+    tabletop_arm_clearance_violation_terminate_start_step = 4
+
+    scripted_action_prior_lift_requires_grasp = True
+    scripted_action_prior_lift_uses_grasp_memory = True
+    scripted_action_prior_lift_grasp_memory_min_steps = 1
+    scripted_action_prior_lift_memory_requires_streak = False
+    scripted_action_prior_lift_uses_proximity = True
+    scripted_action_prior_lift_proximity_distance = 0.055
+    scripted_action_prior_lift_proximity_min_contacts = 1.0
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereKnownGoodHomeStaticTeacherEnvCfg(
+    InspireDynamicTabletopTeacherEnvCfg
+):
+    """Inspire positive-control sphere task aligned with the old V340 home pose."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_v340_home_static_teacher"
+
+    # Match the earlier IsaacGym positive-control line before adding dynamic
+    # motion back: known-good table-facing arm, zero-open RH56 hand, joint targets.
+    policy_action_interface = "joint_target"
+    robot_cfg: ArticulationCfg = _inspire_z180_robot_cfg(
+        INSPIRE_V340_KNOWN_GOOD_ARM_POS,
+        default_hand_pos=INSPIRE_OFFICIAL_ZERO_HAND_OPEN_POS,
+    )
+    default_arm_pos = INSPIRE_V340_KNOWN_GOOD_ARM_POS
+    episode_length_s = 8.0
+
+    object_start_pos = (0.58, -0.05, TABLETOP_ROLLING_START_Z)
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        TABLETOP_ROLLING_START_SPEC,
+        pos=object_start_pos,
+    )
+    object_shape = str(TABLETOP_ROLLING_START_SPEC["proxy_shape"])
+    object_radius = float(TABLETOP_ROLLING_START_SPEC["radius"])
+    object_size = tuple(TABLETOP_ROLLING_START_SPEC["size"])
+    tabletop_object_asset_specs = (TABLETOP_ROLLING_START_SPEC,)
+    tabletop_asset_set_enabled = False
+    tabletop_asset_obs_enabled = False
+    reset_object_pos_noise = (0.0, 0.0, 0.0)
+    reset_arm_pos_noise = 0.0
+
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_SPHERE_SAFE_CLOSE_TARGETS
+    reference_hand_fractions = (1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+    hand_moving_average = 0.78
+
+    scripted_action_prior_enabled = False
+    scripted_action_prior_zero_passthrough_enabled = False
+    scripted_tabletop_pregrasp_prior_enabled = False
+    scripted_tabletop_approach_action_prior_enabled = False
+    scripted_tabletop_lift_target_prior_enabled = False
+    scripted_tabletop_hand_grasp_memory_prior_enabled = False
+    tabletop_lift_action_prior_rew_scale = 0.0
+
+    dynamic_tabletop_persistent_motion = False
+    dynamic_tabletop_release_motion_on_contact = False
+    dynamic_tabletop_start_speed_range = (0.0, 0.0)
+    dynamic_tabletop_initial_speed_range = (0.0, 0.0)
+    dynamic_tabletop_start_yaw_rate_range = (0.0, 0.0)
+    dynamic_tabletop_initial_yaw_rate_range = (0.0, 0.0)
+    dynamic_tabletop_heading_range = (0.0, 0.0)
+    dynamic_tabletop_randomize_yaw = False
+    dynamic_grasp_speed_curriculum = False
+    dynamic_tabletop_pregrasp_lead_time = 0.0
+    dynamic_tabletop_pregrasp_ahead_distance = 0.0
+
+    contact_distance = 0.014
+    contact_score_scale = 0.014
+    min_finger_contacts = 3
+    min_non_thumb_contacts = 2
+    true_grasp_opposition_mode = "dot"
+    opposition_cos_threshold = 0.0
+    palm_contact_distance = 0.060
+    strict_success_enabled = True
+    strict_success_contact_distance = 0.008
+    strict_success_min_finger_contacts = 3
+    strict_success_min_non_thumb_contacts = 2
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    strict_reward_enabled = True
+    strict_touch_score_scale = 0.008
+    strict_touch_rew_scale = 20.0
+    strict_approach_score_scale = 0.030
+    strict_approach_rew_scale = 6.0
+    strict_multifinger_approach_rew_scale = 12.0
+
+    tabletop_arm_clearance_body_names = INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_NAMES
+    tabletop_arm_clearance_body_margins = INSPIRE_TABLETOP_HAND_CLEARANCE_BODY_MARGINS
+    tabletop_arm_clearance_xy_padding = 0.20
+    tabletop_arm_clearance_margin = 0.025
+    tabletop_arm_clearance_scale = 0.040
+    tabletop_arm_clearance_max_penalty = 5.0
+    tabletop_arm_clearance_penalty_scale = 9000.0
+    tabletop_gate_contact_rewards_by_clearance = True
+    tabletop_gate_boolean_grasp_rewards_by_clearance = True
+    tabletop_contact_clearance_gate_min = 0.0
+    tabletop_contact_clearance_gate_scale = 0.25
+    tabletop_success_requires_arm_clearance = True
+
+    tabletop_success_lift_height = 0.030
+    dynamic_success_hold_steps = 6
+    stable_object_palm_vel = 0.30
+    tabletop_success_uses_grasp_seen = True
+    tabletop_hover_latch_uses_grasp_seen = True
+    tabletop_hover_reward_uses_grasp_seen = True
+    tabletop_hover_success_object_speed = 0.24
+
+
+@configclass
+class InspireDynamicTabletopRollingSphereKnownGoodHomeStaticPhysicalTeacherEnvCfg(
+    InspireDynamicTabletopRollingSphereKnownGoodHomeStaticTeacherEnvCfg
+):
+    """12-DoF physical-joint positive control matching the old IsaacGym Inspire line."""
+
+    reference_name = "inspire_z180_dynamic_tabletop_rolling_sphere_v340_home_static_physical_teacher"
+
+    action_space = 19
+    observation_space = 94
+    action_contract = "joint_target_19d"
+    hand_joint_names = INSPIRE_HAND_JOINT_NAMES
+    sim_hand_joint_names = INSPIRE_HAND_JOINT_NAMES
+    reference_hand_fractions = (1.0,) * len(INSPIRE_HAND_JOINT_NAMES)
+
+
+@configclass
 class InspireDynamicTabletopTransportDirectResidualTeacherEnvCfg(
     InspireDynamicTabletopDirectResidualTeacherEnvCfg
 ):
@@ -3791,8 +7964,9 @@ class InspireFallingBatonTeacherEnvCfg(Revo2FallingBatonTeacherEnvCfg):
     reference_hand_fractions = (1.0,) * 6
     inspire_semantic_close_targets = INSPIRE_ANYDEX_P80_CLOSE_TARGETS
     hand_moving_average = 0.78
-    contact_distance = 0.060
-    contact_score_scale = 0.060
+    contact_distance = 0.030
+    contact_score_scale = 0.030
+    palm_contact_distance = 0.060
 
 
 @configclass
@@ -3800,6 +7974,226 @@ class InspireFallingBatonFullSpeedEvalEnvCfg(InspireFallingBatonTeacherEnvCfg):
     """Full falling-baton randomization for Franka + Inspire eval."""
 
     reference_name = "inspire_z180_falling_baton_full_speed_eval_teacher_joint_target"
+    dynamic_grasp_speed_curriculum = False
+    falling_baton_start_initial_xy_speed_range = (0.00, 0.06)
+    falling_baton_start_initial_z_speed_range = (0.04, 0.26)
+    falling_baton_start_initial_ang_vel_range = (-1.0, 1.0)
+
+
+@configclass
+class InspireFallingBatonStableTeacherEnvCfg(InspireFallingBatonTeacherEnvCfg):
+    """Franka + Inspire falling-baton teacher with strict stable-in-hand success semantics."""
+
+    reference_name = "inspire_z180_falling_baton_stable_success_teacher"
+    falling_success_uses_grasp_seen = False
+    falling_success_uses_strict_grasp = True
+    falling_success_max_palm_distance = 0.22
+    falling_success_min_finger_contacts = 3.0
+    strict_reward_enabled = True
+    strict_success_enabled = True
+    strict_success_contact_distance = 0.012
+    strict_success_min_finger_contacts = 3
+    strict_success_min_non_thumb_contacts = 2
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    strict_approach_rew_scale = 8.0
+    strict_multifinger_approach_rew_scale = 4.0
+    strict_opposition_approach_rew_scale = 120.0
+    strict_touch_reward_requires_thumb_pair = True
+    strict_touch_reward_uses_opposition_product = True
+    strict_touch_reward_opposition_min_multiplier = 0.02
+    strict_touch_rew_scale = 1000.0
+    strict_opposition_touch_rew_scale = 3600.0
+    falling_non_thumb_without_thumb_penalty_scale = 120.0
+    falling_non_thumb_without_thumb_gate_start = 0.16
+    falling_non_thumb_without_thumb_gate_ramp = 0.32
+    falling_non_thumb_without_thumb_thumb_target = 0.32
+    dynamic_success_hold_steps = 8
+    stable_object_palm_vel = 0.38
+    catch_success_min_z = 0.48
+    dynamic_grasp_speed_curriculum_metric = "success"
+    dynamic_grasp_speed_curriculum_start_success = 0.04
+    dynamic_grasp_speed_curriculum_full_success = 0.24
+    dynamic_grasp_speed_curriculum_ema_alpha = 0.035
+    dynamic_grasp_speed_curriculum_alpha_rise = 0.0007
+    dynamic_grasp_speed_curriculum_allow_decrease = True
+    contact_rew_scale = 8.0
+    true_grasp_rew_scale = 80.0
+    opposition_rew_scale = 18.0
+    catch_progress_rew_scale = 24.0
+    falling_stable_grasp_rew_scale = 650.0
+    falling_palm_gate_rew_scale = 450.0
+    falling_positive_stable_rew_scale = 1700.0
+    falling_soft_success_progress_rew_scale = 2800.0
+    falling_opposed_stable_pinch_rew_scale = 4000.0
+    falling_pinched_rel_vel_penalty_scale = 700.0
+    stable_hold_rew_scale = 12000.0
+    hold_progress_rew_scale = 20000.0
+    success_bonus = 40000.0
+
+
+@configclass
+class InspireFallingBatonStableAffordanceTeacherEnvCfg(InspireFallingBatonStableTeacherEnvCfg):
+    """Strict Inspire falling-baton task that rewards green-handle and penalizes red-region contact."""
+
+    reference_name = "inspire_z180_falling_baton_stable_affordance_teacher"
+    falling_affordance_reward_enabled = True
+    falling_success_requires_positive_affordance = True
+    falling_affordance_positive_rew_scale = 55.0
+    falling_affordance_positive_requires_thumb_pair = True
+    falling_affordance_positive_uses_opposition_product = True
+    falling_affordance_positive_opposition_min_multiplier = 0.02
+    falling_affordance_thumb_geom_rew_scale = 10.0
+    falling_affordance_thumb_touch_rew_scale = 260.0
+    falling_affordance_negative_penalty_scale = 260.0
+    falling_affordance_distance_scale = 0.022
+    falling_affordance_contact_distance = 0.038
+    falling_affordance_radial_margin = 0.022
+
+
+@configclass
+class InspireFallingBatonEasyStableAffordanceTeacherEnvCfg(InspireFallingBatonStableAffordanceTeacherEnvCfg):
+    """Bootstrap Inspire falling-baton task with low drop height and strict green-handle success."""
+
+    reference_name = "inspire_z180_falling_baton_easy_stable_affordance_teacher"
+    falling_baton_spawn_x_range = (-0.16, 0.16)
+    falling_baton_spawn_y_range = (0.14, 0.36)
+    falling_baton_spawn_z_range = (0.72, 0.94)
+    falling_baton_spawn_above_palm_range = (0.16, 0.50)
+    falling_baton_start_spawn_above_palm_range = (0.08, 0.22)
+    falling_baton_spawn_height_curriculum = True
+    falling_baton_catch_center_finger_weight = 0.80
+    falling_baton_catch_center_forward_offset = 0.060
+    falling_baton_catch_center_world_offset = (0.0, 0.020, 0.0)
+    falling_baton_palm_relative_start_x_range = (-0.040, 0.040)
+    falling_baton_palm_relative_start_y_range = (0.015, 0.090)
+    falling_baton_start_roll_range = (-0.45, 0.45)
+    falling_baton_start_pitch_range = (-0.35, 0.35)
+    falling_baton_start_yaw_range = (-0.90, 0.90)
+    falling_baton_orientation_curriculum = True
+    object_lin_vel_min = (0.00, 0.00, -0.12)
+    object_lin_vel_max = (0.04, 0.04, -0.01)
+    object_ang_vel_min = (-0.45, -0.45, -0.45)
+    object_ang_vel_max = (0.45, 0.45, 0.45)
+    falling_baton_start_initial_xy_speed_range = (0.00, 0.006)
+    falling_baton_start_initial_z_speed_range = (0.00, 0.020)
+    falling_baton_start_initial_ang_vel_range = (-0.06, 0.06)
+    dynamic_grasp_speed_curriculum = True
+    dynamic_grasp_speed_curriculum_mode = "success_gate"
+    dynamic_grasp_speed_curriculum_metric = "true_grasp"
+    dynamic_grasp_speed_curriculum_start_success = 0.015
+    dynamic_grasp_speed_curriculum_full_success = 0.18
+    dynamic_grasp_speed_curriculum_ema_alpha = 0.03
+    dynamic_grasp_speed_curriculum_alpha_rise = 0.002
+    dynamic_grasp_speed_curriculum_allow_decrease = False
+    dynamic_success_hold_steps = 8
+    stable_object_palm_vel = 0.40
+    catch_success_min_z = 0.50
+    falling_drop_z = 0.18
+
+
+@configclass
+class InspireFallingBatonEasyCatchHoldCurriculumTeacherEnvCfg(
+    InspireFallingBatonEasyStableAffordanceTeacherEnvCfg
+):
+    """Bootstrap Inspire falling-baton task whose curriculum waits for stable catch-hold."""
+
+    reference_name = "inspire_z180_falling_baton_easy_catchhold_curriculum_teacher"
+    dynamic_grasp_speed_curriculum_metric = "catch_hold"
+    dynamic_grasp_speed_curriculum_start_success = 0.006
+    dynamic_grasp_speed_curriculum_full_success = 0.075
+    dynamic_grasp_speed_curriculum_ema_alpha = 0.04
+    dynamic_grasp_speed_curriculum_alpha_rise = 0.00035
+    dynamic_grasp_speed_curriculum_allow_decrease = True
+    dynamic_success_hold_steps = 8
+    stable_object_palm_vel = 0.34
+    falling_stable_grasp_rew_scale = 900.0
+    falling_positive_stable_rew_scale = 2600.0
+    falling_soft_success_progress_rew_scale = 3600.0
+    falling_opposed_stable_pinch_rew_scale = 5600.0
+    falling_pinched_rel_vel_penalty_scale = 1400.0
+    stable_hold_rew_scale = 18000.0
+    hold_progress_rew_scale = 32000.0
+    success_bonus = 60000.0
+
+
+@configclass
+class InspireFallingBatonEasyPostHoldCurriculumTeacherEnvCfg(
+    InspireFallingBatonEasyCatchHoldCurriculumTeacherEnvCfg
+):
+    """Inspire falling-baton task that requires catch success to stay stable after acquisition."""
+
+    reference_name = "inspire_z180_falling_baton_easy_posthold_curriculum_teacher"
+    dynamic_grasp_speed_curriculum_metric = "success"
+    dynamic_grasp_speed_curriculum_start_success = 0.008
+    dynamic_grasp_speed_curriculum_full_success = 0.16
+    dynamic_grasp_speed_curriculum_ema_alpha = 0.035
+    dynamic_grasp_speed_curriculum_alpha_rise = 0.00025
+    dynamic_grasp_speed_curriculum_allow_decrease = True
+    dynamic_success_hold_steps = 20
+    stable_object_palm_vel = 0.30
+    terminate_on_success = False
+    falling_post_success_stability_enabled = True
+    tabletop_post_success_stability_latch_enabled = True
+    tabletop_post_success_arm_target_lock_enabled = True
+    tabletop_post_success_arm_target_lock_blend = 1.0
+    tabletop_post_success_hand_target_lock_enabled = True
+    tabletop_post_success_hand_target_lock_blend = 1.0
+    tabletop_post_success_hold_rew_scale = 11000.0
+    tabletop_post_success_unstable_penalty_scale = 12000.0
+    tabletop_post_success_grasp_loss_penalty_scale = 9000.0
+    tabletop_post_success_under_height_penalty_scale = 0.0
+    tabletop_post_success_speed_penalty_scale = 2200.0
+    tabletop_post_success_action_penalty_scale = 0.040
+    tabletop_post_success_target_delta_penalty_scale = 0.060
+    tabletop_post_success_arm_joint_vel_penalty_scale = 50.0
+    tabletop_post_success_arm_target_drift_penalty_scale = 900.0
+    tabletop_post_success_arm_target_drift_tolerance = 0.12
+    tabletop_post_success_arm_target_drift_scale = 0.30
+    tabletop_post_success_palm_drift_penalty_scale = 1200.0
+    tabletop_post_success_palm_drift_tolerance = 0.050
+    tabletop_post_success_palm_drift_scale = 0.10
+    falling_stable_grasp_rew_scale = 1000.0
+    falling_positive_stable_rew_scale = 3200.0
+    falling_soft_success_progress_rew_scale = 4600.0
+    falling_opposed_stable_pinch_rew_scale = 6600.0
+    falling_pinched_rel_vel_penalty_scale = 1800.0
+    stable_hold_rew_scale = 22000.0
+    hold_progress_rew_scale = 40000.0
+    success_bonus = 70000.0
+
+
+@configclass
+class InspireFallingBatonEasyPostHoldConversionTeacherEnvCfg(
+    InspireFallingBatonEasyPostHoldCurriculumTeacherEnvCfg
+):
+    """Post-hold continuation that converts intermittent catches into a 20-step stable hold."""
+
+    reference_name = "inspire_z180_falling_baton_easy_posthold_conversion_teacher"
+
+    tabletop_post_success_hold_rew_scale = 30000.0
+    tabletop_post_success_unstable_penalty_scale = 18000.0
+    tabletop_post_success_grasp_loss_penalty_scale = 16000.0
+    tabletop_post_success_speed_penalty_scale = 3000.0
+    tabletop_post_success_arm_joint_vel_penalty_scale = 80.0
+    tabletop_post_success_arm_target_drift_penalty_scale = 1400.0
+    tabletop_post_success_palm_drift_penalty_scale = 1800.0
+
+    falling_stable_grasp_rew_scale = 1400.0
+    falling_positive_stable_rew_scale = 4600.0
+    falling_soft_success_progress_rew_scale = 6200.0
+    falling_opposed_stable_pinch_rew_scale = 9000.0
+    falling_pinched_rel_vel_penalty_scale = 2400.0
+    stable_hold_rew_scale = 32000.0
+    hold_progress_rew_scale = 65000.0
+    success_bonus = 110000.0
+
+
+@configclass
+class InspireFallingBatonStableAffordanceFullSpeedEvalEnvCfg(InspireFallingBatonStableAffordanceTeacherEnvCfg):
+    """Strict green-region Inspire falling-baton eval with full randomization."""
+
+    reference_name = "inspire_z180_falling_baton_stable_affordance_full_speed_eval_teacher"
     dynamic_grasp_speed_curriculum = False
     falling_baton_start_initial_xy_speed_range = (0.00, 0.06)
     falling_baton_start_initial_z_speed_range = (0.04, 0.26)

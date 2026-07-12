@@ -67,6 +67,72 @@ parser.add_argument(
 )
 parser.add_argument("--sigma", type=float, default=None, help="Optional fixed policy sigma override.")
 parser.add_argument(
+    "--dynamic-curriculum-alpha",
+    type=float,
+    default=None,
+    help="Override dynamic speed curriculum alpha during training. Useful for fixed-difficulty fine-tuning.",
+)
+parser.add_argument(
+    "--tabletop-asset-curriculum-alpha",
+    type=float,
+    default=None,
+    help="Override tabletop asset curriculum alpha during training.",
+)
+parser.add_argument(
+    "--tabletop-motion-curriculum-alpha",
+    type=float,
+    default=None,
+    help="Override tabletop motion-mode curriculum alpha during training.",
+)
+parser.add_argument(
+    "--tabletop-pregrasp-lead-time",
+    type=float,
+    default=None,
+    help="Override the moving-object velocity lead time during training.",
+)
+parser.add_argument(
+    "--tabletop-pregrasp-ahead-distance",
+    type=float,
+    default=None,
+    help="Override the fixed moving-object interception lead distance during training.",
+)
+parser.add_argument(
+    "--scripted-action-prior-active-residual-scale",
+    type=float,
+    default=None,
+    help="Override policy residual authority while a scripted action prior is active.",
+)
+parser.add_argument(
+    "--scripted-relative-lift-target-scale",
+    type=float,
+    default=None,
+    help="Scale the configured relative joint-space lift target delta.",
+)
+parser.add_argument(
+    "--scripted-action-prior-lift-steps",
+    type=int,
+    default=None,
+    help="Override the scripted lift duration in control steps.",
+)
+parser.add_argument(
+    "--episode-length-s",
+    type=float,
+    default=None,
+    help="Override the environment episode duration in seconds.",
+)
+parser.add_argument(
+    "--dynamic-success-hold-steps",
+    type=int,
+    default=None,
+    help="Override consecutive stable steps required before success latches.",
+)
+parser.add_argument(
+    "--tabletop-post-success-hand-close-fraction",
+    type=float,
+    default=None,
+    help="Override the semantic 6-DoF hand-close blend applied after success latches.",
+)
+parser.add_argument(
     "--freeze-input-running-stats",
     action="store_true",
     help=(
@@ -167,6 +233,7 @@ def _maybe_init_wandb(args: argparse.Namespace, agent_cfg: dict, run_dir: Path, 
 
     run_dir.mkdir(parents=True, exist_ok=True)
     config = agent_cfg["params"]["config"]
+    wandb_init_timeout = float(os.environ.get("WANDB_INIT_TIMEOUT", "120"))
     return wandb.init(
         project=args.wandb_project,
         entity=args.wandb_entity,
@@ -177,6 +244,7 @@ def _maybe_init_wandb(args: argparse.Namespace, agent_cfg: dict, run_dir: Path, 
         dir=str(run_dir),
         sync_tensorboard=True,
         job_type="train",
+        settings=wandb.Settings(init_timeout=wandb_init_timeout),
         config={
             "task": args.task,
             "num_envs": args.num_envs,
@@ -188,6 +256,19 @@ def _maybe_init_wandb(args: argparse.Namespace, agent_cfg: dict, run_dir: Path, 
             "reset_epoch_on_load": args.reset_epoch_on_load,
             "freeze_input_running_stats": args.freeze_input_running_stats,
             "freeze_value_running_stats": args.freeze_value_running_stats,
+            "dynamic_curriculum_alpha": args.dynamic_curriculum_alpha,
+            "tabletop_asset_curriculum_alpha": args.tabletop_asset_curriculum_alpha,
+            "tabletop_motion_curriculum_alpha": args.tabletop_motion_curriculum_alpha,
+            "tabletop_pregrasp_lead_time": args.tabletop_pregrasp_lead_time,
+            "tabletop_pregrasp_ahead_distance": args.tabletop_pregrasp_ahead_distance,
+            "scripted_action_prior_active_residual_scale": args.scripted_action_prior_active_residual_scale,
+            "scripted_relative_lift_target_scale": args.scripted_relative_lift_target_scale,
+            "scripted_action_prior_lift_steps": args.scripted_action_prior_lift_steps,
+            "episode_length_s": args.episode_length_s,
+            "dynamic_success_hold_steps": args.dynamic_success_hold_steps,
+            "tabletop_post_success_hand_close_fraction": (
+                args.tabletop_post_success_hand_close_fraction
+            ),
             "behavior_anchor_checkpoint": args.behavior_anchor_checkpoint,
             "behavior_anchor_coef": args.behavior_anchor_coef,
             "behavior_anchor_mode": args.behavior_anchor_mode,
@@ -506,6 +587,74 @@ def main() -> None:
     env_cfg = parse_env_cfg(args_cli.task, device=args_cli.device, num_envs=args_cli.num_envs)
     if args_cli.seed is not None:
         env_cfg.seed = args_cli.seed
+    if args_cli.dynamic_curriculum_alpha is not None and hasattr(
+        env_cfg, "dynamic_grasp_speed_curriculum_override_alpha"
+    ):
+        env_cfg.dynamic_grasp_speed_curriculum_override_alpha = float(args_cli.dynamic_curriculum_alpha)
+        _trace(f"overriding dynamic curriculum alpha: {env_cfg.dynamic_grasp_speed_curriculum_override_alpha:g}")
+    if args_cli.tabletop_asset_curriculum_alpha is not None and hasattr(
+        env_cfg, "tabletop_asset_curriculum_override_alpha"
+    ):
+        env_cfg.tabletop_asset_curriculum_override_alpha = float(args_cli.tabletop_asset_curriculum_alpha)
+        _trace(f"overriding tabletop asset curriculum alpha: {env_cfg.tabletop_asset_curriculum_override_alpha:g}")
+    if args_cli.tabletop_motion_curriculum_alpha is not None and hasattr(
+        env_cfg, "tabletop_motion_mode_curriculum_override_alpha"
+    ):
+        env_cfg.tabletop_motion_mode_curriculum_override_alpha = float(args_cli.tabletop_motion_curriculum_alpha)
+        _trace(f"overriding tabletop motion curriculum alpha: {env_cfg.tabletop_motion_mode_curriculum_override_alpha:g}")
+    if args_cli.tabletop_pregrasp_lead_time is not None and hasattr(
+        env_cfg, "dynamic_tabletop_pregrasp_lead_time"
+    ):
+        env_cfg.dynamic_tabletop_pregrasp_lead_time = float(args_cli.tabletop_pregrasp_lead_time)
+        _trace(f"overriding tabletop pregrasp lead time: {env_cfg.dynamic_tabletop_pregrasp_lead_time:g}")
+    if args_cli.tabletop_pregrasp_ahead_distance is not None and hasattr(
+        env_cfg, "dynamic_tabletop_pregrasp_ahead_distance"
+    ):
+        env_cfg.dynamic_tabletop_pregrasp_ahead_distance = float(args_cli.tabletop_pregrasp_ahead_distance)
+        _trace(
+            "overriding tabletop pregrasp ahead distance: "
+            f"{env_cfg.dynamic_tabletop_pregrasp_ahead_distance:g}"
+        )
+    if args_cli.scripted_action_prior_active_residual_scale is not None and hasattr(
+        env_cfg, "scripted_action_prior_active_residual_scale"
+    ):
+        env_cfg.scripted_action_prior_active_residual_scale = float(
+            args_cli.scripted_action_prior_active_residual_scale
+        )
+        _trace(
+            "overriding scripted prior active residual scale: "
+            f"{env_cfg.scripted_action_prior_active_residual_scale:g}"
+        )
+    if args_cli.scripted_relative_lift_target_scale is not None and hasattr(
+        env_cfg, "scripted_tabletop_relative_lift_target_arm_delta"
+    ):
+        relative_scale = float(args_cli.scripted_relative_lift_target_scale)
+        env_cfg.scripted_tabletop_relative_lift_target_arm_delta = tuple(
+            relative_scale * float(value)
+            for value in env_cfg.scripted_tabletop_relative_lift_target_arm_delta
+        )
+        _trace(f"scaling scripted relative lift target delta by: {relative_scale:g}")
+    if args_cli.scripted_action_prior_lift_steps is not None and hasattr(
+        env_cfg, "scripted_action_prior_lift_steps"
+    ):
+        env_cfg.scripted_action_prior_lift_steps = int(args_cli.scripted_action_prior_lift_steps)
+        _trace(f"overriding scripted prior lift steps: {env_cfg.scripted_action_prior_lift_steps}")
+    if args_cli.episode_length_s is not None and hasattr(env_cfg, "episode_length_s"):
+        env_cfg.episode_length_s = float(args_cli.episode_length_s)
+        _trace(f"overriding episode length: {env_cfg.episode_length_s:g} s")
+    if args_cli.dynamic_success_hold_steps is not None and hasattr(
+        env_cfg, "dynamic_success_hold_steps"
+    ):
+        env_cfg.dynamic_success_hold_steps = int(args_cli.dynamic_success_hold_steps)
+        _trace(f"overriding dynamic success hold steps: {env_cfg.dynamic_success_hold_steps}")
+    if args_cli.tabletop_post_success_hand_close_fraction is not None:
+        env_cfg.tabletop_post_success_hand_close_fraction = float(
+            args_cli.tabletop_post_success_hand_close_fraction
+        )
+        _trace(
+            "overriding post-success hand close fraction: "
+            f"{env_cfg.tabletop_post_success_hand_close_fraction:g}"
+        )
 
     _trace(f"making env: num_envs={env_cfg.scene.num_envs}, sim_device={env_cfg.sim.device}")
     env = gym.make(args_cli.task, cfg=env_cfg)

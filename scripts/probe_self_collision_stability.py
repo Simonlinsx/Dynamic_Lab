@@ -43,6 +43,14 @@ parser.add_argument(
     action="store_true",
     help="Runtime override that disables reset_object_pos_noise.",
 )
+parser.add_argument(
+    "--arm-pos",
+    type=float,
+    nargs=7,
+    default=None,
+    metavar=("J1", "J2", "J3", "J4", "J5", "J6", "J7"),
+    help="Runtime override for Franka reset/default arm joint positions.",
+)
 parser.add_argument("--no-table", action="store_true", help="Runtime override that disables table creation.")
 parser.add_argument(
     "--table-pos",
@@ -157,6 +165,24 @@ def _collect_step_summary(unwrapped, step: int) -> dict:
         summary["palm_y_mean"] = float(palm_pos_local[:, 1].mean().item())
         summary["palm_z_min"] = float(palm_pos_local[:, 2].min().item())
         summary["palm_z_max"] = float(palm_pos_local[:, 2].max().item())
+    if hasattr(unwrapped, "_fingertip_pos_w"):
+        fingertip_pos_local = unwrapped._fingertip_pos_w - unwrapped.scene.env_origins[:, None, :]
+        tip_z = fingertip_pos_local[..., 2]
+        flat_id = int(torch.argmin(tip_z.flatten()).item())
+        finger_count = int(tip_z.shape[-1])
+        finger_id = flat_id % finger_count
+        summary["fingertip_z_min"] = float(tip_z.flatten()[flat_id].item())
+        summary["fingertip_z_min_env"] = int(flat_id // finger_count)
+        summary["fingertip_z_min_finger_id"] = int(finger_id)
+        fingertip_names = list(getattr(unwrapped.cfg, "fingertip_body_names", ()))
+        if finger_id < len(fingertip_names):
+            summary["fingertip_z_min_finger"] = str(fingertip_names[finger_id])
+        if hasattr(unwrapped.cfg, "table_top_z"):
+            summary["fingertip_table_clearance_min"] = float(tip_z.min().item() - float(unwrapped.cfg.table_top_z))
+    if hasattr(unwrapped, "_tabletop_arm_clearance_min_margin"):
+        summary["tabletop_arm_clearance_min_margin"] = float(unwrapped._tabletop_arm_clearance_min_margin.min().item())
+        summary["tabletop_arm_clearance_penalty_max"] = float(unwrapped._tabletop_arm_clearance_penalty.max().item())
+        summary["tabletop_arm_clearance_ok_rate"] = float(unwrapped._tabletop_arm_clearance_ok.float().mean().item())
     if hasattr(unwrapped, "_surface_dist"):
         surface_dist = unwrapped._surface_dist
         summary["surface_dist_min"] = float(surface_dist.min().item())
@@ -174,6 +200,28 @@ def _collect_step_summary(unwrapped, step: int) -> dict:
         summary["contact_score_mean"] = float(contact_score.mean().item())
     if hasattr(unwrapped, "_joint_targets"):
         _finite_stats("joint_targets", unwrapped._joint_targets, summary)
+    if hasattr(unwrapped, "_control_hand_joint_ids"):
+        hand_ids = list(unwrapped._control_hand_joint_ids)
+        hand_names = [unwrapped.robot.joint_names[joint_id] for joint_id in hand_ids]
+        hand_pos = robot.data.joint_pos[:, hand_ids]
+        summary["hand_joint_names"] = hand_names
+        summary["hand_joint_pos_env0"] = [float(v) for v in hand_pos[0].detach().cpu()]
+        summary["hand_joint_lower"] = [
+            float(v) for v in unwrapped._joint_lower_limits[hand_ids].detach().cpu()
+        ]
+        summary["hand_joint_upper"] = [
+            float(v) for v in unwrapped._joint_upper_limits[hand_ids].detach().cpu()
+        ]
+        if hasattr(unwrapped, "_default_joint_pos"):
+            summary["hand_joint_default_env0"] = [
+                float(v) for v in unwrapped._default_joint_pos[0, hand_ids].detach().cpu()
+            ]
+        if hasattr(unwrapped, "_joint_targets"):
+            summary["hand_joint_target_env0"] = [
+                float(v) for v in unwrapped._joint_targets[0, hand_ids].detach().cpu()
+            ]
+            target_error = hand_pos[0] - unwrapped._joint_targets[0, hand_ids]
+            summary["hand_joint_target_error_env0"] = [float(v) for v in target_error.detach().cpu()]
     for attr_name in ("_robot_self_collision_filter_pair_count", "_robot_self_collision_filter_fail_count"):
         if hasattr(unwrapped, attr_name):
             summary[attr_name[1:]] = int(getattr(unwrapped, attr_name))
@@ -207,6 +255,15 @@ def main() -> None:
             table_spawn.size = tuple(float(value) for value in args_cli.table_size)
     if args_cli.zero_object_pos_noise and hasattr(env_cfg, "reset_object_pos_noise"):
         env_cfg.reset_object_pos_noise = (0.0, 0.0, 0.0)
+    if args_cli.arm_pos is not None:
+        arm_pos = tuple(float(value) for value in args_cli.arm_pos)
+        if hasattr(env_cfg, "default_arm_pos"):
+            env_cfg.default_arm_pos = arm_pos
+        if hasattr(env_cfg, "robot_cfg") and hasattr(env_cfg.robot_cfg, "init_state"):
+            joint_pos = dict(getattr(env_cfg.robot_cfg.init_state, "joint_pos", {}))
+            for joint_name, value in zip(("panda_joint1", "panda_joint2", "panda_joint3", "panda_joint4", "panda_joint5", "panda_joint6", "panda_joint7"), arm_pos):
+                joint_pos[joint_name] = value
+            env_cfg.robot_cfg.init_state.joint_pos = joint_pos
     if args_cli.object_start_pos is not None:
         object_start_pos = tuple(float(value) for value in args_cli.object_start_pos)
         if hasattr(env_cfg, "object_start_pos"):

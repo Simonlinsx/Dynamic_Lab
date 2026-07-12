@@ -93,6 +93,7 @@ class StudentDatasetSpec:
     action_contract: ActionContract
     history: int = 4
     num_object_points: int = 128
+    point_feature_dim: int = 3
     proprio_dim: int = 76
     compact_privileged_dim: int = 32
     num_fingertips: int = 5
@@ -108,7 +109,10 @@ class StudentDatasetSpec:
         """Return a copy with the standard tensor specs populated."""
 
         tensors = (
-            TensorSpec("pointcloud_seq", (self.history, self.num_object_points, 3)),
+            TensorSpec(
+                "pointcloud_seq",
+                (self.history, self.num_object_points, self.point_feature_dim),
+            ),
             TensorSpec("pointcloud_valid_seq", (self.history, self.num_object_points)),
             TensorSpec("proprio_seq", (self.history, self.proprio_dim)),
             TensorSpec(self.target_key, (self.action_dim,)),
@@ -127,6 +131,7 @@ class StudentDatasetSpec:
             action_contract=self.action_contract,
             history=self.history,
             num_object_points=self.num_object_points,
+            point_feature_dim=self.point_feature_dim,
             proprio_dim=self.proprio_dim,
             compact_privileged_dim=self.compact_privileged_dim,
             num_fingertips=self.num_fingertips,
@@ -142,6 +147,7 @@ def default_dataset_spec(
     action_contract: str = "revo2_semantic_13d",
     history: int = 4,
     num_object_points: int = 128,
+    point_feature_dim: int = 3,
     proprio_dim: int = 76,
     compact_privileged_dim: int = 32,
 ) -> StudentDatasetSpec:
@@ -158,6 +164,7 @@ def default_dataset_spec(
         action_contract=contract,
         history=history,
         num_object_points=num_object_points,
+        point_feature_dim=point_feature_dim,
         proprio_dim=proprio_dim,
         compact_privileged_dim=compact_privileged_dim,
     ).with_tensor_specs()

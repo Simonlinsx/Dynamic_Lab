@@ -21,12 +21,36 @@ parser.add_argument("--out", type=Path, required=True)
 parser.add_argument("--num-envs", type=int, default=8)
 parser.add_argument("--steps", type=int, default=256)
 parser.add_argument("--history", type=int, default=4)
+parser.add_argument(
+    "--history-bootstrap",
+    choices=("repeat_initial", "zero_pad"),
+    default="repeat_initial",
+    help=(
+        "How to initialize temporal history after reset. repeat_initial fills every slot "
+        "with the first deployable observation; zero_pad preserves legacy datasets."
+    ),
+)
 parser.add_argument("--object-points", type=int, default=128)
 parser.add_argument(
     "--pointcloud-source",
     choices=("clean", "rgbd_projected_mask"),
     default="clean",
     help="clean uses simulator object geometry; rgbd_projected_mask uses a student camera depth image plus an oracle object mask.",
+)
+parser.add_argument(
+    "--point-features",
+    choices=("xyz", "xyzrgb"),
+    default="xyz",
+    help="Per-point student features. xyzrgb preserves sampled RGB needed for visual affordance cues.",
+)
+parser.add_argument(
+    "--proprio-source",
+    choices=("policy", "deployable_robot"),
+    default="deployable_robot",
+    help=(
+        "deployable_robot excludes simulator object state and contains only robot joints, "
+        "palm/fingertip kinematics, and the previous normalized action."
+    ),
 )
 parser.add_argument("--rgbd-width", type=int, default=160)
 parser.add_argument("--rgbd-height", type=int, default=120)
@@ -36,6 +60,15 @@ parser.add_argument("--rgbd-depth-tolerance", type=float, default=0.045)
 parser.add_argument("--rgbd-min-valid-points", type=int, default=16)
 parser.add_argument("--rgbd-clean-fallback", action="store_true", default=True)
 parser.add_argument("--no-rgbd-clean-fallback", action="store_false", dest="rgbd_clean_fallback")
+parser.add_argument(
+    "--rgbd-temporal-fallback",
+    action=argparse.BooleanOptionalAction,
+    default=False,
+    help=(
+        "For low-visibility RGB-D frames, reuse the previous masked point cloud. "
+        "This matches deployable temporal inference without simulator geometry."
+    ),
+)
 parser.add_argument("--store-rgbd-frames", action="store_true")
 parser.add_argument(
     "--student-camera-track-object",
@@ -45,6 +78,20 @@ parser.add_argument(
 )
 parser.add_argument("--student-camera-track-offset", type=float, nargs=3, default=(0.65, 0.95, 0.65))
 parser.add_argument("--student-camera-track-target-offset", type=float, nargs=3, default=(0.0, 0.0, 0.05))
+parser.add_argument(
+    "--student-camera-eye",
+    type=float,
+    nargs=3,
+    default=None,
+    help="Fixed camera eye in environment-local coordinates. Must be paired with --student-camera-target.",
+)
+parser.add_argument(
+    "--student-camera-target",
+    type=float,
+    nargs=3,
+    default=None,
+    help="Fixed camera target in environment-local coordinates. Must be paired with --student-camera-eye.",
+)
 parser.add_argument("--student-camera-focal-length", type=float, default=24.0)
 parser.add_argument("--action-source", choices=("teacher", "student_dagger", "random", "zeros"), default="teacher")
 parser.add_argument("--checkpoint", default="", help="rl_games teacher checkpoint when --action-source=teacher.")
@@ -55,6 +102,21 @@ parser.add_argument(
 )
 parser.add_argument("--student-device", default=None, help="Torch device for student policy execution. Defaults to --device.")
 parser.add_argument("--student-action-clamp", type=float, default=1.0)
+parser.add_argument(
+    "--student-action-mode",
+    choices=("mean", "ppo_sample"),
+    default="mean",
+    help=(
+        "Execution mode for student_dagger. ppo_sample reads log_std from a student PPO "
+        "checkpoint, while teacher actions remain the supervised targets."
+    ),
+)
+parser.add_argument(
+    "--dagger-teacher-probability",
+    type=float,
+    default=0.0,
+    help="Per-environment teacher intervention probability when --action-source=student_dagger.",
+)
 parser.add_argument("--deterministic", action="store_true", default=True, help="Use deterministic teacher actions.")
 parser.add_argument("--stochastic", action="store_false", dest="deterministic", help="Sample teacher actions.")
 parser.add_argument("--rl-device", default=None, help="Device for teacher policy inference. Defaults to --device.")
@@ -85,9 +147,34 @@ parser.add_argument(
     default=None,
     help="Override dynamic speed curriculum alpha when the task cfg exposes it. Use 1.0 for full-speed collection.",
 )
+parser.add_argument("--tabletop-asset-curriculum-alpha", type=float, default=None)
+parser.add_argument("--tabletop-motion-curriculum-alpha", type=float, default=None)
+parser.add_argument(
+    "--tabletop-asset-sampling-weights",
+    type=float,
+    nargs="+",
+    default=None,
+    help=(
+        "Optional per-asset reset sampling weights. This changes only the collection "
+        "distribution and is recorded in dataset metadata."
+    ),
+)
+parser.add_argument("--episode-length-s", type=float, default=None)
+parser.add_argument("--dynamic-success-hold-steps", type=int, default=None)
+parser.add_argument("--tabletop-pregrasp-lead-time", type=float, default=None)
+parser.add_argument("--tabletop-pregrasp-ahead-distance", type=float, default=None)
 parser.add_argument("--seed", type=int, default=42)
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
+if (args_cli.student_camera_eye is None) != (args_cli.student_camera_target is None):
+    parser.error("--student-camera-eye and --student-camera-target must be provided together")
+if not (0.0 <= float(args_cli.dagger_teacher_probability) <= 1.0):
+    parser.error("--dagger-teacher-probability must be in [0, 1]")
+if args_cli.tabletop_asset_sampling_weights is not None:
+    if any(weight < 0.0 for weight in args_cli.tabletop_asset_sampling_weights):
+        parser.error("--tabletop-asset-sampling-weights must be non-negative")
+    if sum(args_cli.tabletop_asset_sampling_weights) <= 0.0:
+        parser.error("--tabletop-asset-sampling-weights must contain a positive weight")
 if args_cli.pointcloud_source == "rgbd_projected_mask":
     setattr(args_cli, "enable_cameras", True)
 
@@ -103,13 +190,16 @@ from rl_games.algos_torch.players import PpoPlayerContinuous  # noqa: E402
 import simtoolreal_lab  # noqa: F401,E402
 from simtoolreal_lab.teacher_student import (  # noqa: E402
     PointTemporalStudent,
+    deployable_robot_proprioception,
     default_dataset_spec,
     masked_rgbd_object_points_in_palm_frame,
     object_points_in_palm_frame,
     object_points_in_world_frame,
+    primitive_surface_points_for_envs,
     quat_rotate_inverse,
     rigid_object_point_flow_in_palm_frame,
     sample_box_surface_points,
+    sample_unit_primitive_surface_points,
     validate_student_batch,
 )
 
@@ -127,6 +217,12 @@ def _policy_tensor_from_wrapped_obs(obs) -> torch.Tensor:
     return obs
 
 
+def _student_proprio(unwrapped_env, policy_obs: torch.Tensor) -> torch.Tensor:
+    if args_cli.proprio_source == "deployable_robot":
+        return deployable_robot_proprioception(unwrapped_env)
+    return policy_obs
+
+
 def _affordance_kwargs(cfg) -> dict:
     return {
         "affordance_mode": str(getattr(cfg, "affordance_label_mode", "side_grasp")),
@@ -141,6 +237,17 @@ def _set_student_camera_poses(unwrapped_env) -> bool:
     if camera is None:
         return False
     origins = unwrapped_env.scene.env_origins
+    if args_cli.student_camera_eye is not None and args_cli.student_camera_target is not None:
+        eye = torch.tensor(
+            args_cli.student_camera_eye, device=origins.device, dtype=origins.dtype
+        ).unsqueeze(0)
+        targets = torch.tensor(
+            args_cli.student_camera_target, device=origins.device, dtype=origins.dtype
+        ).unsqueeze(0)
+        camera.set_world_poses_from_view(origins + eye, origins + targets)
+        if hasattr(camera, "_update_poses") and hasattr(camera, "_ALL_INDICES"):
+            camera._update_poses(camera._ALL_INDICES)
+        return True
     target_offset = torch.tensor(
         args_cli.student_camera_track_target_offset, device=origins.device, dtype=origins.dtype
     ).unsqueeze(0)
@@ -183,6 +290,7 @@ def _student_camera_rgbd(unwrapped_env) -> tuple[torch.Tensor, torch.Tensor, tor
 def _make_teacher_player(task: str, wrapped_env: RlGamesVecEnvWrapper, checkpoint: Path) -> PpoPlayerContinuous:
     agent_cfg = copy.deepcopy(load_cfg_from_registry(task, "rl_games_cfg_entry_point"))
     params = agent_cfg["params"]
+    params["seed"] = int(args_cli.seed)
     config = params["config"]
     rl_device = args_cli.rl_device or args_cli.device
     config["device"] = rl_device
@@ -211,9 +319,10 @@ def _load_student_policy(
     *,
     expected_history: int,
     expected_points: int,
+    expected_point_feature_dim: int,
     expected_proprio_dim: int,
     expected_action_dim: int,
-) -> PointTemporalStudent:
+) -> tuple[PointTemporalStudent, torch.Tensor | None]:
     payload = torch.load(checkpoint, map_location=device, weights_only=False)
     if not isinstance(payload, dict) or "model_state_dict" not in payload:
         raise RuntimeError(f"Student checkpoint {checkpoint} is not a PointTemporalStudent checkpoint.")
@@ -221,14 +330,23 @@ def _load_student_policy(
     spec = dict(payload.get("spec", {}))
     history = int(spec.get("history", metadata.get("history", expected_history)))
     num_points = int(spec.get("num_object_points", metadata.get("object_points", expected_points)))
+    point_feature_dim = int(
+        spec.get("point_feature_dim", metadata.get("point_feature_dim", 3))
+    )
     proprio_dim = int(spec.get("proprio_dim", metadata.get("proprio_dim", expected_proprio_dim)))
     action_dim = int(spec.get("action_dim", metadata.get("action_dim", expected_action_dim)))
     privileged_dim = int(spec.get("compact_privileged_dim", metadata.get("compact_privileged_dim", 32)))
+    geometric_summary = bool(spec.get("geometric_summary", False))
+    privileged_action_conditioning = bool(spec.get("privileged_action_conditioning", False))
     mismatches = []
     if history != expected_history:
         mismatches.append(f"history checkpoint={history} args={expected_history}")
     if num_points != expected_points:
         mismatches.append(f"num_points checkpoint={num_points} args={expected_points}")
+    if point_feature_dim != expected_point_feature_dim:
+        mismatches.append(
+            f"point_feature_dim checkpoint={point_feature_dim} args={expected_point_feature_dim}"
+        )
     if proprio_dim != expected_proprio_dim:
         mismatches.append(f"proprio_dim checkpoint={proprio_dim} env={expected_proprio_dim}")
     if action_dim != expected_action_dim:
@@ -240,6 +358,9 @@ def _load_student_policy(
         proprio_dim=proprio_dim,
         action_dim=action_dim,
         privileged_dim=privileged_dim,
+        point_input_dim=point_feature_dim,
+        geometric_summary=geometric_summary,
+        privileged_action_conditioning=privileged_action_conditioning,
     ).to(device)
     missing, unexpected = model.load_state_dict(payload["model_state_dict"], strict=False)
     allowed_missing_prefixes = ("hold_head.", "hold_gate_head.")
@@ -251,8 +372,36 @@ def _load_student_policy(
         )
     if missing:
         _trace(f"student checkpoint missing optional hold head weights; initialized {list(missing)}")
+    normalization = payload.get("normalization")
+    if normalization is not None:
+        required_norm_keys = {
+            "pointcloud_mean",
+            "pointcloud_std",
+            "proprio_mean",
+            "proprio_std",
+        }
+        missing_norm_keys = required_norm_keys - set(normalization)
+        if missing_norm_keys:
+            raise RuntimeError(
+                "Student checkpoint normalization is incomplete: "
+                f"missing={sorted(missing_norm_keys)}"
+            )
+        model.input_normalization = {
+            key: normalization[key].detach().to(device=device, dtype=torch.float32)
+            for key in required_norm_keys
+        }
+    else:
+        model.input_normalization = None
     model.eval()
-    return model
+    ppo_state = payload.get("ppo_state_dict", {})
+    log_std = ppo_state.get("log_std") if isinstance(ppo_state, dict) else None
+    if log_std is not None:
+        log_std = log_std.to(device=device, dtype=torch.float32).view(1, -1)
+        if log_std.shape[-1] != action_dim:
+            raise RuntimeError(
+                f"PPO log_std dim mismatch: checkpoint={log_std.shape[-1]} action_dim={action_dim}"
+            )
+    return model, log_std
 
 
 def _wrap_for_teacher(task: str, env) -> RlGamesVecEnvWrapper:
@@ -287,6 +436,9 @@ def _compact_privileged(unwrapped_env, success_env: torch.Tensor) -> torch.Tenso
         success_env.float().unsqueeze(-1),
         unwrapped_env.episode_length_buf.float().unsqueeze(-1) / float(unwrapped_env.max_episode_length),
     ]
+    asset_obs = getattr(unwrapped_env, "_tabletop_asset_obs", None)
+    if torch.is_tensor(asset_obs) and asset_obs.shape[0] == rel_obj_palm.shape[0]:
+        values.append(asset_obs)
     compact = torch.cat(values, dim=-1)
     if compact.shape[-1] < 32:
         compact = torch.cat(
@@ -336,6 +488,49 @@ def main() -> None:
         env_cfg, "dynamic_grasp_speed_curriculum_override_alpha"
     ):
         env_cfg.dynamic_grasp_speed_curriculum_override_alpha = float(args_cli.dynamic_curriculum_alpha)
+    if args_cli.tabletop_asset_curriculum_alpha is not None and hasattr(
+        env_cfg, "tabletop_asset_curriculum_override_alpha"
+    ):
+        env_cfg.tabletop_asset_curriculum_override_alpha = float(
+            args_cli.tabletop_asset_curriculum_alpha
+        )
+    if args_cli.tabletop_motion_curriculum_alpha is not None and hasattr(
+        env_cfg, "tabletop_motion_mode_curriculum_override_alpha"
+    ):
+        env_cfg.tabletop_motion_mode_curriculum_override_alpha = float(
+            args_cli.tabletop_motion_curriculum_alpha
+        )
+    if args_cli.tabletop_asset_sampling_weights is not None:
+        if not hasattr(env_cfg, "tabletop_asset_sampling_weights"):
+            raise RuntimeError(
+                f"Task {args_cli.task} does not expose tabletop_asset_sampling_weights."
+            )
+        configured_asset_count = len(tuple(getattr(env_cfg, "tabletop_object_asset_specs", ())))
+        if configured_asset_count != len(args_cli.tabletop_asset_sampling_weights):
+            raise ValueError(
+                "--tabletop-asset-sampling-weights length mismatch: "
+                f"expected {configured_asset_count}, got "
+                f"{len(args_cli.tabletop_asset_sampling_weights)}"
+            )
+        env_cfg.tabletop_asset_sampling_weights = tuple(
+            float(weight) for weight in args_cli.tabletop_asset_sampling_weights
+        )
+    if args_cli.episode_length_s is not None and hasattr(env_cfg, "episode_length_s"):
+        env_cfg.episode_length_s = float(args_cli.episode_length_s)
+    if args_cli.dynamic_success_hold_steps is not None and hasattr(
+        env_cfg, "dynamic_success_hold_steps"
+    ):
+        env_cfg.dynamic_success_hold_steps = int(args_cli.dynamic_success_hold_steps)
+    if args_cli.tabletop_pregrasp_lead_time is not None and hasattr(
+        env_cfg, "dynamic_tabletop_pregrasp_lead_time"
+    ):
+        env_cfg.dynamic_tabletop_pregrasp_lead_time = float(args_cli.tabletop_pregrasp_lead_time)
+    if args_cli.tabletop_pregrasp_ahead_distance is not None and hasattr(
+        env_cfg, "dynamic_tabletop_pregrasp_ahead_distance"
+    ):
+        env_cfg.dynamic_tabletop_pregrasp_ahead_distance = float(
+            args_cli.tabletop_pregrasp_ahead_distance
+        )
     if args_cli.pointcloud_source == "rgbd_projected_mask":
         if not hasattr(env_cfg, "student_camera_enabled"):
             raise RuntimeError(f"Task {args_cli.task} does not expose student_camera_enabled.")
@@ -368,20 +563,27 @@ def main() -> None:
         _trace(f"raw env reset complete obs_shape={tuple(policy_obs.shape)}")
     if args_cli.pointcloud_source == "rgbd_projected_mask":
         _set_student_camera_poses(unwrapped)
-    obs_dim = int(policy_obs.shape[-1])
+    proprio = _student_proprio(unwrapped, policy_obs)
+    proprio_dim = int(proprio.shape[-1])
     student_policy = None
+    student_log_std = None
     student_device = torch.device(args_cli.student_device or args_cli.device)
     if args_cli.action_source == "student_dagger":
         assert student_checkpoint is not None
         _trace(f"loading student execution policy: {student_checkpoint}")
-        student_policy = _load_student_policy(
+        student_policy, student_log_std = _load_student_policy(
             student_checkpoint,
             student_device,
             expected_history=int(args_cli.history),
             expected_points=int(args_cli.object_points),
-            expected_proprio_dim=obs_dim,
+            expected_point_feature_dim=6 if args_cli.point_features == "xyzrgb" else 3,
+            expected_proprio_dim=proprio_dim,
             expected_action_dim=int(unwrapped.cfg.action_space),
         )
+        if args_cli.student_action_mode == "ppo_sample" and student_log_std is None:
+            raise RuntimeError(
+                "--student-action-mode=ppo_sample requires a checkpoint with ppo_state_dict.log_std"
+            )
         _trace(f"student execution policy loaded device={student_device}")
 
     affordance_kwargs = _affordance_kwargs(unwrapped.cfg)
@@ -393,18 +595,28 @@ def main() -> None:
     )
     rgbd_mask_local_points = None
     if args_cli.pointcloud_source == "rgbd_projected_mask":
-        rgbd_mask_local_points, _ = sample_box_surface_points(
-            tuple(float(v) for v in unwrapped.cfg.object_size),
-            max(int(args_cli.rgbd_mask_points), int(args_cli.object_points)),
-            unwrapped.device,
-            **affordance_kwargs,
-        )
+        mask_point_count = max(int(args_cli.rgbd_mask_points), int(args_cli.object_points))
+        if torch.is_tensor(getattr(unwrapped, "_active_object_size_tensor", None)):
+            rgbd_mask_local_points = sample_unit_primitive_surface_points(
+                mask_point_count,
+                unwrapped.device,
+            )
+        else:
+            rgbd_mask_local_points, _ = sample_box_surface_points(
+                tuple(float(v) for v in unwrapped.cfg.object_size),
+                mask_point_count,
+                unwrapped.device,
+                **affordance_kwargs,
+            )
+    point_feature_dim = 6 if args_cli.point_features == "xyzrgb" else 3
     point_hist = torch.zeros(
-        (unwrapped.num_envs, args_cli.history, args_cli.object_points, 3),
+        (unwrapped.num_envs, args_cli.history, args_cli.object_points, point_feature_dim),
         device=unwrapped.device,
     )
     valid_hist = torch.zeros((unwrapped.num_envs, args_cli.history, args_cli.object_points), device=unwrapped.device)
-    proprio_hist = torch.zeros((unwrapped.num_envs, args_cli.history, obs_dim), device=unwrapped.device)
+    proprio_hist = torch.zeros(
+        (unwrapped.num_envs, args_cli.history, proprio_dim), device=unwrapped.device
+    )
     prev_points = None
 
     samples: dict[str, list[torch.Tensor]] = {
@@ -428,6 +640,7 @@ def main() -> None:
         samples["camera_depth"] = []
         samples["camera_object_mask"] = []
     rgbd_fallback_env_frames = 0
+    rgbd_temporal_fallback_env_frames = 0
     rgbd_valid_point_sum = 0.0
     rgbd_valid_frame_count = 0
     last_frame_ready = False
@@ -492,18 +705,42 @@ def main() -> None:
             with torch.inference_mode():
                 teacher_actions = teacher_player.get_action(teacher_obs, is_deterministic=args_cli.deterministic)
                 if last_frame_ready and step >= args_cli.history:
+                    student_points = point_hist.to(student_device)
+                    student_proprio = proprio_hist.to(student_device)
+                    normalization = getattr(student_policy, "input_normalization", None)
+                    if normalization is not None:
+                        student_points = (
+                            student_points - normalization["pointcloud_mean"]
+                        ) / normalization["pointcloud_std"]
+                        student_proprio = (
+                            student_proprio - normalization["proprio_mean"]
+                        ) / normalization["proprio_std"]
                     student_actions = student_policy(
-                        point_hist.to(student_device),
+                        student_points,
                         valid_hist.to(student_device),
-                        proprio_hist.to(student_device),
+                        student_proprio,
                     )["action"].to(unwrapped.device)
+                    if args_cli.student_action_mode == "ppo_sample":
+                        assert student_log_std is not None
+                        student_actions = student_actions + torch.randn_like(student_actions) * torch.exp(
+                            student_log_std.to(unwrapped.device)
+                        )
                     if args_cli.student_action_clamp > 0.0:
                         student_actions = torch.clamp(
                             student_actions,
                             -float(args_cli.student_action_clamp),
                             float(args_cli.student_action_clamp),
                         )
-                    actions = student_actions
+                    teacher_probability = float(args_cli.dagger_teacher_probability)
+                    if teacher_probability > 0.0:
+                        teacher_mask = torch.rand(
+                            unwrapped.num_envs, device=unwrapped.device
+                        ) < teacher_probability
+                        actions = torch.where(
+                            teacher_mask.unsqueeze(-1), teacher_actions, student_actions
+                        )
+                    else:
+                        actions = student_actions
                 else:
                     actions = teacher_actions
             if args_cli.sample_timing == "pre_action" and last_frame_ready and step >= args_cli.history:
@@ -527,6 +764,7 @@ def main() -> None:
             obs, _rew, terminated, truncated, extras = env.step(actions)
             policy_obs = obs["policy"]
 
+        done = terminated | truncated
         unwrapped._compute_intermediate_values()
         clean_points_w = object_points_in_world_frame(
             local_points,
@@ -546,11 +784,42 @@ def main() -> None:
         rgbd_mask = None
         if args_cli.pointcloud_source == "rgbd_projected_mask":
             assert rgbd_mask_local_points is not None
+            mask_local_points = rgbd_mask_local_points
+            mask_object_size: tuple[float, float, float] | torch.Tensor = tuple(
+                float(v) for v in unwrapped.cfg.object_size
+            )
+            active_sizes = getattr(unwrapped, "_active_object_size_tensor", None)
+            active_shape_codes = getattr(unwrapped, "_active_object_shape_codes_tensor", None)
+            if (
+                rgbd_mask_local_points.ndim == 3
+                and rgbd_mask_local_points.shape[0] == 4
+                and torch.is_tensor(active_sizes)
+                and torch.is_tensor(active_shape_codes)
+            ):
+                mask_local_points = primitive_surface_points_for_envs(
+                    rgbd_mask_local_points,
+                    active_shape_codes,
+                    active_sizes,
+                )
+                mask_object_size = active_sizes
+                clean_local_points = mask_local_points[:, : args_cli.object_points]
+                clean_points_w = object_points_in_world_frame(
+                    clean_local_points,
+                    unwrapped._object_pos_w,
+                    unwrapped._object_quat_w,
+                )
+                clean_points = object_points_in_palm_frame(
+                    clean_local_points,
+                    unwrapped._object_pos_w,
+                    unwrapped._object_quat_w,
+                    unwrapped._palm_pos_w,
+                    unwrapped._palm_quat_w,
+                )
             _set_student_camera_poses(unwrapped)
             rgbd_rgb, rgbd_depth, camera_pos_w, camera_quat_w_ros, camera_intrinsics = _student_camera_rgbd(unwrapped)
             rgbd_points = masked_rgbd_object_points_in_palm_frame(
-                rgbd_mask_local_points,
-                tuple(float(v) for v in unwrapped.cfg.object_size),
+                mask_local_points,
+                mask_object_size,
                 rgbd_depth,
                 camera_pos_w,
                 camera_quat_w_ros,
@@ -560,12 +829,14 @@ def main() -> None:
                 unwrapped._palm_pos_w,
                 unwrapped._palm_quat_w,
                 num_points=args_cli.object_points,
+                rgb=rgbd_rgb if args_cli.point_features == "xyzrgb" else None,
                 mask_dilation=args_cli.rgbd_mask_dilation,
                 depth_tolerance=args_cli.rgbd_depth_tolerance,
                 **affordance_kwargs,
             )
             current_points = rgbd_points["points_palm"]
             current_points_w = rgbd_points["points_w"]
+            current_colors = rgbd_points["colors"]
             valid = rgbd_points["valid"]
             current_affordance_labels = rgbd_points["affordance_labels"]
             rgbd_mask = rgbd_points["object_mask"]
@@ -577,6 +848,7 @@ def main() -> None:
                 rgbd_fallback_env_frames += int(low_valid.sum().detach().cpu())
                 current_points[low_valid] = clean_points[low_valid]
                 current_points_w[low_valid] = clean_points_w[low_valid]
+                current_colors[low_valid] = 0.0
                 valid[low_valid] = 1.0
                 current_affordance_labels[low_valid] = clean_labels[low_valid]
             flow_velocity = rigid_object_point_flow_in_palm_frame(
@@ -589,15 +861,37 @@ def main() -> None:
             )
             flow_velocity = flow_velocity * valid.unsqueeze(-1)
             flow_delta = flow_velocity * max(float(unwrapped.dt), 1.0e-6)
+            if (
+                bool(args_cli.rgbd_temporal_fallback)
+                and not bool(args_cli.rgbd_clean_fallback)
+                and last_frame_ready
+            ):
+                previous_valid = valid_hist[:, -1].sum(dim=-1) >= int(args_cli.rgbd_min_valid_points)
+                use_previous = low_valid & previous_valid & (~done)
+                if bool(use_previous.any()):
+                    rgbd_temporal_fallback_env_frames += int(use_previous.sum().item())
+                    current_points[use_previous] = point_hist[use_previous, -1, :, :3]
+                    if point_feature_dim == 6:
+                        current_colors[use_previous] = point_hist[use_previous, -1, :, 3:6]
+                    valid[use_previous] = valid_hist[use_previous, -1]
+                    current_affordance_labels[use_previous] = -1.0
+                    flow_velocity[use_previous] = 0.0
+                    flow_delta[use_previous] = 0.0
         else:
             current_points = clean_points
+            current_colors = torch.zeros_like(current_points)
             valid = torch.ones((unwrapped.num_envs, args_cli.object_points), device=unwrapped.device)
             current_affordance_labels = clean_labels
             flow_delta = torch.zeros_like(current_points) if prev_points is None else current_points - prev_points
             flow_velocity = flow_delta / max(float(unwrapped.dt), 1.0e-6)
             prev_points = current_points.detach()
 
-        done = terminated | truncated
+        current_features = (
+            torch.cat((current_points, current_colors), dim=-1)
+            if point_feature_dim == 6
+            else current_points
+        )
+
         if bool(done.any()):
             flow_delta[done] = 0.0
             flow_velocity[done] = 0.0
@@ -609,9 +903,18 @@ def main() -> None:
             point_hist[done] = 0.0
             valid_hist[done] = 0.0
             proprio_hist[done] = 0.0
-        point_hist[:, -1] = current_points
+        current_proprio = _student_proprio(unwrapped, policy_obs)
+        point_hist[:, -1] = current_features
         valid_hist[:, -1] = valid
-        proprio_hist[:, -1] = policy_obs
+        proprio_hist[:, -1] = current_proprio
+        if args_cli.history_bootstrap == "repeat_initial":
+            bootstrap = done.clone()
+            if step == 0:
+                bootstrap[:] = True
+            if bool(bootstrap.any()):
+                point_hist[bootstrap] = current_features[bootstrap].unsqueeze(1)
+                valid_hist[bootstrap] = valid[bootstrap].unsqueeze(1)
+                proprio_hist[bootstrap] = current_proprio[bootstrap].unsqueeze(1)
         last_frame_ready = True
 
         if args_cli.sample_timing == "post_step" and step >= args_cli.history - 1:
@@ -622,7 +925,11 @@ def main() -> None:
             valid_msg = ""
             if args_cli.pointcloud_source == "rgbd_projected_mask" and rgbd_valid_frame_count > 0:
                 valid_mean = rgbd_valid_point_sum / max(rgbd_valid_frame_count, 1)
-                valid_msg = f" rgbd_valid_mean={valid_mean:.1f} rgbd_fallback={rgbd_fallback_env_frames}"
+                valid_msg = (
+                    f" rgbd_valid_mean={valid_mean:.1f}"
+                    f" rgbd_clean_fallback={rgbd_fallback_env_frames}"
+                    f" rgbd_temporal_fallback={rgbd_temporal_fallback_env_frames}"
+                )
             _trace(
                 f"step={step:04d} done={int(done.sum())} "
                 f"samples={sum(item.shape[0] for item in samples['target'])}{valid_msg}"
@@ -633,8 +940,12 @@ def main() -> None:
         "task": args_cli.task,
         "action_source": args_cli.action_source,
         "history": args_cli.history,
+        "history_bootstrap": args_cli.history_bootstrap,
         "object_points": args_cli.object_points,
-        "proprio_dim": obs_dim,
+        "point_features": args_cli.point_features,
+        "point_feature_dim": point_feature_dim,
+        "proprio_dim": proprio_dim,
+        "proprio_source": args_cli.proprio_source,
         "action_dim": int(unwrapped.cfg.action_space),
         "compact_privileged_dim": 32,
         "task_family": str(unwrapped.cfg.task_family),
@@ -646,11 +957,34 @@ def main() -> None:
         ),
         "student_checkpoint": str(student_checkpoint) if student_checkpoint is not None else "",
         "student_action_clamp": float(args_cli.student_action_clamp) if args_cli.action_source == "student_dagger" else None,
+        "student_action_mode": (
+            args_cli.student_action_mode if args_cli.action_source == "student_dagger" else None
+        ),
+        "dagger_teacher_probability": (
+            float(args_cli.dagger_teacher_probability)
+            if args_cli.action_source == "student_dagger"
+            else None
+        ),
         "sample_timing": args_cli.sample_timing,
         "hold_label_source": args_cli.hold_label_source,
         "hold_label_rel_vel_threshold": float(args_cli.hold_label_rel_vel_threshold),
         "dynamic_curriculum_alpha": args_cli.dynamic_curriculum_alpha,
-        "source": f"isaaclab_{args_cli.pointcloud_source}_teacher_export_v1",
+        "tabletop_asset_curriculum_alpha": args_cli.tabletop_asset_curriculum_alpha,
+        "tabletop_motion_curriculum_alpha": args_cli.tabletop_motion_curriculum_alpha,
+        "tabletop_asset_sampling_weights": (
+            [float(weight) for weight in args_cli.tabletop_asset_sampling_weights]
+            if args_cli.tabletop_asset_sampling_weights is not None
+            else None
+        ),
+        "episode_length_s": args_cli.episode_length_s,
+        "dynamic_success_hold_steps": args_cli.dynamic_success_hold_steps,
+        "tabletop_pregrasp_lead_time": args_cli.tabletop_pregrasp_lead_time,
+        "tabletop_pregrasp_ahead_distance": args_cli.tabletop_pregrasp_ahead_distance,
+        "source": (
+            f"isaaclab_{args_cli.pointcloud_source}_teacher_export_v3"
+            if args_cli.proprio_source == "deployable_robot"
+            else f"isaaclab_{args_cli.pointcloud_source}_teacher_export_v1"
+        ),
         "pointcloud_source": args_cli.pointcloud_source,
         "rgbd_camera": {
             "enabled": args_cli.pointcloud_source == "rgbd_projected_mask",
@@ -660,11 +994,19 @@ def main() -> None:
             "track_object": bool(args_cli.student_camera_track_object),
             "track_offset": list(args_cli.student_camera_track_offset),
             "track_target_offset": list(args_cli.student_camera_track_target_offset),
+            "eye": list(args_cli.student_camera_eye) if args_cli.student_camera_eye is not None else None,
+            "target": (
+                list(args_cli.student_camera_target) if args_cli.student_camera_target is not None else None
+            ),
             "mask_points": int(args_cli.rgbd_mask_points),
             "mask_dilation": int(args_cli.rgbd_mask_dilation),
             "depth_tolerance": float(args_cli.rgbd_depth_tolerance),
+            "mask_geometry": "active_primitive_surface_v1",
+            "depth_matching": "strict_projected_object_depth_v1",
             "clean_fallback_enabled": bool(args_cli.rgbd_clean_fallback),
+            "temporal_fallback_enabled": bool(args_cli.rgbd_temporal_fallback),
             "fallback_env_frames": int(rgbd_fallback_env_frames),
+            "temporal_fallback_env_frames": int(rgbd_temporal_fallback_env_frames),
             "valid_points_mean_before_fallback": (
                 float(rgbd_valid_point_sum / max(rgbd_valid_frame_count, 1))
                 if rgbd_valid_frame_count > 0
@@ -680,7 +1022,8 @@ def main() -> None:
         action_contract=unwrapped.cfg.action_contract,
         history=args_cli.history,
         num_object_points=args_cli.object_points,
-        proprio_dim=obs_dim,
+        point_feature_dim=point_feature_dim,
+        proprio_dim=proprio_dim,
         compact_privileged_dim=32,
     )
     errors = validate_student_batch(payload, spec)

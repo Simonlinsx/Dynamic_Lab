@@ -39,7 +39,22 @@ parser.add_argument("--init-log-std", type=float, default=-2.0)
 parser.add_argument("--max-grad-norm", type=float, default=1.0)
 parser.add_argument("--action-clamp", type=float, default=1.0)
 parser.add_argument("--seed", type=int, default=42)
+parser.add_argument(
+    "--history-bootstrap",
+    choices=("repeat_initial", "zero_pad"),
+    default="repeat_initial",
+    help=(
+        "How to initialize temporal history after reset. repeat_initial matches student "
+        "evaluation by filling every slot with the first deployable observation."
+    ),
+)
 parser.add_argument("--pointcloud-source", choices=("clean", "rgbd_projected_mask"), default="rgbd_projected_mask")
+parser.add_argument(
+    "--proprio-source",
+    choices=("auto", "policy", "deployable_robot"),
+    default="auto",
+    help="Student proprioception source. auto reads the initialization checkpoint metadata.",
+)
 parser.add_argument("--rgbd-width", type=int, default=96)
 parser.add_argument("--rgbd-height", type=int, default=72)
 parser.add_argument("--rgbd-mask-points", type=int, default=512)
@@ -55,11 +70,40 @@ parser.add_argument(
 )
 parser.add_argument("--student-camera-track-offset", type=float, nargs=3, default=(0.65, 0.95, 0.65))
 parser.add_argument("--student-camera-track-target-offset", type=float, nargs=3, default=(0.0, 0.0, 0.05))
+parser.add_argument(
+    "--student-camera-eye",
+    type=float,
+    nargs=3,
+    default=None,
+    help="Fixed camera eye in environment-local coordinates. Must be paired with --student-camera-target.",
+)
+parser.add_argument(
+    "--student-camera-target",
+    type=float,
+    nargs=3,
+    default=None,
+    help="Fixed camera target in environment-local coordinates. Must be paired with --student-camera-eye.",
+)
 parser.add_argument("--student-camera-focal-length", type=float, default=24.0)
 parser.add_argument("--dynamic-curriculum-alpha", type=float, default=None)
+parser.add_argument("--tabletop-asset-curriculum-alpha", type=float, default=None)
+parser.add_argument("--tabletop-motion-curriculum-alpha", type=float, default=None)
+parser.add_argument("--episode-length-s", type=float, default=None)
+parser.add_argument("--dynamic-success-hold-steps", type=int, default=None)
+parser.add_argument("--tabletop-pregrasp-lead-time", type=float, default=None)
+parser.add_argument("--tabletop-pregrasp-ahead-distance", type=float, default=None)
 parser.add_argument("--save-every", type=int, default=10)
+parser.add_argument("--wandb-project", default=None)
+parser.add_argument("--wandb-entity", default=None)
+parser.add_argument("--wandb-run-name", default=None)
+parser.add_argument("--wandb-group", default="deployable_student_ppo")
+parser.add_argument("--wandb-tags", nargs="*", default=None)
+parser.add_argument("--wandb-mode", choices=("online", "offline", "disabled"), default="online")
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
+
+if (args_cli.student_camera_eye is None) != (args_cli.student_camera_target is None):
+    parser.error("--student-camera-eye and --student-camera-target must be provided together")
 
 if args_cli.pointcloud_source == "rgbd_projected_mask":
     setattr(args_cli, "enable_cameras", True)
@@ -77,10 +121,12 @@ from isaaclab.utils.math import quat_rotate_inverse  # noqa: E402
 import simtoolreal_lab  # noqa: F401,E402
 from simtoolreal_lab.teacher_student import (  # noqa: E402
     PointTemporalStudent,
+    deployable_robot_proprioception,
     masked_rgbd_object_points_in_palm_frame,
     object_points_in_palm_frame,
-    object_points_in_world_frame,
+    primitive_surface_points_for_envs,
     sample_box_surface_points,
+    sample_unit_primitive_surface_points,
 )
 
 
@@ -97,6 +143,23 @@ def _mlp(sizes: list[int]) -> nn.Sequential:
     return nn.Sequential(*layers)
 
 
+def _student_forward(
+    student: PointTemporalStudent,
+    point_hist: torch.Tensor,
+    valid_hist: torch.Tensor,
+    proprio_hist: torch.Tensor,
+):
+    normalization = getattr(student, "input_normalization", None)
+    if normalization is not None:
+        point_hist = (point_hist - normalization["pointcloud_mean"]) / normalization[
+            "pointcloud_std"
+        ]
+        proprio_hist = (proprio_hist - normalization["proprio_mean"]) / normalization[
+            "proprio_std"
+        ]
+    return student(point_hist, valid_hist, proprio_hist)
+
+
 class StudentActorCritic(nn.Module):
     def __init__(self, student: PointTemporalStudent, privileged_dim: int, init_log_std: float) -> None:
         super().__init__()
@@ -105,7 +168,7 @@ class StudentActorCritic(nn.Module):
         self.critic = _mlp([privileged_dim, 256, 256, 1])
 
     def actor(self, point_hist: torch.Tensor, valid_hist: torch.Tensor, proprio_hist: torch.Tensor):
-        out = self.student(point_hist, valid_hist, proprio_hist)
+        out = _student_forward(self.student, point_hist, valid_hist, proprio_hist)
         std = torch.exp(self.log_std).expand_as(out["action"])
         return out, Normal(out["action"], std)
 
@@ -120,6 +183,18 @@ def _policy_tensor(obs) -> torch.Tensor:
         if "obs" in obs:
             return obs["obs"]
     return obs
+
+
+def _resolve_proprio_source(metadata: dict) -> str:
+    if args_cli.proprio_source != "auto":
+        return args_cli.proprio_source
+    return str(metadata.get("proprio_source", "policy"))
+
+
+def _current_proprio(unwrapped_env, obs, proprio_source: str) -> torch.Tensor:
+    if proprio_source == "deployable_robot":
+        return deployable_robot_proprioception(unwrapped_env)
+    return _policy_tensor(obs).to(unwrapped_env.device)
 
 
 def _tensor_bool(extras: dict, key: str, num_envs: int, device: torch.device | str) -> torch.Tensor:
@@ -137,16 +212,22 @@ def _load_student(checkpoint_path: Path, device: torch.device) -> tuple[PointTem
     spec = dict(payload.get("spec", {}))
     history = int(spec.get("history", metadata.get("history", 4)))
     num_points = int(spec.get("num_object_points", metadata.get("object_points", 64)))
+    point_feature_dim = int(spec.get("point_feature_dim", metadata.get("point_feature_dim", 3)))
     proprio_dim = int(spec.get("proprio_dim", metadata.get("proprio_dim", 91)))
     action_dim = int(spec.get("action_dim", metadata.get("action_dim", 18)))
     arm_dim = int(spec.get("arm_dim", metadata.get("arm_dim", 7)))
     privileged_dim = int(spec.get("compact_privileged_dim", metadata.get("compact_privileged_dim", 32)))
+    geometric_summary = bool(spec.get("geometric_summary", False))
+    privileged_action_conditioning = bool(spec.get("privileged_action_conditioning", False))
     student = PointTemporalStudent(
         history=history,
         proprio_dim=proprio_dim,
         action_dim=action_dim,
         privileged_dim=privileged_dim,
         arm_dim=arm_dim,
+        point_input_dim=point_feature_dim,
+        geometric_summary=geometric_summary,
+        privileged_action_conditioning=privileged_action_conditioning,
     ).to(device)
     missing, unexpected = student.load_state_dict(payload["model_state_dict"], strict=False)
     allowed_missing_prefixes = ("hold_head.", "hold_gate_head.")
@@ -158,14 +239,37 @@ def _load_student(checkpoint_path: Path, device: torch.device) -> tuple[PointTem
         )
     if missing:
         _trace(f"init checkpoint missing optional hold head weights; initialized {list(missing)}")
+    normalization = payload.get("normalization")
+    if normalization is not None:
+        required_norm_keys = {
+            "pointcloud_mean",
+            "pointcloud_std",
+            "proprio_mean",
+            "proprio_std",
+        }
+        missing_norm_keys = required_norm_keys - set(normalization)
+        if missing_norm_keys:
+            raise RuntimeError(
+                "Student checkpoint normalization is incomplete: "
+                f"missing={sorted(missing_norm_keys)}"
+            )
+        student.input_normalization = {
+            key: normalization[key].detach().to(device=device, dtype=torch.float32)
+            for key in required_norm_keys
+        }
+    else:
+        student.input_normalization = None
     resolved_spec = {
         "history": history,
         "num_object_points": num_points,
+        "point_feature_dim": point_feature_dim,
         "proprio_dim": proprio_dim,
         "action_dim": action_dim,
         "arm_dim": arm_dim,
         "hand_dim": max(action_dim - arm_dim, 0),
         "compact_privileged_dim": privileged_dim,
+        "geometric_summary": geometric_summary,
+        "privileged_action_conditioning": privileged_action_conditioning,
     }
     return student, metadata, resolved_spec
 
@@ -178,6 +282,34 @@ def _make_env(task: str, num_envs: int, pointcloud_source: str):
         env_cfg, "dynamic_grasp_speed_curriculum_override_alpha"
     ):
         env_cfg.dynamic_grasp_speed_curriculum_override_alpha = float(args_cli.dynamic_curriculum_alpha)
+    if args_cli.tabletop_asset_curriculum_alpha is not None and hasattr(
+        env_cfg, "tabletop_asset_curriculum_override_alpha"
+    ):
+        env_cfg.tabletop_asset_curriculum_override_alpha = float(
+            args_cli.tabletop_asset_curriculum_alpha
+        )
+    if args_cli.tabletop_motion_curriculum_alpha is not None and hasattr(
+        env_cfg, "tabletop_motion_mode_curriculum_override_alpha"
+    ):
+        env_cfg.tabletop_motion_mode_curriculum_override_alpha = float(
+            args_cli.tabletop_motion_curriculum_alpha
+        )
+    if args_cli.episode_length_s is not None and hasattr(env_cfg, "episode_length_s"):
+        env_cfg.episode_length_s = float(args_cli.episode_length_s)
+    if args_cli.dynamic_success_hold_steps is not None and hasattr(
+        env_cfg, "dynamic_success_hold_steps"
+    ):
+        env_cfg.dynamic_success_hold_steps = int(args_cli.dynamic_success_hold_steps)
+    if args_cli.tabletop_pregrasp_lead_time is not None and hasattr(
+        env_cfg, "dynamic_tabletop_pregrasp_lead_time"
+    ):
+        env_cfg.dynamic_tabletop_pregrasp_lead_time = float(args_cli.tabletop_pregrasp_lead_time)
+    if args_cli.tabletop_pregrasp_ahead_distance is not None and hasattr(
+        env_cfg, "dynamic_tabletop_pregrasp_ahead_distance"
+    ):
+        env_cfg.dynamic_tabletop_pregrasp_ahead_distance = float(
+            args_cli.tabletop_pregrasp_ahead_distance
+        )
     if pointcloud_source == "rgbd_projected_mask":
         env_cfg.student_camera_enabled = True
         env_cfg.student_camera.data_types = ["rgb", "distance_to_image_plane"]
@@ -195,6 +327,15 @@ def _set_tracking_camera(unwrapped_env, camera_name: str, track_offset: tuple[fl
     if camera is None:
         return False
     origins = unwrapped_env.scene.env_origins
+    if args_cli.student_camera_eye is not None and args_cli.student_camera_target is not None:
+        eye = torch.tensor(args_cli.student_camera_eye, device=origins.device, dtype=origins.dtype).unsqueeze(0)
+        targets = torch.tensor(
+            args_cli.student_camera_target, device=origins.device, dtype=origins.dtype
+        ).unsqueeze(0)
+        camera.set_world_poses_from_view(origins + eye, origins + targets)
+        if hasattr(camera, "_update_poses") and hasattr(camera, "_ALL_INDICES"):
+            camera._update_poses(camera._ALL_INDICES)
+        return True
     target_offset_t = torch.tensor(target_offset, device=origins.device, dtype=origins.dtype).unsqueeze(0)
     camera_offset_t = torch.tensor(track_offset, device=origins.device, dtype=origins.dtype).unsqueeze(0)
     object_root_pos = None
@@ -242,11 +383,23 @@ def _student_camera_rgbd(unwrapped_env):
     return rgb, depth, data.pos_w, data.quat_w_ros, data.intrinsic_matrices
 
 
+def _make_rgbd_mask_point_template(unwrapped_env, num_points: int, device) -> torch.Tensor:
+    if torch.is_tensor(getattr(unwrapped_env, "_active_object_size_tensor", None)):
+        return sample_unit_primitive_surface_points(num_points, device)
+    points, _ = sample_box_surface_points(
+        tuple(float(v) for v in unwrapped_env.cfg.object_size),
+        num_points,
+        device,
+    )
+    return points
+
+
 def _current_pointcloud(
     unwrapped_env,
     pointcloud_source: str,
     local_points: torch.Tensor,
     affordance_points: torch.Tensor | None,
+    point_feature_dim: int,
 ) -> tuple[torch.Tensor, torch.Tensor]:
     unwrapped_env._compute_intermediate_values()
     clean_points = object_points_in_palm_frame(
@@ -258,14 +411,45 @@ def _current_pointcloud(
     )
     if pointcloud_source == "clean":
         valid = torch.ones(clean_points.shape[:2], dtype=clean_points.dtype, device=clean_points.device)
-        return clean_points, valid
+        features = (
+            torch.cat((clean_points, torch.zeros_like(clean_points)), dim=-1)
+            if point_feature_dim == 6
+            else clean_points
+        )
+        return features, valid
 
     assert affordance_points is not None
+    mask_local_points = affordance_points
+    mask_object_size: tuple[float, float, float] | torch.Tensor = tuple(
+        float(v) for v in unwrapped_env.cfg.object_size
+    )
+    active_sizes = getattr(unwrapped_env, "_active_object_size_tensor", None)
+    active_shape_codes = getattr(unwrapped_env, "_active_object_shape_codes_tensor", None)
+    if (
+        affordance_points.ndim == 3
+        and affordance_points.shape[0] == 4
+        and torch.is_tensor(active_sizes)
+        and torch.is_tensor(active_shape_codes)
+    ):
+        mask_local_points = primitive_surface_points_for_envs(
+            affordance_points,
+            active_shape_codes,
+            active_sizes,
+        )
+        mask_object_size = active_sizes
+        clean_local_points = mask_local_points[:, : local_points.shape[0]]
+        clean_points = object_points_in_palm_frame(
+            clean_local_points,
+            unwrapped_env._object_pos_w,
+            unwrapped_env._object_quat_w,
+            unwrapped_env._palm_pos_w,
+            unwrapped_env._palm_quat_w,
+        )
     _set_student_camera_poses(unwrapped_env)
-    _rgb, depth, camera_pos_w, camera_quat_w_ros, camera_intrinsics = _student_camera_rgbd(unwrapped_env)
+    rgb, depth, camera_pos_w, camera_quat_w_ros, camera_intrinsics = _student_camera_rgbd(unwrapped_env)
     rgbd_points = masked_rgbd_object_points_in_palm_frame(
-        affordance_points,
-        tuple(float(v) for v in unwrapped_env.cfg.object_size),
+        mask_local_points,
+        mask_object_size,
         depth,
         camera_pos_w,
         camera_quat_w_ros,
@@ -275,17 +459,21 @@ def _current_pointcloud(
         unwrapped_env._palm_pos_w,
         unwrapped_env._palm_quat_w,
         num_points=int(local_points.shape[0]),
+        rgb=rgb if point_feature_dim == 6 else None,
         mask_dilation=args_cli.rgbd_mask_dilation,
         depth_tolerance=args_cli.rgbd_depth_tolerance,
     )
     points = rgbd_points["points_palm"]
+    colors = rgbd_points["colors"]
     valid = rgbd_points["valid"]
     valid_counts = torch.sum(valid > 0.0, dim=-1)
     low_valid = valid_counts < int(args_cli.rgbd_min_valid_points)
     if bool(low_valid.any()) and bool(args_cli.rgbd_clean_fallback):
         points[low_valid] = clean_points[low_valid]
+        colors[low_valid] = 0.0
         valid[low_valid] = 1.0
-    return points, valid
+    features = torch.cat((points, colors), dim=-1) if point_feature_dim == 6 else points
+    return features, valid
 
 
 def _compact_privileged(unwrapped_env, success_env: torch.Tensor | None = None) -> torch.Tensor:
@@ -311,6 +499,9 @@ def _compact_privileged(unwrapped_env, success_env: torch.Tensor | None = None) 
         success_env.float().unsqueeze(-1),
         unwrapped_env.episode_length_buf.float().unsqueeze(-1) / float(unwrapped_env.max_episode_length),
     ]
+    asset_obs = getattr(unwrapped_env, "_tabletop_asset_obs", None)
+    if torch.is_tensor(asset_obs) and asset_obs.shape[0] == rel_obj_palm.shape[0]:
+        values.append(asset_obs)
     compact = torch.cat(values, dim=-1)
     if compact.shape[-1] < 32:
         compact = torch.cat(
@@ -322,7 +513,15 @@ def _compact_privileged(unwrapped_env, success_env: torch.Tensor | None = None) 
 
 def _make_histories(num_envs: int, spec: dict, device: torch.device | str):
     return (
-        torch.zeros((num_envs, spec["history"], spec["num_object_points"], 3), device=device),
+        torch.zeros(
+            (
+                num_envs,
+                spec["history"],
+                spec["num_object_points"],
+                spec.get("point_feature_dim", 3),
+            ),
+            device=device,
+        ),
         torch.zeros((num_envs, spec["history"], spec["num_object_points"]), device=device),
         torch.zeros((num_envs, spec["history"], spec["proprio_dim"]), device=device),
     )
@@ -345,7 +544,24 @@ def _reset_histories(point_hist, valid_hist, proprio_hist, done: torch.Tensor) -
         proprio_hist[done] = 0.0
 
 
+def _bootstrap_histories(
+    point_hist,
+    valid_hist,
+    proprio_hist,
+    reset_mask: torch.Tensor,
+    current_points: torch.Tensor,
+    valid: torch.Tensor,
+    proprio: torch.Tensor,
+) -> None:
+    if args_cli.history_bootstrap != "repeat_initial" or not bool(reset_mask.any()):
+        return
+    point_hist[reset_mask] = current_points[reset_mask].unsqueeze(1)
+    valid_hist[reset_mask] = valid[reset_mask].unsqueeze(1)
+    proprio_hist[reset_mask] = proprio[reset_mask].unsqueeze(1)
+
+
 def _save_checkpoint(path: Path, actor_critic: StudentActorCritic, metadata: dict, spec: dict, iteration: int, metrics: dict):
+    normalization = getattr(actor_critic.student, "input_normalization", None)
     checkpoint = {
         "model_state_dict": actor_critic.student.state_dict(),
         "ppo_state_dict": actor_critic.state_dict(),
@@ -354,6 +570,11 @@ def _save_checkpoint(path: Path, actor_critic: StudentActorCritic, metadata: dic
         "iteration": int(iteration),
         "metrics": metrics,
         "train_algorithm": "student_ppo_privileged_critic",
+        "normalization": (
+            {key: value.detach().cpu() for key, value in normalization.items()}
+            if normalization is not None
+            else None
+        ),
     }
     torch.save(checkpoint, path)
 
@@ -363,11 +584,18 @@ def main() -> None:
     device = torch.device(args_cli.device if torch.cuda.is_available() or not args_cli.device.startswith("cuda") else "cpu")
     init_checkpoint = Path(args_cli.init_checkpoint).expanduser().resolve()
     student, metadata, spec = _load_student(init_checkpoint, device)
+    proprio_source = _resolve_proprio_source(metadata)
+    if proprio_source not in ("policy", "deployable_robot"):
+        raise RuntimeError(f"Unsupported proprio source: {proprio_source!r}")
+    metadata["proprio_source"] = proprio_source
     actor_critic = StudentActorCritic(
         student,
         privileged_dim=int(spec["compact_privileged_dim"]),
         init_log_std=float(args_cli.init_log_std),
     ).to(device)
+    actor_parameters = list(actor_critic.student.parameters()) + [actor_critic.log_std]
+    critic_parameters = list(actor_critic.critic.parameters())
+    metadata["ppo_gradient_clip_mode"] = "separate_actor_critic"
     anchor_student = None
     if float(args_cli.bc_anchor_weight) > 0.0:
         anchor_student = copy.deepcopy(actor_critic.student).to(device)
@@ -384,6 +612,44 @@ def main() -> None:
     _trace(f"output_dir={out_dir}")
     _trace(f"init_checkpoint={init_checkpoint}")
 
+    wandb_run = None
+    if args_cli.wandb_project and args_cli.wandb_mode != "disabled":
+        import wandb
+
+        wandb_run = wandb.init(
+            project=args_cli.wandb_project,
+            entity=args_cli.wandb_entity,
+            name=args_cli.wandb_run_name or f"student_ppo_{args_cli.task}",
+            group=args_cli.wandb_group,
+            tags=args_cli.wandb_tags,
+            mode=args_cli.wandb_mode,
+            dir=str(out_dir),
+            job_type="student_ppo",
+            config={
+                "task": args_cli.task,
+                "init_checkpoint": str(init_checkpoint),
+                "num_envs": int(args_cli.num_envs),
+                "iterations": int(args_cli.iterations),
+                "horizon": int(args_cli.horizon),
+                "ppo_epochs": int(args_cli.ppo_epochs),
+                "minibatches": int(args_cli.minibatches),
+                "lr": float(args_cli.lr),
+                "reward_scale": float(args_cli.reward_scale),
+                "bc_anchor_weight": float(args_cli.bc_anchor_weight),
+                "gradient_clip_mode": "separate_actor_critic",
+                "history_bootstrap": str(args_cli.history_bootstrap),
+                "pointcloud_source": args_cli.pointcloud_source,
+                "proprio_source": proprio_source,
+                "point_feature_dim": int(spec.get("point_feature_dim", 3)),
+                "rgbd_resolution": [int(args_cli.rgbd_width), int(args_cli.rgbd_height)],
+                "dynamic_curriculum_alpha": args_cli.dynamic_curriculum_alpha,
+                "tabletop_asset_curriculum_alpha": args_cli.tabletop_asset_curriculum_alpha,
+                "tabletop_motion_curriculum_alpha": args_cli.tabletop_motion_curriculum_alpha,
+                "seed": int(args_cli.seed),
+            },
+        )
+        _trace(f"wandb_run={wandb_run.url}")
+
     env = _make_env(args_cli.task, int(args_cli.num_envs), args_cli.pointcloud_source)
     unwrapped = env.unwrapped
     env_device = unwrapped.device
@@ -394,8 +660,8 @@ def main() -> None:
     )
     rgbd_mask_points = None
     if args_cli.pointcloud_source == "rgbd_projected_mask":
-        rgbd_mask_points, _ = sample_box_surface_points(
-            tuple(float(v) for v in unwrapped.cfg.object_size),
+        rgbd_mask_points = _make_rgbd_mask_point_template(
+            unwrapped,
             max(int(args_cli.rgbd_mask_points), int(spec["num_object_points"])),
             env_device,
         )
@@ -406,7 +672,7 @@ def main() -> None:
     num_envs = int(args_cli.num_envs)
     horizon = int(args_cli.horizon)
     point_hist, valid_hist, proprio_hist = _make_histories(num_envs, spec, env_device)
-    pending_reset = torch.zeros(num_envs, dtype=torch.bool, device=env_device)
+    pending_reset = torch.ones(num_envs, dtype=torch.bool, device=env_device)
     episode_success = torch.zeros(num_envs, dtype=torch.bool, device=env_device)
     episode_lifted = torch.zeros(num_envs, dtype=torch.bool, device=env_device)
     episode_stable = torch.zeros(num_envs, dtype=torch.bool, device=env_device)
@@ -425,7 +691,7 @@ def main() -> None:
                 "valid": [],
                 "proprio": [],
                 "privileged": [],
-                "action": [],
+                "raw_action": [],
                 "log_prob": [],
                 "reward": [],
                 "done": [],
@@ -455,18 +721,40 @@ def main() -> None:
                             )
                     _reset_histories(point_hist, valid_hist, proprio_hist, pending_reset)
                     current_points, valid = _current_pointcloud(
-                        unwrapped, args_cli.pointcloud_source, local_points, rgbd_mask_points
+                        unwrapped,
+                        args_cli.pointcloud_source,
+                        local_points,
+                        rgbd_mask_points,
+                        int(spec.get("point_feature_dim", 3)),
                     )
-                    policy_obs = _policy_tensor(obs).to(env_device)
+                    proprio = _current_proprio(unwrapped, obs, proprio_source)
+                    if proprio.shape[-1] != int(spec["proprio_dim"]):
+                        raise RuntimeError(
+                            f"proprio_dim mismatch: source={proprio_source} "
+                            f"env={proprio.shape[-1]} checkpoint={spec['proprio_dim']}"
+                        )
+                    _bootstrap_histories(
+                        point_hist,
+                        valid_hist,
+                        proprio_hist,
+                        pending_reset,
+                        current_points,
+                        valid,
+                        proprio,
+                    )
                     point_hist, valid_hist, proprio_hist = _roll_histories(
-                        point_hist, valid_hist, proprio_hist, current_points, valid, policy_obs
+                        point_hist, valid_hist, proprio_hist, current_points, valid, proprio
                     )
                     unwrapped._compute_intermediate_values()
                     privileged = _compact_privileged(unwrapped)
                     out, dist = actor_critic.actor(point_hist, valid_hist, proprio_hist)
-                    sampled_action = dist.sample()
-                    action = torch.clamp(sampled_action, -float(args_cli.action_clamp), float(args_cli.action_clamp))
-                    log_prob = dist.log_prob(action).sum(dim=-1)
+                    raw_action = dist.sample()
+                    action = torch.clamp(
+                        raw_action,
+                        -float(args_cli.action_clamp),
+                        float(args_cli.action_clamp),
+                    )
+                    log_prob = dist.log_prob(raw_action).sum(dim=-1)
                     value = actor_critic.value(privileged)
 
                     obs, rewards, terminated, truncated, extras = env.step(action)
@@ -477,7 +765,7 @@ def main() -> None:
                     buffers["valid"].append(valid_hist.detach().clone())
                     buffers["proprio"].append(proprio_hist.detach().clone())
                     buffers["privileged"].append(privileged.detach().clone())
-                    buffers["action"].append(action.detach().clone())
+                    buffers["raw_action"].append(raw_action.detach().clone())
                     buffers["log_prob"].append(log_prob.detach().clone())
                     buffers["reward"].append(scaled_reward.detach().clone())
                     buffers["done"].append(dones.detach().clone())
@@ -540,6 +828,8 @@ def main() -> None:
                 "entropy": 0.0,
                 "privileged_aux": 0.0,
                 "bc_anchor": 0.0,
+                "actor_grad_norm": 0.0,
+                "critic_grad_norm": 0.0,
                 "loss": 0.0,
             }
             update_count = 0
@@ -548,7 +838,7 @@ def main() -> None:
                 for start in range(0, batch_size, minibatch_size):
                     ids = permutation[start : start + minibatch_size]
                     out, dist = actor_critic.actor(flat["point"][ids], flat["valid"][ids], flat["proprio"][ids])
-                    new_log_prob = dist.log_prob(flat["action"][ids]).sum(dim=-1)
+                    new_log_prob = dist.log_prob(flat["raw_action"][ids]).sum(dim=-1)
                     entropy = dist.entropy().sum(dim=-1).mean()
                     log_ratio = torch.clamp(new_log_prob - flat["log_prob"][ids], -20.0, 20.0)
                     ratio_limit = max(float(args_cli.ppo_ratio_limit), 1.0)
@@ -565,7 +855,8 @@ def main() -> None:
                     privileged_aux_loss = (out["privileged"] - flat["privileged"][ids]).pow(2).mean()
                     if anchor_student is not None:
                         with torch.no_grad():
-                            anchor_action = anchor_student(
+                            anchor_action = _student_forward(
+                                anchor_student,
                                 flat["point"][ids],
                                 flat["valid"][ids],
                                 flat["proprio"][ids],
@@ -582,13 +873,20 @@ def main() -> None:
                     )
                     optimizer.zero_grad(set_to_none=True)
                     loss.backward()
-                    torch.nn.utils.clip_grad_norm_(actor_critic.parameters(), float(args_cli.max_grad_norm))
+                    actor_grad_norm = torch.nn.utils.clip_grad_norm_(
+                        actor_parameters, float(args_cli.max_grad_norm)
+                    )
+                    critic_grad_norm = torch.nn.utils.clip_grad_norm_(
+                        critic_parameters, float(args_cli.max_grad_norm)
+                    )
                     optimizer.step()
                     update_totals["policy"] += float(policy_loss.detach().cpu())
                     update_totals["value"] += float(value_loss.detach().cpu())
                     update_totals["entropy"] += float(entropy.detach().cpu())
                     update_totals["privileged_aux"] += float(privileged_aux_loss.detach().cpu())
                     update_totals["bc_anchor"] += float(bc_anchor_loss.detach().cpu())
+                    update_totals["actor_grad_norm"] += float(actor_grad_norm.detach().cpu())
+                    update_totals["critic_grad_norm"] += float(critic_grad_norm.detach().cpu())
                     update_totals["loss"] += float(loss.detach().cpu())
                     update_count += 1
 
@@ -611,6 +909,8 @@ def main() -> None:
             }
             with metrics_path.open("a", encoding="utf-8") as f:
                 f.write(json.dumps(metrics, sort_keys=True) + "\n")
+            if wandb_run is not None:
+                wandb_run.log(metrics, step=iteration)
             with progress_path.open("a", encoding="utf-8") as f:
                 f.write(
                     json.dumps(
@@ -639,6 +939,19 @@ def main() -> None:
 
     _trace(f"saved best checkpoint: {best_path}")
     _trace(f"saved last checkpoint: {last_path}")
+    if wandb_run is not None:
+        import wandb
+
+        wandb_run.summary.update(
+            {
+                "best_success_rate": float(best_success_rate),
+                "best_checkpoint": str(best_path),
+                "last_checkpoint": str(last_path),
+            }
+        )
+        wandb.save(str(best_path), base_path=str(out_dir))
+        wandb.save(str(last_path), base_path=str(out_dir))
+        wandb_run.finish()
 
 
 if __name__ == "__main__":

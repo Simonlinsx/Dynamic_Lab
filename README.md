@@ -19,7 +19,9 @@ The project mirrors the earlier IsaacGym work in `simtoolreal`, but moves the si
   - transport objects on linear, curved, or turntable motion, using DOMINO20 and DextoolBench-style assets.
 - Falling-baton aerial grasp tasks with no table and red/green positive-negative affordance regions.
 - Affordance annotations and generated tabletop mesh assets under `assets/`.
-- WAM-like student model and RGB-D/point-cloud dataset utilities.
+- WAM-like student with four-frame masked RGB-D XYZRGB point-cloud history and robot-only proprioception.
+- Joint student heads for action, object point flow, point affordance, compact privileged state, and post-grasp hold.
+- Optional temporal geometry summaries and predicted-privilege-conditioned actions for shape-aware rolling grasps.
 - W&B logging support for training, evaluation summaries, and videos.
 
 Large local artifacts are intentionally excluded from Git: `logs/`, `outputs/`, videos, checkpoints, W&B cache, and cleanup folders.
@@ -229,40 +231,153 @@ $PYTHON scripts/collect_teacher_student_dataset.py \
   --task SimToolReal-Revo2-Franka-DynamicTabletopRollingAssetsFastSpeed-Teacher-Direct-v0 \
   --pointcloud-source rgbd_projected_mask \
   --out outputs/teacher_student/tabletop_rgbd_pc.pt \
-  --num-envs 16 \
-  --steps 1024 \
+  --num-envs 32 \
+  --steps 752 \
   --history 4 \
-  --object-points 512 \
+  --history-bootstrap zero_pad \
+  --object-points 128 \
+  --point-features xyzrgb \
+  --proprio-source deployable_robot \
+  --sample-timing pre_action \
+  --no-rgbd-clean-fallback \
+  --rgbd-temporal-fallback \
+  --rgbd-width 320 \
+  --rgbd-height 180 \
+  --rgbd-mask-points 1536 \
+  --rgbd-mask-dilation 2 \
+  --rgbd-depth-tolerance 0.045 \
+  --student-camera-eye 1.25 -1.05 0.72 \
+  --student-camera-target 0.58 0.00 0.37 \
   --student-camera-focal-length 24 \
   --headless \
   --device cuda:0
 ```
 
-Pretrain the temporal point-cloud student:
+For DAgger, the current student executes the rollout while the privileged
+teacher labels every visited state. This closes the distribution gap left by
+pure teacher-rollout behavior cloning without adding simulator state to the
+deployable input:
+
+```bash
+$PYTHON scripts/collect_teacher_student_dataset.py \
+  --task SimToolReal-Revo2-Franka-DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTargetHandLock-Teacher-Direct-v0 \
+  --checkpoint logs/rl_games/<teacher-run>/nn/<teacher-checkpoint>.pth \
+  --action-source student_dagger \
+  --student-checkpoint outputs/teacher_student/<student>.pt \
+  --student-action-mode mean \
+  --dagger-teacher-probability 0.0 \
+  --pointcloud-source rgbd_projected_mask \
+  --point-features xyzrgb \
+  --proprio-source deployable_robot \
+  --history 4 \
+  --history-bootstrap zero_pad \
+  --no-rgbd-clean-fallback \
+  --rgbd-temporal-fallback \
+  --out outputs/teacher_student/rolling_dagger.pt \
+  --headless \
+  --device cuda:0
+```
+
+The exported sample contains the deployable point-cloud/proprioception history,
+teacher action, point flow, point affordance, compact privileged target, and
+post-grasp hold labels. RGB-D masking uses each environment's active primitive
+shape and physical size; it never fills a missed object mask with arbitrary
+finite table or hand depth.
+
+Pretrain the temporal point-cloud student. `--geometric-summary` exposes object
+centroid, extent, and inter-frame displacement. The optional
+`--privileged-action-conditioning` flag routes the student's predicted relative
+state into its action head; the validated rolling checkpoint does not require
+that option.
 
 ```bash
 $PYTHON scripts/train_teacher_student_pretrain.py \
   --dataset outputs/teacher_student/tabletop_rgbd_pc.pt \
   --out-dir outputs/teacher_student/tabletop_student_pretrain \
-  --epochs 50 \
-  --batch-size 64 \
+  --epochs 60 \
+  --batch-size 512 \
+  --geometric-summary \
+  --flow-target delta \
+  --flow-loss smooth_l1 \
+  --flow-target-max-norm 0.1 \
+  --action-loss-weight 5.0 \
+  --privileged-loss smooth_l1 \
+  --hold-loss-weight 0.25 \
+  --hold-gate-loss-weight 0.1 \
   --device cuda:0 \
   --wandb-project simtoolreal_lab \
   --wandb-mode online
 ```
 
+Evaluate a deployable student from the same fixed camera used to form its RGB-D input:
+
+```bash
+$PYTHON scripts/evaluate_teacher_student.py \
+  --task SimToolReal-Revo2-Franka-DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTargetHandLock-Teacher-Direct-v0 \
+  --checkpoint outputs/teacher_student/tabletop_student_pretrain/student_pretrain_best.pt \
+  --num-envs 192 \
+  --episodes 192 \
+  --first-episode-per-env \
+  --success-threshold 0.20390625 \
+  --pointcloud-source rgbd_projected_mask \
+  --proprio-source deployable_robot \
+  --history-bootstrap zero_pad \
+  --rgbd-width 320 \
+  --rgbd-height 180 \
+  --rgbd-mask-points 1536 \
+  --rgbd-mask-dilation 2 \
+  --rgbd-depth-tolerance 0.045 \
+  --student-camera-eye 1.25 -1.05 0.72 \
+  --student-camera-target 0.58 0.00 0.37 \
+  --no-rgbd-clean-fallback \
+  --rgbd-temporal-fallback \
+  --predicted-grasp-hold-threshold 0.5 \
+  --predicted-grasp-hold-mode target \
+  --predicted-grasp-hold-target 0.99195 0.96469 0.94568 -0.34060 -0.23838 0.98926 \
+  --predicted-grasp-hold-blend 0.35 \
+  --wandb-project simtoolreal_lab \
+  --wandb-mode online \
+  --headless \
+  --device cuda:0
+```
+
 ## Current Experimental Status
 
-This repository is an active migration and tuning workspace, not a frozen benchmark release. The environment now contains:
+The following checkpoints passed the July 2026 acceptance protocol. Teacher
+success requires physical contact, catch/lift, and stable hold. Teacher videos
+and student videos are continuous 20-trial sequences with automatic reset and a
+fixed third view.
 
-- stable third-view camera support for teacher and student debugging;
-- stricter post-success hold/lift reward terms for tabletop tasks;
-- low-speed and high-speed rolling eval configs;
-- Revo2 and Inspire six-active-DoF task variants;
-- falling-baton affordance rewards and visible positive-negative markers;
-- transport affordance reward hooks for DOMINO20 and DextoolBench assets.
+| Policy | Task | Vector evaluation | Strict 20-trial video |
+| --- | --- | ---: | ---: |
+| Revo2 teacher | rolling 0.10-0.40 m/s | 258/512 (50.39%) | 8/20 (40%) |
+| Inspire teacher | rolling 0.10-0.40 m/s | 80/160 (50.00%) | 11/20 (55%) |
+| Revo2 teacher | falling baton | 262/512 (51.17%) | 9/20 (45%) |
+| Inspire teacher | falling baton | 293/512 (57.23%) | 12/20 (60%) |
+| Revo2 RGB-D student | falling baton | 45/192 (23.44%) | 5/20 (25%) |
+| Revo2 RGB-D student | rolling 0.10-0.40 m/s | 74/192 (38.54%) | 5/20 (25%) |
 
-Trained checkpoints, W&B run directories, raw videos, and local success/failure rollouts live under ignored output directories. Regenerate them with the commands above or copy selected artifacts into a separate release if needed.
+The rolling student vector result uses `--first-episode-per-env`: every one of
+the 192 initial environments contributes exactly one trial. This avoids a
+completion-time bias where rapidly failing and resetting environments can be
+counted repeatedly before slower successful episodes finish.
+
+Curated checkpoints, summaries, and videos are indexed under
+`outputs/curated_artifacts/` and `outputs/curated_videos/` on the experiment
+workstation. These ignored artifacts are not part of Git; W&B stores the online
+metric history.
+
+Run the lightweight artifact audit without starting IsaacLab:
+
+```bash
+$PYTHON scripts/audit_teacher_student_migration.py \
+  --manifest docs/teacher_student_acceptance_20260712.json \
+  --out-dir outputs/curated_artifacts/audit \
+  --fail-on-warning
+```
+
+The accepted run produces `outputs/curated_artifacts/acceptance_report.md` and
+`acceptance_report.json` with overall status `PASS`.
 
 ## Development Notes
 

@@ -33,12 +33,43 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--batch-size", type=int, default=256)
     parser.add_argument("--lr", type=float, default=3e-4)
     parser.add_argument("--device", default="cuda:0")
+    parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--init-checkpoint", type=Path, default=None, help="Optional PointTemporalStudent checkpoint to fine-tune.")
     parser.add_argument("--flow-target", choices=("velocity", "delta"), default="velocity")
+    parser.add_argument(
+        "--flow-loss",
+        choices=("mse", "smooth_l1"),
+        default="mse",
+        help="Point-flow regression loss. smooth_l1 is robust to contact-induced simulator spikes.",
+    )
+    parser.add_argument(
+        "--flow-huber-beta",
+        type=float,
+        default=0.01,
+        help="Smooth-L1 transition used when --flow-loss=smooth_l1.",
+    )
+    parser.add_argument(
+        "--flow-target-max-norm",
+        type=float,
+        default=0.0,
+        help="Optional per-point flow target norm cap; 0 disables clipping.",
+    )
     parser.add_argument("--action-loss-weight", type=float, default=1.0)
     parser.add_argument("--flow-loss-weight", type=float, default=0.25)
     parser.add_argument("--affordance-loss-weight", type=float, default=0.1)
     parser.add_argument("--privileged-loss-weight", type=float, default=0.1)
+    parser.add_argument(
+        "--privileged-loss",
+        choices=("mse", "smooth_l1"),
+        default="mse",
+        help="Compact privileged-state regression loss.",
+    )
+    parser.add_argument(
+        "--privileged-huber-beta",
+        type=float,
+        default=0.1,
+        help="Smooth-L1 transition used when --privileged-loss=smooth_l1.",
+    )
     parser.add_argument(
         "--hold-loss-weight",
         type=float,
@@ -116,6 +147,40 @@ def parse_args() -> argparse.Namespace:
         default=1.0,
         help="Number of samples drawn per epoch, as a multiple of the train split size.",
     )
+    parser.add_argument(
+        "--train-source-weights",
+        type=float,
+        nargs="*",
+        default=None,
+        help=(
+            "Optional sampling weights indexed by source_dataset_id in a merged dataset. "
+            "For example, '1 1 2' draws the third source twice as often as either earlier source."
+        ),
+    )
+    parser.add_argument(
+        "--input-normalization",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help=(
+            "Normalize valid point features and proprioception using train-split statistics, "
+            "and store those statistics in the checkpoint for deployment."
+        ),
+    )
+    parser.add_argument(
+        "--geometric-summary",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help=(
+            "Append per-frame object centroid, extent, valid-point fraction, and centroid delta "
+            "to the temporal policy input."
+        ),
+    )
+    parser.add_argument(
+        "--privileged-action-conditioning",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="Condition the action head on the student's predicted compact privileged state.",
+    )
     parser.add_argument("--val-fraction", type=float, default=0.1)
     parser.add_argument("--wandb-project", default=None)
     parser.add_argument("--wandb-entity", default=None)
@@ -145,11 +210,58 @@ def _trace(message: str) -> None:
     print(f"[STUDENT] {message}", flush=True)
 
 
+def input_normalization_stats(
+    payload: dict,
+    train_indices: torch.Tensor,
+    enabled: bool,
+) -> dict[str, torch.Tensor] | None:
+    if not enabled:
+        return None
+
+    pointcloud = payload["pointcloud_seq"][train_indices].float()
+    valid = (payload["pointcloud_valid_seq"][train_indices] > 0.0).float().unsqueeze(-1)
+    point_count = valid.sum(dim=(0, 1, 2), keepdim=True).clamp_min(1.0)
+    point_mean = (pointcloud * valid).sum(dim=(0, 1, 2), keepdim=True) / point_count
+    point_var = ((pointcloud - point_mean).pow(2) * valid).sum(
+        dim=(0, 1, 2), keepdim=True
+    ) / point_count
+
+    proprio = payload["proprio_seq"][train_indices].float()
+    proprio_mean = proprio.mean(dim=(0, 1), keepdim=True)
+    proprio_std = proprio.std(dim=(0, 1), keepdim=True, unbiased=False).clamp_min(1.0e-4)
+    return {
+        "pointcloud_mean": point_mean.cpu(),
+        "pointcloud_std": point_var.sqrt().clamp_min(1.0e-4).cpu(),
+        "proprio_mean": proprio_mean.cpu(),
+        "proprio_std": proprio_std.cpu(),
+    }
+
+
 def masked_mse(pred: torch.Tensor, target: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
     while mask.ndim < pred.ndim:
         mask = mask.unsqueeze(-1)
     mask = mask.float()
     return ((pred - target).pow(2) * mask).sum() / mask.sum().clamp_min(1.0)
+
+
+def masked_smooth_l1(
+    pred: torch.Tensor,
+    target: torch.Tensor,
+    mask: torch.Tensor,
+    beta: float,
+) -> torch.Tensor:
+    while mask.ndim < pred.ndim:
+        mask = mask.unsqueeze(-1)
+    loss = F.smooth_l1_loss(pred, target, reduction="none", beta=max(float(beta), 1.0e-8))
+    return (loss * mask.float()).sum() / mask.float().sum().clamp_min(1.0)
+
+
+def clip_vector_norm(target: torch.Tensor, max_norm: float) -> torch.Tensor:
+    if max_norm <= 0.0:
+        return target
+    norm = torch.linalg.vector_norm(target, dim=-1, keepdim=True)
+    scale = torch.clamp(float(max_norm) / norm.clamp_min(1.0e-8), max=1.0)
+    return target * scale
 
 
 def masked_bce(logits: torch.Tensor, target: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
@@ -192,9 +304,16 @@ def _maybe_init_wandb(args: argparse.Namespace, metadata: dict, spec):
             "epochs": args.epochs,
             "batch_size": args.batch_size,
             "lr": args.lr,
+            "seed": args.seed,
             "flow_target": args.flow_target,
+            "flow_loss": args.flow_loss,
+            "flow_huber_beta": args.flow_huber_beta,
+            "flow_target_max_norm": args.flow_target_max_norm,
+            "privileged_loss": args.privileged_loss,
+            "privileged_huber_beta": args.privileged_huber_beta,
             "history": spec.history,
             "num_object_points": spec.num_object_points,
+            "point_feature_dim": spec.point_feature_dim,
             "proprio_dim": spec.proprio_dim,
             "action_dim": spec.action_dim,
             "compact_privileged_dim": spec.compact_privileged_dim,
@@ -203,12 +322,16 @@ def _maybe_init_wandb(args: argparse.Namespace, metadata: dict, spec):
             "train_sampler_label": args.train_sampler_label,
             "train_positive_sample_weight": args.train_positive_sample_weight,
             "train_sampler_num_samples_multiplier": args.train_sampler_num_samples_multiplier,
+            "train_source_weights": args.train_source_weights,
             "hold_loss_weight": args.hold_loss_weight,
             "hold_gate_loss_weight": args.hold_gate_loss_weight,
             "hold_label_source": args.hold_label_source,
             "hold_label_rel_vel_threshold": args.hold_label_rel_vel_threshold,
             "hold_target_mode": args.hold_target_mode,
             "hold_anchor_target": args.hold_anchor_target,
+            "input_normalization": bool(args.input_normalization),
+            "geometric_summary": bool(args.geometric_summary),
+            "privileged_action_conditioning": bool(args.privileged_action_conditioning),
         }
     else:
         config = {
@@ -216,18 +339,28 @@ def _maybe_init_wandb(args: argparse.Namespace, metadata: dict, spec):
             "epochs": args.epochs,
             "batch_size": args.batch_size,
             "lr": args.lr,
+            "seed": args.seed,
             "flow_target": args.flow_target,
+            "flow_loss": args.flow_loss,
+            "flow_huber_beta": args.flow_huber_beta,
+            "flow_target_max_norm": args.flow_target_max_norm,
+            "privileged_loss": args.privileged_loss,
+            "privileged_huber_beta": args.privileged_huber_beta,
             "action_sample_weight_mode": args.action_sample_weight_mode,
             "action_positive_weight": args.action_positive_weight,
             "train_sampler_label": args.train_sampler_label,
             "train_positive_sample_weight": args.train_positive_sample_weight,
             "train_sampler_num_samples_multiplier": args.train_sampler_num_samples_multiplier,
+            "train_source_weights": args.train_source_weights,
             "hold_loss_weight": args.hold_loss_weight,
             "hold_gate_loss_weight": args.hold_gate_loss_weight,
             "hold_label_source": args.hold_label_source,
             "hold_label_rel_vel_threshold": args.hold_label_rel_vel_threshold,
             "hold_target_mode": args.hold_target_mode,
             "hold_anchor_target": args.hold_anchor_target,
+            "input_normalization": bool(args.input_normalization),
+            "geometric_summary": bool(args.geometric_summary),
+            "privileged_action_conditioning": bool(args.privileged_action_conditioning),
             "metadata": metadata,
         }
     init_kwargs = {
@@ -295,6 +428,9 @@ def resolve_hold_tensors(payload: dict, compact_privileged: torch.Tensor, args: 
 
 def main() -> None:
     args = parse_args()
+    torch.manual_seed(args.seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(args.seed)
     payload = torch.load(args.dataset, map_location="cpu", weights_only=False)
     metadata = dict(payload.get("metadata", {}))
     spec = default_dataset_spec(
@@ -303,6 +439,9 @@ def main() -> None:
         action_contract=metadata.get("action_contract", "revo2_semantic_13d"),
         history=int(metadata.get("history", payload["pointcloud_seq"].shape[1])),
         num_object_points=int(metadata.get("object_points", payload["pointcloud_seq"].shape[2])),
+        point_feature_dim=int(
+            metadata.get("point_feature_dim", payload["pointcloud_seq"].shape[-1])
+        ),
         proprio_dim=int(metadata.get("proprio_dim", payload["proprio_seq"].shape[-1])),
         compact_privileged_dim=int(metadata.get("compact_privileged_dim", payload["compact_privileged"].shape[-1])),
     )
@@ -329,47 +468,93 @@ def main() -> None:
     val_count = int(round(len(dataset) * args.val_fraction))
     val_count = min(max(val_count, 1), max(len(dataset) - 1, 1))
     train_count = len(dataset) - val_count
-    train_set, val_set = random_split(dataset, [train_count, val_count], generator=torch.Generator().manual_seed(42))
+    train_set, val_set = random_split(
+        dataset,
+        [train_count, val_count],
+        generator=torch.Generator().manual_seed(args.seed),
+    )
     positive_labels = replay_positive_labels(payload, compact_privileged, args.train_sampler_label)
     train_sampler = None
+    train_indices = torch.as_tensor(train_set.indices, dtype=torch.long)
+    train_weights = torch.ones(train_count, dtype=torch.double)
+    sampler_enabled = False
     sampler_stats = {
         "label": args.train_sampler_label,
         "positive_weight": float(args.train_positive_sample_weight),
         "num_samples_multiplier": float(args.train_sampler_num_samples_multiplier),
+        "source_weights": (
+            [float(value) for value in args.train_source_weights]
+            if args.train_source_weights
+            else None
+        ),
         "enabled": False,
     }
+
+    source_ids = payload.get("source_dataset_id")
+    train_source_ids = None
+    if args.train_source_weights:
+        if source_ids is None or not torch.is_tensor(source_ids):
+            raise RuntimeError("--train-source-weights requires source_dataset_id in the merged dataset.")
+        source_ids = source_ids.long().view(-1)
+        if source_ids.shape[0] != len(dataset):
+            raise RuntimeError(
+                f"source_dataset_id length mismatch: expected {len(dataset)}, got {source_ids.shape[0]}"
+            )
+        source_weight_values = torch.tensor(args.train_source_weights, dtype=torch.double)
+        if bool((source_weight_values <= 0.0).any()):
+            raise ValueError("--train-source-weights values must all be positive.")
+        max_source_id = int(source_ids.max().item()) if source_ids.numel() else -1
+        if max_source_id >= source_weight_values.numel():
+            raise ValueError(
+                f"--train-source-weights has {source_weight_values.numel()} values, "
+                f"but source_dataset_id contains {max_source_id}."
+            )
+        train_source_ids = source_ids[train_indices]
+        train_weights *= source_weight_values[train_source_ids]
+        sampler_enabled |= not bool(torch.allclose(source_weight_values, torch.ones_like(source_weight_values)))
+        sampler_stats["train_source_counts"] = {
+            str(source_id): int((train_source_ids == source_id).sum().item())
+            for source_id in range(max_source_id + 1)
+        }
+
     if positive_labels is not None and float(args.train_positive_sample_weight) > 1.0:
-        train_indices = torch.as_tensor(train_set.indices, dtype=torch.long)
         train_positive = positive_labels[train_indices]
         positive_count = int(train_positive.sum().item())
-        train_weights = torch.ones(train_count, dtype=torch.double)
-        train_weights[train_positive.cpu()] = float(args.train_positive_sample_weight)
-        sampler_num_samples = max(1, int(round(train_count * float(args.train_sampler_num_samples_multiplier))))
-        if positive_count > 0 and sampler_num_samples > 0:
-            train_sampler = WeightedRandomSampler(
-                train_weights,
-                num_samples=sampler_num_samples,
-                replacement=True,
-                generator=torch.Generator().manual_seed(42),
-            )
-            expected_positive_fraction = float(
-                train_weights[train_positive.cpu()].sum().item() / train_weights.sum().clamp_min(1.0).item()
-            )
-            sampler_stats |= {
-                "enabled": True,
-                "train_positive_count": positive_count,
-                "train_count": int(train_count),
-                "num_samples": int(sampler_num_samples),
-                "expected_positive_fraction": expected_positive_fraction,
-            }
-            _trace(
-                f"enabled train sampler label={args.train_sampler_label} "
-                f"positive={positive_count}/{train_count} "
-                f"weight={float(args.train_positive_sample_weight):.3f} "
-                f"expected_positive_fraction={expected_positive_fraction:.3f}"
-            )
+        if positive_count > 0:
+            train_weights[train_positive.cpu()] *= float(args.train_positive_sample_weight)
+            sampler_enabled = True
+            sampler_stats["train_positive_count"] = positive_count
         else:
             _trace(f"train sampler label={args.train_sampler_label} has no positives in train split; using shuffle")
+
+    sampler_num_samples = max(1, int(round(train_count * float(args.train_sampler_num_samples_multiplier))))
+    if sampler_enabled and sampler_num_samples > 0:
+        train_sampler = WeightedRandomSampler(
+            train_weights,
+            num_samples=sampler_num_samples,
+            replacement=True,
+            generator=torch.Generator().manual_seed(args.seed),
+        )
+        sampler_stats |= {
+            "enabled": True,
+            "train_count": int(train_count),
+            "num_samples": int(sampler_num_samples),
+        }
+        if positive_labels is not None and "train_positive_count" in sampler_stats:
+            train_positive = positive_labels[train_indices]
+            sampler_stats["expected_positive_fraction"] = float(
+                train_weights[train_positive.cpu()].sum().item()
+                / train_weights.sum().clamp_min(1.0).item()
+            )
+        if train_source_ids is not None:
+            sampler_stats["expected_source_fractions"] = {
+                str(source_id): float(
+                    train_weights[train_source_ids == source_id].sum().item()
+                    / train_weights.sum().clamp_min(1.0).item()
+                )
+                for source_id in range(int(train_source_ids.max().item()) + 1)
+            }
+        _trace(f"enabled train sampler: {sampler_stats}")
     train_loader = DataLoader(
         train_set,
         batch_size=args.batch_size,
@@ -379,24 +564,61 @@ def main() -> None:
     )
     val_loader = DataLoader(val_set, batch_size=args.batch_size, shuffle=False, drop_last=False)
 
+    normalization = input_normalization_stats(payload, train_indices, bool(args.input_normalization))
+    if normalization is not None:
+        _trace(
+            "enabled input normalization: "
+            f"point_std_min={float(normalization['pointcloud_std'].min()):.6f} "
+            f"proprio_std_min={float(normalization['proprio_std'].min()):.6f}"
+        )
+
     device = torch.device(args.device if torch.cuda.is_available() or not args.device.startswith("cuda") else "cpu")
     model = PointTemporalStudent(
         history=spec.history,
         proprio_dim=spec.proprio_dim,
         action_dim=spec.action_dim,
         privileged_dim=spec.compact_privileged_dim,
+        point_input_dim=spec.point_feature_dim,
+        geometric_summary=bool(args.geometric_summary),
+        privileged_action_conditioning=bool(args.privileged_action_conditioning),
     ).to(device)
     if args.init_checkpoint is not None:
         init_payload = torch.load(args.init_checkpoint, map_location=device, weights_only=False)
         if not isinstance(init_payload, dict) or "model_state_dict" not in init_payload:
             raise RuntimeError(f"--init-checkpoint is not a PointTemporalStudent checkpoint: {args.init_checkpoint}")
+        init_normalization = init_payload.get("normalization")
+        if bool(init_normalization is not None) != bool(args.input_normalization):
+            raise RuntimeError(
+                "--init-checkpoint input-normalization contract does not match "
+                f"--input-normalization={bool(args.input_normalization)}."
+            )
+        if init_normalization is not None:
+            required_norm_keys = {
+                "pointcloud_mean",
+                "pointcloud_std",
+                "proprio_mean",
+                "proprio_std",
+            }
+            missing_norm_keys = required_norm_keys - set(init_normalization)
+            if missing_norm_keys:
+                raise RuntimeError(
+                    "Init checkpoint normalization is incomplete: "
+                    f"missing={sorted(missing_norm_keys)}"
+                )
+            normalization = {
+                key: init_normalization[key].detach().float().cpu()
+                for key in sorted(required_norm_keys)
+            }
         init_spec = dict(init_payload.get("spec", {}))
         expected = {
             "history": spec.history,
             "num_object_points": spec.num_object_points,
+            "point_feature_dim": spec.point_feature_dim,
             "proprio_dim": spec.proprio_dim,
             "action_dim": spec.action_dim,
             "compact_privileged_dim": spec.compact_privileged_dim,
+            "geometric_summary": bool(args.geometric_summary),
+            "privileged_action_conditioning": bool(args.privileged_action_conditioning),
         }
         mismatches = [
             f"{key}: init={init_spec.get(key)!r} current={value!r}"
@@ -416,6 +638,11 @@ def main() -> None:
         if missing:
             _trace(f"init checkpoint missing optional hold head weights; initialized {list(missing)}")
         _trace(f"loaded init checkpoint: {args.init_checkpoint}")
+    normalization_device = (
+        {key: value.to(device) for key, value in normalization.items()}
+        if normalization is not None
+        else None
+    )
     if args.train_action_head_only or args.train_hold_head_only:
         trainable_prefixes: list[str] = []
         if args.train_action_head_only:
@@ -451,8 +678,16 @@ def main() -> None:
             pc = pc.to(device)
             valid = valid.to(device)
             proprio = proprio.to(device)
+            if normalization_device is not None:
+                pc = (pc - normalization_device["pointcloud_mean"]) / normalization_device[
+                    "pointcloud_std"
+                ]
+                proprio = (proprio - normalization_device["proprio_mean"]) / normalization_device[
+                    "proprio_std"
+                ]
             action = action.to(device)
             flow = flow.to(device)
+            flow = clip_vector_norm(flow, float(args.flow_target_max_norm))
             affordance = affordance.to(device)
             privileged = privileged.to(device)
             hold_target_batch = hold_target_batch.to(device)
@@ -469,10 +704,22 @@ def main() -> None:
                     args.action_positive_weight,
                 )
                 action_loss = (action_error * action_weights).sum() / action_weights.sum().clamp_min(1.0)
-                flow_loss = masked_mse(out["flow"], flow, current_valid)
+                if args.flow_loss == "smooth_l1":
+                    flow_loss = masked_smooth_l1(
+                        out["flow"], flow, current_valid, args.flow_huber_beta
+                    )
+                else:
+                    flow_loss = masked_mse(out["flow"], flow, current_valid)
                 aff_mask = current_valid * (affordance >= 0.0).float()
                 affordance_loss = masked_bce(out["affordance_logits"], affordance.clamp(0.0, 1.0), aff_mask)
-                privileged_loss = F.mse_loss(out["privileged"], privileged)
+                if args.privileged_loss == "smooth_l1":
+                    privileged_loss = F.smooth_l1_loss(
+                        out["privileged"],
+                        privileged,
+                        beta=max(float(args.privileged_huber_beta), 1.0e-8),
+                    )
+                else:
+                    privileged_loss = F.mse_loss(out["privileged"], privileged)
                 if out["hold_target"].shape[-1] > 0:
                     hold_error = F.smooth_l1_loss(
                         out["hold_target"],
@@ -528,14 +775,24 @@ def main() -> None:
             "spec": {
                 "history": spec.history,
                 "num_object_points": spec.num_object_points,
+                "point_feature_dim": spec.point_feature_dim,
                 "proprio_dim": spec.proprio_dim,
                 "action_dim": spec.action_dim,
                 "arm_dim": getattr(model, "arm_dim", 7),
                 "hand_dim": getattr(model, "hand_dim", max(spec.action_dim - 7, 0)),
                 "compact_privileged_dim": spec.compact_privileged_dim,
+                "geometric_summary": bool(args.geometric_summary),
+                "privileged_action_conditioning": bool(args.privileged_action_conditioning),
             },
             "epoch": epoch,
+            "seed": int(args.seed),
             "val_loss": val_metrics["loss"],
+            "flow_target": args.flow_target,
+            "flow_loss": args.flow_loss,
+            "flow_huber_beta": float(args.flow_huber_beta),
+            "flow_target_max_norm": float(args.flow_target_max_norm),
+            "privileged_loss": args.privileged_loss,
+            "privileged_huber_beta": float(args.privileged_huber_beta),
             "train_sampler": sampler_stats,
             "train_action_head_only": bool(args.train_action_head_only),
             "train_hold_head_only": bool(args.train_hold_head_only),
@@ -549,6 +806,8 @@ def main() -> None:
                 if args.hold_anchor_target is not None
                 else None
             ),
+            "input_normalization": bool(normalization is not None),
+            "normalization": normalization,
         }
         torch.save(checkpoint, last_path)
         if val_metrics["loss"] < best_val:

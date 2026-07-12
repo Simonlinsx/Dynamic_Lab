@@ -18,6 +18,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--task", default="SimToolReal-Revo2-Franka-StaticBall-Grasp-Direct-v0", help="Gym task id.")
 parser.add_argument("--num-envs", "--num_envs", dest="num_envs", type=int, default=1, help="Number of envs.")
 parser.add_argument("--output-json", default=None, help="Optional output JSON path.")
+parser.add_argument("--hand-joints-only", action="store_true", help="Only report hand joint USD attributes.")
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 
@@ -47,6 +48,28 @@ def _prim_record(prim) -> dict:
     return record
 
 
+def _attr_value(prim, name: str):
+    attr = prim.GetAttribute(name)
+    if not attr:
+        return None
+    value = attr.Get()
+    if value is None:
+        return None
+    if hasattr(value, "real"):
+        return float(value)
+    return str(value)
+
+
+def _joint_record(prim) -> dict:
+    record = _prim_record(prim)
+    record["attributes"] = {
+        attr.GetName(): _attr_value(prim, attr.GetName())
+        for attr in prim.GetAttributes()
+        if attr.GetName().startswith(("physics:", "drive:", "physxJoint:"))
+    }
+    return record
+
+
 def main() -> None:
     carb.settings.get_settings().set_bool("/physics/cooking/ujitsoCollisionCooking", False)
     env_cfg = parse_env_cfg(args_cli.task, device=args_cli.device, num_envs=args_cli.num_envs)
@@ -59,6 +82,7 @@ def main() -> None:
 
         all_records = []
         collision_records = []
+        joint_records = []
         instance_records = []
         prototype_records = []
         seen_prototypes = set()
@@ -68,6 +92,8 @@ def main() -> None:
             all_records.append(record)
             if record["has_collision_api"]:
                 collision_records.append(record)
+            if "Joint" in str(prim.GetTypeName()):
+                joint_records.append(_joint_record(prim))
             if record["is_instance"] or record["is_instance_proxy"]:
                 instance_records.append(record)
             if prim.IsInstance():
@@ -85,14 +111,28 @@ def main() -> None:
             "robot_path": robot_path,
             "all_count": len(all_records),
             "collision_count": len(collision_records),
+            "joint_count": len(joint_records),
             "instance_count": len(instance_records),
             "prototype_count": len(prototype_records),
             "prototype_collision_count": sum(r["has_collision_api"] for r in prototype_records),
             "first_all": all_records[:120],
             "collisions": collision_records[:120],
+            "joints": joint_records[:160],
             "instances": instance_records[:120],
             "prototypes": prototype_records[:160],
         }
+        if args_cli.hand_joints_only:
+            hand_prefixes = ("thumb_", "index_", "middle_", "ring_", "pinky_")
+            summary = {
+                "task": args_cli.task,
+                "robot_path": robot_path,
+                "joint_count": len(joint_records),
+                "joints": [
+                    record
+                    for record in joint_records
+                    if record["path"].rsplit("/", 1)[-1].startswith(hand_prefixes)
+                ],
+            }
         print(json.dumps(summary, indent=2, sort_keys=True), flush=True)
         if args_cli.output_json:
             output_json = Path(args_cli.output_json).expanduser().resolve()

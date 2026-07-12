@@ -55,8 +55,80 @@ def sample_box_surface_points(
     return points, labels
 
 
+def sample_unit_primitive_surface_points(
+    num_points: int,
+    device: torch.device | str,
+) -> torch.Tensor:
+    """Sample normalized sphere, box, cylinder, and cone surfaces.
+
+    The returned tensor has shape ``[4, N, 3]`` and follows the environment's
+    shape-code contract: sphere=0, box=1, cylinder=2, cone=3. Every primitive
+    fits inside a unit-size bounding box centered at the origin.
+    """
+
+    if num_points <= 0:
+        raise ValueError(f"num_points must be positive, got {num_points}")
+
+    dtype = torch.float32
+    sphere = torch.randn((num_points, 3), dtype=dtype, device=device)
+    sphere = 0.5 * sphere / torch.linalg.vector_norm(sphere, dim=-1, keepdim=True).clamp_min(1.0e-6)
+
+    box, _ = sample_box_surface_points((1.0, 1.0, 1.0), num_points, device)
+
+    theta = 2.0 * torch.pi * torch.rand(num_points, dtype=dtype, device=device)
+    cylinder = torch.empty((num_points, 3), dtype=dtype, device=device)
+    cap_count = max(num_points // 4, 1)
+    side_count = num_points - cap_count
+    cylinder[:side_count, 0] = 0.5 * torch.cos(theta[:side_count])
+    cylinder[:side_count, 1] = 0.5 * torch.sin(theta[:side_count])
+    cylinder[:side_count, 2] = torch.rand(side_count, dtype=dtype, device=device) - 0.5
+    cap_radius = 0.5 * torch.sqrt(torch.rand(cap_count, dtype=dtype, device=device))
+    cylinder[side_count:, 0] = cap_radius * torch.cos(theta[side_count:])
+    cylinder[side_count:, 1] = cap_radius * torch.sin(theta[side_count:])
+    cylinder[side_count:, 2] = torch.where(
+        torch.arange(cap_count, device=device) % 2 == 0,
+        torch.full((cap_count,), -0.5, dtype=dtype, device=device),
+        torch.full((cap_count,), 0.5, dtype=dtype, device=device),
+    )
+
+    cone = torch.empty((num_points, 3), dtype=dtype, device=device)
+    cone_side_count = num_points - cap_count
+    cone_z = torch.rand(cone_side_count, dtype=dtype, device=device) - 0.5
+    cone_radius = 0.5 * (0.5 - cone_z)
+    cone[:cone_side_count, 0] = cone_radius * torch.cos(theta[:cone_side_count])
+    cone[:cone_side_count, 1] = cone_radius * torch.sin(theta[:cone_side_count])
+    cone[:cone_side_count, 2] = cone_z
+    cone_cap_radius = 0.5 * torch.sqrt(torch.rand(cap_count, dtype=dtype, device=device))
+    cone[cone_side_count:, 0] = cone_cap_radius * torch.cos(theta[cone_side_count:])
+    cone[cone_side_count:, 1] = cone_cap_radius * torch.sin(theta[cone_side_count:])
+    cone[cone_side_count:, 2] = -0.5
+
+    return torch.stack((sphere, box, cylinder, cone), dim=0)
+
+
+def primitive_surface_points_for_envs(
+    unit_points_by_shape: torch.Tensor,
+    shape_codes: torch.Tensor,
+    sizes: torch.Tensor,
+) -> torch.Tensor:
+    """Scale normalized primitive surfaces for each active environment asset."""
+
+    if unit_points_by_shape.ndim != 3 or unit_points_by_shape.shape[0] != 4:
+        raise ValueError(
+            "unit_points_by_shape must have shape [4,N,3], "
+            f"got {tuple(unit_points_by_shape.shape)}"
+        )
+    if shape_codes.ndim != 1 or sizes.shape != (shape_codes.shape[0], 3):
+        raise ValueError(
+            "shape_codes/sizes must have shapes [E] and [E,3], "
+            f"got {tuple(shape_codes.shape)} and {tuple(sizes.shape)}"
+        )
+    selected = unit_points_by_shape[shape_codes.long().clamp(min=0, max=3)]
+    return selected * sizes.to(dtype=selected.dtype).unsqueeze(1)
+
+
 def box_affordance_labels_from_local_points(
-    size: tuple[float, float, float],
+    size: tuple[float, float, float] | torch.Tensor,
     local_points: torch.Tensor,
     *,
     affordance_mode: str = "side_grasp",
@@ -70,7 +142,7 @@ def box_affordance_labels_from_local_points(
     0 means explicitly negative, and -1 means unlabeled/ignored.
     """
 
-    size_tensor = torch.tensor(size, dtype=local_points.dtype, device=local_points.device)
+    size_tensor = torch.as_tensor(size, dtype=local_points.dtype, device=local_points.device)
     half_size = torch.clamp(0.5 * size_tensor, min=1.0e-6)
     long_axis = int(torch.argmax(size_tensor).item())
     mode = str(affordance_mode).lower()
@@ -114,7 +186,15 @@ def object_points_in_world_frame(
 ) -> torch.Tensor:
     """Transform object-local points into world frame for each environment."""
 
-    local = object_local_points.unsqueeze(0).expand(object_pos_w.shape[0], -1, -1)
+    if object_local_points.ndim == 2:
+        local = object_local_points.unsqueeze(0).expand(object_pos_w.shape[0], -1, -1)
+    elif object_local_points.ndim == 3 and object_local_points.shape[0] == object_pos_w.shape[0]:
+        local = object_local_points
+    else:
+        raise ValueError(
+            "object_local_points must have shape [N,3] or [E,N,3], "
+            f"got {tuple(object_local_points.shape)}"
+        )
     return quat_rotate(object_quat_w.unsqueeze(1), local) + object_pos_w.unsqueeze(1)
 
 
@@ -149,7 +229,7 @@ def rigid_object_point_flow_in_palm_frame(
 
 def masked_rgbd_object_points_in_palm_frame(
     object_local_points: torch.Tensor,
-    object_size: tuple[float, float, float],
+    object_size: tuple[float, float, float] | torch.Tensor,
     depth: torch.Tensor,
     camera_pos_w: torch.Tensor,
     camera_quat_w_ros: torch.Tensor,
@@ -160,6 +240,7 @@ def masked_rgbd_object_points_in_palm_frame(
     palm_quat_w: torch.Tensor,
     *,
     num_points: int,
+    rgb: torch.Tensor | None = None,
     mask_dilation: int = 1,
     depth_tolerance: float = 0.035,
     affordance_mode: str = "side_grasp",
@@ -190,8 +271,19 @@ def masked_rgbd_object_points_in_palm_frame(
         projected_points_w - camera_pos_w.unsqueeze(1),
     )
 
+    if rgb is not None:
+        if rgb.ndim != 4 or rgb.shape[:3] != (num_envs, height, width) or rgb.shape[-1] < 3:
+            raise ValueError(
+                "rgb must have shape [E,H,W,C>=3] matching depth, "
+                f"got {tuple(rgb.shape)}"
+            )
+        rgb_image = rgb[..., :3]
+    else:
+        rgb_image = None
+
     points_palm = torch.zeros((num_envs, num_points, 3), dtype=dtype, device=device)
     points_w = torch.zeros_like(points_palm)
+    colors = torch.zeros_like(points_palm)
     valid = torch.zeros((num_envs, num_points), dtype=dtype, device=device)
     labels = torch.full((num_envs, num_points), -1.0, dtype=dtype, device=device)
     masks = torch.zeros((num_envs, height, width), dtype=torch.bool, device=device)
@@ -246,8 +338,6 @@ def masked_rgbd_object_points_in_palm_frame(
         finite_depth = torch.isfinite(rendered_depth) & (rendered_depth > 1.0e-4)
         visible = finite_depth & (torch.abs(rendered_depth - expected_depth) <= float(depth_tolerance))
         if not bool(visible.any()):
-            visible = finite_depth
-        if not bool(visible.any()):
             continue
 
         pix_v = pix_v[visible]
@@ -277,12 +367,22 @@ def masked_rgbd_object_points_in_palm_frame(
             object_quat_w[env_id].unsqueeze(0),
             sampled_w - object_pos_w[env_id].unsqueeze(0),
         )
+        if rgb_image is not None:
+            sampled_rgb = rgb_image[env_id, pix_v[sample_ids], pix_u[sample_ids], :3].to(dtype=dtype)
+            if sampled_rgb.numel() > 0 and float(sampled_rgb.max().detach().cpu()) > 1.0:
+                sampled_rgb = sampled_rgb / 255.0
+            colors[env_id, :out_count] = sampled_rgb[:out_count]
 
         points_palm[env_id, :out_count] = sampled_palm[:out_count]
         points_w[env_id, :out_count] = sampled_w[:out_count]
         valid[env_id, :out_count] = 1.0
+        env_object_size = (
+            object_size[env_id]
+            if torch.is_tensor(object_size) and object_size.ndim == 2
+            else object_size
+        )
         labels[env_id, :out_count] = box_affordance_labels_from_local_points(
-            object_size,
+            env_object_size,
             sampled_local[:out_count],
             affordance_mode=affordance_mode,
             affordance_positive_fraction=affordance_positive_fraction,
@@ -293,6 +393,7 @@ def masked_rgbd_object_points_in_palm_frame(
     return {
         "points_palm": points_palm,
         "points_w": points_w,
+        "colors": colors,
         "valid": valid,
         "affordance_labels": labels,
         "object_mask": masks,
