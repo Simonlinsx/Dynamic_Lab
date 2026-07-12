@@ -301,10 +301,11 @@ parser.add_argument("--video-camera-resolution", type=int, nargs=2, default=(960
 parser.add_argument(
     "--video-pointcloud-visualization",
     choices=("none", "inset", "separate", "both"),
-    default="none",
+    default="inset",
     help=(
         "Visualize the exact current point-cloud observation as a top-right inset, "
-        "a synchronized companion MP4, or both."
+        "a synchronized companion MP4, or both. Saved deployable-student videos "
+        "must include the top-right inset."
     ),
 )
 parser.add_argument(
@@ -342,6 +343,19 @@ if int(args_cli.video_pointcloud_point_radius) <= 0:
     raise ValueError("--video-pointcloud-point-radius must be positive.")
 if int(args_cli.video_pointcloud_inset_margin) < 0:
     raise ValueError("--video-pointcloud-inset-margin must be non-negative.")
+student_video_requested = any(
+    int(value) > 0
+    for value in (
+        args_cli.save_success_videos,
+        args_cli.save_trial_sequence_videos,
+        args_cli.save_rollout_videos_on_failure,
+    )
+)
+if student_video_requested and args_cli.video_pointcloud_visualization not in {"inset", "both"}:
+    parser.error(
+        "saved deployable-student videos must include the synchronized point-cloud "
+        "observation in the top-right; use --video-pointcloud-visualization inset or both"
+    )
 if not (0.0 <= float(args_cli.predicted_grasp_hold_blend) <= 1.0):
     raise ValueError("--predicted-grasp-hold-blend must be in [0, 1].")
 if int(args_cli.predicted_grasp_arm_lock_delay_steps) < -1:
@@ -1495,6 +1509,7 @@ def _write_video_trace(
             str(pointcloud_video_path) if pointcloud_video_path is not None else None
         ),
         "pointcloud_visualization": str(args_cli.video_pointcloud_visualization),
+        "pointcloud_inset": bool(_pointcloud_inset_enabled()),
         "pointcloud_coordinate_frame": "palm",
         "pointcloud_source": str(
             getattr(args_cli, "resolved_pointcloud_source", args_cli.pointcloud_source)
@@ -1913,6 +1928,7 @@ def _write_trial_sequence_trace(
             str(pointcloud_video_path) if pointcloud_video_path is not None else None
         ),
         "pointcloud_visualization": str(args_cli.video_pointcloud_visualization),
+        "pointcloud_inset": bool(_pointcloud_inset_enabled()),
         "pointcloud_coordinate_frame": "palm",
         "pointcloud_source": str(
             getattr(args_cli, "resolved_pointcloud_source", args_cli.pointcloud_source)
@@ -2493,6 +2509,7 @@ def main() -> None:
         "rgbd_temporal_fallback": bool(args_cli.rgbd_temporal_fallback),
         "trial_sequence_seed_mode": str(args_cli.trial_sequence_seed_mode),
         "video_pointcloud_visualization": str(args_cli.video_pointcloud_visualization),
+        "video_pointcloud_inset": bool(_pointcloud_inset_enabled()),
         "video_pointcloud_panel_resolution": [
             int(value) for value in args_cli.video_pointcloud_panel_resolution
         ],

@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import numpy as np
 
 from simtoolreal_lab.teacher_student.visualization import (
@@ -63,3 +65,18 @@ def test_render_pointcloud_panel_skips_extreme_offscreen_coordinates():
 
     assert panel.shape == (96, 160, 3)
     assert np.any((panel[..., 1] > 180) & (panel[..., 0] < 150))
+
+
+def test_student_evaluator_defaults_to_required_pointcloud_inset():
+    script = (
+        Path(__file__).resolve().parents[1]
+        / "scripts"
+        / "evaluate_teacher_student.py"
+    ).read_text(encoding="utf-8")
+
+    option_start = script.index('"--video-pointcloud-visualization"')
+    option_block = script[option_start : option_start + 650]
+    assert 'default="inset"' in option_block
+    assert "student_video_requested" in script
+    assert 'not in {"inset", "both"}' in script
+    assert '"video_pointcloud_inset": bool(_pointcloud_inset_enabled())' in script

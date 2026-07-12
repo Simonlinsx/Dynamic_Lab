@@ -1,4 +1,33 @@
 {
+  "video_acceptance_protocol": {
+    "required_matrix": [
+      "revo2_rolling_teacher",
+      "revo2_rolling_student",
+      "revo2_falling_teacher",
+      "revo2_falling_student",
+      "inspire_rolling_teacher",
+      "inspire_rolling_student",
+      "inspire_falling_teacher",
+      "inspire_falling_student"
+    ],
+    "shared": {
+      "fixed_camera": true,
+      "continuous_auto_reset": true,
+      "trials_per_video": 20,
+      "strict_post_success_hold": true
+    },
+    "teacher": {
+      "pointcloud_inset_required": false
+    },
+    "student": {
+      "pointcloud_inset_required": true,
+      "pointcloud_inset_position": "top_right",
+      "pointcloud_source": "rgbd_projected_mask",
+      "pointcloud_timing": "same_policy_observation_frame",
+      "accepted_visualization_modes": ["inset", "both"]
+    },
+    "current_status": "pending_complete_unified_matrix"
+  },
   "unified_protocols": {
     "rolling_multishape_v1": {
       "revo2_task": "SimToolReal-Revo2-Franka-UnifiedRollingBenchmark-Teacher-Direct-v0",
@@ -49,6 +78,7 @@
       },
       "student_vector_wandb": "https://wandb.ai/simonlsx/simtoolreal_lab/runs/d41v4wrx",
       "student_video_wandb": "https://wandb.ai/simonlsx/simtoolreal_lab/runs/4wvcbjuh",
+      "student_video_pointcloud_source": "rgbd_projected_mask",
       "teacher_summary": "outputs/curated_artifacts/summaries/teacher/revo2_rolling_teacher_vector512.json",
       "teacher_video_summary": "outputs/curated_artifacts/summaries/teacher/revo2_rolling_teacher_video20.json",
       "teacher_video": "outputs/curated_videos/teacher/revo2_rolling_teacher_strict20_sr040.mp4",
@@ -84,16 +114,17 @@
         "predicted_grasp_hold_blend": 0.35
       },
       "student_vector_wandb": "https://wandb.ai/simonlsx/simtoolreal_lab/runs/qskvb40t",
-      "student_video_wandb": "https://wandb.ai/simonlsx/simtoolreal_lab/runs/iguzt608",
+      "student_video_wandb": "https://wandb.ai/simonlsx/simtoolreal_lab/runs/99y69g7i",
+      "student_video_pointcloud_source": "rgbd_projected_mask",
       "teacher_summary": "outputs/curated_artifacts/summaries/teacher/revo2_falling_teacher_vector512.json",
       "teacher_video_summary": "outputs/curated_artifacts/summaries/teacher/revo2_falling_teacher_video20.json",
       "teacher_video": "outputs/curated_videos/teacher/revo2_falling_teacher_redgreen_strict20_sr045.mp4",
       "teacher_video_trace": [],
       "teacher_video_trace_required": false,
       "student_summary": "outputs/curated_artifacts/summaries/student/revo2_falling_student_vector192.json",
-      "student_video_summary": "outputs/curated_artifacts/summaries/student/revo2_falling_student_video20.json",
-      "student_video": "outputs/curated_videos/student/revo2_falling_student_rgbd_strict20_post60_sr020.mp4",
-      "student_video_trace": "outputs/curated_artifacts/traces/student/revo2_falling_student_video20.trace.json"
+      "student_video_summary": "outputs/curated_artifacts/summaries/student/revo2_falling_student_pointcloud_video20.json",
+      "student_video": "outputs/curated_videos/student/revo2_falling_student_rgbd_pointcloud_strict20_post60_sr015_raw030.mp4",
+      "student_video_trace": "outputs/curated_artifacts/traces/student/revo2_falling_student_pointcloud_video20.trace.json"
     },
     {
       "case_id": "inspire_rolling_sphere_diagnostic",

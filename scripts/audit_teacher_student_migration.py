@@ -636,6 +636,35 @@ def _check_video_summary(
     return {"videos": video_records, "traces": trace_records}
 
 
+def _check_student_video_protocol(
+    result: CheckResult,
+    summary: dict[str, Any],
+    label: str,
+    expected_pointcloud_source: str,
+) -> dict[str, Any]:
+    """Enforce the deployable-student video contract independently of curation prose."""
+
+    mode = str(summary.get("video_pointcloud_visualization", "none"))
+    has_inset = bool(summary.get("video_pointcloud_inset", mode in {"inset", "both"}))
+    source = summary.get("pointcloud_source")
+    if mode not in {"inset", "both"} or not has_inset:
+        result.error(
+            f"{label} video must contain the synchronized point-cloud observation "
+            f"in the top-right (mode={mode!r}, inset={has_inset!r})"
+        )
+    if source != expected_pointcloud_source:
+        result.error(
+            f"{label} video pointcloud_source={source!r}, "
+            f"expected={expected_pointcloud_source!r}"
+        )
+    return {
+        "pointcloud_visualization": mode,
+        "pointcloud_inset": has_inset,
+        "pointcloud_source": source,
+        "expected_pointcloud_source": expected_pointcloud_source,
+    }
+
+
 def _load_manifest(path: Path | None) -> list[dict[str, Any]]:
     if path is None:
         return DEFAULT_CASES
@@ -724,6 +753,12 @@ def _audit_case(root: Path, case: dict[str, Any], args: argparse.Namespace) -> d
             int(case.get("expected_arm_dim", 7)),
             int(case["expected_hand_dim"]),
         )
+        student_video_protocol = _check_student_video_protocol(
+            result,
+            student_video_summary,
+            f"{case_id} student",
+            str(case.get("student_video_pointcloud_source", "rgbd_projected_mask")),
+        )
         student_video = _check_video_summary(
             root,
             result,
@@ -740,6 +775,7 @@ def _audit_case(root: Path, case: dict[str, Any], args: argparse.Namespace) -> d
         student_dataset = {}
         student_training = {}
         student_spec = {}
+        student_video_protocol = {}
         student_video = {"videos": [], "traces": []}
 
     return {
@@ -767,6 +803,7 @@ def _audit_case(root: Path, case: dict[str, Any], args: argparse.Namespace) -> d
             "min_success_rate": float(case.get("student_min_success_rate", 0.0)),
             "spec": student_spec,
             "training": student_training,
+            "video_protocol": student_video_protocol,
             "video": student_video,
         },
     }

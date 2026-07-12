@@ -341,17 +341,25 @@ For a synchronized continuous debug video, append:
   --save-trial-sequence-videos 1 \
   --trial-sequence-trials 20 \
   --video-envs 1 \
-  --video-pointcloud-visualization both \
+  --video-pointcloud-visualization inset \
   --video-pointcloud-panel-resolution 320 192 \
   --video-pointcloud-range 0.30
 ```
 
-`both` places the fallback-applied RGB-D point cloud in the main video's
-top-right corner and writes a frame-synchronized `_pointcloud.mp4` companion.
+`inset` places the fallback-applied RGB-D point cloud in the main video's
+top-right corner. `both` additionally writes a frame-synchronized
+`_pointcloud.mp4` companion.
 The visualization uses the policy's current `points_palm`, RGB features, and
 valid mask after temporal fallback; it never substitutes the clean simulator
-point cloud when `--no-rgbd-clean-fallback` is active. Use `inset` or `separate`
-to keep only one output.
+point cloud when `--no-rgbd-clean-fallback` is active. `inset` is the default;
+the evaluator rejects every saved student video that uses `none` or `separate`.
+
+Formal video acceptance covers the full Revo2/Inspire x rolling/falling x
+teacher/student matrix. Every cell uses a fixed third-view camera, 20 continuous
+auto-reset trials, and strict post-success hold. Teacher videos show the scene;
+student videos must also show the exact same-frame masked RGB-D point-cloud
+observation in the top-right. `scripts/audit_teacher_student_migration.py`
+checks this contract from the evaluation summary instead of trusting filenames.
 
 The actor can also be fine-tuned with deployable RGB-D observations while the
 critic receives compact simulator state. The adapter applied during rollout
@@ -389,11 +397,13 @@ diagnostics but are not acceptance metrics.
 
 ## Current Experimental Status
 
-The following legacy checkpoints passed the July 2026 acceptance protocol. Teacher
+The following legacy checkpoints passed the earlier July 2026 metric protocol. Teacher
 success requires physical contact, catch/lift, and stable hold. Teacher videos
 and student videos are continuous 20-trial sequences with automatic reset and a
 fixed third view. These rows preserve historical results; they are not all exact
-cross-hand comparisons under the unified protocols introduced afterward.
+cross-hand comparisons under the unified protocols introduced afterward. The
+legacy Revo2 rolling student video predates the mandatory point-cloud inset and
+is therefore pending replacement rather than a formal video deliverable.
 
 | Policy | Task | Vector evaluation | Strict 20-trial video |
 | --- | --- | ---: | ---: |
@@ -401,7 +411,7 @@ cross-hand comparisons under the unified protocols introduced afterward.
 | Inspire teacher | rolling 50 mm sphere-only diagnostic, 0.10-0.40 m/s | 140/256 (54.69%) | 14/20 (70%) |
 | Revo2 teacher | falling baton | 262/512 (51.17%) | 9/20 (45%) |
 | Inspire teacher | falling baton | 293/512 (57.23%) | 12/20 (60%) |
-| Revo2 RGB-D student | falling baton | 68/192 (35.42%) | 4/20 (20%; raw 8/20) |
+| Revo2 RGB-D student | falling baton | 68/192 (35.42%) | 3/20 (15%; raw 6/20; point-cloud inset) |
 | Revo2 RGB-D student | rolling 0.10-0.40 m/s | 82/192 (42.71%) | 4/20 (20%; raw 7/20) |
 
 The Inspire rolling row above is a retained sphere-only diagnostic and is not
