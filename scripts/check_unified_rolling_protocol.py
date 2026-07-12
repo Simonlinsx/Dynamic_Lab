@@ -39,6 +39,7 @@ PROTOCOL_FIELDS = (
     "task_family",
     "observation_space",
     "action_space",
+    "policy_action_interface",
     "default_arm_pos",
     "arm_action_scale",
     "arm_moving_average",

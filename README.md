@@ -415,7 +415,9 @@ contracts, reward weights, strict lift/hold success, hover target, episode
 length, cameras, and direct-policy control with scripted reach/close/lift priors
 disabled. Both rolling embodiments reset the Franka arm to the same upright
 IsaacLab default home pose and use the same arm action scale, smoothing, and
-initial target-lock duration.
+initial target-lock duration. Their seven Franka action dimensions both use the
+same absolute `joint_target` interface; no embodiment uses an incremental
+residual arm action in the official comparison.
 The shared from-scratch reward uses dense fingertip approach plus explicit
 thumb-pair/opposition shaping and penalizes non-thumb-only closure; this avoids
 counting a palm scoop or four-finger push as progress toward a grasp.

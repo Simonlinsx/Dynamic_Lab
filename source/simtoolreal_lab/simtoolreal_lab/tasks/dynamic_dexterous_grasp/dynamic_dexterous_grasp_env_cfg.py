@@ -940,6 +940,7 @@ class _UnifiedRollingRewardContract:
     strict_touch_score_scale = 0.008
 
     default_arm_pos = FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS
+    policy_action_interface = "joint_target"
     arm_action_scale = 0.50
     arm_moving_average = 0.96
     initial_arm_target_lock_steps = 12
