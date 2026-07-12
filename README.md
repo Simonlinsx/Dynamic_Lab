@@ -430,7 +430,11 @@ touch, true grasp, lift, and hold. Object dynamics, observations, actions,
 success semantics, and difficulty curriculum are unchanged at the transition.
 Only embodiment-specific hand coupling, control, close posture, and collision
 clearance remain different. Run `scripts/check_unified_rolling_protocol.py` to
-verify that the shared contract has not drifted.
+verify that the shared contract has not drifted. Teacher data collection,
+student pretraining/PPO, vector evaluation, and video evaluation must reuse the
+same unified task ID for the selected hand; the student script changes only the
+observation source to fixed-camera masked RGB-D point clouds. It must not swap
+back to a sphere-only or other legacy environment.
 
 New falling-baton comparisons must use
 `SimToolReal-Revo2-Franka-UnifiedFallingBatonBenchmark-Teacher-Direct-v0` and
@@ -445,6 +449,13 @@ six-active-DoF adapter, close posture, and control gains. Verify it with
 Falling-baton height, orientation, and velocity difficulty is gated by the
 latched 20-step success rate itself; transient contact or a one-frame catch
 cannot advance the curriculum.
+
+The only allowed Revo2/Inspire differences in either protocol are the hand
+URDF, six-active-DoF joint/coupling map, legal close target, hand controller
+gains/smoothing, link names/offsets, and geometry-dependent self-collision or
+table-clearance margins. Object distributions, Franka action semantics,
+observations, reward/success definitions, curriculum, cameras, and evaluation
+seeds are benchmark fields and must remain identical.
 
 The current Revo2/Inspire falling rows above were produced by different legacy
 curricula and therefore remain useful baselines, not the final unified

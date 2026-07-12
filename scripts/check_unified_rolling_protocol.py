@@ -240,7 +240,10 @@ def _simple_config_snapshot(cfg) -> dict:
     for name in dir(cfg):
         if name.startswith("_"):
             continue
-        value = getattr(cfg, name)
+        try:
+            value = getattr(cfg, name)
+        except (Exception, SystemExit):
+            continue
         if callable(value):
             continue
         if isinstance(value, (str, int, float, bool, list, tuple, dict, Path)) or value is None:
@@ -333,11 +336,13 @@ def main() -> None:
                 "hand_embodiment": revo2_cfg.hand_embodiment,
                 "action_contract": revo2_cfg.action_contract,
                 "palm_body_name": revo2_cfg.palm_body_name,
+                "active_hand_dofs": len(revo2_cfg.hand_joint_names),
             },
             "inspire": {
                 "hand_embodiment": inspire_cfg.hand_embodiment,
                 "action_contract": inspire_cfg.action_contract,
                 "palm_body_name": inspire_cfg.palm_body_name,
+                "active_hand_dofs": len(inspire_cfg.hand_joint_names),
             },
         },
     }

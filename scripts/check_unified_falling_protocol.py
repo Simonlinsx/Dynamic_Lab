@@ -22,6 +22,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--revo2-task", default=DEFAULT_REVO2_TASK)
 parser.add_argument("--inspire-task", default=DEFAULT_INSPIRE_TASK)
 parser.add_argument("--summary-out", type=Path, required=True)
+parser.add_argument("--audit-all-simple", action="store_true")
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 
@@ -38,6 +39,7 @@ PROTOCOL_FIELDS = (
     "task_family",
     "observation_space",
     "action_space",
+    "policy_action_interface",
     "default_arm_pos",
     "arm_action_scale",
     "arm_moving_average",
@@ -132,6 +134,7 @@ PROTOCOL_FIELDS = (
     "tabletop_post_success_hand_target_lock_blend",
     "tabletop_post_success_hand_lock_uses_actual_joint_pos",
     "tabletop_post_success_hand_close_fraction",
+    "stability_target_latch_min_success_streak",
     "scripted_action_prior_enabled",
     "scripted_tabletop_pregrasp_prior_enabled",
     "scripted_tabletop_relative_lift_target_prior_enabled",
@@ -157,6 +160,22 @@ def _normalize(value):
     if isinstance(value, (str, int, float, bool)) or value is None:
         return value
     return repr(value)
+
+
+def _simple_config_snapshot(cfg) -> dict:
+    snapshot = {}
+    for name in dir(cfg):
+        if name.startswith("_"):
+            continue
+        try:
+            value = getattr(cfg, name)
+        except (Exception, SystemExit):
+            continue
+        if callable(value):
+            continue
+        if isinstance(value, (str, int, float, bool, list, tuple, dict, Path)) or value is None:
+            snapshot[name] = _normalize(value)
+    return snapshot
 
 
 def _camera_snapshot(camera_cfg) -> dict:
@@ -251,6 +270,21 @@ def main() -> None:
             },
         },
     }
+    if args_cli.audit_all_simple:
+        simple_snapshots = {
+            "revo2": _simple_config_snapshot(revo2_cfg),
+            "inspire": _simple_config_snapshot(inspire_cfg),
+        }
+        simple_keys = sorted(set(simple_snapshots["revo2"]) | set(simple_snapshots["inspire"]))
+        result["all_simple_differences"] = {
+            key: {
+                "revo2": simple_snapshots["revo2"].get(key, "<missing>"),
+                "inspire": simple_snapshots["inspire"].get(key, "<missing>"),
+            }
+            for key in simple_keys
+            if simple_snapshots["revo2"].get(key, "<missing>")
+            != simple_snapshots["inspire"].get(key, "<missing>")
+        }
     out_path = args_cli.summary_out.expanduser().resolve()
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")

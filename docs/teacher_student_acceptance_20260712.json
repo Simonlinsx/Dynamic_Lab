@@ -3,12 +3,16 @@
     "rolling_multishape_v1": {
       "revo2_task": "SimToolReal-Revo2-Franka-UnifiedRollingBenchmark-Teacher-Direct-v0",
       "inspire_task": "SimToolReal-Inspire-Franka-UnifiedRollingBenchmark-Teacher-Direct-v0",
+      "student_reuses_same_task": true,
+      "student_observation": "fixed_camera_masked_rgbd_pointcloud",
       "checker": "scripts/check_unified_rolling_protocol.py",
       "status": "teacher_retraining_required"
     },
     "falling_baton_affordance_v1": {
       "revo2_task": "SimToolReal-Revo2-Franka-UnifiedFallingBatonBenchmark-Teacher-Direct-v0",
       "inspire_task": "SimToolReal-Inspire-Franka-UnifiedFallingBatonBenchmark-Teacher-Direct-v0",
+      "student_reuses_same_task": true,
+      "student_observation": "fixed_camera_masked_rgbd_pointcloud",
       "checker": "scripts/check_unified_falling_protocol.py",
       "status": "teacher_retraining_required"
     }
