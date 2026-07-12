@@ -2068,15 +2068,10 @@ def _save_trial_sequence_videos(
                     trial_ended_with_done = False
                     max_steps = int(args_cli.video_max_steps or unwrapped.max_episode_length)
 
-                    preview_points, preview_valid = _current_visualization_pointcloud(
-                        unwrapped,
-                        pointcloud_source,
-                        local_points,
-                        rgbd_mask_points,
-                        int(spec.get("point_feature_dim", 3)),
-                        point_hist,
-                        valid_hist,
-                    )
+                    # Pre-roll precedes the student's first policy observation. Start
+                    # point-cloud recording at policy step 0 so the video shows only
+                    # observations that were actually consumed by the student.
+                    preview_points, preview_valid = None, None
                     for _ in range(pre_roll_frames):
                         _capture_video_frames(
                             env,
@@ -2197,15 +2192,16 @@ def _save_trial_sequence_videos(
                             if trial_ended_with_done:
                                 break
                     if not recording_complete:
-                        final_points, final_valid = _current_visualization_pointcloud(
-                            unwrapped,
-                            pointcloud_source,
-                            local_points,
-                            rgbd_mask_points,
-                            int(spec.get("point_feature_dim", 3)),
-                            point_hist,
-                            valid_hist,
-                        )
+                        with torch.inference_mode():
+                            final_points, final_valid = _current_visualization_pointcloud(
+                                unwrapped,
+                                pointcloud_source,
+                                local_points,
+                                rgbd_mask_points,
+                                int(spec.get("point_feature_dim", 3)),
+                                point_hist,
+                                valid_hist,
+                            )
                         _capture_video_frames(
                             env,
                             frames_by_env,
@@ -2598,5 +2594,11 @@ def main() -> None:
 if __name__ == "__main__":
     try:
         main()
+    except BaseException as exc:
+        import traceback
+
+        _trace(f"fatal evaluation exit: {type(exc).__name__}: {exc!r}")
+        traceback.print_exc()
+        raise
     finally:
         simulation_app.close()

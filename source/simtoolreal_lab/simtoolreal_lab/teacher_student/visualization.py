@@ -123,12 +123,19 @@ def render_pointcloud_panel(
             selected_features[:, :3], width, height, float(view_range)
         )
         colors = _point_colors(selected_features)
+        visible = (
+            np.isfinite(projected).all(axis=1)
+            & (projected[:, 0] >= 0.0)
+            & (projected[:, 0] < float(width))
+            & (projected[:, 1] >= 0.0)
+            & (projected[:, 1] < float(height))
+        )
         order = np.argsort(depth)[::-1]
         radius = max(int(point_radius), 1)
         for point_index in order:
-            px, py = np.rint(projected[point_index]).astype(np.int64)
-            if px < 0 or px >= width or py < 0 or py >= height:
+            if not visible[point_index]:
                 continue
+            px, py = np.rint(projected[point_index]).astype(np.int64)
             x0 = max(int(px) - radius, 1)
             x1 = min(int(px) + radius + 1, width - 1)
             y0 = max(int(py) - radius, 1)

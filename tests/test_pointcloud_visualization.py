@@ -43,3 +43,23 @@ def test_add_pointcloud_inset_places_panel_top_right_without_mutating_frame():
     assert output.shape == frame.shape
     assert np.array_equal(output[8:48, 132:192], panel)
     assert np.all(output[:8] == 127)
+
+
+def test_render_pointcloud_panel_skips_extreme_offscreen_coordinates():
+    features = np.asarray(
+        [
+            [1.0e30, -1.0e30, 1.0e30, 1.0, 0.0, 0.0],
+            [0.02, 0.01, 0.03, 0.0, 1.0, 0.0],
+        ],
+        dtype=np.float32,
+    )
+
+    panel = render_pointcloud_panel(
+        features,
+        np.ones(2, dtype=np.float32),
+        resolution=(160, 96),
+        view_range=0.30,
+    )
+
+    assert panel.shape == (96, 160, 3)
+    assert np.any((panel[..., 1] > 180) & (panel[..., 0] < 150))
