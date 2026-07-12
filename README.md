@@ -466,7 +466,10 @@ fingertips), normalized penalty, 3 mm tolerance, reward weight, and success
 gate; the simulator still enforces each embodiment's complete collision
 geometry. Evaluation reports `force_grasp` and `force_grasp_clearance_ok` next
 to the strict physical lift/hold funnel so sensor coverage can be audited without
-silently redefining success. Run
+silently redefining success. Episode maxima also separate lift-baseline
+latching, commanded lift target, measured arm lift, object up-velocity, and
+object-coupled carry, so a missing lift command is distinguishable from an
+object that slips after the arm starts moving. Run
 `scripts/check_unified_rolling_protocol.py` to verify that the shared contract
 has not drifted. Teacher data collection,
 student pretraining/PPO, vector evaluation, and video evaluation must reuse the

@@ -23,6 +23,7 @@ BOOL_EXTRA_KEYS = {
     "force_grasp": "force_grasp_env",
     "force_grasp_clearance_ok": "force_grasp_clearance_ok_env",
     "force_stable_grasp": "force_stable_grasp_env",
+    "tabletop_arm_lift_baseline_latched": "tabletop_arm_lift_baseline_latched_env",
     "dropped": "dropped_env",
     "out_of_workspace": "out_xy_env",
     "time_out": "time_out_env",
@@ -34,6 +35,13 @@ MAX_EXTRA_KEYS = {
     "object_fingertip_force_sum": "object_fingertip_force_sum_env",
     "object_fingertip_force_max": "object_fingertip_force_max_env",
     "force_grasp_streak": "force_grasp_streak_env",
+    "tabletop_arm_lift_progress": "tabletop_arm_lift_progress_env",
+    "tabletop_lift_action_prior": "tabletop_lift_action_prior_env",
+    "tabletop_lift_action_prior_gate": "tabletop_lift_action_prior_gate_env",
+    "tabletop_lift_action_prior_rew": "tabletop_lift_action_prior_rew_env",
+    "tabletop_object_up_vel_rew": "tabletop_object_up_vel_rew_env",
+    "tabletop_object_carry_lift_rew": "tabletop_object_carry_lift_rew_env",
+    "object_height_delta": "object_height_delta_env",
 }
 
 MIN_EXTRA_KEYS = {

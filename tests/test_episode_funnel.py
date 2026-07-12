@@ -67,13 +67,37 @@ def test_rolling_failure_funnel_assigns_one_primary_outcome():
 
 def test_tracker_accumulates_stages_and_resets_selected_envs():
     tracker = EpisodeFunnelTracker(2, "cpu")
-    tracker.update(_extras(strict_true_grasp=[True, False], success_streak=[2, 1]))
-    tracker.update(_extras(strict_true_grasp=[False, True], success_streak=[1, 3]))
+    tracker.update(
+        _extras(
+            strict_true_grasp=[True, False],
+            success_streak=[2, 1],
+            tabletop_arm_lift_baseline_latched=[True, False],
+            tabletop_lift_action_prior_rew=[0.2, 0.1],
+        )
+    )
+    tracker.update(
+        _extras(
+            strict_true_grasp=[False, True],
+            success_streak=[1, 3],
+            tabletop_arm_lift_baseline_latched=[False, True],
+            tabletop_lift_action_prior_rew=[0.1, 0.6],
+        )
+    )
     snapshot = tracker.snapshot(torch.arange(2))
 
     assert snapshot["boolean"]["strict_true_grasp"].tolist() == [True, True]
+    assert snapshot["boolean"]["tabletop_arm_lift_baseline_latched"].tolist() == [True, True]
     assert snapshot["maximum"]["success_streak"].tolist() == [2.0, 3.0]
+    torch.testing.assert_close(
+        snapshot["maximum"]["tabletop_lift_action_prior_rew"],
+        torch.tensor([0.2, 0.6]),
+    )
 
     tracker.reset(torch.tensor([0]))
     assert tracker.boolean["strict_true_grasp"].tolist() == [False, True]
+    assert tracker.boolean["tabletop_arm_lift_baseline_latched"].tolist() == [False, True]
     assert tracker.maximum["success_streak"].tolist() == [0.0, 3.0]
+    torch.testing.assert_close(
+        tracker.maximum["tabletop_lift_action_prior_rew"],
+        torch.tensor([0.0, 0.6]),
+    )

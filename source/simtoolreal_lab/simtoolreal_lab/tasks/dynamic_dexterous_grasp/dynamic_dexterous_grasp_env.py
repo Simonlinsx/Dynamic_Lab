@@ -3318,6 +3318,16 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self.extras["stable_hold_env"] = success_now
         self.extras["success_seen_env"] = self._success_seen
         self.extras["lifted_env"] = lift_progress > 0.98
+        self.extras[
+            "tabletop_arm_lift_baseline_latched_env"
+        ] = self._tabletop_arm_lift_baseline_latched
+        self.extras["tabletop_arm_lift_progress_env"] = tabletop_arm_lift_progress
+        self.extras["tabletop_lift_action_prior_env"] = tabletop_lift_action_prior
+        self.extras["tabletop_lift_action_prior_gate_env"] = tabletop_lift_action_prior_gate
+        self.extras["tabletop_lift_action_prior_rew_env"] = tabletop_lift_action_prior_rew
+        self.extras["tabletop_object_up_vel_rew_env"] = tabletop_object_up_vel_rew
+        self.extras["tabletop_object_carry_lift_rew_env"] = tabletop_object_carry_lift_rew
+        self.extras["object_height_delta_env"] = self._object_height_delta
         self.extras["tabletop_arm_clearance_ok_env"] = self._tabletop_arm_clearance_ok
         self.extras["force_grasp_clearance_ok_env"] = self._force_grasp & self._tabletop_arm_clearance_ok
         self.extras["tabletop_arm_clearance_penalty_env"] = self._tabletop_arm_clearance_penalty
