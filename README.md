@@ -443,9 +443,15 @@ lift, carry, and stable hold remain the dominant positive terms. Object
 dynamics, observations, actions, success semantics, and
 difficulty curriculum are unchanged at every transition, and stage 3 uses the
 same reward weights for both hands.
-Only embodiment-specific hand coupling, control, close posture, and collision
-clearance remain different. Run `scripts/check_unified_rolling_protocol.py` to
-verify that the shared contract has not drifted. Teacher data collection,
+Only embodiment-specific hand coupling, control, close posture, and the link
+names/offsets behind palm and fingertip contact points remain different. Both
+hands use the same table-clearance samples (Franka links plus palm and five
+fingertips), normalized penalty, 3 mm tolerance, reward weight, and success
+gate; the simulator still enforces each embodiment's complete collision
+geometry. Evaluation reports `force_grasp_clearance_ok` so a physical grasp is
+never credited through an infeasible safety proxy. Run
+`scripts/check_unified_rolling_protocol.py` to verify that the shared contract
+has not drifted. Teacher data collection,
 student pretraining/PPO, vector evaluation, and video evaluation must reuse the
 same unified task ID for the selected hand; the student script changes only the
 observation source to fixed-camera masked RGB-D point clouds. It must not swap
@@ -467,10 +473,10 @@ cannot advance the curriculum.
 
 The only allowed Revo2/Inspire differences in either protocol are the hand
 URDF, six-active-DoF joint/coupling map, legal close target, hand controller
-gains/smoothing, link names/offsets, and geometry-dependent self-collision or
-table-clearance margins. Object distributions, Franka action semantics,
-observations, reward/success definitions, curriculum, cameras, and evaluation
-seeds are benchmark fields and must remain identical.
+gains/smoothing, and geometry-dependent link names/offsets. Object
+distributions, Franka action semantics, observations, reward/success
+definitions, curriculum, clearance semantics, cameras, and evaluation seeds
+are benchmark fields and must remain identical.
 
 The current Revo2/Inspire falling rows above were produced by different legacy
 curricula and therefore remain useful baselines, not the final unified

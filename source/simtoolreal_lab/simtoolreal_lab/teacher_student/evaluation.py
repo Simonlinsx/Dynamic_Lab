@@ -21,6 +21,7 @@ BOOL_EXTRA_KEYS = {
     "force_thumb_contact": "force_thumb_contact_env",
     "force_multifinger_contact": "force_multifinger_contact_env",
     "force_grasp": "force_grasp_env",
+    "force_grasp_clearance_ok": "force_grasp_clearance_ok_env",
     "force_stable_grasp": "force_stable_grasp_env",
     "dropped": "dropped_env",
     "out_of_workspace": "out_xy_env",

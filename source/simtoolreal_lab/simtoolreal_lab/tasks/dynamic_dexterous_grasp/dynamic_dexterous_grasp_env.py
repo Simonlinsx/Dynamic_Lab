@@ -3286,6 +3286,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self.extras["success_seen_env"] = self._success_seen
         self.extras["lifted_env"] = lift_progress > 0.98
         self.extras["tabletop_arm_clearance_ok_env"] = self._tabletop_arm_clearance_ok
+        self.extras["force_grasp_clearance_ok_env"] = self._force_grasp & self._tabletop_arm_clearance_ok
         self.extras["tabletop_arm_clearance_penalty_env"] = self._tabletop_arm_clearance_penalty
         self.extras["tabletop_arm_clearance_min_margin_env"] = self._tabletop_arm_clearance_min_margin
         self.extras["tabletop_arm_clearance_active_fraction_env"] = self._tabletop_arm_clearance_active_fraction

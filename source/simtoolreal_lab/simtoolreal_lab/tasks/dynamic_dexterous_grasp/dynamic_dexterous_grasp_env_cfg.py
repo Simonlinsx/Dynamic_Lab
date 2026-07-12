@@ -760,6 +760,19 @@ UNIFIED_ROLLING_LIFT_ACTION_PRIOR = V325_VERIFIED_LIFT_ACTION_PRIOR_120
 class _UnifiedRollingRewardContract:
     """Embodiment-independent reward contract for rolling comparisons."""
 
+    # Shared table-clearance semantics. Palm/fingertip locations come from each
+    # embodiment adapter, while both hands use the same samples, normalized
+    # penalty, and 3 mm geometric tolerance. This explicit override prevents
+    # legacy Inspire "caution" experiments from making contact infeasible.
+    tabletop_arm_clearance_xy_padding = 0.05
+    tabletop_arm_clearance_scale = 0.060
+    tabletop_arm_clearance_max_penalty = 2.0
+    tabletop_arm_clearance_ok_penalty_threshold = 0.05
+    tabletop_arm_clearance_include_fingertip_points = True
+    tabletop_arm_clearance_fingertip_point_margin = 0.006
+    tabletop_arm_clearance_include_palm_point = True
+    tabletop_arm_clearance_palm_point_margin = 0.012
+
     action_penalty_scale = 0.003
     arm_lift_progress_rew_scale = 0.0
     arm_target_delta_penalty_scale = 0.004
@@ -3675,6 +3688,21 @@ class Revo2UnifiedRollingBenchmarkTeacherEnvCfg(
     reference_name = "revo2_unified_rolling_multishape_v1_teacher"
     benchmark_protocol = UNIFIED_ROLLING_BENCHMARK_NAME
     robot_cfg: ArticulationCfg = _v699_revo2_robot_cfg(FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS)
+
+    # Revo2 uses the Franka link origins plus explicit palm/fingertip samples.
+    # Finger-link geometry is covered by the simulator collisions and the
+    # shared fingertip samples rather than guessed per-link origin radii.
+    tabletop_arm_clearance_body_names = (
+        "panda_link2",
+        "panda_link3",
+        "panda_link4",
+        "panda_link5",
+        "panda_link6",
+        "panda_link7",
+        "panda_link8",
+        "panda_hand",
+    )
+    tabletop_arm_clearance_body_margins = ()
 
     observation_space = 86
     tabletop_object_asset_specs = UNIFIED_ROLLING_OBJECT_SPECS
@@ -7934,6 +7962,23 @@ class InspireUnifiedRollingBenchmarkTeacherEnvCfg(
     reference_name = "inspire_unified_rolling_multishape_v1_teacher"
     benchmark_protocol = UNIFIED_ROLLING_BENCHMARK_NAME
     robot_cfg: ArticulationCfg = _inspire_z180_robot_cfg(FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS)
+
+    # Use the same safety samples as Revo2: Franka link origins plus the
+    # embodiment's actual palm and fingertip contact points. A scalar margin at
+    # every RH56 finger-link origin treats link length as vertical thickness and
+    # falsely rejects valid horizontal wraps; PhysX still enforces every real
+    # finger/table collision shape.
+    tabletop_arm_clearance_body_names = (
+        "panda_link2",
+        "panda_link3",
+        "panda_link4",
+        "panda_link5",
+        "panda_link6",
+        "panda_link7",
+        "panda_link8",
+        "panda_hand",
+    )
+    tabletop_arm_clearance_body_margins = ()
 
     observation_space = 86
     tabletop_object_asset_specs = UNIFIED_ROLLING_OBJECT_SPECS
