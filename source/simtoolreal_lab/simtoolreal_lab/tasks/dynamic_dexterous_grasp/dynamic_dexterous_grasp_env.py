@@ -3326,6 +3326,24 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         )
         self.extras["strict_stable_hold_env"] = self._strict_stable_hold
         self.extras["hover_latched_env"] = self._object_hover_target_latched
+        self.extras["strict_stable_hover_latched_env"] = (
+            self._strict_stable_hold & self._object_hover_target_latched
+        )
+        self.extras["strict_stable_hover_target_ok_env"] = self._strict_stable_hold & hover_target_ok
+        self.extras["strict_stable_hover_speed_ok_env"] = self._strict_stable_hold & hover_speed_ok
+        self.extras["strict_stable_clearance_ok_env"] = (
+            self._strict_stable_hold & self._tabletop_arm_clearance_ok
+        )
+        self.extras["strict_lift_height_delta_env"] = torch.where(
+            self._strict_true_grasp,
+            self._object_height_delta,
+            torch.zeros_like(self._object_height_delta),
+        )
+        self.extras["strict_stable_height_delta_env"] = torch.where(
+            self._strict_stable_hold,
+            self._object_height_delta,
+            torch.zeros_like(self._object_height_delta),
+        )
         self.extras["success_seen_env"] = self._success_seen
         self.extras["lifted_env"] = lift_progress > 0.98
         self.extras[

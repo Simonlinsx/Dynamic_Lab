@@ -18,6 +18,10 @@ BOOL_EXTRA_KEYS = {
     "strict_lifted": "strict_lifted_env",
     "lifted_low_rel_vel": "lifted_low_rel_vel_env",
     "strict_stable_hold": "strict_stable_hold_env",
+    "strict_stable_hover_latched": "strict_stable_hover_latched_env",
+    "strict_stable_hover_target_ok": "strict_stable_hover_target_ok_env",
+    "strict_stable_hover_speed_ok": "strict_stable_hover_speed_ok_env",
+    "strict_stable_clearance_ok": "strict_stable_clearance_ok_env",
     "hover_latched": "hover_latched_env",
     "stable_hold": "stable_hold_env",
     "success": "success_env",
@@ -49,6 +53,8 @@ MAX_EXTRA_KEYS = {
     "tabletop_true_grasp_streak": "tabletop_true_grasp_streak_env",
     "tabletop_strict_true_grasp_streak": "tabletop_strict_true_grasp_streak_env",
     "object_height_delta": "object_height_delta_env",
+    "strict_lift_height_delta": "strict_lift_height_delta_env",
+    "strict_stable_height_delta": "strict_stable_height_delta_env",
 }
 
 MIN_EXTRA_KEYS = {

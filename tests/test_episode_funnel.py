@@ -45,6 +45,7 @@ def test_rolling_failure_funnel_assigns_one_primary_outcome():
             lifted=[False, False, False, True],
             strict_lifted=[False, False, False, True],
             strict_stable_hold=[False, False, False, True],
+            strict_stable_hover_latched=[False, False, False, True],
             stable_hold=[False, False, False, True],
             success=[False, False, False, True],
             success_streak=[0, 0, 2, 8],
@@ -67,6 +68,7 @@ def test_rolling_failure_funnel_assigns_one_primary_outcome():
     assert summary["conversion_rates"]["strict_grasp_to_lift"] == 0.5
     assert summary["conversion_rates"]["strict_grasp_to_strict_lift"] == 0.5
     assert summary["conversion_rates"]["strict_lift_to_strict_stable_hold"] == 1.0
+    assert summary["stage_counts"]["strict_stable_hover_latched"] == 1
 
 
 def test_tracker_accumulates_stages_and_resets_selected_envs():
