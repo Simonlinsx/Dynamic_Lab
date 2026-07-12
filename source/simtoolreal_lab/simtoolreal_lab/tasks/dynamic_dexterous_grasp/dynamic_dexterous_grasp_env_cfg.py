@@ -1018,6 +1018,7 @@ class _UnifiedRollingLiftHoldStage3Contract:
     tabletop_arm_object_lift_gap_penalty_scale = 7000.0
     tabletop_object_carry_stall_penalty_scale = 5000.0
     tabletop_strict_grasp_loss_penalty_scale = 8000.0
+    tabletop_hover_post_latch_speed_penalty_scale = 1800.0
     tabletop_arm_clearance_penalty_scale = 6000.0
     # The filtered fingertip-force signal does not include every load-bearing
     # distal/proximal finger-link contact. Keep it as a diagnostic, but do not
