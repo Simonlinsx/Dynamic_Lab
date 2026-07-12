@@ -3,6 +3,10 @@
     "rolling_multishape_v1": {
       "revo2_task": "SimToolReal-Revo2-Franka-UnifiedRollingBenchmark-Teacher-Direct-v0",
       "inspire_task": "SimToolReal-Inspire-Franka-UnifiedRollingBenchmark-Teacher-Direct-v0",
+      "revo2_stage1_task": "SimToolReal-Revo2-Franka-UnifiedRollingStage1-Teacher-Direct-v0",
+      "inspire_stage1_task": "SimToolReal-Inspire-Franka-UnifiedRollingStage1-Teacher-Direct-v0",
+      "revo2_stage3_task": "SimToolReal-Revo2-Franka-UnifiedRollingStage3-Teacher-Direct-v0",
+      "inspire_stage3_task": "SimToolReal-Inspire-Franka-UnifiedRollingStage3-Teacher-Direct-v0",
       "student_reuses_same_task": true,
       "student_observation": "fixed_camera_masked_rgbd_pointcloud",
       "checker": "scripts/check_unified_rolling_protocol.py",

@@ -753,6 +753,8 @@ UNIFIED_ROLLING_CONTACT_SCORE_SCALE = 0.016
 UNIFIED_ROLLING_STRICT_CONTACT_DISTANCE = 0.010
 UNIFIED_ROLLING_STRICT_MIN_FINGER_CONTACTS = 3
 UNIFIED_ROLLING_STRICT_MIN_NON_THUMB_CONTACTS = 2
+UNIFIED_ROLLING_LIFT_ARM_DELTA = V325_VERIFIED_LIFT_ARM_DELTA
+UNIFIED_ROLLING_LIFT_ACTION_PRIOR = V325_VERIFIED_LIFT_ACTION_PRIOR_120
 
 
 class _UnifiedRollingRewardContract:
@@ -946,6 +948,11 @@ class _UnifiedRollingRewardContract:
     initial_arm_target_lock_steps = 12
     initial_hand_target_lock_steps = 12
     tabletop_arm_lift_progress_baseline_pos = FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS
+    lift_arm_delta = UNIFIED_ROLLING_LIFT_ARM_DELTA
+    lift_action_prior = UNIFIED_ROLLING_LIFT_ACTION_PRIOR
+    scripted_tabletop_lift_target_arm_delta = UNIFIED_ROLLING_LIFT_ARM_DELTA
+    scripted_tabletop_relative_lift_target_arm_delta = UNIFIED_ROLLING_LIFT_ARM_DELTA
+    scripted_action_prior_lift_action = UNIFIED_ROLLING_LIFT_ACTION_PRIOR
 
     # The official comparison is direct RL, not a different scripted residual
     # controller per hand. Geometry-specific target scaling remains in the
@@ -954,6 +961,57 @@ class _UnifiedRollingRewardContract:
     scripted_tabletop_pregrasp_prior_enabled = False
     scripted_tabletop_relative_lift_target_prior_enabled = False
     scripted_tabletop_hand_grasp_memory_prior_enabled = False
+
+
+class _UnifiedRollingLiftHoldStage3Contract:
+    """Shared continuation objective that turns an acquired grasp into a stable lift."""
+
+    # Keep enough acquisition shaping to recover after a miss, while making a
+    # stationary grasp less valuable than a strict, object-coupled lift.
+    contact_rew_scale = 120.0
+    grasp_quality_rew_scale = 700.0
+    opposition_rew_scale = 400.0
+    true_grasp_rew_scale = 1500.0
+    strict_approach_rew_scale = 8.0
+    strict_multifinger_approach_rew_scale = 16.0
+    strict_opposition_approach_rew_scale = 120.0
+    strict_touch_rew_scale = 1000.0
+    strict_opposition_touch_rew_scale = 3000.0
+
+    lift_progress_rew_scale = 5000.0
+    quality_lift_progress_rew_scale = 7000.0
+    lifted_true_grasp_rew_scale = 14000.0
+    tabletop_stable_catch_rew_scale = 5000.0
+    tabletop_grasped_palm_lift_rew_scale = 4500.0
+    tabletop_grasped_arm_lift_rew_scale = 6000.0
+    tabletop_object_up_vel_rew_scale = 6500.0
+    tabletop_object_carry_lift_rew_scale = 12000.0
+    stable_hold_rew_scale = 16000.0
+    hold_progress_rew_scale = 22000.0
+    success_bonus = 48000.0
+
+    tabletop_no_lift_after_grasp_penalty_scale = 8000.0
+    tabletop_no_lift_after_grasp_grace_steps = 8
+    tabletop_no_lift_after_grasp_ramp_steps = 24
+    tabletop_lift_without_object_penalty_scale = 6000.0
+    tabletop_lift_without_current_grasp_penalty_scale = 10000.0
+    tabletop_arm_object_lift_gap_penalty_scale = 7000.0
+    tabletop_object_carry_stall_penalty_scale = 5000.0
+    tabletop_strict_grasp_loss_penalty_scale = 8000.0
+
+    lift_reward_uses_grasp_quality_gate = True
+    lift_reward_uses_opposition_gate = True
+    lift_reward_min_opposition_multiplier = 0.0
+    quality_lift_progress_uses_opposition_gate = True
+    quality_lift_progress_min_opposition_multiplier = 0.0
+    tabletop_lift_gate_requires_current_strict_grasp = True
+    tabletop_lift_use_grasp_seen_gate = False
+    tabletop_object_carry_uses_grasp_seen = False
+    tabletop_object_carry_min_grasp_streak = 3
+    tabletop_object_carry_streak_ramp_steps = 4
+    tabletop_lift_without_object_min_arm_progress = 0.08
+    tabletop_arm_lift_reward_object_margin = 0.08
+    tabletop_arm_object_lift_gap_margin = 0.08
 
 
 UNIFIED_FALLING_BENCHMARK_NAME = "falling_baton_affordance_v1"
@@ -3711,6 +3769,16 @@ class Revo2UnifiedRollingStage1TeacherEnvCfg(Revo2UnifiedRollingBenchmarkTeacher
     tabletop_non_thumb_without_thumb_penalty_scale = 300.0
     true_grasp_rew_scale = 500.0
     strict_touch_score_scale = 0.008
+
+
+@configclass
+class Revo2UnifiedRollingStage3TeacherEnvCfg(
+    _UnifiedRollingLiftHoldStage3Contract,
+    Revo2UnifiedRollingBenchmarkTeacherEnvCfg,
+):
+    """Revo2 adapter for the shared strict lift-and-hold continuation stage."""
+
+    reference_name = "revo2_unified_rolling_multishape_v1_stage3_lift_hold_teacher"
 
 
 @configclass
@@ -7960,6 +8028,16 @@ class InspireUnifiedRollingStage1TeacherEnvCfg(InspireUnifiedRollingBenchmarkTea
     tabletop_non_thumb_without_thumb_penalty_scale = 300.0
     true_grasp_rew_scale = 500.0
     strict_touch_score_scale = 0.008
+
+
+@configclass
+class InspireUnifiedRollingStage3TeacherEnvCfg(
+    _UnifiedRollingLiftHoldStage3Contract,
+    InspireUnifiedRollingBenchmarkTeacherEnvCfg,
+):
+    """Inspire adapter for the shared strict lift-and-hold continuation stage."""
+
+    reference_name = "inspire_unified_rolling_multishape_v1_stage3_lift_hold_teacher"
 
 
 @configclass

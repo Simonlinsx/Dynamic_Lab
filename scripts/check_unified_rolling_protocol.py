@@ -46,6 +46,8 @@ PROTOCOL_FIELDS = (
     "initial_arm_target_lock_steps",
     "initial_hand_target_lock_steps",
     "tabletop_arm_lift_progress_baseline_pos",
+    "lift_arm_delta",
+    "lift_action_prior",
     "create_table",
     "table_top_z",
     "workspace_xy_limit",
@@ -158,6 +160,7 @@ OBJECTIVE_SEMANTIC_FIELDS = (
     "dynamic_tabletop_pregrasp_xy_distance_scale",
     "dynamic_tabletop_speed_alpha_sample_full_fraction",
     "lift_reward_min_grasp_quality_multiplier",
+    "lift_reward_uses_grasp_quality_gate",
     "lift_reward_min_opposition_multiplier",
     "lift_reward_uses_opposition_gate",
     "quality_lift_progress_min_opposition_multiplier",
@@ -190,6 +193,7 @@ OBJECTIVE_SEMANTIC_FIELDS = (
     "tabletop_hover_reward_uses_grasp_seen",
     "tabletop_success_uses_grasp_seen",
     "tabletop_object_carry_grasp_seen_gate",
+    "tabletop_object_carry_uses_grasp_seen",
     "tabletop_object_carry_min_grasp_streak",
     "tabletop_object_carry_stall_min_arm_progress",
     "tabletop_object_carry_stall_min_z_vel",
@@ -235,6 +239,13 @@ def _normalize(value):
     return repr(value)
 
 
+def _required_value(cfg, field: str):
+    try:
+        return getattr(cfg, field)
+    except SystemExit as exc:
+        raise RuntimeError(f"required config field {field!r} raised SystemExit") from exc
+
+
 def _simple_config_snapshot(cfg) -> dict:
     snapshot = {}
     for name in dir(cfg):
@@ -271,7 +282,7 @@ def _asset_snapshot(cfg) -> list[dict]:
     )
     return [
         {field: _normalize(spec.get(field)) for field in fields}
-        for spec in tuple(cfg.tabletop_object_asset_specs)
+        for spec in tuple(_required_value(cfg, "tabletop_object_asset_specs"))
     ]
 
 
@@ -286,19 +297,22 @@ def _camera_snapshot(camera_cfg) -> dict:
     }
 
 
-def _snapshot(cfg) -> dict:
-    snapshot = {field: _normalize(getattr(cfg, field)) for field in PROTOCOL_FIELDS}
+def _snapshot(cfg, *, label: str) -> dict:
+    print(f"[AUDIT] snapshot {label}: protocol fields", flush=True)
+    snapshot = {field: _normalize(_required_value(cfg, field)) for field in PROTOCOL_FIELDS}
+    print(f"[AUDIT] snapshot {label}: reward fields", flush=True)
     reward_fields = sorted(
         name
         for name in dir(cfg)
         if name in REWARD_FIELD_NAMES or name.endswith(REWARD_FIELD_SUFFIXES)
     )
     snapshot["reward_contract"] = {
-        field: _normalize(getattr(cfg, field)) for field in reward_fields
+        field: _normalize(_required_value(cfg, field)) for field in reward_fields
     }
     snapshot["objective_semantics"] = {
-        field: _normalize(getattr(cfg, field)) for field in OBJECTIVE_SEMANTIC_FIELDS
+        field: _normalize(_required_value(cfg, field)) for field in OBJECTIVE_SEMANTIC_FIELDS
     }
+    print(f"[AUDIT] snapshot {label}: assets and simulation", flush=True)
     snapshot["tabletop_object_asset_specs"] = _asset_snapshot(cfg)
     snapshot["robot_arm_init_joint_pos"] = {
         key: _normalize(value)
@@ -317,8 +331,8 @@ def main() -> None:
     revo2_cfg = load_cfg_from_registry(args_cli.revo2_task, "env_cfg_entry_point")
     inspire_cfg = load_cfg_from_registry(args_cli.inspire_task, "env_cfg_entry_point")
     snapshots = {
-        "revo2": _snapshot(revo2_cfg),
-        "inspire": _snapshot(inspire_cfg),
+        "revo2": _snapshot(revo2_cfg, label="revo2"),
+        "inspire": _snapshot(inspire_cfg, label="inspire"),
     }
     differences = {
         key: {"revo2": snapshots["revo2"][key], "inspire": snapshots["inspire"][key]}

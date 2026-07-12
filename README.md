@@ -415,19 +415,24 @@ contracts, reward weights, strict lift/hold success, hover target, episode
 length, cameras, and direct-policy control with scripted reach/close/lift priors
 disabled. Both rolling embodiments reset the Franka arm to the same upright
 IsaacLab default home pose and use the same arm action scale, smoothing, and
-initial target-lock duration. Their seven Franka action dimensions both use the
-same absolute `joint_target` interface; no embodiment uses an incremental
-residual arm action in the official comparison.
+initial target-lock duration. They also use the same home-pose-calibrated
+Franka lift direction for lift-progress shaping. Their seven Franka action
+dimensions both use the same absolute `joint_target` interface; no embodiment
+uses an incremental residual arm action in the official comparison.
 The shared from-scratch reward uses dense fingertip approach plus explicit
 thumb-pair/opposition shaping and penalizes non-thumb-only closure; this avoids
 counting a palm scoop or four-finger push as progress toward a grasp.
-For reproducible from-scratch training, use the two-stage reward curriculum:
+For reproducible from-scratch training, use the three-stage reward curriculum:
 start both hands with `SimToolReal-<Hand>-Franka-UnifiedRollingStage1-Teacher-Direct-v0`
 for 300 epochs, then continue their epoch-300 checkpoints on the corresponding
-`UnifiedRollingBenchmark` task. Stage 1 emphasizes home-to-pregrasp reach;
-stage 2 reduces persistent approach reward and emphasizes opposed thumb-pair
-touch, true grasp, lift, and hold. Object dynamics, observations, actions,
-success semantics, and difficulty curriculum are unchanged at the transition.
+`UnifiedRollingBenchmark` task. Continue checkpoints that reliably acquire a
+strict grasp on `SimToolReal-<Hand>-Franka-UnifiedRollingStage3-Teacher-Direct-v0`.
+Stage 1 emphasizes home-to-pregrasp reach; stage 2 emphasizes opposed
+thumb-pair touch and true grasp; stage 3 makes a stationary grasp unprofitable
+and rewards only object-coupled lift and stable hold while strict opposition is
+maintained. Object dynamics, observations, actions, success semantics, and
+difficulty curriculum are unchanged at every transition, and stage 3 uses the
+same reward weights for both hands.
 Only embodiment-specific hand coupling, control, close posture, and collision
 clearance remain different. Run `scripts/check_unified_rolling_protocol.py` to
 verify that the shared contract has not drifted. Teacher data collection,
