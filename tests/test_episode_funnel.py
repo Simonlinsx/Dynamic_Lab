@@ -43,6 +43,8 @@ def test_rolling_failure_funnel_assigns_one_primary_outcome():
             strict_opposing_contact=[False, False, True, True],
             strict_true_grasp=[False, False, True, True],
             lifted=[False, False, False, True],
+            strict_lifted=[False, False, False, True],
+            strict_stable_hold=[False, False, False, True],
             stable_hold=[False, False, False, True],
             success=[False, False, False, True],
             success_streak=[0, 0, 2, 8],
@@ -63,6 +65,8 @@ def test_rolling_failure_funnel_assigns_one_primary_outcome():
     }
     assert sum(summary["primary_failure_counts"].values()) == 4
     assert summary["conversion_rates"]["strict_grasp_to_lift"] == 0.5
+    assert summary["conversion_rates"]["strict_grasp_to_strict_lift"] == 0.5
+    assert summary["conversion_rates"]["strict_lift_to_strict_stable_hold"] == 1.0
 
 
 def test_tracker_accumulates_stages_and_resets_selected_envs():

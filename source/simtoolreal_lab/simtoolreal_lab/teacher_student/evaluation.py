@@ -15,6 +15,10 @@ BOOL_EXTRA_KEYS = {
     "strict_true_grasp": "strict_true_grasp_env",
     "strict_grasp_hold": "strict_grasp_hold_env",
     "lifted": "lifted_env",
+    "strict_lifted": "strict_lifted_env",
+    "lifted_low_rel_vel": "lifted_low_rel_vel_env",
+    "strict_stable_hold": "strict_stable_hold_env",
+    "hover_latched": "hover_latched_env",
     "stable_hold": "stable_hold_env",
     "success": "success_env",
     "positive_affordance_contact": "positive_affordance_contact_env",
@@ -178,6 +182,8 @@ class EpisodeFunnelAccumulator:
             transition_pairs.extend(
                 [
                     ("strict_grasp_to_lift", "strict_true_grasp", "lifted"),
+                    ("strict_grasp_to_strict_lift", "strict_true_grasp", "strict_lifted"),
+                    ("strict_lift_to_strict_stable_hold", "strict_lifted", "strict_stable_hold"),
                     ("lift_to_stable_hold", "lifted", "stable_hold"),
                 ]
             )

@@ -3316,6 +3316,12 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self.extras["object_fingertip_force_max_env"] = self._object_fingertip_contact_forces.max(dim=-1).values
         self.extras["grasp_seen_env"] = self._grasp_seen
         self.extras["stable_hold_env"] = success_now
+        self.extras["strict_lifted_env"] = self._lifted & self._strict_true_grasp
+        self.extras["lifted_low_rel_vel_env"] = self._lifted & (
+            self._object_palm_rel_vel < self.cfg.stable_object_palm_vel
+        )
+        self.extras["strict_stable_hold_env"] = self._strict_stable_hold
+        self.extras["hover_latched_env"] = self._object_hover_target_latched
         self.extras["success_seen_env"] = self._success_seen
         self.extras["lifted_env"] = lift_progress > 0.98
         self.extras[

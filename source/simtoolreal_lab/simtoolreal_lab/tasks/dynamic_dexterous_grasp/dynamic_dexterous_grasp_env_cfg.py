@@ -1018,9 +1018,6 @@ class _UnifiedRollingLiftHoldStage3Contract:
     tabletop_arm_object_lift_gap_penalty_scale = 7000.0
     tabletop_object_carry_stall_penalty_scale = 5000.0
     tabletop_strict_grasp_loss_penalty_scale = 8000.0
-    # Keep strict enclosure after the object crosses the hover-latch height.
-    # The inherited 260 scale was negligible next to the lift/hold rewards.
-    tabletop_hover_grasp_loss_penalty_scale = 3000.0
     tabletop_arm_clearance_penalty_scale = 6000.0
     # The filtered fingertip-force signal does not include every load-bearing
     # distal/proximal finger-link contact. Keep it as a diagnostic, but do not
@@ -1049,6 +1046,11 @@ class _UnifiedRollingLiftHoldStage3Contract:
     tabletop_lift_gate_requires_force_grasp = False
     tabletop_lift_use_grasp_seen_gate = False
     tabletop_object_carry_uses_grasp_seen = False
+    # Stage 3 must keep a current strict grasp. Memory-only hover gates make
+    # grasp loss invisible after a one-frame contact event.
+    tabletop_hover_latch_uses_grasp_seen = False
+    tabletop_hover_reward_uses_grasp_seen = False
+    tabletop_success_uses_grasp_seen = False
     tabletop_object_carry_min_grasp_streak = 3
     tabletop_object_carry_streak_ramp_steps = 4
     tabletop_object_carry_uses_lift_baseline_grasp_streak = True
