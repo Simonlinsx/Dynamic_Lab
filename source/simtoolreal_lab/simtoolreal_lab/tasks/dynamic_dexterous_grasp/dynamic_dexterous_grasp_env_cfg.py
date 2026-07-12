@@ -1031,7 +1031,10 @@ class _UnifiedRollingLiftHoldStage3Contract:
     object_contact_force_diagnostics_enabled = True
     object_contact_force_threshold = 0.05
     tabletop_arm_lift_progress_baseline_mode = "first_strict_grasp"
-    tabletop_arm_lift_progress_baseline_grasp_streak = 3
+    # A one-frame strict grasp already requires thumb-plus-two-finger
+    # opposition. Latch immediately so contact jitter cannot starve the direct
+    # policy of every coordinated lift-target reward sample.
+    tabletop_arm_lift_progress_baseline_grasp_streak = 1
     tabletop_force_grasp_streak_target = 8
     tabletop_lift_rewards_require_force_grasp = False
     lift_reward_uses_grasp_quality_gate = True

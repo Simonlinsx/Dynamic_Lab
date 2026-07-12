@@ -432,9 +432,11 @@ open RH56 fingertips penetrate the table and can drive joints outside their
 URDF limits before the first policy action. Each pose uses a calibrated upward
 Franka lift direction for lift-progress shaping. These reset and lift vectors
 are embodiment adapters, while object dynamics, observations, actions, reward
-weights, and success semantics remain shared. The lift-progress baseline is
-latched after three consecutive strict-grasp steps, so home-to-object reaching
-cannot be miscounted as post-grasp lift. Their seven Franka action
+weights, and success semantics remain shared. The Stage-3 lift-progress baseline
+is latched on the first strict-grasp step; strict grasp already requires
+thumb-plus-two-finger opposition, so home-to-object reaching cannot be
+miscounted as post-grasp lift while contact jitter no longer starves the direct
+policy of lift-target reward. Their seven Franka action
 dimensions both use the same absolute `joint_target` interface; no embodiment
 uses an incremental residual arm action in the official comparison.
 The shared from-scratch reward uses dense fingertip approach plus explicit
