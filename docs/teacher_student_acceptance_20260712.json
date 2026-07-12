@@ -70,16 +70,18 @@
       "student_video_trace": "outputs/curated_artifacts/traces/student/revo2_falling_student_video20.trace.json"
     },
     {
-      "case_id": "inspire_rolling_teacher",
+      "case_id": "inspire_rolling_sphere_diagnostic",
       "family": "dynamic_tabletop_grasp",
       "hand": "inspire_rh56",
       "task": "SimToolReal-Inspire-Franka-RollingScale200PostHoldMildThumbWrapTargetHandLock-Teacher-Direct-v0",
+      "benchmark_scope": "sphere_only_50mm_high_friction",
+      "comparable_to_rolling_multishape_v1": false,
       "student_required": false,
       "teacher_min_success_rate": 0.5,
       "teacher_run_dir": "logs/rl_games/inspire_rolling_mild_thumb_wrap_from_fasttail_ep180_512env_120ep_online_20260712",
       "teacher_summary": "outputs/curated_artifacts/summaries/teacher/inspire_rolling_teacher_vector256.json",
       "teacher_video_summary": "outputs/curated_artifacts/summaries/teacher/inspire_rolling_teacher_video20.json",
-      "teacher_video": "outputs/curated_videos/teacher/inspire_rolling_teacher_strict20_sr070.mp4",
+      "teacher_video": "outputs/curated_videos/diagnostic/inspire_rolling_sphere_only_teacher_strict20_sr070.mp4",
       "teacher_video_trace": "outputs/curated_artifacts/traces/teacher/inspire_rolling_teacher_video20.trace.json",
       "teacher_video_trace_required": true
     },

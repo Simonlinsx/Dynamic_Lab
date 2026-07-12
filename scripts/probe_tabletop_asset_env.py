@@ -61,6 +61,12 @@ def tensor_xy_speed_mean(value) -> float | None:
     return float(torch.norm(value.float()[..., :2], dim=-1).mean().detach().cpu().item())
 
 
+def tensor_histogram(value, bins: int) -> list[int] | None:
+    if value is None or not hasattr(value, "long"):
+        return None
+    return torch.bincount(value.long(), minlength=bins).detach().cpu().tolist()
+
+
 def main() -> None:
     carb.settings.get_settings().set_bool("/physics/cooking/ujitsoCollisionCooking", False)
     record("parse_cfg_start", task=args_cli.task)
@@ -71,18 +77,22 @@ def main() -> None:
         env_cfg.tabletop_asset_curriculum_override_alpha = float(args_cli.asset_curriculum_alpha)
     if args_cli.motion_curriculum_alpha is not None:
         env_cfg.tabletop_motion_mode_curriculum_override_alpha = float(args_cli.motion_curriculum_alpha)
-        record(
-            "parse_cfg_done",
-            observation_space=int(env_cfg.observation_space),
-            action_space=int(env_cfg.action_space),
-            asset_count=len(tuple(getattr(env_cfg, "tabletop_object_asset_specs", ()))),
-            persistent_motion=bool(getattr(env_cfg, "dynamic_tabletop_persistent_motion", False)),
-            motion_modes=list(getattr(env_cfg, "tabletop_motion_modes", ())),
-            success_requires_hover=bool(getattr(env_cfg, "tabletop_success_requires_hover_target", False)),
-            hover_height_delta=float(getattr(env_cfg, "tabletop_hover_height_delta", 0.0)),
-            speed_curriculum_alpha=getattr(env_cfg, "dynamic_grasp_speed_curriculum_override_alpha", None),
-            asset_curriculum_alpha=getattr(env_cfg, "tabletop_asset_curriculum_override_alpha", None),
-            motion_curriculum_alpha=getattr(env_cfg, "tabletop_motion_mode_curriculum_override_alpha", None),
+    record(
+        "parse_cfg_done",
+        observation_space=int(env_cfg.observation_space),
+        action_space=int(env_cfg.action_space),
+        asset_count=len(tuple(getattr(env_cfg, "tabletop_object_asset_specs", ()))),
+        asset_ids=[
+            str(spec.get("asset_id", ""))
+            for spec in tuple(getattr(env_cfg, "tabletop_object_asset_specs", ()))
+        ],
+        persistent_motion=bool(getattr(env_cfg, "dynamic_tabletop_persistent_motion", False)),
+        motion_modes=list(getattr(env_cfg, "tabletop_motion_modes", ())),
+        success_requires_hover=bool(getattr(env_cfg, "tabletop_success_requires_hover_target", False)),
+        hover_height_delta=float(getattr(env_cfg, "tabletop_hover_height_delta", 0.0)),
+        speed_curriculum_alpha=getattr(env_cfg, "dynamic_grasp_speed_curriculum_override_alpha", None),
+        asset_curriculum_alpha=getattr(env_cfg, "tabletop_asset_curriculum_override_alpha", None),
+        motion_curriculum_alpha=getattr(env_cfg, "tabletop_motion_mode_curriculum_override_alpha", None),
     )
     env = None
     try:
@@ -103,19 +113,27 @@ def main() -> None:
             "reset_done",
             obs_shape=list(policy_obs.shape),
             active_asset_id_mean=tensor_mean(getattr(unwrapped, "_tabletop_active_asset_ids", None)),
+            active_asset_histogram=tensor_histogram(
+                getattr(unwrapped, "_tabletop_active_asset_ids", None),
+                len(getattr(unwrapped, "_tabletop_objects", ())),
+            ),
             object_z_mean=float((unwrapped._object_pos_w[:, 2] - unwrapped.scene.env_origins[:, 2]).mean().detach().cpu()),
             tabletop_cmd_speed=tensor_mean(log.get("tabletop_cmd_speed")),
             direct_cmd_speed=tensor_xy_speed_mean(getattr(unwrapped, "_tabletop_cmd_lin_vel_w", None)),
-                object_xy_speed=tensor_xy_speed_mean(getattr(unwrapped, "_object_lin_vel_w", None)),
-                asset_count=tensor_mean(log.get("tabletop_asset_count")),
-                persistent_motion=tensor_mean(log.get("tabletop_persistent_motion")),
-                hover_latched=tensor_mean(log.get("hover_latched")),
-                hover_xy_dist=tensor_mean(log.get("hover_xy_dist")),
-                hover_z_error=tensor_mean(log.get("hover_z_error")),
-                hover_target_rew=tensor_mean(log.get("hover_target_rew")),
-                hover_stability_rew=tensor_mean(log.get("hover_stability_rew")),
-                hover_object_speed=tensor_mean(log.get("hover_object_speed")),
-            )
+            object_xy_speed=tensor_xy_speed_mean(getattr(unwrapped, "_object_lin_vel_w", None)),
+            asset_count=tensor_mean(log.get("tabletop_asset_count")),
+            persistent_motion=tensor_mean(log.get("tabletop_persistent_motion")),
+            palm_distance=tensor_mean(log.get("palm_distance")),
+            strict_finger_contacts=tensor_mean(log.get("strict_finger_contacts")),
+            strict_thumb_contact=tensor_mean(log.get("strict_thumb_contact")),
+            strict_true_grasp=tensor_mean(log.get("strict_true_grasp")),
+            hover_latched=tensor_mean(log.get("hover_latched")),
+            hover_xy_dist=tensor_mean(log.get("hover_xy_dist")),
+            hover_z_error=tensor_mean(log.get("hover_z_error")),
+            hover_target_rew=tensor_mean(log.get("hover_target_rew")),
+            hover_stability_rew=tensor_mean(log.get("hover_stability_rew")),
+            hover_object_speed=tensor_mean(log.get("hover_object_speed")),
+        )
         actions = torch.zeros((unwrapped.num_envs, unwrapped.cfg.action_space), device=unwrapped.device)
         for step in range(int(args_cli.steps)):
             obs, rew, terminated, truncated, extras = env.step(actions)
@@ -127,12 +145,20 @@ def main() -> None:
                 done_count=int((terminated | truncated).sum().detach().cpu()),
                 obs_shape=list(obs["policy"].shape),
                 active_asset_id_mean=tensor_mean(getattr(unwrapped, "_tabletop_active_asset_ids", None)),
+                active_asset_histogram=tensor_histogram(
+                    getattr(unwrapped, "_tabletop_active_asset_ids", None),
+                    len(getattr(unwrapped, "_tabletop_objects", ())),
+                ),
                 object_z_mean=float((unwrapped._object_pos_w[:, 2] - unwrapped.scene.env_origins[:, 2]).mean().detach().cpu()),
                 tabletop_cmd_speed=tensor_mean(log.get("tabletop_cmd_speed")),
                 direct_cmd_speed=tensor_xy_speed_mean(getattr(unwrapped, "_tabletop_cmd_lin_vel_w", None)),
                 object_xy_speed=tensor_xy_speed_mean(getattr(unwrapped, "_object_lin_vel_w", None)),
                 asset_count=tensor_mean(log.get("tabletop_asset_count")),
                 motion_mode_count=tensor_mean(log.get("tabletop_motion_mode_count")),
+                palm_distance=tensor_mean(log.get("palm_distance")),
+                strict_finger_contacts=tensor_mean(log.get("strict_finger_contacts")),
+                strict_thumb_contact=tensor_mean(log.get("strict_thumb_contact")),
+                strict_true_grasp=tensor_mean(log.get("strict_true_grasp")),
                 hover_latched=tensor_mean(log.get("hover_latched")),
                 hover_xy_dist=tensor_mean(log.get("hover_xy_dist")),
                 hover_z_error=tensor_mean(log.get("hover_z_error")),

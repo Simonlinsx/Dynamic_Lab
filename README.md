@@ -397,11 +397,23 @@ fixed third view.
 | Policy | Task | Vector evaluation | Strict 20-trial video |
 | --- | --- | ---: | ---: |
 | Revo2 teacher | rolling 0.10-0.40 m/s | 258/512 (50.39%) | 8/20 (40%) |
-| Inspire teacher | rolling 0.10-0.40 m/s | 140/256 (54.69%) | 14/20 (70%) |
+| Inspire teacher | rolling 50 mm sphere-only diagnostic, 0.10-0.40 m/s | 140/256 (54.69%) | 14/20 (70%) |
 | Revo2 teacher | falling baton | 262/512 (51.17%) | 9/20 (45%) |
 | Inspire teacher | falling baton | 293/512 (57.23%) | 12/20 (60%) |
 | Revo2 RGB-D student | falling baton | 68/192 (35.42%) | 4/20 (20%; raw 8/20) |
 | Revo2 RGB-D student | rolling 0.10-0.40 m/s | 82/192 (42.71%) | 4/20 (20%; raw 7/20) |
+
+The Inspire rolling row above is a retained sphere-only diagnostic and is not
+a cross-hand comparison against the Revo2 five-asset task. New comparable runs
+must use `SimToolReal-Revo2-Franka-UnifiedRollingBenchmark-Teacher-Direct-v0`
+and `SimToolReal-Inspire-Franka-UnifiedRollingBenchmark-Teacher-Direct-v0`.
+Both implement `rolling_multishape_v1`: the same sphere/can/bottle/cone/pill-
+bottle physics and uniform evaluation distribution, a shared static-to-
+0.10--0.40 m/s curriculum, 13-D action and 86-D privileged observation
+contracts, strict lift/hold success, hover target, episode length, and cameras.
+Only embodiment-specific hand coupling, control, close posture, and collision
+clearance remain different. Run `scripts/check_unified_rolling_protocol.py` to
+verify that the shared contract has not drifted.
 
 Both student vector results use `--first-episode-per-env`: every one of the 192
 initial environments contributes exactly one trial. This avoids a

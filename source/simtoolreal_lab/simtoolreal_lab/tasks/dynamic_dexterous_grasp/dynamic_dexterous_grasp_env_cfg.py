@@ -717,6 +717,38 @@ TABLETOP_ROLLING_OBJECT_SPECS = (
 TABLETOP_ROLLING_START_SPEC = TABLETOP_ROLLING_OBJECT_SPECS[0]
 TABLETOP_ROLLING_START_Z = 0.296 + 0.5 * float(TABLETOP_ROLLING_START_SPEC["height"]) + 0.002
 
+# Shared task contract used for cross-hand rolling comparisons.  Keep these
+# values embodiment-agnostic; hand geometry, joint coupling, and clearance
+# margins remain in the Revo2/Inspire parent configs.
+UNIFIED_ROLLING_BENCHMARK_NAME = "rolling_multishape_v1"
+UNIFIED_ROLLING_OBJECT_SPECS = TABLETOP_ROLLING_OBJECT_SPECS
+UNIFIED_ROLLING_START_POS = (0.58, 0.0, TABLETOP_ROLLING_START_Z)
+UNIFIED_ROLLING_RESET_OBJECT_POS_NOISE = (0.040, 0.030, 0.0015)
+UNIFIED_ROLLING_START_SPEED_RANGE = (0.0, 0.0)
+UNIFIED_ROLLING_TARGET_SPEED_RANGE = (0.10, 0.40)
+UNIFIED_ROLLING_START_YAW_RATE_RANGE = (0.0, 0.0)
+UNIFIED_ROLLING_TARGET_YAW_RATE_RANGE = (-2.40, 2.40)
+UNIFIED_ROLLING_ASSET_CURRICULUM_STEPS = 2_400_000
+UNIFIED_ROLLING_SPEED_CURRICULUM_STEPS = 3_200_000
+UNIFIED_ROLLING_SUCCESS_LIFT_HEIGHT = 0.040
+UNIFIED_ROLLING_SUCCESS_HOLD_STEPS = 8
+UNIFIED_ROLLING_STABLE_OBJECT_PALM_VEL = 0.42
+UNIFIED_ROLLING_EPISODE_LENGTH_S = 8.0
+UNIFIED_ROLLING_HOVER_HEIGHT_DELTA = 0.075
+UNIFIED_ROLLING_HOVER_LATCH_LIFT_PROGRESS = 0.44
+UNIFIED_ROLLING_HOVER_XY_DISTANCE_SCALE = 0.16
+UNIFIED_ROLLING_HOVER_Z_DISTANCE_SCALE = 0.05
+UNIFIED_ROLLING_HOVER_OBJECT_SPEED_SCALE = 0.20
+UNIFIED_ROLLING_HOVER_ANG_SPEED_SCALE = 7.0
+UNIFIED_ROLLING_HOVER_SUCCESS_XY_TOLERANCE = 0.20
+UNIFIED_ROLLING_HOVER_SUCCESS_Z_TOLERANCE = 0.055
+UNIFIED_ROLLING_HOVER_SUCCESS_OBJECT_SPEED = 0.30
+UNIFIED_ROLLING_CONTACT_DISTANCE = 0.014
+UNIFIED_ROLLING_CONTACT_SCORE_SCALE = 0.016
+UNIFIED_ROLLING_STRICT_CONTACT_DISTANCE = 0.010
+UNIFIED_ROLLING_STRICT_MIN_FINGER_CONTACTS = 3
+UNIFIED_ROLLING_STRICT_MIN_NON_THUMB_CONTACTS = 2
+
 
 def _tabletop_start_z_from_spec(spec: dict, table_top_z: float = 0.296) -> float:
     shape = str(spec.get("proxy_shape", "box")).lower()
@@ -3204,6 +3236,96 @@ class Revo2DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTargetHandLockTea
 
     reference_name = "revo2_dynamic_tabletop_rolling_assets_fast_speed_asset_privileged_target_hand_lock_teacher"
     tabletop_post_success_hand_lock_uses_actual_joint_pos = False
+
+
+@configclass
+class Revo2UnifiedRollingBenchmarkTeacherEnvCfg(
+    Revo2DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTargetHandLockTeacherEnvCfg
+):
+    """Revo2 adapter for the shared multi-shape rolling benchmark."""
+
+    reference_name = "revo2_unified_rolling_multishape_v1_teacher"
+    benchmark_protocol = UNIFIED_ROLLING_BENCHMARK_NAME
+
+    observation_space = 86
+    tabletop_object_asset_specs = UNIFIED_ROLLING_OBJECT_SPECS
+    tabletop_asset_set_enabled = True
+    tabletop_asset_obs_enabled = True
+    tabletop_asset_sampling_weights = None
+    tabletop_asset_curriculum = True
+    tabletop_asset_curriculum_start_count = 1
+    tabletop_asset_curriculum_steps = UNIFIED_ROLLING_ASSET_CURRICULUM_STEPS
+    tabletop_asset_curriculum_override_alpha = None
+
+    object_start_pos = UNIFIED_ROLLING_START_POS
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        TABLETOP_ROLLING_START_SPEC,
+        pos=object_start_pos,
+    )
+    object_shape = str(TABLETOP_ROLLING_START_SPEC["proxy_shape"])
+    object_radius = float(TABLETOP_ROLLING_START_SPEC["radius"])
+    object_size = tuple(TABLETOP_ROLLING_START_SPEC["size"])
+    reset_object_pos_noise = UNIFIED_ROLLING_RESET_OBJECT_POS_NOISE
+
+    tabletop_motion_modes = ("free",)
+    tabletop_motion_mode_curriculum = False
+    dynamic_tabletop_persistent_motion = False
+    dynamic_tabletop_bounce_at_workspace = False
+    dynamic_tabletop_release_motion_on_contact = False
+    dynamic_tabletop_randomize_yaw = True
+    dynamic_tabletop_heading_range = TABLETOP_FULL_HEADING_RANGE
+    dynamic_grasp_speed_curriculum = True
+    dynamic_grasp_speed_curriculum_mode = "steps"
+    dynamic_grasp_speed_curriculum_steps = UNIFIED_ROLLING_SPEED_CURRICULUM_STEPS
+    dynamic_grasp_speed_curriculum_override_alpha = None
+    dynamic_tabletop_speed_alpha_sample_enabled = False
+    dynamic_tabletop_start_speed_range = UNIFIED_ROLLING_START_SPEED_RANGE
+    dynamic_tabletop_initial_speed_range = UNIFIED_ROLLING_TARGET_SPEED_RANGE
+    dynamic_tabletop_start_yaw_rate_range = UNIFIED_ROLLING_START_YAW_RATE_RANGE
+    dynamic_tabletop_initial_yaw_rate_range = UNIFIED_ROLLING_TARGET_YAW_RATE_RANGE
+    dynamic_tabletop_pregrasp_lead_time = 0.36
+    dynamic_tabletop_pregrasp_ahead_distance = 0.10
+    dynamic_tabletop_pregrasp_ready_distance = 0.20
+
+    strict_success_enabled = True
+    strict_reward_enabled = True
+    strict_success_contact_distance = UNIFIED_ROLLING_STRICT_CONTACT_DISTANCE
+    strict_success_min_finger_contacts = UNIFIED_ROLLING_STRICT_MIN_FINGER_CONTACTS
+    strict_success_min_non_thumb_contacts = UNIFIED_ROLLING_STRICT_MIN_NON_THUMB_CONTACTS
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    contact_distance = UNIFIED_ROLLING_CONTACT_DISTANCE
+    contact_score_scale = UNIFIED_ROLLING_CONTACT_SCORE_SCALE
+    min_finger_contacts = UNIFIED_ROLLING_STRICT_MIN_FINGER_CONTACTS
+    min_non_thumb_contacts = UNIFIED_ROLLING_STRICT_MIN_NON_THUMB_CONTACTS
+    opposition_cos_threshold = 0.0
+    tabletop_success_requires_hover_target = False
+    tabletop_success_lift_height = UNIFIED_ROLLING_SUCCESS_LIFT_HEIGHT
+    dynamic_success_hold_steps = UNIFIED_ROLLING_SUCCESS_HOLD_STEPS
+    stable_object_palm_vel = UNIFIED_ROLLING_STABLE_OBJECT_PALM_VEL
+    tabletop_hover_height_delta = UNIFIED_ROLLING_HOVER_HEIGHT_DELTA
+    tabletop_hover_latch_lift_progress = UNIFIED_ROLLING_HOVER_LATCH_LIFT_PROGRESS
+    tabletop_hover_xy_distance_scale = UNIFIED_ROLLING_HOVER_XY_DISTANCE_SCALE
+    tabletop_hover_z_distance_scale = UNIFIED_ROLLING_HOVER_Z_DISTANCE_SCALE
+    tabletop_hover_object_speed_scale = UNIFIED_ROLLING_HOVER_OBJECT_SPEED_SCALE
+    tabletop_hover_ang_speed_scale = UNIFIED_ROLLING_HOVER_ANG_SPEED_SCALE
+    tabletop_hover_success_requires_xy = True
+    tabletop_hover_success_xy_tolerance = UNIFIED_ROLLING_HOVER_SUCCESS_XY_TOLERANCE
+    tabletop_hover_success_z_tolerance = UNIFIED_ROLLING_HOVER_SUCCESS_Z_TOLERANCE
+    tabletop_hover_success_object_speed = UNIFIED_ROLLING_HOVER_SUCCESS_OBJECT_SPEED
+    tabletop_success_requires_arm_clearance = True
+    tabletop_terminate_on_arm_clearance_violation = False
+
+    terminate_on_success = False
+    episode_length_s = UNIFIED_ROLLING_EPISODE_LENGTH_S
+    tabletop_post_success_stability_latch_enabled = True
+    tabletop_post_success_arm_target_lock_enabled = True
+    tabletop_post_success_arm_target_lock_blend = 1.0
+    tabletop_post_success_hand_target_lock_enabled = True
+    tabletop_post_success_hand_target_lock_blend = 1.0
+    tabletop_post_success_hand_lock_uses_actual_joint_pos = False
+    tabletop_post_success_hand_close_fraction = 0.08
+    affordance_label_mode = "tabletop_rolling_assets"
 
 
 @configclass
@@ -7331,6 +7453,96 @@ class InspireRollingRelativeLiftScale200PostHoldMildThumbWrapTargetHandLockTeach
         "mild_thumb_wrap_target_hand_lock_teacher"
     )
     inspire_semantic_close_targets = INSPIRE_ANYDEX_SPHERE_MILD_THUMB_WRAP_CLOSE_TARGETS
+
+
+@configclass
+class InspireUnifiedRollingBenchmarkTeacherEnvCfg(
+    InspireRollingRelativeLiftScale200PostHoldMildThumbWrapTargetHandLockTeacherEnvCfg
+):
+    """Inspire RH56 adapter for the shared multi-shape rolling benchmark."""
+
+    reference_name = "inspire_unified_rolling_multishape_v1_teacher"
+    benchmark_protocol = UNIFIED_ROLLING_BENCHMARK_NAME
+
+    observation_space = 86
+    tabletop_object_asset_specs = UNIFIED_ROLLING_OBJECT_SPECS
+    tabletop_asset_set_enabled = True
+    tabletop_asset_obs_enabled = True
+    tabletop_asset_sampling_weights = None
+    tabletop_asset_curriculum = True
+    tabletop_asset_curriculum_start_count = 1
+    tabletop_asset_curriculum_steps = UNIFIED_ROLLING_ASSET_CURRICULUM_STEPS
+    tabletop_asset_curriculum_override_alpha = None
+
+    object_start_pos = UNIFIED_ROLLING_START_POS
+    object_cfg: RigidObjectCfg = _object_cfg_from_tabletop_spec(
+        TABLETOP_ROLLING_START_SPEC,
+        pos=object_start_pos,
+    )
+    object_shape = str(TABLETOP_ROLLING_START_SPEC["proxy_shape"])
+    object_radius = float(TABLETOP_ROLLING_START_SPEC["radius"])
+    object_size = tuple(TABLETOP_ROLLING_START_SPEC["size"])
+    reset_object_pos_noise = UNIFIED_ROLLING_RESET_OBJECT_POS_NOISE
+
+    tabletop_motion_modes = ("free",)
+    tabletop_motion_mode_curriculum = False
+    dynamic_tabletop_persistent_motion = False
+    dynamic_tabletop_bounce_at_workspace = False
+    dynamic_tabletop_release_motion_on_contact = False
+    dynamic_tabletop_randomize_yaw = True
+    dynamic_tabletop_heading_range = TABLETOP_FULL_HEADING_RANGE
+    dynamic_grasp_speed_curriculum = True
+    dynamic_grasp_speed_curriculum_mode = "steps"
+    dynamic_grasp_speed_curriculum_steps = UNIFIED_ROLLING_SPEED_CURRICULUM_STEPS
+    dynamic_grasp_speed_curriculum_override_alpha = None
+    dynamic_tabletop_speed_alpha_sample_enabled = False
+    dynamic_tabletop_start_speed_range = UNIFIED_ROLLING_START_SPEED_RANGE
+    dynamic_tabletop_initial_speed_range = UNIFIED_ROLLING_TARGET_SPEED_RANGE
+    dynamic_tabletop_start_yaw_rate_range = UNIFIED_ROLLING_START_YAW_RATE_RANGE
+    dynamic_tabletop_initial_yaw_rate_range = UNIFIED_ROLLING_TARGET_YAW_RATE_RANGE
+    dynamic_tabletop_pregrasp_lead_time = 0.36
+    dynamic_tabletop_pregrasp_ahead_distance = 0.10
+    dynamic_tabletop_pregrasp_ready_distance = 0.20
+
+    strict_success_enabled = True
+    strict_reward_enabled = True
+    strict_success_contact_distance = UNIFIED_ROLLING_STRICT_CONTACT_DISTANCE
+    strict_success_min_finger_contacts = UNIFIED_ROLLING_STRICT_MIN_FINGER_CONTACTS
+    strict_success_min_non_thumb_contacts = UNIFIED_ROLLING_STRICT_MIN_NON_THUMB_CONTACTS
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    contact_distance = UNIFIED_ROLLING_CONTACT_DISTANCE
+    contact_score_scale = UNIFIED_ROLLING_CONTACT_SCORE_SCALE
+    min_finger_contacts = UNIFIED_ROLLING_STRICT_MIN_FINGER_CONTACTS
+    min_non_thumb_contacts = UNIFIED_ROLLING_STRICT_MIN_NON_THUMB_CONTACTS
+    opposition_cos_threshold = 0.0
+    tabletop_success_requires_hover_target = False
+    tabletop_success_lift_height = UNIFIED_ROLLING_SUCCESS_LIFT_HEIGHT
+    dynamic_success_hold_steps = UNIFIED_ROLLING_SUCCESS_HOLD_STEPS
+    stable_object_palm_vel = UNIFIED_ROLLING_STABLE_OBJECT_PALM_VEL
+    tabletop_hover_height_delta = UNIFIED_ROLLING_HOVER_HEIGHT_DELTA
+    tabletop_hover_latch_lift_progress = UNIFIED_ROLLING_HOVER_LATCH_LIFT_PROGRESS
+    tabletop_hover_xy_distance_scale = UNIFIED_ROLLING_HOVER_XY_DISTANCE_SCALE
+    tabletop_hover_z_distance_scale = UNIFIED_ROLLING_HOVER_Z_DISTANCE_SCALE
+    tabletop_hover_object_speed_scale = UNIFIED_ROLLING_HOVER_OBJECT_SPEED_SCALE
+    tabletop_hover_ang_speed_scale = UNIFIED_ROLLING_HOVER_ANG_SPEED_SCALE
+    tabletop_hover_success_requires_xy = True
+    tabletop_hover_success_xy_tolerance = UNIFIED_ROLLING_HOVER_SUCCESS_XY_TOLERANCE
+    tabletop_hover_success_z_tolerance = UNIFIED_ROLLING_HOVER_SUCCESS_Z_TOLERANCE
+    tabletop_hover_success_object_speed = UNIFIED_ROLLING_HOVER_SUCCESS_OBJECT_SPEED
+    tabletop_success_requires_arm_clearance = True
+    tabletop_terminate_on_arm_clearance_violation = False
+
+    terminate_on_success = False
+    episode_length_s = UNIFIED_ROLLING_EPISODE_LENGTH_S
+    tabletop_post_success_stability_latch_enabled = True
+    tabletop_post_success_arm_target_lock_enabled = True
+    tabletop_post_success_arm_target_lock_blend = 1.0
+    tabletop_post_success_hand_target_lock_enabled = True
+    tabletop_post_success_hand_target_lock_blend = 1.0
+    tabletop_post_success_hand_lock_uses_actual_joint_pos = False
+    tabletop_post_success_hand_close_fraction = 0.08
+    affordance_label_mode = "tabletop_rolling_assets"
 
 
 @configclass
