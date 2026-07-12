@@ -1014,30 +1014,34 @@ class _UnifiedRollingLiftHoldStage3Contract:
     tabletop_object_carry_stall_penalty_scale = 5000.0
     tabletop_strict_grasp_loss_penalty_scale = 8000.0
     tabletop_arm_clearance_penalty_scale = 6000.0
-    tabletop_force_grasp_rew_scale = 1500.0
-    tabletop_force_grasp_streak_rew_scale = 3000.0
-    tabletop_force_stable_grasp_rew_scale = 4000.0
-    tabletop_force_grasp_loss_penalty_scale = 4000.0
+    # The filtered fingertip-force signal does not include every load-bearing
+    # distal/proximal finger-link contact. Keep it as a diagnostic, but do not
+    # let an incomplete sensor projection override a physically lifted object,
+    # strict fingertip enclosure, and stable object-palm motion.
+    tabletop_force_grasp_rew_scale = 0.0
+    tabletop_force_grasp_streak_rew_scale = 0.0
+    tabletop_force_stable_grasp_rew_scale = 0.0
+    tabletop_force_grasp_loss_penalty_scale = 0.0
 
     object_contact_force_diagnostics_enabled = True
     object_contact_force_threshold = 0.05
-    tabletop_arm_lift_progress_baseline_mode = "first_force_grasp"
+    tabletop_arm_lift_progress_baseline_mode = "first_strict_grasp"
     tabletop_arm_lift_progress_baseline_grasp_streak = 3
     tabletop_force_grasp_streak_target = 8
-    tabletop_lift_rewards_require_force_grasp = True
+    tabletop_lift_rewards_require_force_grasp = False
     lift_reward_uses_grasp_quality_gate = True
     lift_reward_uses_opposition_gate = True
     lift_reward_min_opposition_multiplier = 0.0
     quality_lift_progress_uses_opposition_gate = True
     quality_lift_progress_min_opposition_multiplier = 0.0
     tabletop_lift_gate_requires_current_strict_grasp = True
-    tabletop_lift_gate_requires_force_grasp = True
+    tabletop_lift_gate_requires_force_grasp = False
     tabletop_lift_use_grasp_seen_gate = False
     tabletop_object_carry_uses_grasp_seen = False
     tabletop_object_carry_min_grasp_streak = 3
     tabletop_object_carry_streak_ramp_steps = 4
-    tabletop_no_lift_uses_force_grasp_gate = True
-    tabletop_success_requires_force_grasp = True
+    tabletop_no_lift_uses_force_grasp_gate = False
+    tabletop_success_requires_force_grasp = False
     tabletop_lift_without_object_min_arm_progress = 0.08
     tabletop_arm_lift_reward_object_margin = 0.08
     tabletop_arm_object_lift_gap_margin = 0.08

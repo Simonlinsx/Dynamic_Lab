@@ -401,9 +401,9 @@ The following legacy checkpoints passed the earlier July 2026 metric protocol. T
 success requires physical contact, catch/lift, and stable hold. Teacher videos
 and student videos are continuous 20-trial sequences with automatic reset and a
 fixed third view. These rows preserve historical results; they are not all exact
-cross-hand comparisons under the unified protocols introduced afterward. The
-legacy Revo2 rolling student video predates the mandatory point-cloud inset and
-is therefore pending replacement rather than a formal video deliverable.
+cross-hand comparisons under the unified protocols introduced afterward. Both
+Revo2 student rows now have formal same-frame masked RGB-D point-cloud insets;
+their underlying task distributions remain legacy until unified retraining passes.
 
 | Policy | Task | Vector evaluation | Strict 20-trial video |
 | --- | --- | ---: | ---: |
@@ -412,7 +412,7 @@ is therefore pending replacement rather than a formal video deliverable.
 | Revo2 teacher | falling baton | 262/512 (51.17%) | 9/20 (45%) |
 | Inspire teacher | falling baton | 293/512 (57.23%) | 12/20 (60%) |
 | Revo2 RGB-D student | falling baton | 68/192 (35.42%) | 3/20 (15%; raw 6/20; point-cloud inset) |
-| Revo2 RGB-D student | rolling 0.10-0.40 m/s | 82/192 (42.71%) | 4/20 (20%; raw 7/20) |
+| Revo2 RGB-D student | rolling 0.10-0.40 m/s | 82/192 (42.71%) | 3/20 (15%; raw 5/20; point-cloud inset) |
 
 The Inspire rolling row above is a retained sphere-only diagnostic and is not
 a cross-hand comparison against the Revo2 five-asset task. New comparable runs
@@ -443,13 +443,13 @@ Stage 1 emphasizes home-to-pregrasp reach; stage 2 emphasizes opposed
 thumb-pair touch and true grasp; stage 3 makes a stationary grasp unprofitable
 and rewards only object-coupled lift and stable hold while strict opposition is
 maintained. Stage 3 also enables filtered fingertip-to-object contact forces:
-the lift baseline latches on a sustained physical thumb-plus-two-finger grasp,
-and lift, hold, and success require that force grasp to remain active. A grasp
-loss is penalized once on the physical contact-to-no-contact transition after
-the baseline has latched; it is not repeatedly penalized for the rest of the
-episode. The shared Stage 3 weights make a prolonged no-lift grasp and unsafe
-table clearance more costly than stationary contact, while object-coupled arm
-lift, carry, and stable hold remain the dominant positive terms. Object
+these remain diagnostics because the filter covers fingertip touch bodies but
+not every load-bearing distal/proximal finger-link collision. The lift baseline,
+lift reward, and success contract therefore use strict thumb-plus-two-finger
+geometry together with actual object lift and stable object-palm motion. The
+shared Stage 3 weights make a prolonged no-lift grasp and unsafe table clearance
+more costly than stationary contact, while object-coupled arm lift, carry, and
+stable hold remain the dominant positive terms. Object
 dynamics, observations, actions, success semantics, and
 difficulty curriculum are unchanged at every transition, and stage 3 uses the
 same reward weights for both hands.
@@ -458,8 +458,9 @@ names/offsets behind palm and fingertip contact points remain different. Both
 hands use the same table-clearance samples (Franka links plus palm and five
 fingertips), normalized penalty, 3 mm tolerance, reward weight, and success
 gate; the simulator still enforces each embodiment's complete collision
-geometry. Evaluation reports `force_grasp_clearance_ok` so a physical grasp is
-never credited through an infeasible safety proxy. Run
+geometry. Evaluation reports `force_grasp` and `force_grasp_clearance_ok` next
+to the strict physical lift/hold funnel so sensor coverage can be audited without
+silently redefining success. Run
 `scripts/check_unified_rolling_protocol.py` to verify that the shared contract
 has not drifted. Teacher data collection,
 student pretraining/PPO, vector evaluation, and video evaluation must reuse the
@@ -492,6 +493,18 @@ The current Revo2/Inspire falling rows above were produced by different legacy
 curricula and therefore remain useful baselines, not the final unified
 cross-hand comparison. Official unified rows are added only after vector and
 fixed-camera 20-trial evaluations pass on the new task IDs.
+
+The July 12 Stage-3 regression was a success-contract bug rather than policy
+collapse. A filtered fingertip-force diagnostic had been promoted to a hard
+lift/success gate even though it does not include every load-bearing finger
+link. On the corrected diagnostic-only contract, the retained Revo2 checkpoint
+scores 183/256 (71.48%) on the static apple and 161/512 (31.45%) over the five
+assets at 0.10--0.40 m/s. Its fixed-camera sequence scores 3/20 strict stable
+holds and 7/20 raw catches. The same static policy had been reported as 0/256
+under the incorrect force gate despite physically lifting 210/256 objects.
+Inspire is a separate, genuine stability bottleneck: its current Stage-3
+checkpoint reaches strict grasp in 156/256 trials and lift in 34/256, but has
+not yet converted a lift into the required stable hold.
 
 Both student vector results use `--first-episode-per-env`: every one of the 192
 initial environments contributes exactly one trial. This avoids a

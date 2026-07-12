@@ -38,8 +38,28 @@
       "inspire_stage3_task": "SimToolReal-Inspire-Franka-UnifiedRollingStage3-Teacher-Direct-v0",
       "student_reuses_same_task": true,
       "student_observation": "fixed_camera_masked_rgbd_pointcloud",
+      "force_contact_role": "diagnostic_only_not_success_gate",
       "checker": "scripts/check_unified_rolling_protocol.py",
-      "status": "teacher_retraining_required"
+      "status": "revo2_teacher_validated_inspire_continuation",
+      "revo2_force_gate_fix_validation": {
+        "checkpoint": "logs/rl_games/revo2_rolling_assetpriv_hardreplay_from_ep100_256env_240ep_online_20260711/nn/last_simtoolreal_dynamic_dexterous_teacher_direct_ep_160_rew_7145104.5.pth",
+        "static_apple_success": "183/256",
+        "full_speed_multishape_success": "161/512",
+        "full_speed_multishape_summary": "outputs/curated_artifacts/summaries/teacher/revo2_rolling_teacher_unified_fullspeed_vector512.json",
+        "full_speed_multishape_wandb": "https://wandb.ai/simonlsx/simtoolreal_lab/runs/pan1qfrd",
+        "fixed_camera_video_success": "3/20 strict; 7/20 raw",
+        "fixed_camera_video": "outputs/curated_videos/teacher/revo2_rolling_teacher_unified_fullspeed_strict20_sr015_raw035.mp4",
+        "fixed_camera_video_summary": "outputs/curated_artifacts/summaries/teacher/revo2_rolling_teacher_unified_fullspeed_video20.json",
+        "fixed_camera_video_trace": "outputs/curated_artifacts/traces/teacher/revo2_rolling_teacher_unified_fullspeed_video20.trace.json",
+        "fixed_camera_video_wandb": "https://wandb.ai/simonlsx/simtoolreal_lab/runs/02f04coy"
+      },
+      "inspire_force_gate_fix_validation": {
+        "strict_grasp": "156/256",
+        "lifted": "34/256",
+        "stable_hold": "0/256",
+        "success": "0/256",
+        "status": "stable_lift_continuation_required"
+      }
     },
     "falling_baton_affordance_v1": {
       "revo2_task": "SimToolReal-Revo2-Franka-UnifiedFallingBatonBenchmark-Teacher-Direct-v0",
@@ -77,7 +97,7 @@
         "predicted_grasp_hold_blend": 0.35
       },
       "student_vector_wandb": "https://wandb.ai/simonlsx/simtoolreal_lab/runs/d41v4wrx",
-      "student_video_wandb": "https://wandb.ai/simonlsx/simtoolreal_lab/runs/4wvcbjuh",
+      "student_video_wandb": "https://wandb.ai/simonlsx/simtoolreal_lab/runs/z413kxn4",
       "student_video_pointcloud_source": "rgbd_projected_mask",
       "teacher_summary": "outputs/curated_artifacts/summaries/teacher/revo2_rolling_teacher_vector512.json",
       "teacher_video_summary": "outputs/curated_artifacts/summaries/teacher/revo2_rolling_teacher_video20.json",
@@ -85,9 +105,9 @@
       "teacher_video_trace": [],
       "teacher_video_trace_required": false,
       "student_summary": "outputs/curated_artifacts/summaries/student/revo2_rolling_student_vector192_unbiased.json",
-      "student_video_summary": "outputs/curated_artifacts/summaries/student/revo2_rolling_student_video20.json",
-      "student_video": "outputs/curated_videos/student/revo2_rolling_student_rgbd_strict20_post60_sr020.mp4",
-      "student_video_trace": "outputs/curated_artifacts/traces/student/revo2_rolling_student_video20.trace.json"
+      "student_video_summary": "outputs/curated_artifacts/summaries/student/revo2_rolling_student_pointcloud_video20.json",
+      "student_video": "outputs/curated_videos/student/revo2_rolling_student_rgbd_pointcloud_strict20_post60_sr015_raw025.mp4",
+      "student_video_trace": "outputs/curated_artifacts/traces/student/revo2_rolling_student_pointcloud_video20.trace.json"
     },
     {
       "case_id": "revo2_falling_baton_rgbd",
