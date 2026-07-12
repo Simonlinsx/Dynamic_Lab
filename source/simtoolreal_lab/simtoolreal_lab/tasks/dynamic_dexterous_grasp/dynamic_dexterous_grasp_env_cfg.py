@@ -1056,6 +1056,17 @@ class _UnifiedRollingLiftHoldStage3Contract:
     tabletop_arm_object_lift_gap_margin = 0.08
 
 
+class _UnifiedRollingGraspHoldStage2Contract:
+    """Shared continuation objective for a sustained load-bearing grasp."""
+
+    # Stage 2 already reaches strict opposition in nearly every static episode,
+    # but often for only one frame. Reward a quiet strict grasp every step and
+    # make losing it expensive before asking the policy to coordinate a lift.
+    tabletop_strict_hold_rew_scale = 28000.0
+    tabletop_strict_grasp_loss_penalty_scale = 12000.0
+    tabletop_strict_grasp_hold_steps = 20
+
+
 UNIFIED_FALLING_BENCHMARK_NAME = "falling_baton_affordance_v1"
 UNIFIED_FALLING_OBJECT_SIZE = (0.018, 0.018, 0.165)
 UNIFIED_FALLING_OBJECT_MASS = 0.014
@@ -3826,6 +3837,16 @@ class Revo2UnifiedRollingStage1TeacherEnvCfg(Revo2UnifiedRollingBenchmarkTeacher
     tabletop_non_thumb_without_thumb_penalty_scale = 300.0
     true_grasp_rew_scale = 500.0
     strict_touch_score_scale = 0.008
+
+
+@configclass
+class Revo2UnifiedRollingStage2HoldTeacherEnvCfg(
+    _UnifiedRollingGraspHoldStage2Contract,
+    Revo2UnifiedRollingBenchmarkTeacherEnvCfg,
+):
+    """Revo2 continuation stage for a sustained strict grasp before lift."""
+
+    reference_name = "revo2_unified_rolling_multishape_v1_stage2_hold_teacher"
 
 
 @configclass
@@ -8115,6 +8136,16 @@ class InspireUnifiedRollingStage1TeacherEnvCfg(InspireUnifiedRollingBenchmarkTea
     tabletop_non_thumb_without_thumb_penalty_scale = 300.0
     true_grasp_rew_scale = 500.0
     strict_touch_score_scale = 0.008
+
+
+@configclass
+class InspireUnifiedRollingStage2HoldTeacherEnvCfg(
+    _UnifiedRollingGraspHoldStage2Contract,
+    InspireUnifiedRollingBenchmarkTeacherEnvCfg,
+):
+    """Inspire continuation stage for a sustained strict grasp before lift."""
+
+    reference_name = "inspire_unified_rolling_multishape_v1_stage2_hold_teacher"
 
 
 @configclass

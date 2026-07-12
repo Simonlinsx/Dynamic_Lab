@@ -3327,6 +3327,11 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self.extras["tabletop_lift_action_prior_rew_env"] = tabletop_lift_action_prior_rew
         self.extras["tabletop_object_up_vel_rew_env"] = tabletop_object_up_vel_rew
         self.extras["tabletop_object_carry_lift_rew_env"] = tabletop_object_carry_lift_rew
+        self.extras["tabletop_true_grasp_streak_env"] = self._tabletop_true_grasp_streak
+        self.extras["tabletop_strict_true_grasp_streak_env"] = self._tabletop_strict_true_grasp_streak
+        self.extras["strict_grasp_hold_env"] = self._tabletop_strict_true_grasp_streak >= int(
+            getattr(self.cfg, "tabletop_strict_grasp_hold_steps", 20)
+        )
         self.extras["object_height_delta_env"] = self._object_height_delta
         self.extras["tabletop_arm_clearance_ok_env"] = self._tabletop_arm_clearance_ok
         self.extras["force_grasp_clearance_ok_env"] = self._force_grasp & self._tabletop_arm_clearance_ok

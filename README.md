@@ -446,11 +446,17 @@ For reproducible from-scratch training, use the three-stage reward curriculum:
 start both hands with `SimToolReal-<Hand>-Franka-UnifiedRollingStage1-Teacher-Direct-v0`
 for 300 epochs, then continue their epoch-300 checkpoints on the corresponding
 `UnifiedRollingBenchmark` task. Continue checkpoints that reliably acquire a
-strict grasp on `SimToolReal-<Hand>-Franka-UnifiedRollingStage3-Teacher-Direct-v0`.
+strict grasp on
+`SimToolReal-<Hand>-Franka-UnifiedRollingStage2Hold-Teacher-Direct-v0`, then
+continue sustained-grasp checkpoints on
+`SimToolReal-<Hand>-Franka-UnifiedRollingStage3-Teacher-Direct-v0`.
 Stage 1 emphasizes home-to-pregrasp reach; stage 2 emphasizes opposed
-thumb-pair touch and true grasp; stage 3 makes a stationary grasp unprofitable
-and rewards only object-coupled lift and stable hold while strict opposition is
-maintained. Stage 3 also enables filtered fingertip-to-object contact forces:
+thumb-pair touch and true grasp; stage 2-hold turns the one-frame grasp event
+into a sustained low-relative-velocity strict grasp. Its diagnostic milestone
+is 20 consecutive strict-grasp steps; stage 3 then makes a
+stationary grasp unprofitable and rewards only object-coupled lift and stable
+hold while strict opposition is maintained. Stage 3 also enables filtered
+fingertip-to-object contact forces:
 these remain diagnostics because the filter covers fingertip touch bodies but
 not every load-bearing distal/proximal finger-link collision. The lift baseline,
 lift reward, and success contract therefore use strict thumb-plus-two-finger

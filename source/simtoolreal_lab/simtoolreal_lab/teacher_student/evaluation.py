@@ -13,6 +13,7 @@ BOOL_EXTRA_KEYS = {
     "strict_thumb_contact": "strict_thumb_contact_env",
     "strict_opposing_contact": "strict_opposing_contact_env",
     "strict_true_grasp": "strict_true_grasp_env",
+    "strict_grasp_hold": "strict_grasp_hold_env",
     "lifted": "lifted_env",
     "stable_hold": "stable_hold_env",
     "success": "success_env",
@@ -41,6 +42,8 @@ MAX_EXTRA_KEYS = {
     "tabletop_lift_action_prior_rew": "tabletop_lift_action_prior_rew_env",
     "tabletop_object_up_vel_rew": "tabletop_object_up_vel_rew_env",
     "tabletop_object_carry_lift_rew": "tabletop_object_carry_lift_rew_env",
+    "tabletop_true_grasp_streak": "tabletop_true_grasp_streak_env",
+    "tabletop_strict_true_grasp_streak": "tabletop_strict_true_grasp_streak_env",
     "object_height_delta": "object_height_delta_env",
 }
 

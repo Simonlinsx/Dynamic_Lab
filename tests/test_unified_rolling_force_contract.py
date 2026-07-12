@@ -93,6 +93,14 @@ def test_stage3_carry_reward_keeps_current_strict_grasp_streak_during_lift():
     )
 
 
+def test_stage2_hold_contract_rewards_quiet_strict_grasp_and_penalizes_loss():
+    values = _class_constants("_UnifiedRollingGraspHoldStage2Contract")
+
+    assert values["tabletop_strict_hold_rew_scale"] == 28000.0
+    assert values["tabletop_strict_grasp_loss_penalty_scale"] == 12000.0
+    assert values["tabletop_strict_grasp_hold_steps"] == 20
+
+
 def test_stage3_lift_action_alignment_is_interface_aware_and_strict_grasp_gated():
     values = _class_constants("_UnifiedRollingLiftHoldStage3Contract")
 
