@@ -1000,10 +1000,9 @@ class _UnifiedRollingLiftHoldStage3Contract:
     tabletop_grasped_palm_lift_rew_scale = 4500.0
     tabletop_grasped_arm_lift_rew_scale = 9000.0
     # The direct policy must discover a coordinated Franka lift after closing.
-    # Reward alignment with the verified lift direction only while the current
-    # strict grasp is intact; this shapes policy actions without injecting a
-    # scripted or residual controller.
-    tabletop_lift_action_prior_rew_scale = 30000.0
+    # Reward an absolute joint target above the latched grasp pose only while
+    # the current strict grasp is intact; no scripted action is injected.
+    tabletop_lift_action_prior_rew_scale = 9000.0
     tabletop_lift_action_prior_gate_min = 0.0
     tabletop_object_up_vel_rew_scale = 3000.0
     tabletop_object_carry_lift_rew_scale = 16000.0

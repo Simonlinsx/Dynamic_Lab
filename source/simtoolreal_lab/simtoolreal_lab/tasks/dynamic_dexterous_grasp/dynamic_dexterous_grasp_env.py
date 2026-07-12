@@ -2280,11 +2280,32 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             tabletop_arm_lift_progress = (
                 tabletop_arm_lift_progress * self._tabletop_arm_lift_baseline_latched.float()
             )
-            tabletop_lift_action_prior = torch.clamp(
-                torch.sum(self.actions[:, :7] * self._lift_action_prior, dim=-1) / self._lift_action_prior_den,
-                0.0,
-                1.0,
-            )
+            if self.cfg.policy_action_interface == "joint_target":
+                arm_lower = self._joint_lower_limits[self._arm_joint_ids].unsqueeze(0)
+                arm_upper = self._joint_upper_limits[self._arm_joint_ids].unsqueeze(0)
+                arm_center = torch.clamp(
+                    self._default_joint_pos[:, self._arm_joint_ids], arm_lower, arm_upper
+                )
+                arm_actions = self.actions[:, :7]
+                commanded_arm_target = torch.where(
+                    arm_actions >= 0.0,
+                    arm_center + arm_actions * (arm_upper - arm_center),
+                    arm_center + arm_actions * (arm_center - arm_lower),
+                )
+                commanded_lift_delta = commanded_arm_target - self._tabletop_arm_lift_baseline_pos
+                tabletop_lift_action_prior = torch.clamp(
+                    torch.sum(commanded_lift_delta * self._lift_arm_delta, dim=-1)
+                    / self._lift_delta_norm_sq,
+                    0.0,
+                    1.0,
+                ) * self._tabletop_arm_lift_baseline_latched.float()
+            else:
+                tabletop_lift_action_prior = torch.clamp(
+                    torch.sum(self.actions[:, :7] * self._lift_action_prior, dim=-1)
+                    / self._lift_action_prior_den,
+                    0.0,
+                    1.0,
+                )
             current_lift_grasp_gate = torch.clamp(
                 0.55 * reward_true_grasp.float() + 0.45 * true_grasp_score,
                 0.0,

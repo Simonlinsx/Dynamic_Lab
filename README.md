@@ -472,10 +472,12 @@ Stage 3 keeps two grasp streaks semantically separate. The no-lift streak resets
 as soon as the object starts rising and is used only for the stationary-grasp
 penalty. Object-up-velocity and carry rewards use the continuously tracked
 strict lift-baseline streak, so their gate remains active while a valid grasp
-actually lifts the object. A shared dense action-alignment term rewards the
-verified Franka lift direction only while the current strict grasp remains
-intact. It is reward shaping for the direct policy, not a scripted action or a
-residual controller, and uses the same scale and direction for both hands.
+actually lifts the object. A shared dense action-alignment term rewards lift
+commands only while the current strict grasp remains intact. For the absolute
+`joint_target` interface it projects the commanded arm target relative to the
+latched grasp pose; incremental-control tasks use the verified lift direction.
+It is reward shaping for the direct policy, not a scripted action or a residual
+controller, and uses the same scale and direction for both hands.
 
 New falling-baton comparisons must use
 `SimToolReal-Revo2-Franka-UnifiedFallingBatonBenchmark-Teacher-Direct-v0` and

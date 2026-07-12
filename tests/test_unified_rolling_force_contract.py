@@ -69,9 +69,34 @@ def test_stage3_carry_reward_keeps_current_strict_grasp_streak_during_lift():
     )
 
 
-def test_stage3_lift_action_alignment_is_current_strict_grasp_gated():
+def test_stage3_lift_action_alignment_is_interface_aware_and_strict_grasp_gated():
     values = _class_constants("_UnifiedRollingLiftHoldStage3Contract")
 
-    assert values["tabletop_lift_action_prior_rew_scale"] == 30000.0
+    assert values["tabletop_lift_action_prior_rew_scale"] == 9000.0
     assert values["tabletop_lift_action_prior_gate_min"] == 0.0
     assert values["tabletop_lift_gate_requires_current_strict_grasp"] is True
+
+    tree = ast.parse(ENV_PATH.read_text(encoding="utf-8"))
+    interface_branches = [
+        node
+        for node in ast.walk(tree)
+        if isinstance(node, ast.If)
+        and any(
+            isinstance(item, ast.Attribute) and item.attr == "policy_action_interface"
+            for item in ast.walk(node.test)
+        )
+        and any(
+            isinstance(item, ast.Name) and item.id == "tabletop_lift_action_prior"
+            for statement in node.body
+            for item in ast.walk(statement)
+        )
+    ]
+    assert interface_branches
+    assert any(
+        isinstance(item, ast.Attribute) and item.attr == "_tabletop_arm_lift_baseline_pos"
+        for item in ast.walk(interface_branches[0])
+    )
+    assert any(
+        isinstance(item, ast.Attribute) and item.attr == "_tabletop_arm_lift_baseline_latched"
+        for item in ast.walk(interface_branches[0])
+    )
