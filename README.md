@@ -434,7 +434,12 @@ thumb-pair touch and true grasp; stage 3 makes a stationary grasp unprofitable
 and rewards only object-coupled lift and stable hold while strict opposition is
 maintained. Stage 3 also enables filtered fingertip-to-object contact forces:
 the lift baseline latches on a sustained physical thumb-plus-two-finger grasp,
-and lift, hold, and success require that force grasp to remain active. Object
+and lift, hold, and success require that force grasp to remain active. A grasp
+loss is penalized once on the physical contact-to-no-contact transition after
+the baseline has latched; it is not repeatedly penalized for the rest of the
+episode. The shared Stage 3 weights make a prolonged no-lift grasp and unsafe
+table clearance more costly than stationary contact, while object-coupled arm
+lift, carry, and stable hold remain the dominant positive terms. Object
 dynamics, observations, actions, success semantics, and
 difficulty curriculum are unchanged at every transition, and stage 3 uses the
 same reward weights for both hands.

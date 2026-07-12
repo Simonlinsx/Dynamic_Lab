@@ -985,14 +985,14 @@ class _UnifiedRollingLiftHoldStage3Contract:
     lifted_true_grasp_rew_scale = 14000.0
     tabletop_stable_catch_rew_scale = 5000.0
     tabletop_grasped_palm_lift_rew_scale = 4500.0
-    tabletop_grasped_arm_lift_rew_scale = 6000.0
-    tabletop_object_up_vel_rew_scale = 6500.0
-    tabletop_object_carry_lift_rew_scale = 12000.0
+    tabletop_grasped_arm_lift_rew_scale = 9000.0
+    tabletop_object_up_vel_rew_scale = 3000.0
+    tabletop_object_carry_lift_rew_scale = 16000.0
     stable_hold_rew_scale = 16000.0
     hold_progress_rew_scale = 22000.0
     success_bonus = 48000.0
 
-    tabletop_no_lift_after_grasp_penalty_scale = 8000.0
+    tabletop_no_lift_after_grasp_penalty_scale = 12000.0
     tabletop_no_lift_after_grasp_grace_steps = 8
     tabletop_no_lift_after_grasp_ramp_steps = 24
     tabletop_lift_without_object_penalty_scale = 6000.0
@@ -1000,10 +1000,11 @@ class _UnifiedRollingLiftHoldStage3Contract:
     tabletop_arm_object_lift_gap_penalty_scale = 7000.0
     tabletop_object_carry_stall_penalty_scale = 5000.0
     tabletop_strict_grasp_loss_penalty_scale = 8000.0
-    tabletop_force_grasp_rew_scale = 7000.0
-    tabletop_force_grasp_streak_rew_scale = 11000.0
-    tabletop_force_stable_grasp_rew_scale = 11000.0
-    tabletop_force_grasp_loss_penalty_scale = 9000.0
+    tabletop_arm_clearance_penalty_scale = 6000.0
+    tabletop_force_grasp_rew_scale = 1500.0
+    tabletop_force_grasp_streak_rew_scale = 3000.0
+    tabletop_force_stable_grasp_rew_scale = 4000.0
+    tabletop_force_grasp_loss_penalty_scale = 4000.0
 
     object_contact_force_diagnostics_enabled = True
     object_contact_force_threshold = 0.05

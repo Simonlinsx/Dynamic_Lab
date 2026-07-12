@@ -191,6 +191,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self._force_thumb_contact = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
         self._force_multifinger_contact = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
         self._force_grasp = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
+        self._force_grasp_prev = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
         self._force_grasp_seen = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
         self._force_grasp_streak = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
         self._scripted_relative_lift_target_latched = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
@@ -393,11 +394,13 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             self._object_fingertip_contact_forces.zero_()
             self._force_thumb_contact.zero_()
             self._force_multifinger_contact.zero_()
+            self._force_grasp_prev.zero_()
             self._force_grasp.zero_()
             self._force_grasp_seen.zero_()
             self._force_grasp_streak.zero_()
             return
 
+        self._force_grasp_prev.copy_(self._force_grasp)
         force_per_tip = []
         for sensor in sensors:
             force_matrix = sensor.data.force_matrix_w
@@ -2557,7 +2560,8 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 self._force_grasp.float() * rel_vel_score * remaining_lift
             )
             tabletop_force_grasp_loss_penalty = (
-                self._force_grasp_seen.float()
+                self._tabletop_arm_lift_baseline_latched.float()
+                * self._force_grasp_prev.float()
                 * (1.0 - self._force_grasp.float())
                 * remaining_lift
             )
@@ -3427,6 +3431,10 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self._success_streak[env_ids] = 0
         self._success_seen[env_ids] = False
         self._post_success_stability_latched[env_ids] = False
+        self._force_thumb_contact[env_ids] = False
+        self._force_multifinger_contact[env_ids] = False
+        self._force_grasp[env_ids] = False
+        self._force_grasp_prev[env_ids] = False
         self._force_grasp_streak[env_ids] = 0
         self._force_grasp_seen[env_ids] = False
         self._scripted_relative_lift_target_latched[env_ids] = False
