@@ -416,7 +416,9 @@ length, cameras, and direct-policy control with scripted reach/close/lift priors
 disabled. Both rolling embodiments reset the Franka arm to the same upright
 IsaacLab default home pose and use the same arm action scale, smoothing, and
 initial target-lock duration. They also use the same home-pose-calibrated
-Franka lift direction for lift-progress shaping. Their seven Franka action
+Franka lift direction for lift-progress shaping. The lift-progress baseline is
+latched after three consecutive strict-grasp steps, so home-to-object reaching
+cannot be miscounted as post-grasp lift. Their seven Franka action
 dimensions both use the same absolute `joint_target` interface; no embodiment
 uses an incremental residual arm action in the official comparison.
 The shared from-scratch reward uses dense fingertip approach plus explicit
@@ -430,7 +432,10 @@ strict grasp on `SimToolReal-<Hand>-Franka-UnifiedRollingStage3-Teacher-Direct-v
 Stage 1 emphasizes home-to-pregrasp reach; stage 2 emphasizes opposed
 thumb-pair touch and true grasp; stage 3 makes a stationary grasp unprofitable
 and rewards only object-coupled lift and stable hold while strict opposition is
-maintained. Object dynamics, observations, actions, success semantics, and
+maintained. Stage 3 also enables filtered fingertip-to-object contact forces:
+the lift baseline latches on a sustained physical thumb-plus-two-finger grasp,
+and lift, hold, and success require that force grasp to remain active. Object
+dynamics, observations, actions, success semantics, and
 difficulty curriculum are unchanged at every transition, and stage 3 uses the
 same reward weights for both hands.
 Only embodiment-specific hand coupling, control, close posture, and collision
