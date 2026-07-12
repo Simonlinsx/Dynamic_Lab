@@ -99,6 +99,12 @@ def test_stage2_hold_contract_rewards_quiet_strict_grasp_and_penalizes_loss():
     assert values["tabletop_strict_hold_rew_scale"] == 28000.0
     assert values["tabletop_strict_grasp_loss_penalty_scale"] == 12000.0
     assert values["tabletop_strict_grasp_hold_steps"] == 20
+    assert values["lift_progress_rew_scale"] == 0.0
+    assert values["quality_lift_progress_rew_scale"] == 0.0
+    assert values["lifted_true_grasp_rew_scale"] == 0.0
+    assert values["stable_hold_rew_scale"] == 0.0
+    assert values["hold_progress_rew_scale"] == 0.0
+    assert values["success_bonus"] == 0.0
 
 
 def test_stage3_lift_action_alignment_is_interface_aware_and_strict_grasp_gated():

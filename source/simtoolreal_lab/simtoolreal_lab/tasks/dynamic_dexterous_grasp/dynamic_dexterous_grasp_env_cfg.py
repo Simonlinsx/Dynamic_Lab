@@ -1066,6 +1066,22 @@ class _UnifiedRollingGraspHoldStage2Contract:
     tabletop_strict_grasp_loss_penalty_scale = 12000.0
     tabletop_strict_grasp_hold_steps = 20
 
+    # Keep this curriculum stage focused on stationary load-bearing contact.
+    # Lift and hover shaping are restored by the shared Stage 3 contract.
+    palm_lift_rew_scale = 0.0
+    lift_progress_rew_scale = 0.0
+    quality_lift_progress_rew_scale = 0.0
+    lifted_true_grasp_rew_scale = 0.0
+    tabletop_grasped_palm_lift_rew_scale = 0.0
+    tabletop_stable_catch_rew_scale = 0.0
+    stable_hold_rew_scale = 0.0
+    hold_progress_rew_scale = 0.0
+    tabletop_hover_goal_rew_scale = 0.0
+    tabletop_hover_height_progress_rew_scale = 0.0
+    tabletop_hover_stable_rew_scale = 0.0
+    tabletop_hover_target_rew_scale = 0.0
+    success_bonus = 0.0
+
 
 UNIFIED_FALLING_BENCHMARK_NAME = "falling_baton_affordance_v1"
 UNIFIED_FALLING_OBJECT_SIZE = (0.018, 0.018, 0.165)
