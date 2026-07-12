@@ -435,6 +435,9 @@ success, 20-step stable hold, episode length, and fixed camera contract. The
 Inspire config inherits this task definition and overrides only its RH56 URDF,
 six-active-DoF adapter, close posture, and control gains. Verify it with
 `scripts/check_unified_falling_protocol.py`.
+Falling-baton height, orientation, and velocity difficulty is gated by the
+latched 20-step success rate itself; transient contact or a one-frame catch
+cannot advance the curriculum.
 
 The current Revo2/Inspire falling rows above were produced by different legacy
 curricula and therefore remain useful baselines, not the final unified
