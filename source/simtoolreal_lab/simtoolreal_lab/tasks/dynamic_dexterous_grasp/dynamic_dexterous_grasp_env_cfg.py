@@ -1003,7 +1003,7 @@ class _UnifiedRollingLiftHoldStage3Contract:
     # Reward alignment with the verified lift direction only while the current
     # strict grasp is intact; this shapes policy actions without injecting a
     # scripted or residual controller.
-    tabletop_lift_action_prior_rew_scale = 9000.0
+    tabletop_lift_action_prior_rew_scale = 30000.0
     tabletop_lift_action_prior_gate_min = 0.0
     tabletop_object_up_vel_rew_scale = 3000.0
     tabletop_object_carry_lift_rew_scale = 16000.0
