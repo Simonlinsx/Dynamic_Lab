@@ -133,6 +133,15 @@ parser.add_argument(
     help="Override the semantic 6-DoF hand-close blend applied after success latches.",
 )
 parser.add_argument(
+    "--stability-target-latch-min-success-streak",
+    type=int,
+    default=None,
+    help=(
+        "Optionally lock configured stability targets before final success after this many "
+        "consecutive strict stable steps. The final success hold requirement is unchanged."
+    ),
+)
+parser.add_argument(
     "--freeze-input-running-stats",
     action="store_true",
     help=(
@@ -268,6 +277,9 @@ def _maybe_init_wandb(args: argparse.Namespace, agent_cfg: dict, run_dir: Path, 
             "dynamic_success_hold_steps": args.dynamic_success_hold_steps,
             "tabletop_post_success_hand_close_fraction": (
                 args.tabletop_post_success_hand_close_fraction
+            ),
+            "stability_target_latch_min_success_streak": (
+                args.stability_target_latch_min_success_streak
             ),
             "behavior_anchor_checkpoint": args.behavior_anchor_checkpoint,
             "behavior_anchor_coef": args.behavior_anchor_coef,
@@ -654,6 +666,14 @@ def main() -> None:
         _trace(
             "overriding post-success hand close fraction: "
             f"{env_cfg.tabletop_post_success_hand_close_fraction:g}"
+        )
+    if args_cli.stability_target_latch_min_success_streak is not None:
+        env_cfg.stability_target_latch_min_success_streak = int(
+            args_cli.stability_target_latch_min_success_streak
+        )
+        _trace(
+            "overriding stability target latch minimum streak: "
+            f"{env_cfg.stability_target_latch_min_success_streak}"
         )
 
     _trace(f"making env: num_envs={env_cfg.scene.num_envs}, sim_device={env_cfg.sim.device}")

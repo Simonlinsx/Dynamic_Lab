@@ -19,6 +19,14 @@ if str(EXT_SOURCE) not in sys.path:
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 VIDEO_CAMERA_PRESETS = {
+    "tabletop_student_rgbd_20260712": {
+        "eye": (1.25, -1.05, 0.72),
+        "target": (0.58, 0.0, 0.37),
+        "focal_length": 24.0,
+        "resolution": (960, 544),
+        "track_object": False,
+        "update_every_frame": False,
+    },
     "falling_reference_20260703": {
         "eye": (1.55, -1.75, 1.08),
         "target": (0.1, 0.2, 0.64),
@@ -43,6 +51,17 @@ parser.add_argument(
     "--include-per-env-stats",
     action="store_true",
     help="Include verbose per-environment episode metrics in summary.json.",
+)
+parser.add_argument(
+    "--object-contact-force-diagnostics",
+    action="store_true",
+    help="Record filtered PhysX fingertip-to-object forces alongside geometric contact metrics.",
+)
+parser.add_argument(
+    "--object-contact-force-threshold",
+    type=float,
+    default=0.05,
+    help="Per-fingertip force threshold in newtons used only by contact diagnostics.",
 )
 parser.add_argument(
     "--skip-vector-eval",
@@ -125,6 +144,15 @@ parser.add_argument(
     type=float,
     default=None,
     help="Override the semantic 6-DoF hand-close blend applied after success latches.",
+)
+parser.add_argument(
+    "--stability-target-latch-min-success-streak",
+    type=int,
+    default=None,
+    help=(
+        "Optionally lock configured stability targets before final success after this many "
+        "consecutive strict stable steps. The final success hold requirement is unchanged."
+    ),
 )
 parser.add_argument(
     "--output-dir",
@@ -252,7 +280,7 @@ parser.add_argument(
     "--video-camera-preset",
     choices=("none", *VIDEO_CAMERA_PRESETS.keys()),
     default="none",
-    help="Named fixed camera preset. Use falling_reference_20260703 to match the saved IsaacGym-style falling view.",
+    help="Named fixed camera preset for reproducible tabletop or falling videos.",
 )
 parser.add_argument(
     "--video-camera-track-object",
@@ -370,6 +398,11 @@ from rl_games.algos_torch import torch_ext  # noqa: E402
 from rl_games.algos_torch.players import PpoPlayerContinuous  # noqa: E402
 
 import simtoolreal_lab  # noqa: F401,E402
+from simtoolreal_lab.teacher_student.evaluation import (  # noqa: E402
+    EpisodeFunnelAccumulator,
+    EpisodeFunnelTracker,
+    flatten_numeric_metrics,
+)
 
 
 def _trace(message: str) -> None:
@@ -402,11 +435,16 @@ def _maybe_init_wandb(checkpoint: Path, output_dir: Path):
             "seed": args_cli.seed,
             "success_threshold": args_cli.success_threshold,
             "include_per_env_stats": bool(args_cli.include_per_env_stats),
+            "object_contact_force_diagnostics": bool(args_cli.object_contact_force_diagnostics),
+            "object_contact_force_threshold": float(args_cli.object_contact_force_threshold),
             "deterministic": bool(args_cli.deterministic),
             "dynamic_curriculum_alpha": args_cli.dynamic_curriculum_alpha,
             "dynamic_tabletop_speed_range": args_cli.dynamic_tabletop_speed_range,
             "tabletop_asset_curriculum_alpha": args_cli.tabletop_asset_curriculum_alpha,
             "tabletop_motion_curriculum_alpha": args_cli.tabletop_motion_curriculum_alpha,
+            "stability_target_latch_min_success_streak": (
+                args_cli.stability_target_latch_min_success_streak
+            ),
             "device": args_cli.device,
             "rl_device": args_cli.rl_device or args_cli.device,
             "save_success_videos": args_cli.save_success_videos,
@@ -439,18 +477,11 @@ def _log_summary_to_wandb(wandb_run, summary: dict, summary_path: Path) -> None:
     import wandb
 
     eval_summary = summary.get("eval", {})
-    metrics = {
+    metrics = flatten_numeric_metrics(eval_summary, "eval")
+    metrics.update({
         "eval/passed": float(bool(summary.get("passed", False))),
         "eval/success_threshold": float(summary.get("success_threshold", 0.0)),
-    }
-    for key, value in eval_summary.items():
-        if isinstance(value, bool):
-            metrics[f"eval/{key}"] = float(value)
-        elif isinstance(value, (int, float)) and not isinstance(value, bool):
-            metrics[f"eval/{key}"] = float(value)
-    for key, value in eval_summary.get("last_log", {}).items():
-        if isinstance(value, (int, float)) and not isinstance(value, bool):
-            metrics[f"eval/last_log/{key}"] = float(value)
+    })
 
     wandb.log(metrics)
     wandb.save(str(summary_path), base_path=str(summary_path.parent))
@@ -534,6 +565,15 @@ def _make_env(task: str, agent_cfg: dict, num_envs: int, render_mode: str | None
         env_cfg.tabletop_post_success_hand_close_fraction = float(
             args_cli.tabletop_post_success_hand_close_fraction
         )
+    if args_cli.stability_target_latch_min_success_streak is not None:
+        env_cfg.stability_target_latch_min_success_streak = int(
+            args_cli.stability_target_latch_min_success_streak
+        )
+    if hasattr(env_cfg, "object_contact_force_diagnostics_enabled"):
+        env_cfg.object_contact_force_diagnostics_enabled = bool(
+            args_cli.object_contact_force_diagnostics
+        )
+        env_cfg.object_contact_force_threshold = float(args_cli.object_contact_force_threshold)
     if render_mode == "rgb_array" and hasattr(env_cfg, "video_camera_enabled"):
         env_cfg.video_camera_enabled = True
         if hasattr(env_cfg, "video_camera"):
@@ -689,6 +729,10 @@ def _run_vector_eval(agent_cfg: dict, checkpoint: Path) -> dict:
         episode_true_grasp = torch.zeros_like(episode_success)
         episode_lifted = torch.zeros_like(episode_success)
         episode_stable_hold = torch.zeros_like(episode_success)
+        episode_funnel = EpisodeFunnelTracker(num_envs, device)
+        funnel_accumulator = EpisodeFunnelAccumulator(
+            str(getattr(wrapped_env.unwrapped.cfg, "task_family", ""))
+        )
         episode_max_height_delta = torch.full((num_envs,), -1.0e9, dtype=torch.float32, device=device)
         relative_lift_labels = getattr(
             wrapped_env.unwrapped, "_scripted_relative_lift_target_candidate_labels", None
@@ -742,6 +786,7 @@ def _run_vector_eval(agent_cfg: dict, checkpoint: Path) -> dict:
             episode_true_grasp |= _tensor_bool(extras, "true_grasp_env", num_envs, device)
             episode_lifted |= _tensor_bool(extras, "lifted_env", num_envs, device)
             episode_stable_hold |= _tensor_bool(extras, "stable_hold_env", num_envs, device)
+            episode_funnel.update(extras)
             object_height_delta = getattr(wrapped_env.unwrapped, "_object_height_delta", None)
             if torch.is_tensor(object_height_delta):
                 episode_max_height_delta = torch.maximum(
@@ -765,6 +810,7 @@ def _run_vector_eval(agent_cfg: dict, checkpoint: Path) -> dict:
                     < target_episodes_per_env[all_done_ids]
                 )
                 done_ids = all_done_ids[count_mask]
+                funnel_accumulator.add(episode_funnel.snapshot(done_ids))
                 completed += int(done_ids.numel())
                 success_count += int(episode_success[done_ids].sum().item())
                 true_count += int(episode_true_grasp[done_ids].sum().item())
@@ -848,6 +894,7 @@ def _run_vector_eval(agent_cfg: dict, checkpoint: Path) -> dict:
                 episode_lifted[all_done_ids] = False
                 episode_stable_hold[all_done_ids] = False
                 episode_max_height_delta[all_done_ids] = -1.0e9
+                episode_funnel.reset(all_done_ids)
                 _trace(
                     f"episodes={completed}/{args_cli.episodes} "
                     f"success_rate={success_count / max(completed, 1):.3f}"
@@ -922,6 +969,7 @@ def _run_vector_eval(agent_cfg: dict, checkpoint: Path) -> dict:
             "last_log": last_episode_log,
             "candidate_stats": candidate_summary,
             "asset_stats": asset_summary,
+            "failure_funnel": funnel_accumulator.summary(),
         }
         if per_env_summary:
             summary["per_env_stats"] = per_env_summary
@@ -1967,6 +2015,11 @@ def main() -> None:
             "tabletop_post_success_hand_close_fraction": (
                 args_cli.tabletop_post_success_hand_close_fraction
             ),
+            "stability_target_latch_min_success_streak": (
+                args_cli.stability_target_latch_min_success_streak
+            ),
+            "object_contact_force_diagnostics": bool(args_cli.object_contact_force_diagnostics),
+            "object_contact_force_threshold": float(args_cli.object_contact_force_threshold),
             "success_threshold": float(args_cli.success_threshold),
             "video_post_success_steps": int(args_cli.video_post_success_steps),
             "video_post_success_min_stable_frac": float(args_cli.video_post_success_min_stable_frac),

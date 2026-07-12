@@ -142,6 +142,16 @@ def parse_args() -> argparse.Namespace:
         help="WeightedRandomSampler weight for positive samples selected by --train-sampler-label.",
     )
     parser.add_argument(
+        "--train-hold-positive-sample-weight",
+        type=float,
+        default=1.0,
+        help=(
+            "Additional WeightedRandomSampler multiplier for hold_mask-positive samples. "
+            "This composes with --train-sampler-label so sparse success and load-bearing "
+            "hold states can both be represented in a minibatch."
+        ),
+    )
+    parser.add_argument(
         "--train-sampler-num-samples-multiplier",
         type=float,
         default=1.0,
@@ -182,6 +192,12 @@ def parse_args() -> argparse.Namespace:
         help="Condition the action head on the student's predicted compact privileged state.",
     )
     parser.add_argument("--val-fraction", type=float, default=0.1)
+    parser.add_argument(
+        "--save-every",
+        type=int,
+        default=0,
+        help="Save a numbered checkpoint every N epochs; 0 keeps only best/last.",
+    )
     parser.add_argument("--wandb-project", default=None)
     parser.add_argument("--wandb-entity", default=None)
     parser.add_argument("--wandb-run-name", default=None)
@@ -321,6 +337,7 @@ def _maybe_init_wandb(args: argparse.Namespace, metadata: dict, spec):
             "action_positive_weight": args.action_positive_weight,
             "train_sampler_label": args.train_sampler_label,
             "train_positive_sample_weight": args.train_positive_sample_weight,
+            "train_hold_positive_sample_weight": args.train_hold_positive_sample_weight,
             "train_sampler_num_samples_multiplier": args.train_sampler_num_samples_multiplier,
             "train_source_weights": args.train_source_weights,
             "hold_loss_weight": args.hold_loss_weight,
@@ -350,6 +367,7 @@ def _maybe_init_wandb(args: argparse.Namespace, metadata: dict, spec):
             "action_positive_weight": args.action_positive_weight,
             "train_sampler_label": args.train_sampler_label,
             "train_positive_sample_weight": args.train_positive_sample_weight,
+            "train_hold_positive_sample_weight": args.train_hold_positive_sample_weight,
             "train_sampler_num_samples_multiplier": args.train_sampler_num_samples_multiplier,
             "train_source_weights": args.train_source_weights,
             "hold_loss_weight": args.hold_loss_weight,
@@ -481,6 +499,7 @@ def main() -> None:
     sampler_stats = {
         "label": args.train_sampler_label,
         "positive_weight": float(args.train_positive_sample_weight),
+        "hold_positive_weight": float(args.train_hold_positive_sample_weight),
         "num_samples_multiplier": float(args.train_sampler_num_samples_multiplier),
         "source_weights": (
             [float(value) for value in args.train_source_weights]
@@ -527,6 +546,13 @@ def main() -> None:
         else:
             _trace(f"train sampler label={args.train_sampler_label} has no positives in train split; using shuffle")
 
+    train_hold_positive = hold_mask[train_indices] > 0.5
+    hold_positive_count = int(train_hold_positive.sum().item())
+    sampler_stats["train_hold_positive_count"] = hold_positive_count
+    if hold_positive_count > 0 and float(args.train_hold_positive_sample_weight) > 1.0:
+        train_weights[train_hold_positive.cpu()] *= float(args.train_hold_positive_sample_weight)
+        sampler_enabled = True
+
     sampler_num_samples = max(1, int(round(train_count * float(args.train_sampler_num_samples_multiplier))))
     if sampler_enabled and sampler_num_samples > 0:
         train_sampler = WeightedRandomSampler(
@@ -544,6 +570,11 @@ def main() -> None:
             train_positive = positive_labels[train_indices]
             sampler_stats["expected_positive_fraction"] = float(
                 train_weights[train_positive.cpu()].sum().item()
+                / train_weights.sum().clamp_min(1.0).item()
+            )
+        if hold_positive_count > 0:
+            sampler_stats["expected_hold_positive_fraction"] = float(
+                train_weights[train_hold_positive.cpu()].sum().item()
                 / train_weights.sum().clamp_min(1.0).item()
             )
         if train_source_ids is not None:
@@ -794,6 +825,7 @@ def main() -> None:
             "privileged_loss": args.privileged_loss,
             "privileged_huber_beta": float(args.privileged_huber_beta),
             "train_sampler": sampler_stats,
+            "train_hold_positive_sample_weight": float(args.train_hold_positive_sample_weight),
             "train_action_head_only": bool(args.train_action_head_only),
             "train_hold_head_only": bool(args.train_hold_head_only),
             "hold_loss_weight": float(args.hold_loss_weight),
@@ -813,6 +845,8 @@ def main() -> None:
         if val_metrics["loss"] < best_val:
             best_val = val_metrics["loss"]
             torch.save(checkpoint, best_path)
+        if int(args.save_every) > 0 and epoch % int(args.save_every) == 0:
+            torch.save(checkpoint, args.out_dir / f"student_pretrain_epoch_{epoch:04d}.pt")
 
     if wandb_run is not None and args.wandb_save_checkpoints and not args.wandb_metrics_only:
         import wandb

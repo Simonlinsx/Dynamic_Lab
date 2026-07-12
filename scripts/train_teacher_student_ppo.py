@@ -38,6 +38,19 @@ parser.add_argument("--reward-scale", type=float, default=0.01)
 parser.add_argument("--init-log-std", type=float, default=-2.0)
 parser.add_argument("--max-grad-norm", type=float, default=1.0)
 parser.add_argument("--action-clamp", type=float, default=1.0)
+parser.add_argument("--predicted-grasp-hold-threshold", type=float, default=0.0)
+parser.add_argument(
+    "--predicted-grasp-hold-mode",
+    choices=("max", "target", "learned_target", "target_plus_learned_residual"),
+    default="max",
+)
+parser.add_argument("--predicted-grasp-hold-target", type=float, nargs="*", default=None)
+parser.add_argument("--predicted-grasp-hold-blend", type=float, default=1.0)
+parser.add_argument("--predicted-grasp-hold-rel-vel-threshold", type=float, default=0.0)
+parser.add_argument("--predicted-grasp-hold-learned-gate-threshold", type=float, default=0.0)
+parser.add_argument("--predicted-grasp-hold-learned-target-clamp", type=float, default=1.0)
+parser.add_argument("--predicted-grasp-hold-learned-residual-scale", type=float, default=1.0)
+parser.add_argument("--predicted-grasp-hold-learned-residual-clamp", type=float, default=0.25)
 parser.add_argument("--seed", type=int, default=42)
 parser.add_argument(
     "--history-bootstrap",
@@ -62,6 +75,15 @@ parser.add_argument("--rgbd-mask-dilation", type=int, default=1)
 parser.add_argument("--rgbd-depth-tolerance", type=float, default=0.045)
 parser.add_argument("--rgbd-min-valid-points", type=int, default=16)
 parser.add_argument("--rgbd-clean-fallback", action=argparse.BooleanOptionalAction, default=True)
+parser.add_argument(
+    "--rgbd-temporal-fallback",
+    action=argparse.BooleanOptionalAction,
+    default=False,
+    help=(
+        "For low-visibility RGB-D frames, reuse the previous valid deployable point cloud. "
+        "This does not expose simulator object state."
+    ),
+)
 parser.add_argument(
     "--student-camera-track-object",
     action="store_true",
@@ -104,6 +126,16 @@ args_cli = parser.parse_args()
 
 if (args_cli.student_camera_eye is None) != (args_cli.student_camera_target is None):
     parser.error("--student-camera-eye and --student-camera-target must be provided together")
+if not (0.0 <= float(args_cli.predicted_grasp_hold_blend) <= 1.0):
+    parser.error("--predicted-grasp-hold-blend must be in [0, 1]")
+if (
+    float(args_cli.predicted_grasp_hold_threshold) > 0.0
+    and args_cli.predicted_grasp_hold_mode in {"target", "target_plus_learned_residual"}
+    and not args_cli.predicted_grasp_hold_target
+):
+    parser.error(
+        "--predicted-grasp-hold-target is required for target-based hold modes"
+    )
 
 if args_cli.pointcloud_source == "rgbd_projected_mask":
     setattr(args_cli, "enable_cameras", True)
@@ -544,6 +576,88 @@ def _reset_histories(point_hist, valid_hist, proprio_hist, done: torch.Tensor) -
         proprio_hist[done] = 0.0
 
 
+def _apply_rgbd_temporal_fallback(
+    current_points: torch.Tensor,
+    valid: torch.Tensor,
+    point_hist: torch.Tensor,
+    valid_hist: torch.Tensor,
+) -> int:
+    if not bool(args_cli.rgbd_temporal_fallback):
+        return 0
+    min_points = max(int(args_cli.rgbd_min_valid_points), 1)
+    low_valid = valid.sum(dim=-1) < min_points
+    previous_valid = valid_hist[:, -1].sum(dim=-1) >= min_points
+    use_previous = low_valid & previous_valid
+    if bool(use_previous.any()):
+        current_points[use_previous] = point_hist[use_previous, -1]
+        valid[use_previous] = valid_hist[use_previous, -1]
+    return int(use_previous.sum().item())
+
+
+def _apply_predicted_grasp_hold(
+    action: torch.Tensor,
+    previous_action: torch.Tensor,
+    out: dict[str, torch.Tensor],
+    hold_latch: torch.Tensor,
+) -> torch.Tensor:
+    threshold = float(args_cli.predicted_grasp_hold_threshold)
+    predicted_privileged = out["privileged"]
+    if threshold <= 0.0 or predicted_privileged.shape[-1] <= 16 or action.shape[-1] <= 7:
+        return action
+
+    grasp_signal = torch.maximum(predicted_privileged[:, 15], predicted_privileged[:, 16])
+    should_latch = grasp_signal > threshold
+    rel_vel_threshold = float(args_cli.predicted_grasp_hold_rel_vel_threshold)
+    if rel_vel_threshold > 0.0 and predicted_privileged.shape[-1] > 14:
+        should_latch &= predicted_privileged[:, 14] < rel_vel_threshold
+    gate_threshold = float(args_cli.predicted_grasp_hold_learned_gate_threshold)
+    if gate_threshold > 0.0:
+        should_latch &= torch.sigmoid(out["hold_logits"]) > gate_threshold
+    hold_latch |= should_latch
+    if not bool(hold_latch.any()):
+        return action
+
+    held = action.clone()
+    mode = str(args_cli.predicted_grasp_hold_mode)
+    if mode == "max":
+        held[hold_latch, 7:] = torch.maximum(
+            action[hold_latch, 7:], previous_action[hold_latch, 7:]
+        )
+        return held
+
+    hand_dim = action.shape[-1] - 7
+    if mode == "learned_target":
+        target = out["hold_target"]
+    else:
+        target_values = args_cli.predicted_grasp_hold_target or []
+        if len(target_values) != hand_dim:
+            raise RuntimeError(
+                f"--predicted-grasp-hold-target has {len(target_values)} values, "
+                f"expected hand_dim={hand_dim}"
+            )
+        target = torch.tensor(
+            target_values, dtype=action.dtype, device=action.device
+        ).view(1, hand_dim)
+        if mode == "target_plus_learned_residual":
+            residual = out["hold_target"]
+            residual_clamp = float(args_cli.predicted_grasp_hold_learned_residual_clamp)
+            if residual_clamp > 0.0:
+                residual = torch.clamp(residual, -residual_clamp, residual_clamp)
+            target = target + float(
+                args_cli.predicted_grasp_hold_learned_residual_scale
+            ) * residual
+
+    target_clamp = float(args_cli.predicted_grasp_hold_learned_target_clamp)
+    if target_clamp > 0.0:
+        target = torch.clamp(target, -target_clamp, target_clamp)
+    selected_target = target[hold_latch] if target.shape[0] == action.shape[0] else target
+    blend = float(args_cli.predicted_grasp_hold_blend)
+    held[hold_latch, 7:] = (
+        (1.0 - blend) * action[hold_latch, 7:] + blend * selected_target
+    )
+    return held
+
+
 def _bootstrap_histories(
     point_hist,
     valid_hist,
@@ -642,6 +756,13 @@ def main() -> None:
                 "proprio_source": proprio_source,
                 "point_feature_dim": int(spec.get("point_feature_dim", 3)),
                 "rgbd_resolution": [int(args_cli.rgbd_width), int(args_cli.rgbd_height)],
+                "rgbd_clean_fallback": bool(args_cli.rgbd_clean_fallback),
+                "rgbd_temporal_fallback": bool(args_cli.rgbd_temporal_fallback),
+                "predicted_grasp_hold_threshold": float(
+                    args_cli.predicted_grasp_hold_threshold
+                ),
+                "predicted_grasp_hold_mode": str(args_cli.predicted_grasp_hold_mode),
+                "predicted_grasp_hold_blend": float(args_cli.predicted_grasp_hold_blend),
                 "dynamic_curriculum_alpha": args_cli.dynamic_curriculum_alpha,
                 "tabletop_asset_curriculum_alpha": args_cli.tabletop_asset_curriculum_alpha,
                 "tabletop_motion_curriculum_alpha": args_cli.tabletop_motion_curriculum_alpha,
@@ -673,6 +794,8 @@ def main() -> None:
     horizon = int(args_cli.horizon)
     point_hist, valid_hist, proprio_hist = _make_histories(num_envs, spec, env_device)
     pending_reset = torch.ones(num_envs, dtype=torch.bool, device=env_device)
+    previous_action = torch.zeros((num_envs, int(spec["action_dim"])), device=env_device)
+    hold_latch = torch.zeros(num_envs, dtype=torch.bool, device=env_device)
     episode_success = torch.zeros(num_envs, dtype=torch.bool, device=env_device)
     episode_lifted = torch.zeros(num_envs, dtype=torch.bool, device=env_device)
     episode_stable = torch.zeros(num_envs, dtype=torch.bool, device=env_device)
@@ -700,6 +823,10 @@ def main() -> None:
             completed = success_count = lifted_count = stable_count = 0
             reward_sum = 0.0
             reward_count = 0
+            rgbd_valid_sum = 0.0
+            rgbd_temporal_fallback_sum = 0
+            rgbd_steps = 0
+            hold_latch_sum = 0.0
 
             actor_critic.eval()
             with torch.no_grad():
@@ -720,6 +847,9 @@ def main() -> None:
                                 + "\n"
                             )
                     _reset_histories(point_hist, valid_hist, proprio_hist, pending_reset)
+                    if bool(pending_reset.any()):
+                        previous_action[pending_reset] = 0.0
+                        hold_latch[pending_reset] = False
                     current_points, valid = _current_pointcloud(
                         unwrapped,
                         args_cli.pointcloud_source,
@@ -727,6 +857,15 @@ def main() -> None:
                         rgbd_mask_points,
                         int(spec.get("point_feature_dim", 3)),
                     )
+                    if args_cli.pointcloud_source == "rgbd_projected_mask":
+                        rgbd_temporal_fallback_sum += _apply_rgbd_temporal_fallback(
+                            current_points,
+                            valid,
+                            point_hist,
+                            valid_hist,
+                        )
+                        rgbd_valid_sum += float(valid.sum(dim=-1).mean().item())
+                        rgbd_steps += 1
                     proprio = _current_proprio(unwrapped, obs, proprio_source)
                     if proprio.shape[-1] != int(spec["proprio_dim"]):
                         raise RuntimeError(
@@ -754,6 +893,14 @@ def main() -> None:
                         -float(args_cli.action_clamp),
                         float(args_cli.action_clamp),
                     )
+                    action = _apply_predicted_grasp_hold(
+                        action,
+                        previous_action,
+                        out,
+                        hold_latch,
+                    )
+                    previous_action.copy_(action)
+                    hold_latch_sum += float(hold_latch.float().mean().item())
                     log_prob = dist.log_prob(raw_action).sum(dim=-1)
                     value = actor_critic.value(privileged)
 
@@ -906,6 +1053,13 @@ def main() -> None:
                 "raw_advantage_std": raw_advantage_std,
                 "return_mean": return_mean,
                 "return_std": return_std,
+                "rgbd_valid_mean": float(rgbd_valid_sum / max(rgbd_steps, 1)),
+                "rgbd_temporal_fallback_envs_per_step": float(
+                    rgbd_temporal_fallback_sum / max(rgbd_steps, 1)
+                ),
+                "predicted_grasp_hold_latch_fraction": float(
+                    hold_latch_sum / max(horizon, 1)
+                ),
             }
             with metrics_path.open("a", encoding="utf-8") as f:
                 f.write(json.dumps(metrics, sort_keys=True) + "\n")

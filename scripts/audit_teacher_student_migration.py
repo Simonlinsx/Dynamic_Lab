@@ -502,9 +502,15 @@ def _video_frame_stats(path: Path, max_scan_frames: int, sample_frame_path: Path
     try:
         chosen = None
         chosen_index = 0
+        chosen_std = -1.0
+        scanned_stds: list[float] = []
         for index, frame in enumerate(reader):
-            chosen = frame
-            chosen_index = index
+            frame_std = float(frame.std())
+            scanned_stds.append(frame_std)
+            if frame_std > chosen_std:
+                chosen = frame
+                chosen_index = index
+                chosen_std = frame_std
             if index + 1 >= max_scan_frames:
                 break
         if chosen is None:
@@ -514,9 +520,12 @@ def _video_frame_stats(path: Path, max_scan_frames: int, sample_frame_path: Path
             imageio.imwrite(sample_frame_path, chosen)
         return {
             "frame_index": chosen_index,
+            "frames_scanned": len(scanned_stds),
             "shape": list(chosen.shape),
             "mean": float(chosen.mean()),
-            "std": float(chosen.std()),
+            "std": chosen_std,
+            "scan_std_min": min(scanned_stds),
+            "scan_std_max": max(scanned_stds),
             "min": int(chosen.min()),
             "max": int(chosen.max()),
             "sample_frame": str(sample_frame_path) if sample_frame_path else None,
@@ -649,6 +658,7 @@ def _status(result: CheckResult, fail_on_warning: bool) -> str:
 def _audit_case(root: Path, case: dict[str, Any], args: argparse.Namespace) -> dict[str, Any]:
     result = CheckResult()
     case_id = str(case["case_id"])
+    student_required = bool(case.get("student_required", True))
     teacher_summary_path = _as_project_path(root, case.get("teacher_summary"))
     teacher_video_summary_path = _as_project_path(root, case.get("teacher_video_summary"))
     student_summary_path = _as_project_path(root, case.get("student_summary"))
@@ -663,16 +673,20 @@ def _audit_case(root: Path, case: dict[str, Any], args: argparse.Namespace) -> d
         teacher_video_summary = {}
     else:
         teacher_video_summary = _load_json(teacher_video_summary_path, result, "teacher video summary")
-    if student_summary_path is None:
+    if student_required and student_summary_path is None:
         result.error(f"{case_id} missing student_summary")
         student_summary = {}
-    else:
+    elif student_summary_path is not None:
         student_summary = _load_json(student_summary_path, result, "student summary")
-    if student_video_summary_path is None:
+    else:
+        student_summary = {}
+    if student_required and student_video_summary_path is None:
         result.error(f"{case_id} missing student_video_summary")
         student_video_summary = {}
-    else:
+    elif student_video_summary_path is not None:
         student_video_summary = _load_json(student_video_summary_path, result, "student video summary")
+    else:
+        student_video_summary = {}
 
     teacher_eval = _check_success_summary(
         result,
@@ -680,25 +694,8 @@ def _audit_case(root: Path, case: dict[str, Any], args: argparse.Namespace) -> d
         f"{case_id} teacher",
         float(case.get("teacher_min_success_rate", 0.0)),
     )
-    student_eval = _check_success_summary(
-        result,
-        student_summary,
-        f"{case_id} student",
-        float(case.get("student_min_success_rate", 0.0)),
-    )
     teacher_checkpoint = _check_checkpoint(root, result, teacher_summary, f"{case_id} teacher")
-    student_checkpoint = _check_checkpoint(root, result, student_summary, f"{case_id} student")
     teacher_training = _check_teacher_training(root, result, case)
-    student_dataset = _check_student_dataset(root, result, case)
-    student_training = _check_student_training(root, result, case, student_checkpoint)
-    student_spec = _check_student_spec(
-        result,
-        student_summary,
-        int(case["expected_action_dim"]),
-        int(case["expected_proprio_dim"]),
-        int(case.get("expected_arm_dim", 7)),
-        int(case["expected_hand_dim"]),
-    )
     teacher_video = _check_video_summary(
         root,
         result,
@@ -709,16 +706,41 @@ def _audit_case(root: Path, case: dict[str, Any], args: argparse.Namespace) -> d
         trace_override=case.get("teacher_video_trace"),
         require_trace=bool(case.get("teacher_video_trace_required", True)),
     )
-    student_video = _check_video_summary(
-        root,
-        result,
-        student_video_summary,
-        f"{case_id} student",
-        args,
-        video_override=case.get("student_video"),
-        trace_override=case.get("student_video_trace"),
-        require_trace=bool(case.get("student_video_trace_required", True)),
-    )
+    if student_required:
+        student_eval = _check_success_summary(
+            result,
+            student_summary,
+            f"{case_id} student",
+            float(case.get("student_min_success_rate", 0.0)),
+        )
+        student_checkpoint = _check_checkpoint(root, result, student_summary, f"{case_id} student")
+        student_dataset = _check_student_dataset(root, result, case)
+        student_training = _check_student_training(root, result, case, student_checkpoint)
+        student_spec = _check_student_spec(
+            result,
+            student_summary,
+            int(case["expected_action_dim"]),
+            int(case["expected_proprio_dim"]),
+            int(case.get("expected_arm_dim", 7)),
+            int(case["expected_hand_dim"]),
+        )
+        student_video = _check_video_summary(
+            root,
+            result,
+            student_video_summary,
+            f"{case_id} student",
+            args,
+            video_override=case.get("student_video"),
+            trace_override=case.get("student_video_trace"),
+            require_trace=bool(case.get("student_video_trace_required", True)),
+        )
+    else:
+        student_eval = {"success_rate": None, "episodes": None, "success_count": None}
+        student_checkpoint = None
+        student_dataset = {}
+        student_training = {}
+        student_spec = {}
+        student_video = {"videos": [], "traces": []}
 
     return {
         "case_id": case_id,
@@ -737,6 +759,7 @@ def _audit_case(root: Path, case: dict[str, Any], args: argparse.Namespace) -> d
             "video": teacher_video,
         },
         "student": {
+            "required": student_required,
             "summary": str(student_summary_path) if student_summary_path else None,
             "checkpoint": student_checkpoint,
             "dataset": student_dataset,
@@ -788,17 +811,23 @@ def _write_markdown(report: dict[str, Any], path: Path) -> None:
                 f"- Teacher train events/checkpoints: "
                 f"`{case['teacher']['training'].get('num_event_files', 0)}` / "
                 f"`{case['teacher']['training'].get('num_nn_checkpoints', 0)}`",
-                f"- Student summary: `{case['student']['summary']}`",
-                f"- Student dataset: `{case['student']['dataset'].get('path')}`",
-                f"- Student dataset samples: `{case['student']['dataset'].get('num_samples')}`",
-                f"- Student dataset success samples: `{case['student']['dataset'].get('episode_success_count')}`",
-                f"- Student checkpoint: `{case['student']['checkpoint']}`",
-                f"- Student train best epoch/loss: "
-                f"`{case['student']['training'].get('epoch')}` / "
-                f"`{case['student']['training'].get('val_loss')}`",
-                f"- Student spec: `{json.dumps(case['student']['spec'], sort_keys=True)}`",
             ]
         )
+        if bool(case["student"].get("required", True)):
+            lines.extend(
+                [
+                    f"- Student summary: `{case['student']['summary']}`",
+                    f"- Student dataset: `{case['student']['dataset'].get('path')}`",
+                    f"- Student dataset samples: `{case['student']['dataset'].get('num_samples')}`",
+                    f"- Student dataset success samples: "
+                    f"`{case['student']['dataset'].get('episode_success_count')}`",
+                    f"- Student checkpoint: `{case['student']['checkpoint']}`",
+                    f"- Student train best epoch/loss: "
+                    f"`{case['student']['training'].get('epoch')}` / "
+                    f"`{case['student']['training'].get('val_loss')}`",
+                    f"- Student spec: `{json.dumps(case['student']['spec'], sort_keys=True)}`",
+                ]
+            )
         teacher_videos = case["teacher"]["video"].get("videos", [])
         student_videos = case["student"]["video"].get("videos", [])
         if teacher_videos:

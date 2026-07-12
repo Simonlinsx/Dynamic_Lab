@@ -175,11 +175,7 @@ $PYTHON scripts/evaluate_rl_games.py \
   --video-attempts 40 \
   --video-envs 1 \
   --video-post-success-steps 48 \
-  --video-camera-eye 0.80 1.05 0.75 \
-  --video-camera-target 0.35 0.00 0.55 \
-  --video-camera-resolution 1280 720 \
-  --video-camera-focal-length 20 \
-  --no-video-camera-track-object \
+  --video-camera-preset tabletop_student_rgbd_20260712 \
   --wandb-project simtoolreal_lab \
   --wandb-mode online \
   --headless \
@@ -197,11 +193,7 @@ $PYTHON scripts/evaluate_rl_games.py \
   --save-trial-sequence-videos 1 \
   --trial-sequence-trials 20 \
   --video-envs 1 \
-  --video-camera-eye 0.80 1.05 0.75 \
-  --video-camera-target 0.35 0.00 0.62 \
-  --video-camera-resolution 1280 720 \
-  --video-camera-focal-length 20 \
-  --no-video-camera-track-object \
+  --video-camera-preset falling_reference_20260703 \
   --headless \
   --device cuda:0
 ```
@@ -318,7 +310,7 @@ $PYTHON scripts/evaluate_teacher_student.py \
   --num-envs 192 \
   --episodes 192 \
   --first-episode-per-env \
-  --success-threshold 0.20390625 \
+  --success-threshold 0.40 \
   --pointcloud-source rgbd_projected_mask \
   --proprio-source deployable_robot \
   --history-bootstrap zero_pad \
@@ -332,6 +324,7 @@ $PYTHON scripts/evaluate_teacher_student.py \
   --no-rgbd-clean-fallback \
   --rgbd-temporal-fallback \
   --predicted-grasp-hold-threshold 0.5 \
+  --predicted-grasp-hold-learned-gate-threshold 0.5 \
   --predicted-grasp-hold-mode target \
   --predicted-grasp-hold-target 0.99195 0.96469 0.94568 -0.34060 -0.23838 0.98926 \
   --predicted-grasp-hold-blend 0.35 \
@@ -340,6 +333,40 @@ $PYTHON scripts/evaluate_teacher_student.py \
   --headless \
   --device cuda:0
 ```
+
+The actor can also be fine-tuned with deployable RGB-D observations while the
+critic receives compact simulator state. The adapter applied during rollout
+must match evaluation exactly:
+
+```bash
+$PYTHON scripts/train_teacher_student_ppo.py \
+  --task SimToolReal-Revo2-Franka-DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTargetHandLock-Teacher-Direct-v0 \
+  --init-checkpoint outputs/teacher_student/tabletop_student_pretrain/student_pretrain_best.pt \
+  --out-dir outputs/teacher_student_ppo/revo2_rolling \
+  --num-envs 32 \
+  --iterations 60 \
+  --horizon 64 \
+  --lr 5e-7 \
+  --bc-anchor-weight 0.5 \
+  --privileged-aux-weight 0.01 \
+  --history-bootstrap zero_pad \
+  --pointcloud-source rgbd_projected_mask \
+  --proprio-source deployable_robot \
+  --no-rgbd-clean-fallback \
+  --rgbd-temporal-fallback \
+  --predicted-grasp-hold-threshold 0.5 \
+  --predicted-grasp-hold-mode target \
+  --predicted-grasp-hold-target 0.99195 0.96469 0.94568 -0.34060 -0.23838 0.98926 \
+  --predicted-grasp-hold-blend 0.35 \
+  --wandb-project simtoolreal_lab \
+  --wandb-mode online \
+  --headless \
+  --device cuda:0
+```
+
+Checkpoint selection must use a separate `--first-episode-per-env` vector
+evaluation. Per-iteration training success and 64-environment probes are useful
+diagnostics but are not acceptance metrics.
 
 ## Current Experimental Status
 
@@ -351,16 +378,40 @@ fixed third view.
 | Policy | Task | Vector evaluation | Strict 20-trial video |
 | --- | --- | ---: | ---: |
 | Revo2 teacher | rolling 0.10-0.40 m/s | 258/512 (50.39%) | 8/20 (40%) |
-| Inspire teacher | rolling 0.10-0.40 m/s | 80/160 (50.00%) | 11/20 (55%) |
+| Inspire teacher | rolling 0.10-0.40 m/s | 140/256 (54.69%) | 14/20 (70%) |
 | Revo2 teacher | falling baton | 262/512 (51.17%) | 9/20 (45%) |
 | Inspire teacher | falling baton | 293/512 (57.23%) | 12/20 (60%) |
-| Revo2 RGB-D student | falling baton | 45/192 (23.44%) | 5/20 (25%) |
-| Revo2 RGB-D student | rolling 0.10-0.40 m/s | 74/192 (38.54%) | 5/20 (25%) |
+| Revo2 RGB-D student | falling baton | 68/192 (35.42%) | 4/20 (20%; raw 8/20) |
+| Revo2 RGB-D student | rolling 0.10-0.40 m/s | 82/192 (42.71%) | 4/20 (20%; raw 7/20) |
 
-The rolling student vector result uses `--first-episode-per-env`: every one of
-the 192 initial environments contributes exactly one trial. This avoids a
+Both student vector results use `--first-episode-per-env`: every one of the 192
+initial environments contributes exactly one trial. This avoids a
 completion-time bias where rapidly failing and resetting environments can be
-counted repeatedly before slower successful episodes finish.
+counted repeatedly before slower successful episodes finish. Student videos
+add 60 post-success steps and require physical opposition, stable relative
+motion, and limited object-palm drift; `raw` is the task success before this
+extra video-only hold audit.
+
+The accepted rolling student is the success/hold-balanced epoch-6 checkpoint
+with a learned hold gate in front of the calibrated six-DoF hand target. On the
+64-environment calibration set, the gate reduced pre-strict-grasp hold latches
+from 100% to 53.1%; on the unbiased 192-environment set it improved success
+from 77/192 to 82/192. Bottle (27.8%) and can (32.6%) remain the hardest rolling
+assets. Its fixed seed-119 video uses the same protocol as the previous rolling
+student and converts 4/7 raw catches into a full 60-step strict hold. Seed 118
+is retained as a robustness diagnostic at 1/20 strict (6/20 raw), rather than
+being hidden from the experiment record. The accepted falling student remains
+the original deployable checkpoint; its main gap is post-catch load-bearing
+stability.
+
+The July 12 asymmetric-PPO run is retained as an ablation, not as the accepted
+student. Rolling PPO briefly reached 34/64 at iteration 15 but fell to 62/192
+under formal evaluation, below the 77/192 pretrain baseline. Falling PPO peaked
+at 23/64 and did not establish a meaningful improvement over the 68/192
+baseline. Earlier/later hold thresholds and delayed arm-target locks also
+reduced success. Increasing the rolling post-grasp hand blend from 0.35 to 0.50
+or 0.70 also reduced the fixed 64-environment result from 29/64 to 24/64, so
+none of these adapters are part of the final inference contract.
 
 Curated checkpoints, summaries, and videos are indexed under
 `outputs/curated_artifacts/` and `outputs/curated_videos/` on the experiment

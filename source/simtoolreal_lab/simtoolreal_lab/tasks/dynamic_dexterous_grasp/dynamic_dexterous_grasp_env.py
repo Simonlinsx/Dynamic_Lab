@@ -10,7 +10,7 @@ import torch
 
 import isaaclab.sim as sim_utils
 from isaaclab.assets import Articulation, RigidObject
-from isaaclab.sensors import TiledCamera
+from isaaclab.sensors import ContactSensor, ContactSensorCfg, TiledCamera
 from isaaclab.utils.math import quat_rotate, quat_rotate_inverse, sample_uniform
 
 from simtoolreal_lab.tasks.revo2_static_grasp.revo2_static_grasp_env import Revo2StaticGraspEnv
@@ -159,6 +159,13 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             (self.num_envs, len(self._control_hand_joint_ids)), dtype=torch.float32, device=self.device
         )
         self._post_success_palm_pos_w = torch.zeros((self.num_envs, 3), dtype=torch.float32, device=self.device)
+        self._object_fingertip_contact_forces = torch.zeros(
+            (self.num_envs, len(self.cfg.touch_body_names)), dtype=torch.float32, device=self.device
+        )
+        self._force_thumb_contact = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
+        self._force_multifinger_contact = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
+        self._force_grasp = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
+        self._force_grasp_streak = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
         self._scripted_relative_lift_target_latched = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
         self._scripted_relative_lift_target_arm_pos = torch.zeros(
             (self.num_envs, len(self._arm_joint_ids)), dtype=torch.float32, device=self.device
@@ -333,6 +340,57 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         x, y, _ = self.cfg.object_start_pos
         return (float(x), float(y), float(self.cfg.table_top_z) + self._tabletop_spec_support_height(spec) + 0.002)
 
+    def _create_object_contact_force_sensors(self, object_prim_paths: Sequence[str]) -> None:
+        self._object_contact_force_sensors = []
+        if not bool(getattr(self.cfg, "object_contact_force_diagnostics_enabled", False)):
+            return
+        filter_paths = [str(path) for path in object_prim_paths]
+        robot_prim_path = str(self.cfg.robot_cfg.prim_path).rstrip("/")
+        for body_name in self.cfg.touch_body_names:
+            sensor_cfg = ContactSensorCfg(
+                prim_path=f"{robot_prim_path}/{body_name}",
+                update_period=0.0,
+                history_length=1,
+                track_air_time=False,
+                filter_prim_paths_expr=filter_paths,
+            )
+            self._object_contact_force_sensors.append(ContactSensor(sensor_cfg))
+
+    def _register_object_contact_force_sensors(self) -> None:
+        for index, sensor in enumerate(getattr(self, "_object_contact_force_sensors", ())):
+            self.scene.sensors[f"object_contact_tip_{index}"] = sensor
+
+    def _update_object_contact_force_diagnostics(self) -> None:
+        sensors = getattr(self, "_object_contact_force_sensors", ())
+        if not sensors:
+            self._object_fingertip_contact_forces.zero_()
+            self._force_thumb_contact.zero_()
+            self._force_multifinger_contact.zero_()
+            self._force_grasp.zero_()
+            self._force_grasp_streak.zero_()
+            return
+
+        force_per_tip = []
+        for sensor in sensors:
+            force_matrix = sensor.data.force_matrix_w
+            if force_matrix is None:
+                force_per_tip.append(torch.zeros(self.num_envs, dtype=torch.float32, device=self.device))
+                continue
+            filtered_force_norm = torch.linalg.vector_norm(force_matrix[:, 0], dim=-1)
+            force_per_tip.append(filtered_force_norm.sum(dim=-1))
+        self._object_fingertip_contact_forces = torch.stack(force_per_tip, dim=-1)
+        threshold = max(float(getattr(self.cfg, "object_contact_force_threshold", 0.05)), 0.0)
+        force_contacts = self._object_fingertip_contact_forces > threshold
+        self._force_thumb_contact = force_contacts[:, 0]
+        force_non_thumb_count = force_contacts[:, 1:].sum(dim=-1)
+        self._force_multifinger_contact = force_contacts.sum(dim=-1) >= 3
+        self._force_grasp = self._force_thumb_contact & (force_non_thumb_count >= 2)
+        self._force_grasp_streak = torch.where(
+            self._force_grasp,
+            self._force_grasp_streak + 1,
+            torch.zeros_like(self._force_grasp_streak),
+        )
+
     def _setup_scene(self):
         if not self._uses_tabletop_asset_set_cfg():
             self.robot = Articulation(self.cfg.robot_cfg)
@@ -350,6 +408,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 self._video_camera = TiledCamera(self.cfg.video_camera)
             if self.cfg.student_camera_enabled:
                 self._student_camera = TiledCamera(self.cfg.student_camera)
+            self._create_object_contact_force_sensors((self.cfg.object_cfg.prim_path,))
             self._bind_robot_physics_material()
             _spawn_local_ground(
                 show_grid=bool(getattr(self.cfg, "video_camera_enabled", False))
@@ -367,6 +426,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                 self.scene.sensors["video_camera"] = self._video_camera
             if self.cfg.student_camera_enabled:
                 self.scene.sensors["student_camera"] = self._student_camera
+            self._register_object_contact_force_sensors()
             light_cfg = sim_utils.DomeLightCfg(intensity=1800.0, color=(0.78, 0.78, 0.76))
             light_cfg.func("/World/Light", light_cfg)
             return
@@ -388,6 +448,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             self._video_camera = TiledCamera(self.cfg.video_camera)
         if self.cfg.student_camera_enabled:
             self._student_camera = TiledCamera(self.cfg.student_camera)
+        self._create_object_contact_force_sensors(tuple(obj.cfg.prim_path for obj in self._tabletop_objects))
         self._bind_robot_physics_material()
         _spawn_local_ground(
             show_grid=bool(getattr(self.cfg, "video_camera_enabled", False))
@@ -404,6 +465,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             self.scene.sensors["video_camera"] = self._video_camera
         if self.cfg.student_camera_enabled:
             self.scene.sensors["student_camera"] = self._student_camera
+        self._register_object_contact_force_sensors()
         light_cfg = sim_utils.DomeLightCfg(intensity=1800.0, color=(0.78, 0.78, 0.76))
         light_cfg.func("/World/Light", light_cfg)
 
@@ -1710,6 +1772,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
 
     def _get_rewards(self) -> torch.Tensor:
         self._compute_intermediate_values()
+        self._update_object_contact_force_diagnostics()
 
         palm_distance = torch.norm(self._object_pos_w - self._palm_pos_w, dim=-1)
         palm_reach = torch.exp(-palm_distance / self.cfg.reach_distance_scale)
@@ -2530,7 +2593,16 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         if self._post_success_stability_enabled() and bool(
             getattr(self.cfg, "tabletop_post_success_stability_latch_enabled", False)
         ):
-            latch_now = success & (~self._post_success_stability_latched)
+            latch_min_streak = max(
+                int(getattr(self.cfg, "stability_target_latch_min_success_streak", 0)),
+                0,
+            )
+            latch_ready = (
+                success
+                if latch_min_streak <= 0
+                else self._success_streak >= latch_min_streak
+            )
+            latch_now = latch_ready & (~self._post_success_stability_latched)
             if torch.any(latch_now):
                 latch_ids = latch_now.nonzero(as_tuple=False).squeeze(-1)
                 self._post_success_arm_joint_target[latch_ids] = self.robot.data.joint_pos[latch_ids][
@@ -3065,6 +3137,31 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self.extras["strict_finger_contacts_env"] = self._strict_finger_contact_count
         self.extras["strict_opposing_contact_env"] = self._strict_opposing_contact
         self.extras["min_surface_dist_env"] = self._surface_dist.min(dim=-1).values
+        self.extras["palm_reach_env"] = palm_distance < float(
+            getattr(self.cfg, "diagnostic_palm_reach_distance", 0.25)
+        )
+        self.extras["palm_distance_env"] = palm_distance
+        self.extras["object_palm_rel_vel_env"] = self._object_palm_rel_vel
+        self.extras["success_streak_env"] = self._success_streak
+        self.extras["positive_affordance_contact_env"] = (
+            tabletop_affordance["pos_contact"] > 0.5
+            if self.cfg.task_family == "dynamic_tabletop_grasp"
+            else falling_affordance["pos_contact"] > 0.5
+        )
+        self.extras["negative_affordance_contact_env"] = (
+            tabletop_affordance["neg_contact"] > 0.5
+            if self.cfg.task_family == "dynamic_tabletop_grasp"
+            else falling_affordance["neg_contact"] > 0.5
+        )
+        self.extras["force_thumb_contact_env"] = self._force_thumb_contact
+        self.extras["force_multifinger_contact_env"] = self._force_multifinger_contact
+        self.extras["force_grasp_env"] = self._force_grasp
+        self.extras["force_stable_grasp_env"] = self._force_grasp & (
+            self._object_palm_rel_vel < self.cfg.stable_object_palm_vel
+        )
+        self.extras["force_grasp_streak_env"] = self._force_grasp_streak
+        self.extras["object_fingertip_force_sum_env"] = self._object_fingertip_contact_forces.sum(dim=-1)
+        self.extras["object_fingertip_force_max_env"] = self._object_fingertip_contact_forces.max(dim=-1).values
         self.extras["grasp_seen_env"] = self._grasp_seen
         self.extras["stable_hold_env"] = success_now
         self.extras["success_seen_env"] = self._success_seen
@@ -3215,6 +3312,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self._success_streak[env_ids] = 0
         self._success_seen[env_ids] = False
         self._post_success_stability_latched[env_ids] = False
+        self._force_grasp_streak[env_ids] = 0
         self._scripted_relative_lift_target_latched[env_ids] = False
         self._scripted_relative_lift_target_arm_pos[env_ids] = 0.0
         self._grasp_seen[env_ids] = False

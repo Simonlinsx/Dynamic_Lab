@@ -1238,6 +1238,22 @@ gym.register(
 
 gym.register(
     id=(
+        "SimToolReal-Inspire-Franka-RollingScale200PostHoldMildThumbWrap"
+        "TargetHandLock-Teacher-Direct-v0"
+    ),
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRollingRelativeLiftScale200PostHoldMildThumbWrapTargetHandLockTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id=(
         "SimToolReal-Inspire-Franka-DynamicTabletopRollingSphereP80FastCurriculumLooseReward"
         "LiftGuide-Teacher-Direct-v0"
     ),

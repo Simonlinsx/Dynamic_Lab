@@ -32,6 +32,17 @@ parser.add_argument(
 )
 parser.add_argument("--success-threshold", type=float, default=0.0)
 parser.add_argument(
+    "--object-contact-force-diagnostics",
+    action="store_true",
+    help="Record filtered PhysX fingertip-to-object forces alongside geometric contact metrics.",
+)
+parser.add_argument(
+    "--object-contact-force-threshold",
+    type=float,
+    default=0.05,
+    help="Per-fingertip force threshold in newtons used only by contact diagnostics.",
+)
+parser.add_argument(
     "--skip-vector-eval",
     action="store_true",
     help="Skip non-rendered student eval and only run requested video attempts.",
@@ -209,6 +220,7 @@ parser.add_argument("--tabletop-asset-curriculum-alpha", type=float, default=Non
 parser.add_argument("--tabletop-motion-curriculum-alpha", type=float, default=None)
 parser.add_argument("--episode-length-s", type=float, default=None)
 parser.add_argument("--dynamic-success-hold-steps", type=int, default=None)
+parser.add_argument("--stability-target-latch-min-success-streak", type=int, default=None)
 parser.add_argument("--tabletop-pregrasp-lead-time", type=float, default=None)
 parser.add_argument("--tabletop-pregrasp-ahead-distance", type=float, default=None)
 parser.add_argument(
@@ -345,6 +357,11 @@ from simtoolreal_lab.teacher_student import (  # noqa: E402
     quat_rotate_inverse,
     sample_box_surface_points,
     sample_unit_primitive_surface_points,
+)
+from simtoolreal_lab.teacher_student.evaluation import (  # noqa: E402
+    EpisodeFunnelAccumulator,
+    EpisodeFunnelTracker,
+    flatten_numeric_metrics,
 )
 
 
@@ -517,6 +534,10 @@ def _make_env(task: str, num_envs: int, render_mode: str | None, pointcloud_sour
         env_cfg, "dynamic_success_hold_steps"
     ):
         env_cfg.dynamic_success_hold_steps = int(args_cli.dynamic_success_hold_steps)
+    if args_cli.stability_target_latch_min_success_streak is not None:
+        env_cfg.stability_target_latch_min_success_streak = int(
+            args_cli.stability_target_latch_min_success_streak
+        )
     if args_cli.tabletop_pregrasp_lead_time is not None and hasattr(
         env_cfg, "dynamic_tabletop_pregrasp_lead_time"
     ):
@@ -527,6 +548,11 @@ def _make_env(task: str, num_envs: int, render_mode: str | None, pointcloud_sour
         env_cfg.dynamic_tabletop_pregrasp_ahead_distance = float(
             args_cli.tabletop_pregrasp_ahead_distance
         )
+    if hasattr(env_cfg, "object_contact_force_diagnostics_enabled"):
+        env_cfg.object_contact_force_diagnostics_enabled = bool(
+            args_cli.object_contact_force_diagnostics
+        )
+        env_cfg.object_contact_force_threshold = float(args_cli.object_contact_force_threshold)
 
     if pointcloud_source == "rgbd_projected_mask":
         if not hasattr(env_cfg, "student_camera_enabled"):
@@ -1002,12 +1028,25 @@ def _run_student_eval(
     episode_true_grasp = torch.zeros_like(episode_success)
     episode_lifted = torch.zeros_like(episode_success)
     episode_stable = torch.zeros_like(episode_success)
+    episode_hold_latched = torch.zeros_like(episode_success)
+    episode_hold_latched_before_strict_grasp = torch.zeros_like(episode_success)
+    episode_first_hold_latch_step = torch.full(
+        (num_envs,), -1, dtype=torch.long, device=device
+    )
+    episode_funnel = EpisodeFunnelTracker(num_envs, device)
+    funnel_accumulator = EpisodeFunnelAccumulator(
+        str(getattr(unwrapped.cfg, "task_family", ""))
+    )
     counted_envs = torch.zeros(num_envs, dtype=torch.bool, device=device)
     completed = 0
     success_count = 0
     true_count = 0
     lifted_count = 0
     stable_count = 0
+    hold_latch_episode_count = 0
+    hold_latch_before_strict_grasp_count = 0
+    first_hold_latch_step_sum = 0
+    first_hold_latch_step_count = 0
     total_reward = 0.0
     total_reward_count = 0
     last_log = {}
@@ -1075,6 +1114,7 @@ def _run_student_eval(
             actions, predicted_privileged, predicted_hold_target, predicted_hold_logits = _student_action(
                 model, point_hist, valid_hist, proprio_hist, log_std
             )
+            hold_latch_before = hold_latch.clone()
             actions = _apply_predicted_grasp_hold(
                 actions,
                 previous_action,
@@ -1083,6 +1123,17 @@ def _run_student_eval(
                 predicted_hold_logits,
                 hold_latch,
             )
+            newly_latched = hold_latch & (~hold_latch_before)
+            if bool(newly_latched.any()):
+                strict_grasp_now = getattr(
+                    unwrapped, "_strict_true_grasp", unwrapped._true_grasp
+                ).bool()
+                episode_hold_latched |= newly_latched
+                episode_hold_latched_before_strict_grasp |= newly_latched & (~strict_grasp_now)
+                first_latch = newly_latched & (episode_first_hold_latch_step < 0)
+                episode_first_hold_latch_step[first_latch] = unwrapped.episode_length_buf[
+                    first_latch
+                ].long()
             actions = _apply_predicted_grasp_arm_lock(
                 actions,
                 hold_latch,
@@ -1105,6 +1156,7 @@ def _run_student_eval(
             episode_true_grasp |= _tensor_bool(extras, "true_grasp_env", num_envs, device)
             episode_lifted |= _tensor_bool(extras, "lifted_env", num_envs, device)
             episode_stable |= _tensor_bool(extras, "stable_hold_env", num_envs, device)
+            episode_funnel.update(extras)
             reward_mask = ~counted_envs if args_cli.first_episode_per_env else torch.ones_like(counted_envs)
             total_reward += float(rewards[reward_mask].sum().item())
             total_reward_count += int(reward_mask.sum().item())
@@ -1127,11 +1179,22 @@ def _run_student_eval(
                 if done_ids.numel() > remaining:
                     done_ids = done_ids[:remaining]
                 if done_ids.numel() > 0:
+                    funnel_accumulator.add(episode_funnel.snapshot(done_ids))
                     completed += int(done_ids.numel())
                     success_count += int(episode_success[done_ids].sum().item())
                     true_count += int(episode_true_grasp[done_ids].sum().item())
                     lifted_count += int(episode_lifted[done_ids].sum().item())
                     stable_count += int(episode_stable[done_ids].sum().item())
+                    hold_latch_episode_count += int(
+                        episode_hold_latched[done_ids].sum().item()
+                    )
+                    hold_latch_before_strict_grasp_count += int(
+                        episode_hold_latched_before_strict_grasp[done_ids].sum().item()
+                    )
+                    valid_latch_steps = episode_first_hold_latch_step[done_ids]
+                    valid_latch_steps = valid_latch_steps[valid_latch_steps >= 0]
+                    first_hold_latch_step_sum += int(valid_latch_steps.sum().item())
+                    first_hold_latch_step_count += int(valid_latch_steps.numel())
                     if args_cli.first_episode_per_env:
                         counted_envs[done_ids] = True
                     if completed_asset_ids is not None:
@@ -1150,6 +1213,10 @@ def _run_student_eval(
                 episode_true_grasp[raw_done_ids] = False
                 episode_lifted[raw_done_ids] = False
                 episode_stable[raw_done_ids] = False
+                episode_hold_latched[raw_done_ids] = False
+                episode_hold_latched_before_strict_grasp[raw_done_ids] = False
+                episode_first_hold_latch_step[raw_done_ids] = -1
+                episode_funnel.reset(raw_done_ids)
                 if completed >= episodes:
                     break
             pending_reset = dones
@@ -1165,6 +1232,18 @@ def _run_student_eval(
         "true_grasp_episode_rate": float(true_count / completed),
         "lifted_episode_rate": float(lifted_count / completed),
         "stable_hold_episode_rate": float(stable_count / completed),
+        "predicted_hold_latch_episode_rate": float(hold_latch_episode_count / completed),
+        "predicted_hold_pre_strict_grasp_latch_episode_rate": float(
+            hold_latch_before_strict_grasp_count / completed
+        ),
+        "predicted_hold_pre_strict_grasp_fraction_of_latched": float(
+            hold_latch_before_strict_grasp_count / max(hold_latch_episode_count, 1)
+        ),
+        "predicted_hold_first_latch_step_mean": (
+            float(first_hold_latch_step_sum / first_hold_latch_step_count)
+            if first_hold_latch_step_count > 0
+            else None
+        ),
         "mean_step_reward": float(total_reward / max(total_reward_count, 1)),
         "max_episode_length": max_episode_length,
         "last_log": last_log,
@@ -1175,6 +1254,7 @@ def _run_student_eval(
             if pointcloud_source == "rgbd_projected_mask"
             else None
         ),
+        "failure_funnel": funnel_accumulator.summary(),
     }
     if asset_names:
         summary["asset_metrics"] = {
@@ -1730,6 +1810,7 @@ def _save_trial_sequence_videos(
                     first_success_step: int | None = None
                     post_success_detail = ""
                     recording_complete = False
+                    trial_ended_with_done = False
                     max_steps = int(args_cli.video_max_steps or unwrapped.max_episode_length)
 
                     for _ in range(pre_roll_frames):
@@ -1737,6 +1818,22 @@ def _save_trial_sequence_videos(
 
                     with torch.inference_mode():
                         for step in range(max_steps):
+                            if step > 0 and step % 100 == 0:
+                                _trace(
+                                    f"trial-sequence {sequence_idx:03d} "
+                                    f"trial {trial_idx + 1:02d}/{trial_count} "
+                                    f"step {step:04d}/{max_steps:04d}"
+                                )
+                            if recording_complete:
+                                # Let DirectRLEnv reach its real timeout/reset boundary without
+                                # paying for another RGB-D projection and policy forward pass.
+                                # Mutating episode_length_buf or calling reset mid-episode can
+                                # terminate a singleton rendered IsaacLab app.
+                                obs, _rewards, terminated, truncated, _extras = env.step(actions)
+                                trial_ended_with_done = bool((terminated | truncated)[0].item())
+                                if trial_ended_with_done:
+                                    break
+                                continue
                             if not recording_complete and step % stride == 0:
                                 _capture_video_frames(env, frames_by_env)
                             current_points, valid, _pc_info = _current_pointcloud(
@@ -1794,6 +1891,7 @@ def _save_trial_sequence_videos(
                             obs, _rewards, terminated, truncated, extras = env.step(actions)
                             previous_action = actions.detach()
                             done = terminated | truncated
+                            trial_ended_with_done = bool(done[0].item())
                             if not recording_complete:
                                 _append_video_trace(env, traces_by_env, extras, step)
                                 success_now = _tensor_bool(extras, "success_env", 1, device)
@@ -1805,7 +1903,7 @@ def _save_trial_sequence_videos(
                                 ):
                                     _capture_video_frames(env, frames_by_env)
                                     recording_complete = True
-                            if bool(done[0].item()):
+                            if trial_ended_with_done:
                                 break
                     if not recording_complete:
                         _capture_video_frames(env, frames_by_env)
@@ -1862,6 +1960,15 @@ def _save_trial_sequence_videos(
                         f"success={int(success)} raw_success={int(raw_success)} "
                         f"post_hold={int(post_success_hold_success)} frames={len(frames)}"
                     )
+                    if (
+                        args_cli.trial_sequence_seed_mode == "sequence"
+                        and trial_idx < trial_count - 1
+                        and not trial_ended_with_done
+                    ):
+                        raise RuntimeError(
+                            "A sequence trial reached --video-max-steps before the environment "
+                            "reset. Use a video horizon at least as long as max_episode_length."
+                        )
             finally:
                 writer.close()
 
@@ -1908,7 +2015,9 @@ def _maybe_init_wandb(checkpoint: Path, metadata: dict, spec: dict, output_dir: 
             "task": args_cli.task,
             "checkpoint": str(checkpoint),
             "seed": int(args_cli.seed),
+            "num_envs": int(args_cli.num_envs),
             "episodes": int(args_cli.episodes),
+            "max_steps": args_cli.max_steps,
             "first_episode_per_env": bool(args_cli.first_episode_per_env),
             "pointcloud_source": args_cli.pointcloud_source,
             "proprio_source": getattr(args_cli, "resolved_proprio_source", args_cli.proprio_source),
@@ -1917,6 +2026,9 @@ def _maybe_init_wandb(checkpoint: Path, metadata: dict, spec: dict, output_dir: 
             "tabletop_motion_curriculum_alpha": args_cli.tabletop_motion_curriculum_alpha,
             "episode_length_s": args_cli.episode_length_s,
             "dynamic_success_hold_steps": args_cli.dynamic_success_hold_steps,
+            "stability_target_latch_min_success_streak": (
+                args_cli.stability_target_latch_min_success_streak
+            ),
             "student_action_mode": args_cli.student_action_mode,
             "student_action_std_scale": float(args_cli.student_action_std_scale),
             "trial_sequence_seed_mode": args_cli.trial_sequence_seed_mode,
@@ -2017,6 +2129,10 @@ def main() -> None:
     summary = {
         "task": args_cli.task,
         "checkpoint": str(checkpoint),
+        "seed": int(args_cli.seed),
+        "num_envs": int(args_cli.num_envs),
+        "episodes_requested": int(args_cli.episodes),
+        "max_steps": args_cli.max_steps,
         "student_device": str(student_device),
         "device": args_cli.device,
         "pointcloud_source": pointcloud_source,
@@ -2033,6 +2149,8 @@ def main() -> None:
         "action_rate_limit": float(args_cli.action_rate_limit),
         "history_bootstrap": str(args_cli.history_bootstrap),
         "first_episode_per_env": bool(args_cli.first_episode_per_env),
+        "object_contact_force_diagnostics": bool(args_cli.object_contact_force_diagnostics),
+        "object_contact_force_threshold": float(args_cli.object_contact_force_threshold),
         "rgbd_clean_fallback": bool(args_cli.rgbd_clean_fallback),
         "rgbd_temporal_fallback": bool(args_cli.rgbd_temporal_fallback),
         "trial_sequence_seed_mode": str(args_cli.trial_sequence_seed_mode),
@@ -2061,6 +2179,9 @@ def main() -> None:
         "dynamic_curriculum_alpha": args_cli.dynamic_curriculum_alpha,
         "tabletop_asset_curriculum_alpha": args_cli.tabletop_asset_curriculum_alpha,
         "tabletop_motion_curriculum_alpha": args_cli.tabletop_motion_curriculum_alpha,
+        "stability_target_latch_min_success_streak": (
+            args_cli.stability_target_latch_min_success_streak
+        ),
         "passed": bool(passed),
         "vector_passed": bool(vector_passed),
         "trial_sequence_passed": bool(trial_sequence_passed),
@@ -2087,11 +2208,7 @@ def main() -> None:
     if wandb_run is not None:
         import wandb
 
-        scalar_metrics = {
-            f"eval/{key}": value
-            for key, value in eval_summary.items()
-            if isinstance(value, (int, float, bool)) and not isinstance(value, dict)
-        }
+        scalar_metrics = flatten_numeric_metrics(eval_summary, "eval")
         for trace_path in trial_sequence_trace_paths:
             trace_payload = json.loads(Path(trace_path).read_text(encoding="utf-8"))
             scalar_metrics["video/trial_success_rate"] = float(trace_payload["success_rate"])

@@ -1385,6 +1385,9 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     terminate_on_success = True
     workspace_xy_limit = 1.25
     stable_object_palm_vel = 0.36
+    diagnostic_palm_reach_distance = 0.25
+    object_contact_force_diagnostics_enabled = False
+    object_contact_force_threshold = 0.05
     falling_success_uses_grasp_seen = True
     falling_success_uses_strict_grasp = False
     falling_success_max_palm_distance = 0.0
@@ -1542,6 +1545,7 @@ class Revo2DynamicDexterousTeacherEnvCfg(Revo2StaticGraspEnvCfg):
     tabletop_post_success_hand_target_lock_enabled = False
     tabletop_post_success_hand_target_lock_blend = 1.0
     tabletop_post_success_hand_lock_uses_actual_joint_pos = False
+    stability_target_latch_min_success_streak = 0
     tabletop_post_success_arm_joint_vel_penalty_scale = 0.0
     tabletop_post_success_arm_target_drift_penalty_scale = 0.0
     tabletop_post_success_arm_target_drift_tolerance = 0.10
@@ -7313,6 +7317,19 @@ class InspireRollingRelativeLiftScale200PostHoldMildThumbWrapCloseTeacherEnvCfg(
     """Matched diagnostic using a modestly stronger load-bearing thumb wrap."""
 
     reference_name = "inspire_rolling_relative_lift_scale200_posthold_mild_thumb_wrap_close_teacher"
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_SPHERE_MILD_THUMB_WRAP_CLOSE_TARGETS
+
+
+@configclass
+class InspireRollingRelativeLiftScale200PostHoldMildThumbWrapTargetHandLockTeacherEnvCfg(
+    InspireRollingRelativeLiftScale200PostHoldTargetHandLockTeacherEnvCfg
+):
+    """Combine the verified thumb wrap with command-target post-success hand locking."""
+
+    reference_name = (
+        "inspire_rolling_relative_lift_scale200_posthold_"
+        "mild_thumb_wrap_target_hand_lock_teacher"
+    )
     inspire_semantic_close_targets = INSPIRE_ANYDEX_SPHERE_MILD_THUMB_WRAP_CLOSE_TARGETS
 
 
