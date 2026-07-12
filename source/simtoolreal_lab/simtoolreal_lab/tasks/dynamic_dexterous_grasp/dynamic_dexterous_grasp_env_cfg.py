@@ -755,6 +755,227 @@ UNIFIED_ROLLING_STRICT_MIN_FINGER_CONTACTS = 3
 UNIFIED_ROLLING_STRICT_MIN_NON_THUMB_CONTACTS = 2
 
 
+class _UnifiedRollingRewardContract:
+    """Embodiment-independent reward contract for rolling comparisons."""
+
+    action_penalty_scale = 0.003
+    arm_lift_progress_rew_scale = 8.0
+    arm_target_delta_penalty_scale = 0.004
+    catch_progress_rew_scale = 160.0
+    contact_rew_scale = 18.0
+    drop_penalty = 25.0
+    dynamic_tabletop_low_palm_penalty_scale = 25.0
+    dynamic_tabletop_pregrasp_height_rew_scale = 44.0
+    dynamic_tabletop_pregrasp_xy_rew_scale = 420.0
+    dynamic_tabletop_side_contact_penalty_scale = 0.0
+    falling_affordance_negative_penalty_scale = 0.0
+    falling_affordance_positive_rew_scale = 0.0
+    falling_opposed_stable_pinch_rew_scale = 0.0
+    falling_palm_gate_rew_scale = 0.0
+    falling_pinched_rel_vel_penalty_scale = 0.0
+    falling_positive_stable_rew_scale = 0.0
+    falling_soft_success_progress_rew_scale = 0.0
+    falling_stable_grasp_rew_scale = 0.0
+    fingertip_reach_rew_scale = 24.0
+    grasp_quality_rew_scale = 210.0
+    hold_progress_rew_scale = 10800.0
+    lift_action_prior_rew_scale = 45.0
+    lift_coupling_rew_scale = 180.0
+    lift_progress_linear_rew_scale = 0.0
+    lift_progress_rew_scale = 1100.0
+    lifted_true_grasp_rew_scale = 3800.0
+    opposition_rew_scale = 42.0
+    palm_distance_penalty_scale = 0.0
+    palm_lift_gap_penalty_scale = 90.0
+    palm_lift_rew_scale = 8.0
+    palm_only_lift_penalty_scale = 340.0
+    palm_reach_rew_scale = 24.0
+    pregrasp_rew_scale = 4.0
+    premature_arm_lift_penalty_scale = 0.0
+    premature_palm_lift_penalty_scale = 0.0
+    quality_lift_progress_rew_scale = 1500.0
+    scoop_lift_penalty_scale = 280.0
+    stable_hold_rew_scale = 7800.0
+    strict_approach_rew_scale = 0.0
+    strict_multifinger_approach_rew_scale = 0.0
+    strict_opposition_approach_rew_scale = 0.0
+    strict_opposition_touch_rew_scale = 0.0
+    strict_touch_rew_scale = 0.0
+    success_bonus = 32000.0
+    tabletop_affordance_lift_rew_scale = 0.0
+    tabletop_affordance_negative_penalty_scale = 0.0
+    tabletop_affordance_positive_rew_scale = 0.0
+    tabletop_arm_clearance_penalty_scale = 0.0
+    tabletop_arm_object_lift_gap_penalty_scale = 280.0
+    tabletop_grasped_arm_lift_rew_scale = 820.0
+    tabletop_grasped_palm_lift_rew_scale = 700.0
+    tabletop_hover_goal_rew_scale = 360.0
+    tabletop_hover_grasp_loss_penalty_scale = 260.0
+    tabletop_hover_height_progress_rew_scale = 220.0
+    tabletop_hover_linear_penalty_scale = 80.0
+    tabletop_hover_overshoot_penalty_scale = 120.0
+    tabletop_hover_post_latch_action_penalty_scale = 0.0
+    tabletop_hover_post_latch_speed_penalty_scale = 180.0
+    tabletop_hover_post_latch_target_delta_penalty_scale = 0.0
+    tabletop_hover_stable_rew_scale = 420.0
+    tabletop_hover_target_drift_penalty_scale = 120.0
+    tabletop_hover_target_rew_scale = 180.0
+    tabletop_hover_under_height_penalty_scale = 160.0
+    tabletop_hover_vel_penalty_scale = 80.0
+    tabletop_hover_z_vel_penalty_scale = 120.0
+    tabletop_lift_action_prior_rew_scale = 0.0
+    tabletop_lift_without_current_grasp_penalty_scale = 0.0
+    tabletop_lift_without_object_penalty_scale = 150.0
+    tabletop_no_lift_after_grasp_penalty_scale = 180.0
+    tabletop_non_thumb_without_thumb_penalty_scale = 0.0
+    tabletop_object_carry_lift_rew_scale = 0.0
+    tabletop_object_carry_stall_penalty_scale = 0.0
+    tabletop_object_up_vel_rew_scale = 0.0
+    tabletop_post_success_action_penalty_scale = 0.05
+    tabletop_post_success_arm_joint_vel_penalty_scale = 100.0
+    tabletop_post_success_arm_target_drift_penalty_scale = 1800.0
+    tabletop_post_success_grasp_loss_penalty_scale = 15000.0
+    tabletop_post_success_hold_rew_scale = 20000.0
+    tabletop_post_success_palm_drift_penalty_scale = 2800.0
+    tabletop_post_success_speed_penalty_scale = 1400.0
+    tabletop_post_success_target_delta_penalty_scale = 0.08
+    tabletop_post_success_under_height_penalty_scale = 2200.0
+    tabletop_post_success_unstable_penalty_scale = 16000.0
+    tabletop_stable_catch_rew_scale = 1650.0
+    tabletop_underwrap_rew_scale = 0.0
+    true_grasp_rew_scale = 150.0
+
+    # Reward-component semantics. These values match the working Revo2
+    # multi-shape teacher and are shared so the two hands optimize the same
+    # mathematical objective even when their low-level controllers differ.
+    contact_reward_requires_thumb_pair = False
+    contact_reward_uses_opposition_product = False
+    contact_reward_opposition_min_multiplier = 0.0
+    opposition_reward_uses_weighted_score = False
+    true_grasp_score_requires_thumb_pair = False
+    true_grasp_score_uses_opposition_product = False
+    true_grasp_score_opposition_min_multiplier = 0.0
+    thumb_contact_reward_weight = 0.55
+    thumb_true_grasp_score_weight = 0.58
+    grasp_quality_finger_count_weight = 0.30
+    grasp_quality_non_thumb_weight = 0.25
+    grasp_quality_thumb_weight = 0.25
+    grasp_quality_opposition_weight = 0.20
+
+    reach_distance_scale = 0.22
+    fingertip_distance_scale = 0.055
+    palm_contact_distance = 0.10
+    palm_only_lift_dist = 0.12
+    dynamic_tabletop_gate_contact_rewards_by_pregrasp = False
+    dynamic_tabletop_contact_pregrasp_gate_min = 0.45
+    dynamic_tabletop_low_palm_height_scale = 0.040
+    dynamic_tabletop_low_palm_max_penalty = 3.0
+    dynamic_tabletop_min_palm_height_offset = 0.012
+    dynamic_tabletop_pregrasp_height_offset = 0.105
+    dynamic_tabletop_pregrasp_height_scale = 0.065
+    dynamic_tabletop_pregrasp_xy_distance_scale = 0.16
+    dynamic_tabletop_speed_alpha_sample_full_fraction = 0.0
+
+    lift_reward_min_grasp_quality_multiplier = 0.10
+    lift_reward_min_opposition_multiplier = 0.15
+    lift_reward_uses_opposition_gate = False
+    quality_lift_progress_min_opposition_multiplier = 0.15
+    quality_lift_progress_uses_opposition_gate = False
+    tabletop_arm_lift_reward_object_margin = 0.14
+    tabletop_arm_object_lift_gap_margin = 0.12
+    tabletop_grasped_palm_lift_height = 0.08
+    tabletop_grasped_palm_lift_scale = 0.05
+    tabletop_lift_action_prior_gate_min = 0.24
+    tabletop_lift_gate_requires_current_strict_grasp = False
+    tabletop_lift_use_grasp_seen_gate = False
+    tabletop_lift_without_current_grasp_min_progress = 0.0
+    tabletop_lift_without_current_grasp_ramp = 1.0
+    tabletop_lift_without_object_min_arm_progress = 0.16
+    tabletop_no_lift_after_grasp_grace_steps = 20
+    tabletop_no_lift_after_grasp_max_penalty = 3.0
+    tabletop_no_lift_after_grasp_ramp_steps = 80
+    tabletop_no_lift_min_progress = 0.15
+    tabletop_no_lift_soft_grasp_gate = 0.0
+    tabletop_no_lift_uses_soft_grasp_gate = False
+
+    tabletop_gate_boolean_grasp_rewards_by_clearance = False
+    tabletop_gate_contact_rewards_by_clearance = False
+    tabletop_contact_clearance_gate_min = 1.0
+    tabletop_contact_clearance_gate_scale = 0.50
+    tabletop_hover_latch_uses_grasp_seen = True
+    tabletop_hover_reward_uses_grasp_seen = True
+    tabletop_success_uses_grasp_seen = True
+    tabletop_object_carry_grasp_seen_gate = 0.25
+    tabletop_object_carry_min_grasp_streak = 0
+    tabletop_object_carry_stall_min_arm_progress = 0.12
+    tabletop_object_carry_stall_min_z_vel = 0.015
+    tabletop_object_carry_streak_ramp_steps = 1
+    tabletop_object_up_vel_scale = 0.10
+    tabletop_stable_catch_min_lift_multiplier = 0.05
+
+    tabletop_post_success_arm_target_drift_scale = 0.28
+    tabletop_post_success_arm_target_drift_tolerance = 0.09
+    tabletop_post_success_palm_drift_scale = 0.085
+    tabletop_post_success_palm_drift_tolerance = 0.035
+    tabletop_underwrap_below_center_fraction = 0.20
+    tabletop_underwrap_contact_margin = 0.0
+    tabletop_underwrap_contact_scale = 0.018
+    tabletop_underwrap_height_scale = 0.012
+    tabletop_underwrap_opposition_min_multiplier = 0.10
+    tabletop_underwrap_pair_weight = 1.0
+    tabletop_underwrap_progress_weight = 0.0
+    tabletop_underwrap_radial_fraction = 0.95
+    tabletop_underwrap_radial_scale = 0.020
+    tabletop_underwrap_uses_pregrasp_gate = True
+
+    strict_approach_score_scale = 0.08
+    strict_reward_contact_score_scale = 0.025
+    strict_touch_reward_opposition_min_multiplier = 0.0
+    strict_touch_reward_requires_thumb_pair = False
+    strict_touch_reward_uses_opposition_product = False
+    strict_touch_score_scale = 0.008
+
+    # The official comparison is direct RL, not a different scripted residual
+    # controller per hand. Geometry-specific target scaling remains in the
+    # embodiment adapter, but no scripted reach, close, or lift action is added.
+    scripted_action_prior_enabled = False
+    scripted_tabletop_pregrasp_prior_enabled = False
+    scripted_tabletop_relative_lift_target_prior_enabled = False
+    scripted_tabletop_hand_grasp_memory_prior_enabled = False
+
+
+UNIFIED_FALLING_BENCHMARK_NAME = "falling_baton_affordance_v1"
+UNIFIED_FALLING_OBJECT_SIZE = (0.018, 0.018, 0.165)
+UNIFIED_FALLING_OBJECT_MASS = 0.014
+UNIFIED_FALLING_START_POS = (0.0, 0.23, 1.12)
+UNIFIED_FALLING_SPAWN_X_RANGE = (-0.04, 0.40)
+UNIFIED_FALLING_SPAWN_Y_RANGE = (0.08, 0.36)
+UNIFIED_FALLING_SPAWN_Z_RANGE = (0.98, 1.34)
+UNIFIED_FALLING_START_ABOVE_PALM_RANGE = (0.28, 0.42)
+UNIFIED_FALLING_TARGET_ABOVE_PALM_RANGE = (0.34, 0.66)
+UNIFIED_FALLING_START_ROLL_RANGE = (-0.45, 0.45)
+UNIFIED_FALLING_START_PITCH_RANGE = (-0.35, 0.35)
+UNIFIED_FALLING_START_YAW_RANGE = (-0.90, 0.90)
+UNIFIED_FALLING_TARGET_ROLL_RANGE = (-3.141592653589793, 3.141592653589793)
+UNIFIED_FALLING_TARGET_PITCH_RANGE = (-1.35, 1.35)
+UNIFIED_FALLING_TARGET_YAW_RANGE = (-3.141592653589793, 3.141592653589793)
+UNIFIED_FALLING_START_XY_SPEED_RANGE = (0.0, 0.005)
+UNIFIED_FALLING_START_Z_SPEED_RANGE = (0.0, 0.015)
+UNIFIED_FALLING_START_ANG_VEL_RANGE = (-0.08, 0.08)
+UNIFIED_FALLING_TARGET_LIN_VEL_MIN = (0.0, 0.0, -0.26)
+UNIFIED_FALLING_TARGET_LIN_VEL_MAX = (0.06, 0.06, -0.04)
+UNIFIED_FALLING_TARGET_ANG_VEL_MIN = (-1.0, -1.0, -1.0)
+UNIFIED_FALLING_TARGET_ANG_VEL_MAX = (1.0, 1.0, 1.0)
+UNIFIED_FALLING_CURRICULUM_METRIC = "catch_hold"
+UNIFIED_FALLING_CURRICULUM_START_SUCCESS = 0.006
+UNIFIED_FALLING_CURRICULUM_FULL_SUCCESS = 0.12
+UNIFIED_FALLING_CURRICULUM_EMA_ALPHA = 0.035
+UNIFIED_FALLING_CURRICULUM_ALPHA_RISE = 0.00035
+UNIFIED_FALLING_SUCCESS_HOLD_STEPS = 20
+UNIFIED_FALLING_STABLE_OBJECT_PALM_VEL = 0.30
+UNIFIED_FALLING_EPISODE_LENGTH_S = 200.0 / 60.0
+
+
 def _tabletop_start_z_from_spec(spec: dict, table_top_z: float = 0.296) -> float:
     shape = str(spec.get("proxy_shape", "box")).lower()
     if shape == "sphere":
@@ -1893,6 +2114,120 @@ class Revo2FallingBatonEasyStrictAffordancePostHoldTeacherEnvCfg(
     stable_hold_rew_scale = 22000.0
     hold_progress_rew_scale = 40000.0
     success_bonus = 70000.0
+
+
+@configclass
+class Revo2UnifiedFallingBatonBenchmarkTeacherEnvCfg(
+    Revo2FallingBatonEasyStrictAffordancePostHoldTeacherEnvCfg
+):
+    """Revo2 adapter for the shared red/green falling-baton benchmark."""
+
+    reference_name = "revo2_unified_falling_baton_affordance_v1_teacher"
+    benchmark_protocol = UNIFIED_FALLING_BENCHMARK_NAME
+    action_space = 13
+    observation_space = 76
+    task_family = "falling_baton_grasp"
+    create_table = False
+    episode_length_s = UNIFIED_FALLING_EPISODE_LENGTH_S
+
+    object_cfg: RigidObjectCfg = _falling_baton_physics_object_cfg(
+        size=UNIFIED_FALLING_OBJECT_SIZE,
+        mass=UNIFIED_FALLING_OBJECT_MASS,
+        pos=UNIFIED_FALLING_START_POS,
+    )
+    object_shape = "box"
+    object_radius = 0.010
+    object_size = UNIFIED_FALLING_OBJECT_SIZE
+    object_start_pos = UNIFIED_FALLING_START_POS
+    object_start_rot = (1.0, 0.0, 0.0, 0.0)
+    reset_object_pos_noise = (0.0, 0.0, 0.0)
+    affordance_label_mode = "handle_blade"
+    affordance_positive_fraction = 0.38
+    affordance_negative_fraction = 0.45
+    affordance_positive_end = "negative"
+    falling_baton_affordance_markers_enabled = True
+
+    falling_baton_palm_relative_spawn_enabled = True
+    falling_baton_palm_relative_clamp_to_workspace = True
+    falling_baton_spawn_x_range = UNIFIED_FALLING_SPAWN_X_RANGE
+    falling_baton_spawn_y_range = UNIFIED_FALLING_SPAWN_Y_RANGE
+    falling_baton_spawn_z_range = UNIFIED_FALLING_SPAWN_Z_RANGE
+    falling_baton_spawn_above_palm_enabled = True
+    falling_baton_spawn_height_curriculum = True
+    falling_baton_start_spawn_above_palm_range = UNIFIED_FALLING_START_ABOVE_PALM_RANGE
+    falling_baton_spawn_above_palm_range = UNIFIED_FALLING_TARGET_ABOVE_PALM_RANGE
+    falling_baton_catch_center_finger_weight = 0.78
+    falling_baton_catch_center_forward_offset = 0.060
+    falling_baton_catch_center_world_offset = (0.0, 0.020, 0.0)
+    falling_baton_palm_relative_start_x_range = (-0.040, 0.040)
+    falling_baton_palm_relative_start_y_range = (0.015, 0.090)
+
+    falling_baton_randomize_orientation = True
+    falling_baton_orientation_curriculum = True
+    falling_baton_start_roll_range = UNIFIED_FALLING_START_ROLL_RANGE
+    falling_baton_start_pitch_range = UNIFIED_FALLING_START_PITCH_RANGE
+    falling_baton_start_yaw_range = UNIFIED_FALLING_START_YAW_RANGE
+    falling_baton_roll_range = UNIFIED_FALLING_TARGET_ROLL_RANGE
+    falling_baton_pitch_range = UNIFIED_FALLING_TARGET_PITCH_RANGE
+    falling_baton_yaw_range = UNIFIED_FALLING_TARGET_YAW_RANGE
+
+    object_lin_vel_min = UNIFIED_FALLING_TARGET_LIN_VEL_MIN
+    object_lin_vel_max = UNIFIED_FALLING_TARGET_LIN_VEL_MAX
+    object_ang_vel_min = UNIFIED_FALLING_TARGET_ANG_VEL_MIN
+    object_ang_vel_max = UNIFIED_FALLING_TARGET_ANG_VEL_MAX
+    falling_baton_start_initial_xy_speed_range = UNIFIED_FALLING_START_XY_SPEED_RANGE
+    falling_baton_start_initial_z_speed_range = UNIFIED_FALLING_START_Z_SPEED_RANGE
+    falling_baton_start_initial_ang_vel_range = UNIFIED_FALLING_START_ANG_VEL_RANGE
+    dynamic_grasp_speed_curriculum = True
+    dynamic_grasp_speed_curriculum_mode = "success_gate"
+    dynamic_grasp_speed_curriculum_metric = UNIFIED_FALLING_CURRICULUM_METRIC
+    dynamic_grasp_speed_curriculum_start_success = UNIFIED_FALLING_CURRICULUM_START_SUCCESS
+    dynamic_grasp_speed_curriculum_full_success = UNIFIED_FALLING_CURRICULUM_FULL_SUCCESS
+    dynamic_grasp_speed_curriculum_ema_alpha = UNIFIED_FALLING_CURRICULUM_EMA_ALPHA
+    dynamic_grasp_speed_curriculum_alpha_rise = UNIFIED_FALLING_CURRICULUM_ALPHA_RISE
+    dynamic_grasp_speed_curriculum_allow_decrease = True
+    dynamic_grasp_speed_curriculum_override_alpha = None
+
+    falling_success_uses_grasp_seen = False
+    falling_success_uses_strict_grasp = True
+    falling_success_requires_positive_affordance = True
+    falling_success_max_palm_distance = 0.20
+    falling_success_min_finger_contacts = 3.0
+    catch_success_min_z = 0.46
+    falling_drop_z = 0.22
+    contact_distance = 0.018
+    contact_score_scale = 0.018
+    palm_contact_distance = 0.050
+    strict_reward_enabled = True
+    strict_success_enabled = True
+    strict_success_contact_distance = 0.010
+    strict_success_min_finger_contacts = 3
+    strict_success_min_non_thumb_contacts = 2
+    strict_success_opposition_mode = "dot"
+    strict_success_opposition_cos_threshold = 0.0
+    falling_affordance_reward_enabled = True
+    falling_affordance_positive_requires_thumb_pair = True
+    falling_affordance_positive_uses_opposition_product = True
+    falling_affordance_positive_opposition_min_multiplier = 0.02
+    falling_affordance_distance_scale = 0.018
+    falling_affordance_contact_distance = 0.016
+    falling_affordance_radial_margin = 0.010
+
+    dynamic_success_hold_steps = UNIFIED_FALLING_SUCCESS_HOLD_STEPS
+    stable_object_palm_vel = UNIFIED_FALLING_STABLE_OBJECT_PALM_VEL
+    terminate_on_success = False
+    falling_post_success_stability_enabled = True
+    tabletop_post_success_stability_latch_enabled = True
+    tabletop_post_success_arm_target_lock_enabled = True
+    tabletop_post_success_arm_target_lock_blend = 1.0
+    tabletop_post_success_hand_target_lock_enabled = True
+    tabletop_post_success_hand_target_lock_blend = 1.0
+    tabletop_post_success_hand_lock_uses_actual_joint_pos = False
+    tabletop_post_success_hand_close_fraction = 0.06
+    scripted_action_prior_enabled = False
+    scripted_tabletop_pregrasp_prior_enabled = False
+    scripted_tabletop_relative_lift_target_prior_enabled = False
+    scripted_tabletop_hand_grasp_memory_prior_enabled = False
 
 
 @configclass
@@ -3246,6 +3581,7 @@ class Revo2DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTargetHandLockTea
 
 @configclass
 class Revo2UnifiedRollingBenchmarkTeacherEnvCfg(
+    _UnifiedRollingRewardContract,
     Revo2DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTargetHandLockTeacherEnvCfg
 ):
     """Revo2 adapter for the shared multi-shape rolling benchmark."""
@@ -7470,6 +7806,7 @@ class InspireRollingRelativeLiftScale200PostHoldMildThumbWrapTargetHandLockTeach
 
 @configclass
 class InspireUnifiedRollingBenchmarkTeacherEnvCfg(
+    _UnifiedRollingRewardContract,
     InspireRollingRelativeLiftScale200PostHoldMildThumbWrapTargetHandLockTeacherEnvCfg
 ):
     """Inspire RH56 adapter for the shared multi-shape rolling benchmark."""
@@ -8436,6 +8773,29 @@ class InspireFallingBatonEasyPostHoldConversionTeacherEnvCfg(
     stable_hold_rew_scale = 32000.0
     hold_progress_rew_scale = 65000.0
     success_bonus = 110000.0
+
+
+@configclass
+class InspireUnifiedFallingBatonBenchmarkTeacherEnvCfg(
+    Revo2UnifiedFallingBatonBenchmarkTeacherEnvCfg
+):
+    """Inspire RH56 adapter for the shared red/green falling-baton benchmark."""
+
+    reference_name = "inspire_unified_falling_baton_affordance_v1_teacher"
+    hand_embodiment = "inspire"
+    action_contract = "inspire_semantic_13d"
+    robot_cfg: ArticulationCfg = _inspire_z180_robot_cfg(ISAACGYM_DYNAMIC_REVO2_LOWER_SAFE_ARM_POS)
+    default_arm_pos = ISAACGYM_DYNAMIC_REVO2_LOWER_SAFE_ARM_POS
+    hand_joint_names = INSPIRE_ACTIVE_HAND_JOINT_NAMES
+    sim_hand_joint_names = INSPIRE_HAND_JOINT_NAMES
+    fingertip_body_names = INSPIRE_FINGERTIP_BODY_NAMES
+    touch_body_names = INSPIRE_FINGERTIP_BODY_NAMES
+    palm_body_name = "hand_base_link"
+    palm_offset = INSPIRE_PALM_OFFSET
+    fingertip_body_offsets = INSPIRE_FINGERTIP_BODY_OFFSETS
+    reference_hand_fractions = (1.0,) * 6
+    inspire_semantic_close_targets = INSPIRE_ANYDEX_P80_CLOSE_TARGETS
+    hand_moving_average = 0.78
 
 
 @configclass

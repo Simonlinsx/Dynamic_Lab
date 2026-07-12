@@ -1,10 +1,26 @@
 {
+  "unified_protocols": {
+    "rolling_multishape_v1": {
+      "revo2_task": "SimToolReal-Revo2-Franka-UnifiedRollingBenchmark-Teacher-Direct-v0",
+      "inspire_task": "SimToolReal-Inspire-Franka-UnifiedRollingBenchmark-Teacher-Direct-v0",
+      "checker": "scripts/check_unified_rolling_protocol.py",
+      "status": "teacher_retraining_required"
+    },
+    "falling_baton_affordance_v1": {
+      "revo2_task": "SimToolReal-Revo2-Franka-UnifiedFallingBatonBenchmark-Teacher-Direct-v0",
+      "inspire_task": "SimToolReal-Inspire-Franka-UnifiedFallingBatonBenchmark-Teacher-Direct-v0",
+      "checker": "scripts/check_unified_falling_protocol.py",
+      "status": "teacher_retraining_required"
+    }
+  },
   "cases": [
     {
       "case_id": "revo2_rolling_rgbd",
       "family": "dynamic_tabletop_grasp",
       "hand": "revo2",
       "task": "SimToolReal-Revo2-Franka-DynamicTabletopRollingAssetsFastSpeedAssetPrivilegedTargetHandLock-Teacher-Direct-v0",
+      "benchmark_scope": "legacy_multishape_reward_contract",
+      "comparable_to_rolling_multishape_v1": false,
       "expected_action_dim": 13,
       "expected_proprio_dim": 67,
       "expected_arm_dim": 7,
@@ -40,6 +56,8 @@
       "family": "falling_baton_grasp",
       "hand": "revo2",
       "task": "SimToolReal-Revo2-Franka-FallingBatonEasyStrictAffordancePostHold-Teacher-Direct-v0",
+      "benchmark_scope": "legacy_revo2_falling_curriculum",
+      "comparable_to_falling_baton_affordance_v1": false,
       "expected_action_dim": 13,
       "expected_proprio_dim": 67,
       "expected_arm_dim": 7,
@@ -90,6 +108,8 @@
       "family": "falling_baton_grasp",
       "hand": "inspire_rh56",
       "task": "SimToolReal-Inspire-Franka-FallingBatonEasyPostHoldCurriculum-Teacher-Direct-v0",
+      "benchmark_scope": "legacy_inspire_falling_curriculum",
+      "comparable_to_falling_baton_affordance_v1": false,
       "student_required": false,
       "teacher_min_success_rate": 0.5,
       "teacher_run_dir": "logs/rl_games/inspire_falling_posthold_conversion_from_stage2best_512env_240ep_online_20260710",

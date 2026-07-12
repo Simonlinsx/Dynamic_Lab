@@ -22,6 +22,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--revo2-task", default=DEFAULT_REVO2_TASK)
 parser.add_argument("--inspire-task", default=DEFAULT_INSPIRE_TASK)
 parser.add_argument("--summary-out", type=Path, required=True)
+parser.add_argument("--audit-all-simple", action="store_true")
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 
@@ -115,6 +116,101 @@ PROTOCOL_FIELDS = (
     "affordance_label_mode",
 )
 
+REWARD_FIELD_NAMES = {
+    "action_penalty_scale",
+    "arm_target_delta_penalty_scale",
+    "drop_penalty",
+    "success_bonus",
+}
+REWARD_FIELD_SUFFIXES = ("_rew_scale", "_penalty_scale")
+OBJECTIVE_SEMANTIC_FIELDS = (
+    "contact_reward_requires_thumb_pair",
+    "contact_reward_uses_opposition_product",
+    "contact_reward_opposition_min_multiplier",
+    "opposition_reward_uses_weighted_score",
+    "true_grasp_score_requires_thumb_pair",
+    "true_grasp_score_uses_opposition_product",
+    "true_grasp_score_opposition_min_multiplier",
+    "thumb_contact_reward_weight",
+    "thumb_true_grasp_score_weight",
+    "grasp_quality_finger_count_weight",
+    "grasp_quality_non_thumb_weight",
+    "grasp_quality_thumb_weight",
+    "grasp_quality_opposition_weight",
+    "reach_distance_scale",
+    "fingertip_distance_scale",
+    "palm_contact_distance",
+    "palm_only_lift_dist",
+    "dynamic_tabletop_gate_contact_rewards_by_pregrasp",
+    "dynamic_tabletop_contact_pregrasp_gate_min",
+    "dynamic_tabletop_low_palm_height_scale",
+    "dynamic_tabletop_low_palm_max_penalty",
+    "dynamic_tabletop_min_palm_height_offset",
+    "dynamic_tabletop_pregrasp_height_offset",
+    "dynamic_tabletop_pregrasp_height_scale",
+    "dynamic_tabletop_pregrasp_xy_distance_scale",
+    "dynamic_tabletop_speed_alpha_sample_full_fraction",
+    "lift_reward_min_grasp_quality_multiplier",
+    "lift_reward_min_opposition_multiplier",
+    "lift_reward_uses_opposition_gate",
+    "quality_lift_progress_min_opposition_multiplier",
+    "quality_lift_progress_uses_opposition_gate",
+    "tabletop_arm_lift_reward_object_margin",
+    "tabletop_arm_object_lift_gap_margin",
+    "tabletop_grasped_palm_lift_height",
+    "tabletop_grasped_palm_lift_scale",
+    "tabletop_lift_action_prior_gate_min",
+    "tabletop_lift_gate_requires_current_strict_grasp",
+    "tabletop_lift_use_grasp_seen_gate",
+    "tabletop_lift_without_current_grasp_min_progress",
+    "tabletop_lift_without_current_grasp_ramp",
+    "tabletop_lift_without_object_min_arm_progress",
+    "tabletop_no_lift_after_grasp_grace_steps",
+    "tabletop_no_lift_after_grasp_max_penalty",
+    "tabletop_no_lift_after_grasp_ramp_steps",
+    "tabletop_no_lift_min_progress",
+    "tabletop_no_lift_soft_grasp_gate",
+    "tabletop_no_lift_uses_soft_grasp_gate",
+    "tabletop_gate_boolean_grasp_rewards_by_clearance",
+    "tabletop_gate_contact_rewards_by_clearance",
+    "tabletop_contact_clearance_gate_min",
+    "tabletop_contact_clearance_gate_scale",
+    "tabletop_hover_latch_uses_grasp_seen",
+    "tabletop_hover_reward_uses_grasp_seen",
+    "tabletop_success_uses_grasp_seen",
+    "tabletop_object_carry_grasp_seen_gate",
+    "tabletop_object_carry_min_grasp_streak",
+    "tabletop_object_carry_stall_min_arm_progress",
+    "tabletop_object_carry_stall_min_z_vel",
+    "tabletop_object_carry_streak_ramp_steps",
+    "tabletop_object_up_vel_scale",
+    "tabletop_stable_catch_min_lift_multiplier",
+    "tabletop_post_success_arm_target_drift_scale",
+    "tabletop_post_success_arm_target_drift_tolerance",
+    "tabletop_post_success_palm_drift_scale",
+    "tabletop_post_success_palm_drift_tolerance",
+    "tabletop_underwrap_below_center_fraction",
+    "tabletop_underwrap_contact_margin",
+    "tabletop_underwrap_contact_scale",
+    "tabletop_underwrap_height_scale",
+    "tabletop_underwrap_opposition_min_multiplier",
+    "tabletop_underwrap_pair_weight",
+    "tabletop_underwrap_progress_weight",
+    "tabletop_underwrap_radial_fraction",
+    "tabletop_underwrap_radial_scale",
+    "tabletop_underwrap_uses_pregrasp_gate",
+    "strict_approach_score_scale",
+    "strict_reward_contact_score_scale",
+    "strict_touch_reward_opposition_min_multiplier",
+    "strict_touch_reward_requires_thumb_pair",
+    "strict_touch_reward_uses_opposition_product",
+    "strict_touch_score_scale",
+    "scripted_action_prior_enabled",
+    "scripted_tabletop_pregrasp_prior_enabled",
+    "scripted_tabletop_relative_lift_target_prior_enabled",
+    "scripted_tabletop_hand_grasp_memory_prior_enabled",
+)
+
 
 def _normalize(value):
     if isinstance(value, Path):
@@ -126,6 +222,19 @@ def _normalize(value):
     if isinstance(value, (str, int, float, bool)) or value is None:
         return value
     return repr(value)
+
+
+def _simple_config_snapshot(cfg) -> dict:
+    snapshot = {}
+    for name in dir(cfg):
+        if name.startswith("_"):
+            continue
+        value = getattr(cfg, name)
+        if callable(value):
+            continue
+        if isinstance(value, (str, int, float, bool, list, tuple, dict, Path)) or value is None:
+            snapshot[name] = _normalize(value)
+    return snapshot
 
 
 def _asset_snapshot(cfg) -> list[dict]:
@@ -165,6 +274,17 @@ def _camera_snapshot(camera_cfg) -> dict:
 
 def _snapshot(cfg) -> dict:
     snapshot = {field: _normalize(getattr(cfg, field)) for field in PROTOCOL_FIELDS}
+    reward_fields = sorted(
+        name
+        for name in dir(cfg)
+        if name in REWARD_FIELD_NAMES or name.endswith(REWARD_FIELD_SUFFIXES)
+    )
+    snapshot["reward_contract"] = {
+        field: _normalize(getattr(cfg, field)) for field in reward_fields
+    }
+    snapshot["objective_semantics"] = {
+        field: _normalize(getattr(cfg, field)) for field in OBJECTIVE_SEMANTIC_FIELDS
+    }
     snapshot["tabletop_object_asset_specs"] = _asset_snapshot(cfg)
     snapshot["sim_dt"] = float(cfg.sim.dt)
     snapshot["sim_render_interval"] = int(cfg.sim.render_interval)
@@ -205,6 +325,21 @@ def main() -> None:
             },
         },
     }
+    if args_cli.audit_all_simple:
+        simple_snapshots = {
+            "revo2": _simple_config_snapshot(revo2_cfg),
+            "inspire": _simple_config_snapshot(inspire_cfg),
+        }
+        simple_keys = sorted(set(simple_snapshots["revo2"]) | set(simple_snapshots["inspire"]))
+        result["all_simple_differences"] = {
+            key: {
+                "revo2": simple_snapshots["revo2"].get(key, "<missing>"),
+                "inspire": simple_snapshots["inspire"].get(key, "<missing>"),
+            }
+            for key in simple_keys
+            if simple_snapshots["revo2"].get(key, "<missing>")
+            != simple_snapshots["inspire"].get(key, "<missing>")
+        }
     out_path = args_cli.summary_out.expanduser().resolve()
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")

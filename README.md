@@ -389,10 +389,11 @@ diagnostics but are not acceptance metrics.
 
 ## Current Experimental Status
 
-The following checkpoints passed the July 2026 acceptance protocol. Teacher
+The following legacy checkpoints passed the July 2026 acceptance protocol. Teacher
 success requires physical contact, catch/lift, and stable hold. Teacher videos
 and student videos are continuous 20-trial sequences with automatic reset and a
-fixed third view.
+fixed third view. These rows preserve historical results; they are not all exact
+cross-hand comparisons under the unified protocols introduced afterward.
 
 | Policy | Task | Vector evaluation | Strict 20-trial video |
 | --- | --- | ---: | ---: |
@@ -410,10 +411,28 @@ and `SimToolReal-Inspire-Franka-UnifiedRollingBenchmark-Teacher-Direct-v0`.
 Both implement `rolling_multishape_v1`: the same sphere/can/bottle/cone/pill-
 bottle physics and uniform evaluation distribution, a shared static-to-
 0.10--0.40 m/s curriculum, 13-D action and 86-D privileged observation
-contracts, strict lift/hold success, hover target, episode length, and cameras.
+contracts, reward weights, strict lift/hold success, hover target, episode
+length, cameras, and direct-policy control with scripted reach/close/lift priors
+disabled.
 Only embodiment-specific hand coupling, control, close posture, and collision
 clearance remain different. Run `scripts/check_unified_rolling_protocol.py` to
 verify that the shared contract has not drifted.
+
+New falling-baton comparisons must use
+`SimToolReal-Revo2-Franka-UnifiedFallingBatonBenchmark-Teacher-Direct-v0` and
+`SimToolReal-Inspire-Franka-UnifiedFallingBatonBenchmark-Teacher-Direct-v0`.
+Both implement `falling_baton_affordance_v1`: no table, the same 18 x 18 x
+165 mm red/green baton, spawn-height/orientation/velocity curriculum, reward
+weights, 10 mm strict contact, thumb-plus-two-finger opposition, positive-region
+success, 20-step stable hold, episode length, and fixed camera contract. The
+Inspire config inherits this task definition and overrides only its RH56 URDF,
+six-active-DoF adapter, close posture, and control gains. Verify it with
+`scripts/check_unified_falling_protocol.py`.
+
+The current Revo2/Inspire falling rows above were produced by different legacy
+curricula and therefore remain useful baselines, not the final unified
+cross-hand comparison. Official unified rows are added only after vector and
+fixed-camera 20-trial evaluations pass on the new task IDs.
 
 Both student vector results use `--first-episode-per-env`: every one of the 192
 initial environments contributes exactly one trial. This avoids a
