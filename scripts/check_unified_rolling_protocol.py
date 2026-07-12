@@ -15,8 +15,8 @@ if str(EXT_SOURCE) not in sys.path:
 from isaaclab.app import AppLauncher
 
 
-DEFAULT_REVO2_TASK = "SimToolReal-Revo2-Franka-UnifiedRollingBenchmark-Teacher-Direct-v0"
-DEFAULT_INSPIRE_TASK = "SimToolReal-Inspire-Franka-UnifiedRollingBenchmark-Teacher-Direct-v0"
+DEFAULT_REVO2_TASK = "SimToolReal-Revo2-Franka-UnifiedRollingStage3-Teacher-Direct-v0"
+DEFAULT_INSPIRE_TASK = "SimToolReal-Inspire-Franka-UnifiedRollingStage3-Teacher-Direct-v0"
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--revo2-task", default=DEFAULT_REVO2_TASK)
@@ -40,18 +40,14 @@ PROTOCOL_FIELDS = (
     "observation_space",
     "action_space",
     "policy_action_interface",
-    "default_arm_pos",
     "arm_action_scale",
     "arm_moving_average",
     "initial_arm_target_lock_steps",
     "initial_hand_target_lock_steps",
-    "tabletop_arm_lift_progress_baseline_pos",
     "tabletop_arm_lift_progress_baseline_mode",
     "tabletop_arm_lift_progress_baseline_grasp_streak",
     "object_contact_force_diagnostics_enabled",
     "object_contact_force_threshold",
-    "lift_arm_delta",
-    "lift_action_prior",
     "create_table",
     "table_top_z",
     "workspace_xy_limit",
@@ -333,11 +329,6 @@ def _snapshot(cfg, *, label: str) -> dict:
     }
     print(f"[AUDIT] snapshot {label}: assets and simulation", flush=True)
     snapshot["tabletop_object_asset_specs"] = _asset_snapshot(cfg)
-    snapshot["robot_arm_init_joint_pos"] = {
-        key: _normalize(value)
-        for key, value in sorted(cfg.robot_cfg.init_state.joint_pos.items())
-        if str(key).startswith("panda_joint")
-    }
     snapshot["sim_dt"] = float(cfg.sim.dt)
     snapshot["sim_render_interval"] = int(cfg.sim.render_interval)
     snapshot["decimation"] = int(cfg.decimation)
@@ -374,6 +365,15 @@ def main() -> None:
                 "clearance_body_margins": _normalize(revo2_cfg.tabletop_arm_clearance_body_margins),
                 "hand_moving_average": _normalize(revo2_cfg.hand_moving_average),
                 "reference_hand_fractions": _normalize(revo2_cfg.reference_hand_fractions),
+                "default_arm_pos": _normalize(revo2_cfg.default_arm_pos),
+                "robot_arm_init_joint_pos": {
+                    key: _normalize(value)
+                    for key, value in sorted(revo2_cfg.robot_cfg.init_state.joint_pos.items())
+                    if str(key).startswith("panda_joint")
+                },
+                "lift_baseline_pos": _normalize(revo2_cfg.tabletop_arm_lift_progress_baseline_pos),
+                "lift_arm_delta": _normalize(revo2_cfg.lift_arm_delta),
+                "lift_action_prior": _normalize(revo2_cfg.lift_action_prior),
             },
             "inspire": {
                 "hand_embodiment": inspire_cfg.hand_embodiment,
@@ -385,6 +385,15 @@ def main() -> None:
                 "hand_moving_average": _normalize(inspire_cfg.hand_moving_average),
                 "reference_hand_fractions": _normalize(inspire_cfg.reference_hand_fractions),
                 "semantic_close_targets": _normalize(inspire_cfg.inspire_semantic_close_targets),
+                "default_arm_pos": _normalize(inspire_cfg.default_arm_pos),
+                "robot_arm_init_joint_pos": {
+                    key: _normalize(value)
+                    for key, value in sorted(inspire_cfg.robot_cfg.init_state.joint_pos.items())
+                    if str(key).startswith("panda_joint")
+                },
+                "lift_baseline_pos": _normalize(inspire_cfg.tabletop_arm_lift_progress_baseline_pos),
+                "lift_arm_delta": _normalize(inspire_cfg.lift_arm_delta),
+                "lift_action_prior": _normalize(inspire_cfg.lift_action_prior),
             },
         },
     }

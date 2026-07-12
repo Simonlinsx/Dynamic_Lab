@@ -423,10 +423,16 @@ bottle physics and uniform evaluation distribution, a shared static-to-
 0.10--0.40 m/s curriculum, 13-D action and 86-D privileged observation
 contracts, reward weights, strict lift/hold success, hover target, episode
 length, cameras, and direct-policy control with scripted reach/close/lift priors
-disabled. Both rolling embodiments reset the Franka arm to the same upright
-IsaacLab default home pose and use the same arm action scale, smoothing, and
-initial target-lock duration. They also use the same home-pose-calibrated
-Franka lift direction for lift-progress shaping. The lift-progress baseline is
+disabled. Both rolling embodiments reset from an upright, collision-free
+Franka pose and use the same arm action scale, smoothing, and initial
+target-lock duration. Revo2 uses the IsaacLab default home pose. The longer
+Inspire RH56 hand uses the validated table-clear upright pose
+`(0, -0.35, 0, -2.20, 0, 2.39, 0.7854)`; using the lower Revo2 reset makes the
+open RH56 fingertips penetrate the table and can drive joints outside their
+URDF limits before the first policy action. Each pose uses a calibrated upward
+Franka lift direction for lift-progress shaping. These reset and lift vectors
+are embodiment adapters, while object dynamics, observations, actions, reward
+weights, and success semantics remain shared. The lift-progress baseline is
 latched after three consecutive strict-grasp steps, so home-to-object reaching
 cannot be miscounted as post-grasp lift. Their seven Franka action
 dimensions both use the same absolute `joint_target` interface; no embodiment

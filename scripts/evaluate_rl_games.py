@@ -1061,6 +1061,22 @@ def _append_video_trace(
     hand_joint_ids = list(getattr(unwrapped_env, "_control_hand_joint_ids", []))
     arm_joint_names = list(getattr(unwrapped_env.cfg, "arm_joint_names", []))
     arm_joint_ids = list(getattr(unwrapped_env, "_arm_joint_ids", []))
+    robot = getattr(unwrapped_env, "robot", None)
+    runtime_joint_names = list(getattr(robot, "joint_names", []))
+    runtime_hand_joint_names = [
+        runtime_joint_names[joint_id] if 0 <= joint_id < len(runtime_joint_names) else "<invalid>"
+        for joint_id in hand_joint_ids
+    ]
+    joint_lower_limits = getattr(unwrapped_env, "_joint_lower_limits", None)
+    joint_upper_limits = getattr(unwrapped_env, "_joint_upper_limits", None)
+    if torch.is_tensor(joint_lower_limits) and hand_joint_ids:
+        hand_joint_lower_limits_cpu = joint_lower_limits[hand_joint_ids].detach().cpu()
+    else:
+        hand_joint_lower_limits_cpu = None
+    if torch.is_tensor(joint_upper_limits) and hand_joint_ids:
+        hand_joint_upper_limits_cpu = joint_upper_limits[hand_joint_ids].detach().cpu()
+    else:
+        hand_joint_upper_limits_cpu = None
     joint_targets = getattr(unwrapped_env, "_joint_targets", None)
     if torch.is_tensor(joint_targets) and hand_joint_ids:
         hand_joint_targets_cpu = joint_targets[:num_envs, hand_joint_ids].detach().cpu()
@@ -1375,6 +1391,17 @@ def _append_video_trace(
             trace_item["arm_joint_pos"] = [float(value) for value in arm_joint_pos_cpu[env_id].tolist()]
         if hand_joint_names:
             trace_item["hand_joint_names"] = hand_joint_names
+        if step == 0 and hand_joint_ids:
+            trace_item["hand_joint_ids"] = [int(joint_id) for joint_id in hand_joint_ids]
+            trace_item["runtime_hand_joint_names"] = runtime_hand_joint_names
+            if hand_joint_lower_limits_cpu is not None:
+                trace_item["hand_joint_lower_limits"] = [
+                    float(value) for value in hand_joint_lower_limits_cpu.tolist()
+                ]
+            if hand_joint_upper_limits_cpu is not None:
+                trace_item["hand_joint_upper_limits"] = [
+                    float(value) for value in hand_joint_upper_limits_cpu.tolist()
+                ]
         if hand_joint_targets_cpu is not None:
             trace_item["hand_joint_target"] = [
                 float(value) for value in hand_joint_targets_cpu[env_id].tolist()

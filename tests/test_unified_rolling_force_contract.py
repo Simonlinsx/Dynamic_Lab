@@ -29,6 +29,29 @@ def _class_constants(class_name: str) -> dict[str, object]:
     return constants
 
 
+def _class_assignment_source(class_name: str, field_name: str) -> str:
+    tree = ast.parse(CFG_PATH.read_text(encoding="utf-8"))
+    node = next(
+        item for item in tree.body if isinstance(item, ast.ClassDef) and item.name == class_name
+    )
+    for statement in node.body:
+        if (
+            isinstance(statement, ast.Assign)
+            and len(statement.targets) == 1
+            and isinstance(statement.targets[0], ast.Name)
+            and statement.targets[0].id == field_name
+        ):
+            return ast.unparse(statement.value)
+        if (
+            isinstance(statement, ast.AnnAssign)
+            and isinstance(statement.target, ast.Name)
+            and statement.target.id == field_name
+            and statement.value is not None
+        ):
+            return ast.unparse(statement.value)
+    raise AssertionError(f"{field_name!r} is not assigned in {class_name}")
+
+
 def test_stage3_force_contacts_are_diagnostics_not_reward_or_success_gates():
     values = _class_constants("_UnifiedRollingLiftHoldStage3Contract")
 
@@ -100,3 +123,17 @@ def test_stage3_lift_action_alignment_is_interface_aware_and_strict_grasp_gated(
         isinstance(item, ast.Attribute) and item.attr == "_tabletop_arm_lift_baseline_latched"
         for item in ast.walk(interface_branches[0])
     )
+
+
+def test_inspire_unified_reset_uses_table_clear_pose_and_matching_lift_adapter():
+    class_name = "InspireUnifiedRollingBenchmarkTeacherEnvCfg"
+
+    assert _class_assignment_source(class_name, "robot_cfg") == (
+        "_inspire_z180_robot_cfg(INSPIRE_V341_CLEAR_ARM_POS)"
+    )
+    assert _class_assignment_source(class_name, "default_arm_pos") == "INSPIRE_V341_CLEAR_ARM_POS"
+    assert _class_assignment_source(class_name, "tabletop_arm_lift_progress_baseline_pos") == (
+        "INSPIRE_V341_CLEAR_ARM_POS"
+    )
+    assert _class_assignment_source(class_name, "lift_arm_delta") == "INSPIRE_V340_LIFT_ARM_DELTA"
+    assert _class_assignment_source(class_name, "lift_action_prior") == "INSPIRE_V340_LIFT_ACTION_PRIOR"

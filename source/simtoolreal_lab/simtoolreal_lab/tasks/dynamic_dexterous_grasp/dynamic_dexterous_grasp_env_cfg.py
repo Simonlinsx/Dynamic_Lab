@@ -7971,7 +7971,20 @@ class InspireUnifiedRollingBenchmarkTeacherEnvCfg(
 
     reference_name = "inspire_unified_rolling_multishape_v1_teacher"
     benchmark_protocol = UNIFIED_ROLLING_BENCHMARK_NAME
-    robot_cfg: ArticulationCfg = _inspire_z180_robot_cfg(FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS)
+    # The RH56 hand is longer than Revo2. At the Franka default home pose its
+    # open fingertips penetrate the tabletop and PhysX drives several hand
+    # joints far outside their limits before the first policy action. Keep the
+    # same upright reset family, but use the previously validated table-clear
+    # Inspire pose and its calibrated upward Franka-j6 motion.
+    robot_cfg: ArticulationCfg = _inspire_z180_robot_cfg(INSPIRE_V341_CLEAR_ARM_POS)
+    default_arm_pos = INSPIRE_V341_CLEAR_ARM_POS
+    scripted_tabletop_pregrasp_arm_pos = INSPIRE_V341_CLEAR_ARM_POS
+    tabletop_arm_lift_progress_baseline_pos = INSPIRE_V341_CLEAR_ARM_POS
+    lift_arm_delta = INSPIRE_V340_LIFT_ARM_DELTA
+    lift_action_prior = INSPIRE_V340_LIFT_ACTION_PRIOR
+    scripted_tabletop_lift_target_arm_delta = INSPIRE_V340_LIFT_ARM_DELTA
+    scripted_tabletop_relative_lift_target_arm_delta = INSPIRE_V340_LIFT_ARM_DELTA
+    scripted_action_prior_lift_action = INSPIRE_V340_LIFT_ACTION_PRIOR
 
     # Use the same safety samples as Revo2: Franka link origins plus the
     # embodiment's actual palm and fingertip contact points. A scalar margin at
