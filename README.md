@@ -416,6 +416,9 @@ length, cameras, and direct-policy control with scripted reach/close/lift priors
 disabled. Both rolling embodiments reset the Franka arm to the same upright
 IsaacLab default home pose and use the same arm action scale, smoothing, and
 initial target-lock duration.
+The shared from-scratch reward uses dense fingertip approach plus explicit
+thumb-pair/opposition shaping and penalizes non-thumb-only closure; this avoids
+counting a palm scoop or four-finger push as progress toward a grasp.
 Only embodiment-specific hand coupling, control, close posture, and collision
 clearance remain different. Run `scripts/check_unified_rolling_protocol.py` to
 verify that the shared contract has not drifted.

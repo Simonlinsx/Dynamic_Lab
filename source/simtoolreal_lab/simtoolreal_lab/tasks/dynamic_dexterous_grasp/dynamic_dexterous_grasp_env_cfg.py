@@ -762,7 +762,7 @@ class _UnifiedRollingRewardContract:
     arm_lift_progress_rew_scale = 0.0
     arm_target_delta_penalty_scale = 0.004
     catch_progress_rew_scale = 160.0
-    contact_rew_scale = 18.0
+    contact_rew_scale = 80.0
     drop_penalty = 25.0
     dynamic_tabletop_low_palm_penalty_scale = 25.0
     dynamic_tabletop_pregrasp_height_rew_scale = 44.0
@@ -777,14 +777,14 @@ class _UnifiedRollingRewardContract:
     falling_soft_success_progress_rew_scale = 0.0
     falling_stable_grasp_rew_scale = 0.0
     fingertip_reach_rew_scale = 24.0
-    grasp_quality_rew_scale = 210.0
+    grasp_quality_rew_scale = 500.0
     hold_progress_rew_scale = 10800.0
     lift_action_prior_rew_scale = 0.0
     lift_coupling_rew_scale = 0.0
     lift_progress_linear_rew_scale = 0.0
     lift_progress_rew_scale = 1100.0
     lifted_true_grasp_rew_scale = 3800.0
-    opposition_rew_scale = 42.0
+    opposition_rew_scale = 200.0
     palm_distance_penalty_scale = 0.0
     palm_lift_gap_penalty_scale = 90.0
     palm_lift_rew_scale = 8.0
@@ -796,11 +796,11 @@ class _UnifiedRollingRewardContract:
     quality_lift_progress_rew_scale = 1500.0
     scoop_lift_penalty_scale = 280.0
     stable_hold_rew_scale = 7800.0
-    strict_approach_rew_scale = 0.0
-    strict_multifinger_approach_rew_scale = 0.0
-    strict_opposition_approach_rew_scale = 0.0
-    strict_opposition_touch_rew_scale = 0.0
-    strict_touch_rew_scale = 0.0
+    strict_approach_rew_scale = 80.0
+    strict_multifinger_approach_rew_scale = 160.0
+    strict_opposition_approach_rew_scale = 300.0
+    strict_opposition_touch_rew_scale = 1200.0
+    strict_touch_rew_scale = 400.0
     success_bonus = 32000.0
     tabletop_affordance_lift_rew_scale = 0.0
     tabletop_affordance_negative_penalty_scale = 0.0
@@ -827,7 +827,7 @@ class _UnifiedRollingRewardContract:
     tabletop_lift_without_current_grasp_penalty_scale = 0.0
     tabletop_lift_without_object_penalty_scale = 0.0
     tabletop_no_lift_after_grasp_penalty_scale = 180.0
-    tabletop_non_thumb_without_thumb_penalty_scale = 0.0
+    tabletop_non_thumb_without_thumb_penalty_scale = 300.0
     tabletop_object_carry_lift_rew_scale = 0.0
     tabletop_object_carry_stall_penalty_scale = 0.0
     tabletop_object_up_vel_rew_scale = 0.0
@@ -843,18 +843,18 @@ class _UnifiedRollingRewardContract:
     tabletop_post_success_unstable_penalty_scale = 16000.0
     tabletop_stable_catch_rew_scale = 1650.0
     tabletop_underwrap_rew_scale = 0.0
-    true_grasp_rew_scale = 150.0
+    true_grasp_rew_scale = 500.0
 
     # Reward-component semantics. These values match the working Revo2
     # multi-shape teacher and are shared so the two hands optimize the same
     # mathematical objective even when their low-level controllers differ.
-    contact_reward_requires_thumb_pair = False
-    contact_reward_uses_opposition_product = False
-    contact_reward_opposition_min_multiplier = 0.0
-    opposition_reward_uses_weighted_score = False
-    true_grasp_score_requires_thumb_pair = False
-    true_grasp_score_uses_opposition_product = False
-    true_grasp_score_opposition_min_multiplier = 0.0
+    contact_reward_requires_thumb_pair = True
+    contact_reward_uses_opposition_product = True
+    contact_reward_opposition_min_multiplier = 0.05
+    opposition_reward_uses_weighted_score = True
+    true_grasp_score_requires_thumb_pair = True
+    true_grasp_score_uses_opposition_product = True
+    true_grasp_score_opposition_min_multiplier = 0.05
     thumb_contact_reward_weight = 0.55
     thumb_true_grasp_score_weight = 0.58
     grasp_quality_finger_count_weight = 0.30
@@ -897,6 +897,10 @@ class _UnifiedRollingRewardContract:
     tabletop_no_lift_min_progress = 0.15
     tabletop_no_lift_soft_grasp_gate = 0.0
     tabletop_no_lift_uses_soft_grasp_gate = False
+    tabletop_non_thumb_without_thumb_gate_start = 0.06
+    tabletop_non_thumb_without_thumb_gate_ramp = 0.25
+    tabletop_non_thumb_without_thumb_thumb_target = 0.30
+    tabletop_non_thumb_without_thumb_penalty_lift_gate_min = 0.0
 
     tabletop_gate_boolean_grasp_rewards_by_clearance = False
     tabletop_gate_contact_rewards_by_clearance = False
@@ -930,9 +934,9 @@ class _UnifiedRollingRewardContract:
 
     strict_approach_score_scale = 0.08
     strict_reward_contact_score_scale = 0.025
-    strict_touch_reward_opposition_min_multiplier = 0.0
-    strict_touch_reward_requires_thumb_pair = False
-    strict_touch_reward_uses_opposition_product = False
+    strict_touch_reward_opposition_min_multiplier = 0.05
+    strict_touch_reward_requires_thumb_pair = True
+    strict_touch_reward_uses_opposition_product = True
     strict_touch_score_scale = 0.008
 
     default_arm_pos = FRANKA_ISAACLAB_DEFAULT_HOME_ARM_POS
