@@ -68,7 +68,7 @@ def test_stage3_force_contacts_are_diagnostics_not_reward_or_success_gates():
     assert values["tabletop_hover_latch_uses_grasp_seen"] is False
     assert values["tabletop_hover_reward_uses_grasp_seen"] is False
     assert values["tabletop_success_uses_grasp_seen"] is False
-    assert values["tabletop_strict_hold_rew_scale"] == 8000.0
+    assert values["tabletop_strict_hold_rew_scale"] == 0.0
     assert values["tabletop_strict_grasp_loss_penalty_scale"] == 12000.0
     assert values["tabletop_strict_grasp_loss_requires_lift_baseline"] is True
     assert values["tabletop_hover_post_latch_speed_penalty_scale"] == 180.0

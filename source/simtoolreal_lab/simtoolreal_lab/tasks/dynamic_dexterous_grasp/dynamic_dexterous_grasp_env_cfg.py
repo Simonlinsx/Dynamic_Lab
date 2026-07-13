@@ -992,9 +992,9 @@ class _UnifiedRollingLiftHoldStage3Contract:
     strict_opposition_approach_rew_scale = 120.0
     strict_touch_rew_scale = 1000.0
     strict_opposition_touch_rew_scale = 3000.0
-    # Bridge the quiet load-bearing grasp learned in Stage 2 into the lift
-    # stage without making stationary enclosure more valuable than carrying.
-    tabletop_strict_hold_rew_scale = 8000.0
+    # Stage 2 supplies the quiet-grasp initialization. Stage 3 uses the
+    # consecutive-grasp lift gate below rather than paying for staying still.
+    tabletop_strict_hold_rew_scale = 0.0
 
     lift_progress_rew_scale = 5000.0
     quality_lift_progress_rew_scale = 7000.0
