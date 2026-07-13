@@ -2346,8 +2346,13 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             remaining_lift = torch.clamp(1.0 - lift_progress, 0.0, 1.0)
             pre_lift_hold_gate = remaining_lift * lift_schedule_unlocked
             tabletop_strict_hold_rew = reward_true_grasp.float() * rel_vel_score * pre_lift_hold_gate
+            strict_grasp_loss_gate = reward_grasp_seen.float()
+            if bool(getattr(self.cfg, "tabletop_strict_grasp_loss_requires_lift_baseline", False)):
+                strict_grasp_loss_gate = (
+                    strict_grasp_loss_gate * self._tabletop_arm_lift_baseline_latched.float()
+                )
             tabletop_strict_grasp_loss_penalty = (
-                reward_grasp_seen.float()
+                strict_grasp_loss_gate
                 * (1.0 - reward_true_grasp.float())
                 * pre_lift_hold_gate
             )
