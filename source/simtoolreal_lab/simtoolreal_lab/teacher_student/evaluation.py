@@ -32,6 +32,8 @@ BOOL_EXTRA_KEYS = {
     "force_grasp": "force_grasp_env",
     "force_grasp_clearance_ok": "force_grasp_clearance_ok_env",
     "force_stable_grasp": "force_stable_grasp_env",
+    "force_lifted": "force_lifted_env",
+    "force_stable_hold": "force_stable_hold_env",
     "tabletop_arm_lift_baseline_latched": "tabletop_arm_lift_baseline_latched_env",
     "dropped": "dropped_env",
     "out_of_workspace": "out_xy_env",
@@ -55,11 +57,17 @@ MAX_EXTRA_KEYS = {
     "object_height_delta": "object_height_delta_env",
     "strict_lift_height_delta": "strict_lift_height_delta_env",
     "strict_stable_height_delta": "strict_stable_height_delta_env",
+    "force_lift_height_delta": "force_lift_height_delta_env",
+    "tabletop_underwrap_pair_score": "tabletop_underwrap_pair_score_env",
+    "tabletop_underwrap_progress_score": "tabletop_underwrap_progress_score_env",
 }
 
 MIN_EXTRA_KEYS = {
     "palm_distance": "palm_distance_env",
     "object_palm_rel_vel": "object_palm_rel_vel_env",
+    "tabletop_underwrap_min_tip_z_rel": "tabletop_underwrap_min_tip_z_rel_env",
+    "tabletop_underwrap_thumb_z_rel": "tabletop_underwrap_thumb_z_rel_env",
+    "tabletop_underwrap_min_non_thumb_z_rel": "tabletop_underwrap_min_non_thumb_z_rel_env",
 }
 
 
@@ -190,6 +198,8 @@ class EpisodeFunnelAccumulator:
                     ("strict_grasp_to_lift", "strict_true_grasp", "lifted"),
                     ("strict_grasp_to_strict_lift", "strict_true_grasp", "strict_lifted"),
                     ("strict_lift_to_strict_stable_hold", "strict_lifted", "strict_stable_hold"),
+                    ("force_grasp_to_force_lift", "force_grasp", "force_lifted"),
+                    ("force_lift_to_force_stable_hold", "force_lifted", "force_stable_hold"),
                     ("lift_to_stable_hold", "lifted", "stable_hold"),
                 ]
             )

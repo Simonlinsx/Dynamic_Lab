@@ -1,3 +1,4 @@
+import pytest
 import torch
 
 from simtoolreal_lab.teacher_student.evaluation import (
@@ -46,9 +47,16 @@ def test_rolling_failure_funnel_assigns_one_primary_outcome():
             strict_lifted=[False, False, False, True],
             strict_stable_hold=[False, False, False, True],
             strict_stable_hover_latched=[False, False, False, True],
+            force_grasp=[False, False, True, True],
+            force_lifted=[False, False, False, True],
+            force_stable_hold=[False, False, False, True],
             stable_hold=[False, False, False, True],
             success=[False, False, False, True],
             success_streak=[0, 0, 2, 8],
+            force_lift_height_delta=[0.0, 0.0, 0.01, 0.06],
+            tabletop_underwrap_pair_score=[0.0, 0.1, 0.4, 0.8],
+            tabletop_underwrap_progress_score=[0.1, 0.2, 0.5, 0.9],
+            tabletop_underwrap_min_tip_z_rel=[0.02, 0.01, -0.005, -0.01],
         )
     )
     accumulator.add(tracker.snapshot(torch.arange(4)))
@@ -68,6 +76,11 @@ def test_rolling_failure_funnel_assigns_one_primary_outcome():
     assert summary["conversion_rates"]["strict_grasp_to_lift"] == 0.5
     assert summary["conversion_rates"]["strict_grasp_to_strict_lift"] == 0.5
     assert summary["conversion_rates"]["strict_lift_to_strict_stable_hold"] == 1.0
+    assert summary["conversion_rates"]["force_grasp_to_force_lift"] == 0.5
+    assert summary["conversion_rates"]["force_lift_to_force_stable_hold"] == 1.0
+    assert summary["episode_scalar_maxima"]["force_lift_height_delta"] == pytest.approx(0.06)
+    assert summary["episode_scalar_maxima"]["tabletop_underwrap_pair_score"] == pytest.approx(0.8)
+    assert summary["episode_scalar_means"]["tabletop_underwrap_min_tip_z_rel"] == pytest.approx(0.00375)
     assert summary["stage_counts"]["strict_stable_hover_latched"] == 1
 
 

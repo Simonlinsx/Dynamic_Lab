@@ -58,6 +58,9 @@ def test_stage3_force_contacts_are_diagnostics_not_reward_or_success_gates():
     assert values["joint_target_arm_max_delta"] == 0.04
     assert values["joint_target_hand_max_delta"] == 0.05
     assert values["joint_target_rate_limit_requires_lift_baseline"] is True
+    assert values["tabletop_lift_hand_target_lock_enabled"] is True
+    assert values["tabletop_lift_hand_target_lock_blend"] == 1.0
+    assert values["tabletop_lift_hand_target_close_fraction"] == 0.15
     assert values["object_contact_force_diagnostics_enabled"] is True
     assert values["tabletop_force_grasp_rew_scale"] == 0.0
     assert values["tabletop_force_grasp_streak_rew_scale"] == 0.0
@@ -77,7 +80,7 @@ def test_stage3_force_contacts_are_diagnostics_not_reward_or_success_gates():
     assert values["tabletop_strict_grasp_loss_on_transition_only"] is True
     assert values["tabletop_hover_post_latch_speed_penalty_scale"] == 180.0
     assert values["tabletop_arm_lift_progress_baseline_mode"] == "first_strict_grasp"
-    assert values["tabletop_arm_lift_progress_baseline_grasp_streak"] == 4
+    assert values["tabletop_arm_lift_progress_baseline_grasp_streak"] == 2
 
 
 def test_stage3_carry_reward_keeps_current_strict_grasp_streak_during_lift():
@@ -122,12 +125,25 @@ def test_joint_target_interface_rate_limits_arm_and_hand_targets():
     assert 'getattr(self.cfg, "joint_target_rate_limit_requires_lift_baseline", False)' in source
 
 
+def test_stage3_latches_and_holds_hand_target_after_stable_grasp():
+    source = ENV_PATH.read_text(encoding="utf-8")
+
+    assert source.count("self._apply_tabletop_lift_hand_target_lock(") >= 2
+    assert "self._tabletop_lift_hand_joint_target[baseline_latch_ids]" in source
+    assert "self._tabletop_lift_hand_joint_target[env_ids]" in source
+    assert "calibrated_close_targets = self._active_hand_actions_to_sim_targets" in source
+
+
 def test_stage2_hold_contract_rewards_quiet_strict_grasp_and_penalizes_loss():
     values = _class_constants("_UnifiedRollingGraspHoldStage2Contract")
 
     assert values["tabletop_strict_hold_rew_scale"] == 28000.0
     assert values["tabletop_strict_grasp_loss_penalty_scale"] == 12000.0
     assert values["tabletop_strict_grasp_hold_steps"] == 20
+    assert values["tabletop_underwrap_rew_scale"] == 8500.0
+    assert values["tabletop_underwrap_progress_weight"] == 0.65
+    assert values["tabletop_underwrap_pair_weight"] == 0.35
+    assert values["tabletop_underwrap_uses_pregrasp_gate"] is False
     assert values["lift_progress_rew_scale"] == 0.0
     assert values["quality_lift_progress_rew_scale"] == 0.0
     assert values["lifted_true_grasp_rew_scale"] == 0.0

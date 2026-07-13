@@ -760,6 +760,18 @@ UNIFIED_ROLLING_LIFT_ACTION_PRIOR = V325_VERIFIED_LIFT_ACTION_PRIOR_120
 class _UnifiedRollingRewardContract:
     """Embodiment-independent reward contract for rolling comparisons."""
 
+    # Stage-specific safety adapters default off and are enabled explicitly by
+    # the lift stage. Keeping the fields present makes every curriculum stage
+    # auditable under the same protocol schema.
+    joint_target_arm_max_delta = 0.0
+    joint_target_hand_max_delta = 0.0
+    joint_target_rate_limit_requires_lift_baseline = False
+    tabletop_lift_hand_target_lock_enabled = False
+    tabletop_lift_hand_target_lock_blend = 0.0
+    tabletop_lift_hand_target_close_fraction = 0.0
+    tabletop_lift_rewards_require_current_strict_grasp = False
+    tabletop_lift_rewards_require_force_grasp = False
+
     # Shared table-clearance semantics. Palm/fingertip locations come from each
     # embodiment adapter, while both hands use the same samples, normalized
     # penalty, and 3 mm geometric tolerance. This explicit override prevents
@@ -986,6 +998,9 @@ class _UnifiedRollingLiftHoldStage3Contract:
     joint_target_arm_max_delta = 0.04
     joint_target_hand_max_delta = 0.05
     joint_target_rate_limit_requires_lift_baseline = True
+    tabletop_lift_hand_target_lock_enabled = True
+    tabletop_lift_hand_target_lock_blend = 1.0
+    tabletop_lift_hand_target_close_fraction = 0.15
 
     # Keep enough acquisition shaping to recover after a miss, while making a
     # stationary grasp less valuable than a strict, object-coupled lift.
@@ -1043,10 +1058,10 @@ class _UnifiedRollingLiftHoldStage3Contract:
     object_contact_force_diagnostics_enabled = True
     object_contact_force_threshold = 0.05
     tabletop_arm_lift_progress_baseline_mode = "first_strict_grasp"
-    # Let the direct policy establish a repeatable enclosure before exposing
-    # lift shaping. Four steps filters transient contact without starving the
-    # Stage 3 policy of coordinated lift examples.
-    tabletop_arm_lift_progress_baseline_grasp_streak = 4
+    # Two consecutive strict-contact steps reject one-frame collisions while
+    # still latching through the millimeter-scale contact jitter seen during a
+    # physically enclosed grasp. The hand safety adapter then holds the pose.
+    tabletop_arm_lift_progress_baseline_grasp_streak = 2
     tabletop_force_grasp_streak_target = 8
     tabletop_lift_rewards_require_force_grasp = False
     lift_reward_uses_grasp_quality_gate = True
@@ -1083,6 +1098,23 @@ class _UnifiedRollingGraspHoldStage2Contract:
     tabletop_strict_hold_rew_scale = 28000.0
     tabletop_strict_grasp_loss_penalty_scale = 12000.0
     tabletop_strict_grasp_hold_steps = 20
+
+    # A geometric/force grasp above the object center only presses the ball
+    # into the table. Stage 2 must first learn reachable lower-half support so
+    # the subsequent Stage 3 lift has a load-bearing initialization.
+    tabletop_underwrap_rew_scale = 8500.0
+    tabletop_underwrap_below_center_fraction = 0.05
+    tabletop_underwrap_height_scale = 0.040
+    tabletop_underwrap_radial_fraction = 0.78
+    tabletop_underwrap_radial_scale = 0.045
+    tabletop_underwrap_contact_scale = 0.035
+    tabletop_underwrap_contact_margin = 0.018
+    tabletop_underwrap_min_non_thumb_contacts = 1
+    tabletop_underwrap_uses_opposition = True
+    tabletop_underwrap_opposition_min_multiplier = 0.22
+    tabletop_underwrap_progress_weight = 0.65
+    tabletop_underwrap_pair_weight = 0.35
+    tabletop_underwrap_uses_pregrasp_gate = False
 
     # Keep this curriculum stage focused on stationary load-bearing contact.
     # Lift and hover shaping are restored by the shared Stage 3 contract.

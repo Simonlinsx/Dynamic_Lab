@@ -92,6 +92,12 @@ parser.add_argument(
     help="Override tabletop asset curriculum alpha for evaluation. Use 1.0 to sample all tabletop assets.",
 )
 parser.add_argument(
+    "--tabletop-first-sphere-radius",
+    type=float,
+    default=None,
+    help="Override the radius of the first spherical tabletop asset for controlled geometry ablations.",
+)
+parser.add_argument(
     "--tabletop-motion-curriculum-alpha",
     type=float,
     default=None,
@@ -144,6 +150,30 @@ parser.add_argument(
     type=float,
     default=None,
     help="Override the per-control-step hand joint-target rate limit in radians; use 0 to disable.",
+)
+parser.add_argument(
+    "--tabletop-lift-hand-target-close-fraction",
+    type=float,
+    default=None,
+    help="Override the calibrated extra-close fraction applied to the post-grasp hand target.",
+)
+parser.add_argument(
+    "--diagnostic-post-grasp-scripted-lift",
+    action="store_true",
+    help="After the lift baseline latches, replace policy actions with a fixed lift/close action for physics diagnosis.",
+)
+parser.add_argument(
+    "--diagnostic-post-grasp-arm-action",
+    type=float,
+    nargs=7,
+    default=(0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0),
+    metavar=("J1", "J2", "J3", "J4", "J5", "J6", "J7"),
+)
+parser.add_argument(
+    "--diagnostic-post-grasp-hand-action",
+    type=float,
+    default=1.0,
+    help="Semantic hand action used with --diagnostic-post-grasp-scripted-lift.",
 )
 parser.add_argument(
     "--dynamic-success-hold-steps",
@@ -537,6 +567,15 @@ def _make_env(task: str, agent_cfg: dict, num_envs: int, render_mode: str | None
         env_cfg, "tabletop_asset_curriculum_override_alpha"
     ):
         env_cfg.tabletop_asset_curriculum_override_alpha = float(args_cli.tabletop_asset_curriculum_alpha)
+    if args_cli.tabletop_first_sphere_radius is not None:
+        radius = float(args_cli.tabletop_first_sphere_radius)
+        if radius <= 0.0:
+            raise ValueError("--tabletop-first-sphere-radius must be positive")
+        specs = [dict(spec) for spec in tuple(getattr(env_cfg, "tabletop_object_asset_specs", ()))]
+        if not specs or str(specs[0].get("proxy_shape", "")).lower() not in {"sphere", "ball"}:
+            raise ValueError("--tabletop-first-sphere-radius requires a spherical first tabletop asset")
+        specs[0].update(radius=radius, size=(2.0 * radius,) * 3, height=2.0 * radius)
+        env_cfg.tabletop_object_asset_specs = tuple(specs)
     if args_cli.tabletop_motion_curriculum_alpha is not None and hasattr(
         env_cfg, "tabletop_motion_mode_curriculum_override_alpha"
     ):
@@ -573,6 +612,10 @@ def _make_env(task: str, agent_cfg: dict, num_envs: int, render_mode: str | None
         env_cfg.joint_target_arm_max_delta = float(args_cli.joint_target_arm_max_delta)
     if args_cli.joint_target_hand_max_delta is not None:
         env_cfg.joint_target_hand_max_delta = float(args_cli.joint_target_hand_max_delta)
+    if args_cli.tabletop_lift_hand_target_close_fraction is not None:
+        env_cfg.tabletop_lift_hand_target_close_fraction = float(
+            args_cli.tabletop_lift_hand_target_close_fraction
+        )
     if args_cli.dynamic_success_hold_steps is not None and hasattr(
         env_cfg, "dynamic_success_hold_steps"
     ):
@@ -797,6 +840,16 @@ def _run_vector_eval(agent_cfg: dict, checkpoint: Path) -> dict:
                 actions = player.get_action(obs, is_deterministic=args_cli.deterministic)
             if torch.is_tensor(actions):
                 actions = actions.detach().clone()
+            if bool(args_cli.diagnostic_post_grasp_scripted_lift):
+                lift_mask = wrapped_env.unwrapped._tabletop_arm_lift_baseline_latched[:num_envs]
+                if torch.any(lift_mask):
+                    arm_action = torch.tensor(
+                        args_cli.diagnostic_post_grasp_arm_action,
+                        dtype=actions.dtype,
+                        device=actions.device,
+                    )
+                    actions[lift_mask, :7] = arm_action
+                    actions[lift_mask, 7:] = float(args_cli.diagnostic_post_grasp_hand_action)
             obs, rewards, dones, extras = wrapped_env.step(actions)
             episode_success |= _tensor_bool(extras, "success_env", num_envs, device)
             episode_true_grasp |= _tensor_bool(extras, "true_grasp_env", num_envs, device)
@@ -2045,6 +2098,7 @@ def main() -> None:
                 else None
             ),
             "tabletop_asset_curriculum_alpha": args_cli.tabletop_asset_curriculum_alpha,
+            "tabletop_first_sphere_radius": args_cli.tabletop_first_sphere_radius,
             "tabletop_motion_curriculum_alpha": args_cli.tabletop_motion_curriculum_alpha,
             "tabletop_pregrasp_lead_time": args_cli.tabletop_pregrasp_lead_time,
             "tabletop_pregrasp_ahead_distance": args_cli.tabletop_pregrasp_ahead_distance,
@@ -2056,6 +2110,14 @@ def main() -> None:
             "episode_length_s": args_cli.episode_length_s,
             "joint_target_arm_max_delta": args_cli.joint_target_arm_max_delta,
             "joint_target_hand_max_delta": args_cli.joint_target_hand_max_delta,
+            "tabletop_lift_hand_target_close_fraction": (
+                args_cli.tabletop_lift_hand_target_close_fraction
+            ),
+            "diagnostic_post_grasp_scripted_lift": bool(
+                args_cli.diagnostic_post_grasp_scripted_lift
+            ),
+            "diagnostic_post_grasp_arm_action": list(args_cli.diagnostic_post_grasp_arm_action),
+            "diagnostic_post_grasp_hand_action": float(args_cli.diagnostic_post_grasp_hand_action),
             "dynamic_success_hold_steps": args_cli.dynamic_success_hold_steps,
             "tabletop_post_success_hand_close_fraction": (
                 args_cli.tabletop_post_success_hand_close_fraction

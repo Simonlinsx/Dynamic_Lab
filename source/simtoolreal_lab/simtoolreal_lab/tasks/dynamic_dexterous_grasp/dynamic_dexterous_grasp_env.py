@@ -185,6 +185,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self._post_success_hand_joint_target = torch.zeros(
             (self.num_envs, len(self._control_hand_joint_ids)), dtype=torch.float32, device=self.device
         )
+        self._tabletop_lift_hand_joint_target = torch.zeros_like(self._post_success_hand_joint_target)
         self._post_success_palm_pos_w = torch.zeros((self.num_envs, 3), dtype=torch.float32, device=self.device)
         self._object_fingertip_contact_forces = torch.zeros(
             (self.num_envs, len(self.cfg.touch_body_names)), dtype=torch.float32, device=self.device
@@ -1324,6 +1325,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             current_targets[:, arm_dim:],
             float(getattr(self.cfg, "joint_target_hand_max_delta", 0.0)),
         )
+        smoothed[:, arm_dim:] = self._apply_tabletop_lift_hand_target_lock(smoothed[:, arm_dim:])
         smoothed = torch.clamp(smoothed, lower, upper)
 
         self._prev_joint_targets[:] = self._joint_targets
@@ -1346,6 +1348,32 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             active = self._tabletop_arm_lift_baseline_latched.unsqueeze(-1)
             return torch.where(active, limited_targets, proposed_targets)
         return limited_targets
+
+    def _apply_tabletop_lift_hand_target_lock(self, proposed_targets: torch.Tensor) -> torch.Tensor:
+        if not bool(getattr(self.cfg, "tabletop_lift_hand_target_lock_enabled", False)):
+            return proposed_targets
+        blend = min(max(float(getattr(self.cfg, "tabletop_lift_hand_target_lock_blend", 1.0)), 0.0), 1.0)
+        close_fraction = min(
+            max(float(getattr(self.cfg, "tabletop_lift_hand_target_close_fraction", 0.0)), 0.0),
+            1.0,
+        )
+        hold_targets = self._tabletop_lift_hand_joint_target
+        if close_fraction > 0.0:
+            if self._uses_active_hand_actions():
+                semantic_close = torch.ones(
+                    (self.num_envs, int(self.cfg.action_space) - len(self._arm_joint_ids)),
+                    dtype=proposed_targets.dtype,
+                    device=proposed_targets.device,
+                )
+                calibrated_close_targets = self._active_hand_actions_to_sim_targets(semantic_close)
+            else:
+                calibrated_close_targets = self._joint_upper_limits[
+                    self._control_hand_joint_ids
+                ].unsqueeze(0).expand_as(proposed_targets)
+            hold_targets = hold_targets + close_fraction * (calibrated_close_targets - hold_targets)
+        active = self._tabletop_arm_lift_baseline_latched.unsqueeze(-1)
+        locked_targets = (1.0 - blend) * proposed_targets + blend * hold_targets
+        return torch.where(active, locked_targets, proposed_targets)
 
     def _compute_scripted_action_prior(self) -> torch.Tensor:
         action_prior = super()._compute_scripted_action_prior()
@@ -1708,6 +1736,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             current_hand_targets,
             float(getattr(self.cfg, "joint_target_hand_max_delta", 0.0)),
         )
+        hand_targets = self._apply_tabletop_lift_hand_target_lock(hand_targets)
 
         self._prev_joint_targets[:] = self._joint_targets
         self._joint_targets[:, self._arm_joint_ids] = torch.clamp(arm_targets, arm_lower, arm_upper)
@@ -2310,6 +2339,9 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
                     self._tabletop_arm_lift_baseline_pos[baseline_latch_ids] = self.robot.data.joint_pos[
                         baseline_latch_ids
                     ][:, self._arm_joint_ids]
+                    self._tabletop_lift_hand_joint_target[baseline_latch_ids] = self._joint_targets[
+                        baseline_latch_ids
+                    ][:, self._control_hand_joint_ids]
                     self._tabletop_arm_lift_baseline_latched[baseline_latch_ids] = True
             arm_delta = self.robot.data.joint_pos[:, self._arm_joint_ids] - self._tabletop_arm_lift_baseline_pos
             tabletop_arm_lift_progress = torch.clamp(
@@ -3369,6 +3401,16 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             self._object_palm_rel_vel < self.cfg.stable_object_palm_vel
         )
         self.extras["strict_stable_hold_env"] = self._strict_stable_hold
+        force_lifted = self._lifted & self._force_grasp
+        self.extras["force_lifted_env"] = force_lifted
+        self.extras["force_stable_hold_env"] = force_lifted & (
+            self._object_palm_rel_vel < self.cfg.stable_object_palm_vel
+        )
+        self.extras["force_lift_height_delta_env"] = torch.where(
+            self._force_grasp,
+            self._object_height_delta,
+            torch.zeros_like(self._object_height_delta),
+        )
         self.extras["hover_latched_env"] = self._object_hover_target_latched
         self.extras["strict_stable_hover_latched_env"] = (
             self._strict_stable_hold & self._object_hover_target_latched
@@ -3393,6 +3435,9 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self.extras[
             "tabletop_arm_lift_baseline_latched_env"
         ] = self._tabletop_arm_lift_baseline_latched
+        self.extras["tabletop_lift_hand_target_lock_env"] = self._tabletop_arm_lift_baseline_latched & bool(
+            getattr(self.cfg, "tabletop_lift_hand_target_lock_enabled", False)
+        )
         self.extras["tabletop_arm_lift_progress_env"] = tabletop_arm_lift_progress
         self.extras["tabletop_lift_action_prior_env"] = tabletop_lift_action_prior
         self.extras["tabletop_lift_action_prior_gate_env"] = tabletop_lift_action_prior_gate
@@ -3566,6 +3611,9 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self._tabletop_true_grasp_streak[env_ids] = 0
         self._tabletop_strict_true_grasp_streak[env_ids] = 0
         self._strict_reward_grasp_prev[env_ids] = False
+        self._tabletop_lift_hand_joint_target[env_ids] = self._joint_targets[env_ids][
+            :, self._control_hand_joint_ids
+        ]
         self._tabletop_arm_lift_baseline_grasp_streak[env_ids] = 0
         if self._tabletop_arm_lift_baseline_mode == "fixed":
             self._tabletop_arm_lift_baseline_pos[env_ids] = self._tabletop_arm_lift_fixed_baseline_pos
