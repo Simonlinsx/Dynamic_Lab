@@ -1036,10 +1036,10 @@ class _UnifiedRollingLiftHoldStage3Contract:
     object_contact_force_diagnostics_enabled = True
     object_contact_force_threshold = 0.05
     tabletop_arm_lift_progress_baseline_mode = "first_strict_grasp"
-    # Let the direct policy establish a short, repeatable enclosure before
-    # exposing lift-target shaping. Eight control steps stays well below the
-    # final 20-step success requirement while filtering one-frame contacts.
-    tabletop_arm_lift_progress_baseline_grasp_streak = 8
+    # Let the direct policy establish a repeatable enclosure before exposing
+    # lift shaping. Four steps filters transient contact without starving the
+    # Stage 3 policy of coordinated lift examples.
+    tabletop_arm_lift_progress_baseline_grasp_streak = 4
     tabletop_force_grasp_streak_target = 8
     tabletop_lift_rewards_require_force_grasp = False
     lift_reward_uses_grasp_quality_gate = True

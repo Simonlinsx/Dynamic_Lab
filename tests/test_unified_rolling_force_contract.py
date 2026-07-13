@@ -73,7 +73,7 @@ def test_stage3_force_contacts_are_diagnostics_not_reward_or_success_gates():
     assert values["tabletop_strict_grasp_loss_requires_lift_baseline"] is True
     assert values["tabletop_hover_post_latch_speed_penalty_scale"] == 180.0
     assert values["tabletop_arm_lift_progress_baseline_mode"] == "first_strict_grasp"
-    assert values["tabletop_arm_lift_progress_baseline_grasp_streak"] == 8
+    assert values["tabletop_arm_lift_progress_baseline_grasp_streak"] == 4
 
 
 def test_stage3_carry_reward_keeps_current_strict_grasp_streak_during_lift():
