@@ -71,6 +71,7 @@ def test_stage3_force_contacts_are_diagnostics_not_reward_or_success_gates():
     assert values["tabletop_strict_hold_rew_scale"] == 0.0
     assert values["tabletop_strict_grasp_loss_penalty_scale"] == 12000.0
     assert values["tabletop_strict_grasp_loss_requires_lift_baseline"] is True
+    assert values["tabletop_strict_grasp_loss_on_transition_only"] is True
     assert values["tabletop_hover_post_latch_speed_penalty_scale"] == 180.0
     assert values["tabletop_arm_lift_progress_baseline_mode"] == "first_strict_grasp"
     assert values["tabletop_arm_lift_progress_baseline_grasp_streak"] == 4
@@ -99,6 +100,14 @@ def test_stage3_carry_reward_keeps_current_strict_grasp_streak_during_lift():
         and any(isinstance(target, ast.Name) and target.id == "carry_streak_gate" for target in assignment.targets)
         for node in ast.walk(assignment.value)
     )
+
+
+def test_stage3_strict_grasp_loss_uses_previous_step_and_resets_state():
+    source = ENV_PATH.read_text(encoding="utf-8")
+
+    assert "strict_grasp_loss_gate = self._strict_reward_grasp_prev.float()" in source
+    assert "self._strict_reward_grasp_prev.copy_(reward_true_grasp)" in source
+    assert "self._strict_reward_grasp_prev[env_ids] = False" in source
 
 
 def test_stage2_hold_contract_rewards_quiet_strict_grasp_and_penalizes_loss():

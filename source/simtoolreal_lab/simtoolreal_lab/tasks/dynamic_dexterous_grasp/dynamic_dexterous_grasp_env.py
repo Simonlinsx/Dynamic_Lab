@@ -174,6 +174,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         )
         self._tabletop_true_grasp_streak = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
         self._tabletop_strict_true_grasp_streak = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
+        self._strict_reward_grasp_prev = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
         self._scripted_lift_grasp_recent_steps = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
         self._success_seen = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
         self._strict_grasp_seen = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
@@ -2346,7 +2347,10 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             remaining_lift = torch.clamp(1.0 - lift_progress, 0.0, 1.0)
             pre_lift_hold_gate = remaining_lift * lift_schedule_unlocked
             tabletop_strict_hold_rew = reward_true_grasp.float() * rel_vel_score * pre_lift_hold_gate
-            strict_grasp_loss_gate = reward_grasp_seen.float()
+            if bool(getattr(self.cfg, "tabletop_strict_grasp_loss_on_transition_only", False)):
+                strict_grasp_loss_gate = self._strict_reward_grasp_prev.float()
+            else:
+                strict_grasp_loss_gate = reward_grasp_seen.float()
             if bool(getattr(self.cfg, "tabletop_strict_grasp_loss_requires_lift_baseline", False)):
                 strict_grasp_loss_gate = (
                     strict_grasp_loss_gate * self._tabletop_arm_lift_baseline_latched.float()
@@ -3379,6 +3383,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self.extras["tabletop_underwrap_min_tip_z_rel_env"] = tabletop_underwrap_min_tip_z_rel
         self.extras["tabletop_underwrap_thumb_z_rel_env"] = tabletop_underwrap_thumb_z_rel
         self.extras["tabletop_underwrap_min_non_thumb_z_rel_env"] = tabletop_underwrap_min_non_thumb_z_rel
+        self._strict_reward_grasp_prev.copy_(reward_true_grasp)
         return reward
 
     def _get_dones(self) -> tuple[torch.Tensor, torch.Tensor]:
@@ -3525,6 +3530,7 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self._strict_grasp_seen[env_ids] = False
         self._tabletop_true_grasp_streak[env_ids] = 0
         self._tabletop_strict_true_grasp_streak[env_ids] = 0
+        self._strict_reward_grasp_prev[env_ids] = False
         self._tabletop_arm_lift_baseline_grasp_streak[env_ids] = 0
         if self._tabletop_arm_lift_baseline_mode == "fixed":
             self._tabletop_arm_lift_baseline_pos[env_ids] = self._tabletop_arm_lift_fixed_baseline_pos

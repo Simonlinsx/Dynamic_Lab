@@ -1022,6 +1022,7 @@ class _UnifiedRollingLiftHoldStage3Contract:
     tabletop_object_carry_stall_penalty_scale = 5000.0
     tabletop_strict_grasp_loss_penalty_scale = 12000.0
     tabletop_strict_grasp_loss_requires_lift_baseline = True
+    tabletop_strict_grasp_loss_on_transition_only = True
     tabletop_hover_post_latch_speed_penalty_scale = 180.0
     tabletop_arm_clearance_penalty_scale = 6000.0
     # The filtered fingertip-force signal does not include every load-bearing
