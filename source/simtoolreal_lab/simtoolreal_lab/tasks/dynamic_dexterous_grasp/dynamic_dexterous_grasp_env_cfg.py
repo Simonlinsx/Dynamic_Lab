@@ -992,6 +992,10 @@ class _UnifiedRollingLiftHoldStage3Contract:
     strict_opposition_approach_rew_scale = 120.0
     strict_touch_rew_scale = 1000.0
     strict_opposition_touch_rew_scale = 3000.0
+    # Preserve the quiet load-bearing grasp learned in Stage 2 while adding
+    # the lift objective. Dropping this dense term at the stage boundary made
+    # one-frame enclosure sufficient and the policy released during lift.
+    tabletop_strict_hold_rew_scale = 28000.0
 
     lift_progress_rew_scale = 5000.0
     quality_lift_progress_rew_scale = 7000.0
@@ -1017,8 +1021,8 @@ class _UnifiedRollingLiftHoldStage3Contract:
     tabletop_lift_without_current_grasp_penalty_scale = 10000.0
     tabletop_arm_object_lift_gap_penalty_scale = 7000.0
     tabletop_object_carry_stall_penalty_scale = 5000.0
-    tabletop_strict_grasp_loss_penalty_scale = 8000.0
-    tabletop_hover_post_latch_speed_penalty_scale = 1800.0
+    tabletop_strict_grasp_loss_penalty_scale = 12000.0
+    tabletop_hover_post_latch_speed_penalty_scale = 180.0
     tabletop_arm_clearance_penalty_scale = 6000.0
     # The filtered fingertip-force signal does not include every load-bearing
     # distal/proximal finger-link contact. Keep it as a diagnostic, but do not
@@ -1032,10 +1036,10 @@ class _UnifiedRollingLiftHoldStage3Contract:
     object_contact_force_diagnostics_enabled = True
     object_contact_force_threshold = 0.05
     tabletop_arm_lift_progress_baseline_mode = "first_strict_grasp"
-    # A one-frame strict grasp already requires thumb-plus-two-finger
-    # opposition. Latch immediately so contact jitter cannot starve the direct
-    # policy of every coordinated lift-target reward sample.
-    tabletop_arm_lift_progress_baseline_grasp_streak = 1
+    # Let the direct policy establish a short, repeatable enclosure before
+    # exposing lift-target shaping. Eight control steps stays well below the
+    # final 20-step success requirement while filtering one-frame contacts.
+    tabletop_arm_lift_progress_baseline_grasp_streak = 8
     tabletop_force_grasp_streak_target = 8
     tabletop_lift_rewards_require_force_grasp = False
     lift_reward_uses_grasp_quality_gate = True
