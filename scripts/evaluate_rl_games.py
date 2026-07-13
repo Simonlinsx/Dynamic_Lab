@@ -134,6 +134,18 @@ parser.add_argument(
     help="Override the environment episode duration in seconds.",
 )
 parser.add_argument(
+    "--joint-target-arm-max-delta",
+    type=float,
+    default=None,
+    help="Override the per-control-step arm joint-target rate limit in radians; use 0 to disable.",
+)
+parser.add_argument(
+    "--joint-target-hand-max-delta",
+    type=float,
+    default=None,
+    help="Override the per-control-step hand joint-target rate limit in radians; use 0 to disable.",
+)
+parser.add_argument(
     "--dynamic-success-hold-steps",
     type=int,
     default=None,
@@ -557,6 +569,10 @@ def _make_env(task: str, agent_cfg: dict, num_envs: int, render_mode: str | None
         env_cfg.scripted_action_prior_lift_steps = int(args_cli.scripted_action_prior_lift_steps)
     if args_cli.episode_length_s is not None and hasattr(env_cfg, "episode_length_s"):
         env_cfg.episode_length_s = float(args_cli.episode_length_s)
+    if args_cli.joint_target_arm_max_delta is not None:
+        env_cfg.joint_target_arm_max_delta = float(args_cli.joint_target_arm_max_delta)
+    if args_cli.joint_target_hand_max_delta is not None:
+        env_cfg.joint_target_hand_max_delta = float(args_cli.joint_target_hand_max_delta)
     if args_cli.dynamic_success_hold_steps is not None and hasattr(
         env_cfg, "dynamic_success_hold_steps"
     ):
@@ -2038,6 +2054,8 @@ def main() -> None:
             "scripted_relative_lift_target_scale": args_cli.scripted_relative_lift_target_scale,
             "scripted_action_prior_lift_steps": args_cli.scripted_action_prior_lift_steps,
             "episode_length_s": args_cli.episode_length_s,
+            "joint_target_arm_max_delta": args_cli.joint_target_arm_max_delta,
+            "joint_target_hand_max_delta": args_cli.joint_target_hand_max_delta,
             "dynamic_success_hold_steps": args_cli.dynamic_success_hold_steps,
             "tabletop_post_success_hand_close_fraction": (
                 args_cli.tabletop_post_success_hand_close_fraction

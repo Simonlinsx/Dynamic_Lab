@@ -55,6 +55,9 @@ def _class_assignment_source(class_name: str, field_name: str) -> str:
 def test_stage3_force_contacts_are_diagnostics_not_reward_or_success_gates():
     values = _class_constants("_UnifiedRollingLiftHoldStage3Contract")
 
+    assert values["joint_target_arm_max_delta"] == 0.04
+    assert values["joint_target_hand_max_delta"] == 0.05
+    assert values["joint_target_rate_limit_requires_lift_baseline"] is True
     assert values["object_contact_force_diagnostics_enabled"] is True
     assert values["tabletop_force_grasp_rew_scale"] == 0.0
     assert values["tabletop_force_grasp_streak_rew_scale"] == 0.0
@@ -108,6 +111,15 @@ def test_stage3_strict_grasp_loss_uses_previous_step_and_resets_state():
     assert "strict_grasp_loss_gate = self._strict_reward_grasp_prev.float()" in source
     assert "self._strict_reward_grasp_prev.copy_(reward_true_grasp)" in source
     assert "self._strict_reward_grasp_prev[env_ids] = False" in source
+
+
+def test_joint_target_interface_rate_limits_arm_and_hand_targets():
+    source = ENV_PATH.read_text(encoding="utf-8")
+
+    assert source.count("self._rate_limit_joint_target_delta(") >= 4
+    assert 'getattr(self.cfg, "joint_target_arm_max_delta", 0.0)' in source
+    assert 'getattr(self.cfg, "joint_target_hand_max_delta", 0.0)' in source
+    assert 'getattr(self.cfg, "joint_target_rate_limit_requires_lift_baseline", False)' in source
 
 
 def test_stage2_hold_contract_rewards_quiet_strict_grasp_and_penalizes_loss():

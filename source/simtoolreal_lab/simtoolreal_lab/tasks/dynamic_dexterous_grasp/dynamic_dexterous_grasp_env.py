@@ -1314,6 +1314,16 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
             self.cfg.hand_moving_average * raw_targets[:, arm_dim:]
             + (1.0 - self.cfg.hand_moving_average) * current_targets[:, arm_dim:]
         )
+        smoothed[:, :arm_dim] = self._rate_limit_joint_target_delta(
+            smoothed[:, :arm_dim],
+            current_targets[:, :arm_dim],
+            float(getattr(self.cfg, "joint_target_arm_max_delta", 0.0)),
+        )
+        smoothed[:, arm_dim:] = self._rate_limit_joint_target_delta(
+            smoothed[:, arm_dim:],
+            current_targets[:, arm_dim:],
+            float(getattr(self.cfg, "joint_target_hand_max_delta", 0.0)),
+        )
         smoothed = torch.clamp(smoothed, lower, upper)
 
         self._prev_joint_targets[:] = self._joint_targets
@@ -1321,6 +1331,21 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         self._apply_initial_target_locks()
         self._apply_post_success_target_locks()
         self.robot.set_joint_position_target(self._joint_targets[:, control_ids], joint_ids=control_ids)
+
+    def _rate_limit_joint_target_delta(
+        self,
+        proposed_targets: torch.Tensor,
+        current_targets: torch.Tensor,
+        max_delta: float,
+    ) -> torch.Tensor:
+        if max_delta <= 0.0:
+            return proposed_targets
+        delta = torch.clamp(proposed_targets - current_targets, -max_delta, max_delta)
+        limited_targets = current_targets + delta
+        if bool(getattr(self.cfg, "joint_target_rate_limit_requires_lift_baseline", False)):
+            active = self._tabletop_arm_lift_baseline_latched.unsqueeze(-1)
+            return torch.where(active, limited_targets, proposed_targets)
+        return limited_targets
 
     def _compute_scripted_action_prior(self) -> torch.Tensor:
         action_prior = super()._compute_scripted_action_prior()
@@ -1672,6 +1697,16 @@ class DynamicDexterousGraspEnv(Revo2StaticGraspEnv):
         hand_targets = (
             self.cfg.hand_moving_average * raw_hand_targets
             + (1.0 - self.cfg.hand_moving_average) * current_hand_targets
+        )
+        arm_targets = self._rate_limit_joint_target_delta(
+            arm_targets,
+            current_arm_targets,
+            float(getattr(self.cfg, "joint_target_arm_max_delta", 0.0)),
+        )
+        hand_targets = self._rate_limit_joint_target_delta(
+            hand_targets,
+            current_hand_targets,
+            float(getattr(self.cfg, "joint_target_hand_max_delta", 0.0)),
         )
 
         self._prev_joint_targets[:] = self._joint_targets

@@ -981,6 +981,12 @@ class _UnifiedRollingRewardContract:
 class _UnifiedRollingLiftHoldStage3Contract:
     """Shared continuation objective that turns an acquired grasp into a stable lift."""
 
+    # Real-controller-compatible target rate limits prevent absolute normalized
+    # actions from commanding joint-limit jumps when the policy enters lift.
+    joint_target_arm_max_delta = 0.04
+    joint_target_hand_max_delta = 0.05
+    joint_target_rate_limit_requires_lift_baseline = True
+
     # Keep enough acquisition shaping to recover after a miss, while making a
     # stationary grasp less valuable than a strict, object-coupled lift.
     contact_rew_scale = 120.0
