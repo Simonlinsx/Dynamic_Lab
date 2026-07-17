@@ -11,9 +11,20 @@ BOOL_EXTRA_KEYS = {
     "palm_reach": "palm_reach_env",
     "thumb_contact": "thumb_contact_env",
     "strict_thumb_contact": "strict_thumb_contact_env",
+    "thumb_surface_dist_lt_002": "thumb_surface_dist_lt_002_env",
+    "thumb_surface_dist_lt_004": "thumb_surface_dist_lt_004_env",
+    "thumb_surface_dist_lt_006": "thumb_surface_dist_lt_006_env",
+    "thumb_surface_dist_lt_008": "thumb_surface_dist_lt_008_env",
+    "thumb_surface_dist_lt_010": "thumb_surface_dist_lt_010_env",
     "strict_opposing_contact": "strict_opposing_contact_env",
     "strict_true_grasp": "strict_true_grasp_env",
     "strict_grasp_hold": "strict_grasp_hold_env",
+    "clean_grasp_candidate": "tabletop_clean_grasp_candidate_env",
+    "clean_grasp_latched": "tabletop_clean_grasp_latched_env",
+    "post_clean_grip_retained": "tabletop_post_clean_grip_retained_env",
+    "unclean_lift": "tabletop_unclean_lift_env",
+    "clean_lifted": "tabletop_clean_lifted_env",
+    "clean_stable_hold": "tabletop_clean_stable_hold_env",
     "lifted": "lifted_env",
     "strict_lifted": "strict_lifted_env",
     "lifted_low_rel_vel": "lifted_low_rel_vel_env",
@@ -21,6 +32,7 @@ BOOL_EXTRA_KEYS = {
     "strict_stable_hover_latched": "strict_stable_hover_latched_env",
     "strict_stable_hover_target_ok": "strict_stable_hover_target_ok_env",
     "strict_stable_hover_speed_ok": "strict_stable_hover_speed_ok_env",
+    "strict_stable_hover_ang_speed_ok": "strict_stable_hover_ang_speed_ok_env",
     "strict_stable_clearance_ok": "strict_stable_clearance_ok_env",
     "hover_latched": "hover_latched_env",
     "stable_hold": "stable_hold_env",
@@ -35,6 +47,10 @@ BOOL_EXTRA_KEYS = {
     "force_lifted": "force_lifted_env",
     "force_stable_hold": "force_stable_hold_env",
     "tabletop_arm_lift_baseline_latched": "tabletop_arm_lift_baseline_latched_env",
+    "tabletop_pre_pose_success": "tabletop_pre_pose_success_env",
+    "tabletop_object_palm_drift_success_gate": "tabletop_object_palm_drift_success_gate_env",
+    "tabletop_palm_xy_success_gate": "tabletop_palm_xy_success_gate_env",
+    "tabletop_palm_orientation_success_gate": "tabletop_palm_orientation_success_gate_env",
     "dropped": "dropped_env",
     "out_of_workspace": "out_xy_env",
     "time_out": "time_out_env",
@@ -47,13 +63,43 @@ MAX_EXTRA_KEYS = {
     "object_fingertip_force_max": "object_fingertip_force_max_env",
     "force_grasp_streak": "force_grasp_streak_env",
     "tabletop_arm_lift_progress": "tabletop_arm_lift_progress_env",
+    "tabletop_relative_palm_lift": "tabletop_relative_palm_lift_env",
+    "tabletop_relative_palm_lift_progress": "tabletop_relative_palm_lift_progress_env",
+    "tabletop_object_palm_drift": "tabletop_object_palm_drift_env",
+    "tabletop_palm_object_up_vel_rew": "tabletop_palm_object_up_vel_rew_env",
     "tabletop_lift_action_prior": "tabletop_lift_action_prior_env",
     "tabletop_lift_action_prior_gate": "tabletop_lift_action_prior_gate_env",
     "tabletop_lift_action_prior_rew": "tabletop_lift_action_prior_rew_env",
+    "tabletop_lift_target_error": "tabletop_lift_target_error_env",
+    "tabletop_lift_target_gate": "tabletop_lift_target_gate_env",
+    "tabletop_lift_target_rew": "tabletop_lift_target_rew_env",
+    "tabletop_lift_cartesian_position_error": (
+        "tabletop_lift_cartesian_position_error_env"
+    ),
+    "tabletop_lift_cartesian_rotation_error": (
+        "tabletop_lift_cartesian_rotation_error_env"
+    ),
     "tabletop_object_up_vel_rew": "tabletop_object_up_vel_rew_env",
     "tabletop_object_carry_lift_rew": "tabletop_object_carry_lift_rew_env",
+    "tabletop_post_clean_grip_score": "tabletop_post_clean_grip_score_env",
+    "tabletop_post_clean_grip_retention_rew": (
+        "tabletop_post_clean_grip_retention_rew_env"
+    ),
+    "tabletop_post_clean_grip_loss_penalty": (
+        "tabletop_post_clean_grip_loss_penalty_env"
+    ),
+    "tabletop_post_clean_strict_grasp_retention_rew": (
+        "tabletop_post_clean_strict_grasp_retention_rew_env"
+    ),
+    "tabletop_post_clean_hand_opening_penalty": (
+        "tabletop_post_clean_hand_opening_penalty_env"
+    ),
+    "tabletop_clean_lift_phase_progress": (
+        "tabletop_clean_lift_phase_progress_env"
+    ),
     "tabletop_true_grasp_streak": "tabletop_true_grasp_streak_env",
     "tabletop_strict_true_grasp_streak": "tabletop_strict_true_grasp_streak_env",
+    "tabletop_clean_grasp_streak": "tabletop_clean_grasp_streak_env",
     "object_height_delta": "object_height_delta_env",
     "strict_lift_height_delta": "strict_lift_height_delta_env",
     "strict_stable_height_delta": "strict_stable_height_delta_env",
@@ -65,6 +111,7 @@ MAX_EXTRA_KEYS = {
 MIN_EXTRA_KEYS = {
     "palm_distance": "palm_distance_env",
     "object_palm_rel_vel": "object_palm_rel_vel_env",
+    "thumb_surface_dist": "thumb_surface_dist_env",
     "tabletop_underwrap_min_tip_z_rel": "tabletop_underwrap_min_tip_z_rel_env",
     "tabletop_underwrap_thumb_z_rel": "tabletop_underwrap_thumb_z_rel_env",
     "tabletop_underwrap_min_non_thumb_z_rel": "tabletop_underwrap_min_non_thumb_z_rel_env",
@@ -196,6 +243,19 @@ class EpisodeFunnelAccumulator:
             transition_pairs.extend(
                 [
                     ("strict_grasp_to_lift", "strict_true_grasp", "lifted"),
+                    ("strict_grasp_to_clean_grasp", "strict_true_grasp", "clean_grasp_latched"),
+                    (
+                        "clean_grasp_to_retained_grip",
+                        "clean_grasp_latched",
+                        "post_clean_grip_retained",
+                    ),
+                    (
+                        "retained_grip_to_clean_lift",
+                        "post_clean_grip_retained",
+                        "clean_lifted",
+                    ),
+                    ("clean_grasp_to_clean_lift", "clean_grasp_latched", "clean_lifted"),
+                    ("clean_lift_to_clean_stable_hold", "clean_lifted", "clean_stable_hold"),
                     ("strict_grasp_to_strict_lift", "strict_true_grasp", "strict_lifted"),
                     ("strict_lift_to_strict_stable_hold", "strict_lifted", "strict_stable_hold"),
                     ("force_grasp_to_force_lift", "force_grasp", "force_lifted"),
@@ -248,6 +308,8 @@ class EpisodeFunnelAccumulator:
         if self.task_family == "dynamic_tabletop_grasp":
             stage_order.extend(
                 [
+                    ("no_clean_grasp_latch", "clean_grasp_latched"),
+                    ("no_post_clean_grip_retention", "post_clean_grip_retained"),
                     ("no_lift", "lifted"),
                     ("no_stable_hold", "stable_hold"),
                 ]

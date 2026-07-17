@@ -26,6 +26,12 @@ parser.add_argument("--log-interval", type=int, default=50, help="Metric print i
 parser.add_argument("--object-pos", type=float, nargs=3, default=None, metavar=("X", "Y", "Z"))
 parser.add_argument("--table-pos", type=float, nargs=3, default=None, metavar=("X", "Y", "Z"))
 parser.add_argument("--robot-pos", type=float, nargs=3, default=None, metavar=("X", "Y", "Z"))
+parser.add_argument(
+    "--robot-base-z-offset",
+    type=float,
+    default=0.0,
+    help="Raise the fixed robot base relative to the configured table.",
+)
 parser.add_argument("--robot-rot-wxyz", type=float, nargs=4, default=None, metavar=("W", "X", "Y", "Z"))
 parser.add_argument("--arm-pos", type=float, nargs=7, default=None, metavar=("J1", "J2", "J3", "J4", "J5", "J6", "J7"))
 parser.add_argument("--object-y-sweep", type=float, nargs="+", default=None)
@@ -200,6 +206,13 @@ def main() -> None:
         cfg.table_cfg.init_state.pos = tuple(args_cli.table_pos)
     if args_cli.robot_pos is not None:
         cfg.robot_cfg.init_state.pos = tuple(args_cli.robot_pos)
+    elif float(args_cli.robot_base_z_offset) != 0.0:
+        root_pos = tuple(float(value) for value in cfg.robot_cfg.init_state.pos)
+        cfg.robot_cfg.init_state.pos = (
+            root_pos[0],
+            root_pos[1],
+            root_pos[2] + float(args_cli.robot_base_z_offset),
+        )
     if args_cli.robot_rot_wxyz is not None:
         cfg.robot_cfg.init_state.rot = tuple(args_cli.robot_rot_wxyz)
     if args_cli.arm_pos is not None:

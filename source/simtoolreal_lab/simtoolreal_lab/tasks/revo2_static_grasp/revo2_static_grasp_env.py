@@ -84,6 +84,18 @@ INSPIRE_HAND_INTERNAL_SELF_COLLISION_FILTER_PAIRS = (
     ("thumb_proximal", "thumb_distal"),
     ("thumb_proximal", "thumb_tip"),
     ("thumb_intermediate", "thumb_tip"),
+    ("hand_base_link", "thumb_proximal"),
+    ("hand_base_link", "thumb_intermediate"),
+    ("hand_base_link", "thumb_distal"),
+    ("hand_base_link", "thumb_tip"),
+    ("hand_base_link", "index_intermediate"),
+    ("hand_base_link", "index_tip"),
+    ("hand_base_link", "middle_intermediate"),
+    ("hand_base_link", "middle_tip"),
+    ("hand_base_link", "ring_intermediate"),
+    ("hand_base_link", "ring_tip"),
+    ("hand_base_link", "pinky_intermediate"),
+    ("hand_base_link", "pinky_tip"),
     ("index_proximal", "index_tip"),
     ("middle_proximal", "middle_tip"),
     ("ring_proximal", "ring_tip"),
@@ -208,6 +220,10 @@ class Revo2StaticGraspEnv(DirectRLEnv):
         self._robot_material_bind_fail_count = getattr(self, "_robot_material_bind_fail_count", 0)
         self._robot_self_collision_filter_pair_count = getattr(self, "_robot_self_collision_filter_pair_count", 0)
         self._robot_self_collision_filter_fail_count = getattr(self, "_robot_self_collision_filter_fail_count", 0)
+        self._robot_collision_disable_count = getattr(self, "_robot_collision_disable_count", 0)
+        self._robot_collision_disable_fail_count = getattr(self, "_robot_collision_disable_fail_count", 0)
+        self._robot_mimic_property_count = getattr(self, "_robot_mimic_property_count", 0)
+        self._robot_mimic_property_fail_count = getattr(self, "_robot_mimic_property_fail_count", 0)
 
     def _setup_scene(self):
         self.robot = Articulation(self.cfg.robot_cfg)
@@ -220,6 +236,8 @@ class Revo2StaticGraspEnv(DirectRLEnv):
         self._bind_robot_physics_material()
         spawn_ground_plane(prim_path="/World/ground", cfg=GroundPlaneCfg())
         self.scene.clone_environments(copy_from_source=False)
+        self._apply_robot_mimic_joint_properties()
+        self._apply_robot_collision_disables()
         self._apply_robot_self_collision_filters()
         self.scene.articulations["robot"] = self.robot
         self.scene.rigid_objects["object"] = self.object
@@ -281,11 +299,82 @@ class Revo2StaticGraspEnv(DirectRLEnv):
             pairs.extend(INSPIRE_HAND_INTERNAL_SELF_COLLISION_FILTER_PAIRS)
         else:
             pairs.extend(REVO2_ADJACENT_SELF_COLLISION_FILTER_PAIRS)
+        pairs.extend(tuple(getattr(self.cfg, "robot_extra_self_collision_filter_pairs", ())))
         return tuple(pairs)
 
-    def _collision_filter_prims_for_link(self, link_prim) -> list:
-        collision_prims = [prim for prim in Usd.PrimRange(link_prim) if prim.HasAPI(UsdPhysics.CollisionAPI)]
-        return collision_prims if collision_prims else [link_prim]
+    def _apply_robot_collision_disables(self) -> None:
+        body_names = tuple(getattr(self.cfg, "robot_collision_disabled_body_names", ()))
+        disable_count = 0
+        fail_count = 0
+        stage = self.scene.stage
+        for env_path in self.scene.env_prim_paths:
+            robot_path = f"{env_path}/Robot"
+            for body_name in body_names:
+                body_prim = stage.GetPrimAtPath(f"{robot_path}/{body_name}")
+                if not body_prim.IsValid():
+                    fail_count += 1
+                    continue
+                collision_prims = [
+                    prim for prim in Usd.PrimRange(body_prim) if prim.HasAPI(UsdPhysics.CollisionAPI)
+                ]
+                if not collision_prims:
+                    fail_count += 1
+                    continue
+                for collision_prim in collision_prims:
+                    try:
+                        collision_api = UsdPhysics.CollisionAPI(collision_prim)
+                        collision_api.GetCollisionEnabledAttr().Set(False)
+                        disable_count += 1
+                    except Exception:
+                        fail_count += 1
+        self._robot_collision_disable_count = disable_count
+        self._robot_collision_disable_fail_count = fail_count
+
+    def _apply_robot_mimic_joint_properties(self) -> None:
+        natural_frequency = getattr(self.cfg, "robot_mimic_natural_frequency", None)
+        damping_ratio = getattr(self.cfg, "robot_mimic_damping_ratio", None)
+        offset_overrides = dict(getattr(self.cfg, "robot_mimic_offset_overrides_deg", ()))
+        if natural_frequency is None and damping_ratio is None and not offset_overrides:
+            self._robot_mimic_property_count = 0
+            self._robot_mimic_property_fail_count = 0
+            return
+
+        property_count = 0
+        fail_count = 0
+        stage = self.scene.stage
+        for env_path in self.scene.env_prim_paths:
+            robot_prim = stage.GetPrimAtPath(f"{env_path}/Robot")
+            if not robot_prim.IsValid():
+                fail_count += 1
+                continue
+            for prim in Usd.PrimRange(robot_prim):
+                if not any("PhysxMimicJointAPI" in str(schema) for schema in prim.GetAppliedSchemas()):
+                    continue
+                attributes = {attr.GetName(): attr for attr in prim.GetAttributes()}
+                try:
+                    if natural_frequency is not None:
+                        frequency_attr = next(
+                            attr
+                            for name, attr in attributes.items()
+                            if name.endswith(":naturalFrequency")
+                        )
+                        frequency_attr.Set(float(natural_frequency))
+                    if damping_ratio is not None:
+                        damping_attr = next(
+                            attr for name, attr in attributes.items() if name.endswith(":dampingRatio")
+                        )
+                        damping_attr.Set(float(damping_ratio))
+                    prim_name = str(prim.GetName())
+                    if prim_name in offset_overrides:
+                        offset_attr = next(
+                            attr for name, attr in attributes.items() if name.endswith(":offset")
+                        )
+                        offset_attr.Set(float(offset_overrides[prim_name]))
+                    property_count += 1
+                except (StopIteration, RuntimeError):
+                    fail_count += 1
+        self._robot_mimic_property_count = property_count
+        self._robot_mimic_property_fail_count = fail_count
 
     def _apply_robot_self_collision_filters(self) -> None:
         pair_count = 0
@@ -300,16 +389,15 @@ class Revo2StaticGraspEnv(DirectRLEnv):
                 if not prim_a.IsValid() or not prim_b.IsValid():
                     fail_count += 1
                     continue
-                filter_prims_a = self._collision_filter_prims_for_link(prim_a)
-                filter_prims_b = self._collision_filter_prims_for_link(prim_b)
-                for filter_prim_a in filter_prims_a:
-                    for filter_prim_b in filter_prims_b:
-                        filtered_pairs_api = UsdPhysics.FilteredPairsAPI.Apply(filter_prim_a)
-                        if not filtered_pairs_api:
-                            fail_count += 1
-                            continue
-                        filtered_pairs_api.CreateFilteredPairsRel().AddTarget(filter_prim_b.GetPath())
-                        pair_count += 1
+                # PhysX pair filtering on a rigid-body link includes every
+                # nested collider. Applying it to imported mesh children does
+                # not reliably filter articulation self-collisions.
+                filtered_pairs_api = UsdPhysics.FilteredPairsAPI.Apply(prim_a)
+                if not filtered_pairs_api:
+                    fail_count += 1
+                    continue
+                filtered_pairs_api.CreateFilteredPairsRel().AddTarget(prim_b.GetPath())
+                pair_count += 1
         self._robot_self_collision_filter_pair_count = pair_count
         self._robot_self_collision_filter_fail_count = fail_count
 
@@ -320,20 +408,44 @@ class Revo2StaticGraspEnv(DirectRLEnv):
             self._action_prior[:] = self._compute_scripted_action_prior()
             if bool(getattr(self.cfg, "scripted_action_prior_zero_passthrough_enabled", False)):
                 prior_active = torch.any(torch.abs(self._action_prior) > 1.0e-6, dim=-1, keepdim=True)
+                active_scale_cfg = getattr(
+                    self.cfg, "scripted_action_prior_active_residual_scale", None
+                )
                 active_residual_scale = float(
-                    getattr(
-                        self.cfg,
-                        "scripted_action_prior_active_residual_scale",
-                        self.cfg.scripted_action_prior_residual_scale,
-                    )
+                    self.cfg.scripted_action_prior_residual_scale
+                    if active_scale_cfg is None
+                    else active_scale_cfg
                 )
                 inactive_residual_scale = float(
                     getattr(self.cfg, "scripted_action_prior_inactive_residual_scale", 1.0)
                 )
+                active_scale = torch.full_like(self.policy_actions, active_residual_scale)
+                arm_dim = len(self._arm_joint_ids)
+                arm_scale_cfg = getattr(
+                    self.cfg, "scripted_action_prior_active_arm_residual_scale", None
+                )
+                hand_scale_cfg = getattr(
+                    self.cfg, "scripted_action_prior_active_hand_residual_scale", None
+                )
+                if arm_scale_cfg is not None:
+                    active_scale[:, :arm_dim] = float(arm_scale_cfg)
+                if hand_scale_cfg is not None:
+                    active_scale[:, arm_dim:] = float(hand_scale_cfg)
+
+                post_grasp_arm_scale = getattr(
+                    self.cfg, "scripted_action_prior_post_grasp_arm_residual_scale", None
+                )
+                post_grasp_latched = getattr(self, "_tabletop_arm_lift_baseline_latched", None)
+                if post_grasp_arm_scale is not None and torch.is_tensor(post_grasp_latched):
+                    active_scale[:, :arm_dim] = torch.where(
+                        post_grasp_latched.unsqueeze(-1),
+                        torch.full_like(active_scale[:, :arm_dim], float(post_grasp_arm_scale)),
+                        active_scale[:, :arm_dim],
+                    )
                 residual_scale = torch.where(
                     prior_active,
-                    torch.full_like(self.policy_actions[:, :1], active_residual_scale),
-                    torch.full_like(self.policy_actions[:, :1], inactive_residual_scale),
+                    active_scale,
+                    torch.full_like(self.policy_actions, inactive_residual_scale),
                 )
                 self.actions = torch.clamp(self._action_prior + residual_scale * self.policy_actions, -1.0, 1.0)
             else:
@@ -347,21 +459,44 @@ class Revo2StaticGraspEnv(DirectRLEnv):
         action_prior = torch.zeros_like(self.actions)
         hand_unlocked = self.episode_length_buf >= self.cfg.scripted_action_prior_hand_start_step
         if torch.any(hand_unlocked):
-            hand_action = float(self.cfg.scripted_action_prior_hand_action)
+            hand_dim = action_prior.shape[-1] - len(self._arm_joint_ids)
+            hand_action_vector = getattr(self.cfg, "scripted_action_prior_hand_action_vector", None)
+            if hand_action_vector is None:
+                hand_action = torch.full(
+                    (1, hand_dim),
+                    float(self.cfg.scripted_action_prior_hand_action),
+                    dtype=action_prior.dtype,
+                    device=self.device,
+                )
+            else:
+                hand_action = torch.tensor(
+                    hand_action_vector, dtype=action_prior.dtype, device=self.device
+                ).view(1, -1)
+                if hand_action.shape[-1] != hand_dim:
+                    raise ValueError(
+                        "scripted_action_prior_hand_action_vector must contain "
+                        f"{hand_dim} values, got {hand_action.shape[-1]}"
+                    )
             hand_ramp_steps = int(self.cfg.scripted_action_prior_hand_ramp_steps)
             if hand_ramp_steps > 0:
                 hand_age = self.episode_length_buf[hand_unlocked] - self.cfg.scripted_action_prior_hand_start_step
-                hand_alpha = torch.clamp((hand_age + 1).float() / float(hand_ramp_steps), 0.0, 1.0)
-                ramped_hand_action = -1.0 + hand_alpha * (hand_action + 1.0)
-                action_prior[hand_unlocked, 7:] = ramped_hand_action.unsqueeze(-1)
+                hand_alpha = torch.clamp(
+                    (hand_age + 1).float() / float(hand_ramp_steps), 0.0, 1.0
+                ).unsqueeze(-1)
+                action_prior[hand_unlocked, 7:] = -1.0 + hand_alpha * (hand_action + 1.0)
             else:
                 action_prior[hand_unlocked, 7:] = hand_action
 
         lift_start_step = self.cfg.scripted_action_prior_lift_start_step
         lift_stop_step = lift_start_step + self.cfg.scripted_action_prior_lift_steps
         lift_unlocked = (self.episode_length_buf >= lift_start_step) & (self.episode_length_buf < lift_stop_step)
+        if bool(getattr(self.cfg, "scripted_action_prior_lift_relative_to_grasp", False)):
+            lift_unlocked = torch.zeros_like(lift_unlocked)
         if self.cfg.scripted_action_prior_lift_requires_grasp:
-            lift_unlocked = lift_unlocked & self._true_grasp
+            grasp_signal = self._true_grasp
+            if bool(getattr(self.cfg, "scripted_action_prior_uses_force_grasp", False)):
+                grasp_signal = getattr(self, "_force_grasp", grasp_signal)
+            lift_unlocked = lift_unlocked & grasp_signal
         if torch.any(lift_unlocked):
             if self._scripted_lift_action.shape[0] == self.num_envs:
                 action_prior[lift_unlocked, :7] = self._scripted_lift_action[lift_unlocked]
@@ -677,7 +812,12 @@ class Revo2StaticGraspEnv(DirectRLEnv):
     ) -> torch.Tensor:
         joint_ids = list(self._hand_joint_ids if joint_ids is None else joint_ids)
         joint_names = list(self._hand_joint_names if joint_names is None else joint_names)
-        targets = self._default_joint_pos[:, joint_ids].clone()
+        batch_size = int(fractions.shape[0])
+        targets = (
+            self._default_joint_pos[:1, joint_ids]
+            .expand(batch_size, -1)
+            .clone()
+        )
         lower = self._joint_lower_limits
         upper = self._joint_upper_limits
         joint_index = {name: i for i, name in enumerate(self.robot.joint_names)}

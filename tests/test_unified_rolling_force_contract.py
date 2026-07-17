@@ -25,7 +25,10 @@ def _class_constants(class_name: str) -> dict[str, object]:
             continue
         target = statement.targets[0]
         if isinstance(target, ast.Name):
-            constants[target.id] = ast.literal_eval(statement.value)
+            try:
+                constants[target.id] = ast.literal_eval(statement.value)
+            except ValueError:
+                constants[target.id] = ast.unparse(statement.value)
     return constants
 
 
@@ -134,22 +137,50 @@ def test_stage3_latches_and_holds_hand_target_after_stable_grasp():
     assert "calibrated_close_targets = self._active_hand_actions_to_sim_targets" in source
 
 
-def test_stage2_hold_contract_rewards_quiet_strict_grasp_and_penalizes_loss():
+def test_stage2_hold_contract_requires_sustained_contact_and_a_micro_lift():
     values = _class_constants("_UnifiedRollingGraspHoldStage2Contract")
 
-    assert values["tabletop_strict_hold_rew_scale"] == 28000.0
+    assert values["tabletop_strict_hold_rew_scale"] == 40000.0
+    assert values["tabletop_strict_hold_uses_streak_progress"] is True
+    assert values["tabletop_strict_hold_min_streak_multiplier"] == 0.125
     assert values["tabletop_strict_grasp_loss_penalty_scale"] == 12000.0
     assert values["tabletop_strict_grasp_hold_steps"] == 20
     assert values["tabletop_underwrap_rew_scale"] == 8500.0
+    assert (
+        _class_assignment_source(
+            "_UnifiedRollingGraspHoldStage2Contract",
+            "tabletop_underwrap_min_non_thumb_contacts",
+        )
+        == "UNIFIED_ROLLING_STRICT_MIN_NON_THUMB_CONTACTS"
+    )
     assert values["tabletop_underwrap_progress_weight"] == 0.65
     assert values["tabletop_underwrap_pair_weight"] == 0.35
     assert values["tabletop_underwrap_uses_pregrasp_gate"] is False
-    assert values["lift_progress_rew_scale"] == 0.0
-    assert values["quality_lift_progress_rew_scale"] == 0.0
-    assert values["lifted_true_grasp_rew_scale"] == 0.0
-    assert values["stable_hold_rew_scale"] == 0.0
-    assert values["hold_progress_rew_scale"] == 0.0
-    assert values["success_bonus"] == 0.0
+    assert _class_assignment_source(
+        "_UnifiedRollingGraspHoldStage2Contract", "lift_success_height"
+    ) == "UNIFIED_ROLLING_LOAD_BEARING_LIFT_HEIGHT"
+    assert _class_assignment_source(
+        "_UnifiedRollingGraspHoldStage2Contract", "tabletop_success_lift_height"
+    ) == "UNIFIED_ROLLING_LOAD_BEARING_LIFT_HEIGHT"
+    assert values["lift_progress_rew_scale"] == 5000.0
+    assert values["quality_lift_progress_rew_scale"] == 7000.0
+    assert values["lifted_true_grasp_rew_scale"] == 14000.0
+    assert values["tabletop_grasped_arm_lift_rew_scale"] == 60000.0
+    assert values["tabletop_arm_lift_reward_object_margin"] == 0.16
+    assert values["stable_hold_rew_scale"] == 16000.0
+    assert values["hold_progress_rew_scale"] == 22000.0
+    assert values["success_bonus"] == 36000.0
+    assert values["tabletop_lift_rewards_require_current_strict_grasp"] is True
+    assert values["tabletop_success_uses_grasp_seen"] is False
+
+
+def test_stage2_hold_reward_uses_consecutive_strict_contact_progress():
+    source = ENV_PATH.read_text(encoding="utf-8")
+
+    assert "tabletop_strict_hold_streak_progress" in source
+    assert "self._tabletop_strict_true_grasp_streak.float() + 1.0" in source
+    assert 'getattr(self.cfg, "tabletop_strict_hold_uses_streak_progress", False)' in source
+    assert '"tabletop_strict_hold_min_streak_multiplier"' in source
 
 
 def test_stage3_lift_action_alignment_is_interface_aware_and_strict_grasp_gated():

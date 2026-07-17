@@ -17,6 +17,84 @@ gym.register(
 )
 
 gym.register(
+    id="SimToolReal-Revo2-Franka-DynamicTabletopSixMotorPhysicsAudit-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2DynamicTabletopSixMotorPhysicsAuditEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-DynamicTabletopNativeMimicLowDrivePhysicsAudit-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2DynamicTabletopNativeMimicLowDrivePhysicsAuditEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-DynamicTabletopExplicitFollowerHighDrivePhysicsAudit-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2DynamicTabletopExplicitFollowerHighDrivePhysicsAuditEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-DynamicTabletopNativeSixActivePhysicsAudit-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2DynamicTabletopNativeSixActivePhysicsAuditEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-DynamicTabletopOfficialSixActivePhysicsAudit-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2DynamicTabletopOfficialSixActivePhysicsAuditEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-DynamicTabletopCartesian-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2DynamicTabletopCartesianTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
     id="SimToolReal-Revo2-Franka-DynamicTabletopLegacyFullHand-Teacher-Direct-v0",
     entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
     disable_env_checker=True,
@@ -339,6 +417,851 @@ gym.register(
 )
 
 gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationJointPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceJointPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationJointDeltaPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceJointDeltaPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationCartesianPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceCartesianPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationCartesianImpedancePhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceCartesianImpedancePhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStrictJointTargetAB-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStrictJointTargetABTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStrictCartesianImpedanceAB-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStrictCartesianImpedanceABTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetAB-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetABTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverCartesianImpedanceAB-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverCartesianImpedanceABTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetCleanCurriculum-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetCleanCurriculumTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetSynchronousContact-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetSynchronousContactTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetSynchronousCurriculum-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetSynchronousCurriculumTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetPostCleanLift-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetPostCleanLiftTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetPostCleanLiftVelocity-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetPostCleanLiftVelocityTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetPostCleanGripRetention-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetPostCleanGripRetentionTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetPostCleanActionContinuity-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetPostCleanActionContinuityTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetSmoothLiftPhase-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetSmoothLiftPhaseTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetForceBackedCleanLift-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetForceBackedCleanLiftTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetForceBackedPinchLift-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetForceBackedPinchLiftTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetForceRetainedObjectLift-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetForceRetainedObjectLiftTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetSustainedForceLift-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetSustainedForceLiftTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticStableHoverJointTargetForceCoupledMicroLift-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticStableHoverJointTargetForceCoupledMicroLiftTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticOfficialJointTarget-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticOfficialJointTargetTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticOfficialCartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticOfficialCartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticOfficialJointTarget-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticOfficialJointTargetTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticOfficialCartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticOfficialCartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticCanonicalJointDelta-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticCanonicalJointDeltaTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticCanonicalCartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticCanonicalCartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticCanonicalJointDelta-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticCanonicalJointDeltaTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticCanonicalCartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticCanonicalCartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticCanonicalRobustJointDelta-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticCanonicalRobustJointDeltaTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticCanonicalRobustCartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticCanonicalRobustCartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticCanonicalRobustJointDelta-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticCanonicalRobustJointDeltaTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticCanonicalRobustCartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticCanonicalRobustCartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-UnifiedRollingJointDeltaV26-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2UnifiedRollingJointDeltaV26TeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-UnifiedRollingJointDeltaV26-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireUnifiedRollingJointDeltaV26TeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-UnifiedRollingJointDeltaV27-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2UnifiedRollingJointDeltaV27TeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-UnifiedRollingJointDeltaV27-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireUnifiedRollingJointDeltaV27TeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-UnifiedFallingBatonJointDeltaV26-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2UnifiedFallingJointDeltaV26TeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-UnifiedFallingBatonJointDeltaV26-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireUnifiedFallingJointDeltaV26TeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticOfficialSphereJointTarget-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticOfficialSphereJointTargetTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticOfficialSphereCartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticOfficialSphereCartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticOfficialSphereJointTarget-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticOfficialSphereJointTargetTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticOfficialSphereCartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticOfficialSphereCartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticOfficialSphereLiftStage2JointTarget-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticOfficialSphereLiftStage2JointTargetTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticOfficialSphereLiftStage2CartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticOfficialSphereLiftStage2CartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticOfficialSphereLiftStage2JointTarget-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticOfficialSphereLiftStage2JointTargetTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticOfficialSphereLiftStage2CartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticOfficialSphereLiftStage2CartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticOfficialSphereForceHoldStage2JointTarget-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticOfficialSphereForceHoldStage2JointTargetTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticOfficialSphereForceHoldStage2CartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticOfficialSphereForceHoldStage2CartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticOfficialSphereForceHoldStage2JointTarget-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticOfficialSphereForceHoldStage2JointTargetTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticOfficialSphereForceHoldStage2CartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticOfficialSphereForceHoldStage2CartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticOfficialSphereOpposedPressureHoldStage2JointTarget-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticOfficialSphereOpposedPressureHoldStage2JointTargetTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticOfficialSphereOpposedPressureHoldStage2CartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticOfficialSphereOpposedPressureHoldStage2CartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticOfficialSphereOpposedPressureHoldStage2JointTarget-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticOfficialSphereOpposedPressureHoldStage2JointTargetTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-StaticOfficialSphereOpposedPressureHoldStage2CartesianImpedance-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireStaticOfficialSphereOpposedPressureHoldStage2CartesianImpedanceTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationJointStage2HoldPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceJointStage2HoldPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationJointDeltaStage2HoldPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceJointDeltaStage2HoldPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationCartesianStage2HoldPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceCartesianStage2HoldPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationJointDeltaFromScratchContactPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceJointDeltaFromScratchContactPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationCartesianFromScratchContactPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceCartesianFromScratchContactPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationJointDeltaStage2LiftBridgePhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceJointDeltaStage2LiftBridgePhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationCartesianStage2LiftBridgePhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceCartesianStage2LiftBridgePhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationJointStage3LiftPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceJointStage3LiftPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationJointDeltaStage3LiftPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceJointDeltaStage3LiftPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-StaticActionAblationCartesianStage3LiftPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2StaticActionInterfaceCartesianStage3LiftPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
     id="SimToolReal-Revo2-Franka-UnifiedRollingStage2Hold-Teacher-Direct-v0",
     entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
     disable_env_checker=True,
@@ -359,6 +1282,74 @@ gym.register(
         "env_cfg_entry_point": (
             f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
             "Revo2UnifiedRollingStage3TeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-UnifiedRollingStage1CartesianPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2UnifiedRollingStage1CartesianPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-UnifiedRollingStage1AcquisitionCartesianPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2UnifiedRollingStage1AcquisitionCartesianPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id=(
+        "SimToolReal-Revo2-Franka-UnifiedRollingStage1AcquisitionCartesianPalmFramePhaseObs"
+        "-Teacher-Direct-v0"
+    ),
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2UnifiedRollingStage1AcquisitionCartesianPalmFramePhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-UnifiedRollingStage2HoldCartesianPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2UnifiedRollingStage2HoldCartesianPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Revo2-Franka-UnifiedRollingStage3CartesianPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "Revo2UnifiedRollingStage3CartesianPhaseObsTeacherEnvCfg"
         ),
         "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
     },
@@ -2254,6 +3245,681 @@ gym.register(
 )
 
 gym.register(
+    id="SimToolReal-Inspire-Franka-PhysicalAudit-PhantomTips-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspirePhysicalAuditPhantomTipsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-PhysicalAudit-MeshOnly-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspirePhysicalAuditMeshOnlyTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-PhysicalAudit-MeshOnlyLegacyActuation-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspirePhysicalAuditMeshOnlyLegacyActuationTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-PhysicalAudit-Mimic-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspirePhysicalAuditMimicTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticJointTargetAB-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticJointTargetABTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticCartesianImpedanceAB-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticCartesianImpedanceABTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStrictJointTargetAB-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStrictJointTargetABTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStrictCartesianImpedanceAB-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStrictCartesianImpedanceABTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetAB-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetABTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverCartesianImpedanceAB-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverCartesianImpedanceABTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetCleanCurriculum-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetCleanCurriculumTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetSynchronousContact-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetSynchronousContactTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetSynchronousCurriculum-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetSynchronousCurriculumTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetPostCleanLift-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetPostCleanLiftTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetPostCleanLiftVelocity-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetPostCleanLiftVelocityTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetPostCleanGripRetention-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetPostCleanGripRetentionTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetPostCleanActionContinuity-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetPostCleanActionContinuityTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetSmoothLiftPhase-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetSmoothLiftPhaseTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetForceBackedCleanLift-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetForceBackedCleanLiftTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetForceBackedPinchLift-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetForceBackedPinchLiftTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetForceRetainedObjectLift-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetForceRetainedObjectLiftTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetSustainedForceLift-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetSustainedForceLiftTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXStaticStableHoverJointTargetForceCoupledMicroLift-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXStaticStableHoverJointTargetForceCoupledMicroLiftTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedRolling-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedRollingTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedRollingStage1-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedRollingStage1TeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedRollingStage2Hold-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedRollingStage2HoldTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedRollingStage3-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedRollingStage3TeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedRollingStage1PhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedRollingStage1PhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedRollingStage2HoldPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedRollingStage2HoldPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedRollingStage3PhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedRollingStage3PhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id=(
+        "SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedRollingStage1"
+        "CartesianPhaseObs-Teacher-Direct-v0"
+    ),
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedRollingStage1CartesianPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id=(
+        "SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedRollingStage1Acquisition"
+        "CartesianPhaseObs-Teacher-Direct-v0"
+    ),
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedRollingStage1AcquisitionCartesianPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id=(
+        "SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedRollingStage2Hold"
+        "CartesianPhaseObs-Teacher-Direct-v0"
+    ),
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedRollingStage2HoldCartesianPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id=(
+        "SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedRollingStage3"
+        "CartesianPhaseObs-Teacher-Direct-v0"
+    ),
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedRollingStage3CartesianPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedRollingStage3TargetPhaseObs-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedRollingStage3TargetPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedRollingStage3CartesianPriorTargetPhaseObs-Teacher-Residual-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedRollingStage3CartesianPriorTargetPhaseObsTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulSphere60RollingCurriculum-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulSphere60RollingCurriculumTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulSphere60ForceHold-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulSphere60ForceHoldTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulSphere60ForceLift-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulSphere60ForceLiftTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulSphere60LiftCommit-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulSphere60LiftCommitTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulPrimitive3LiftCommit-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulPrimitive3LiftCommitTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulPrimitive3LoadBearing-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulPrimitive3LoadBearingTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulPrimitive3CartesianCarry-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulPrimitive3CartesianCarryTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulPrimitive3PalmCoupledCarry-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulPrimitive3PalmCoupledCarryTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulPrimitive3PalmCoupledCarry15mm-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulPrimitive3PalmCoupledCarry15mmTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulPrimitive3PalmCoupledCarry30mm-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulPrimitive3PalmCoupledCarry30mmTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulPrimitive3VerticalCarry15mm-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulPrimitive3VerticalCarry15mmTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulPrimitive3SphereBalancedLiftCommit-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulPrimitive3SphereBalancedLiftCommitTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXAnyDexRing60Bootstrap-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXAnyDexRing60BootstrapTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXAnyDexRing60ArmResidual-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXAnyDexRing60ArmResidualTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXAnyDexRing60ObjectRelative-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXAnyDexRing60ObjectRelativeTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
     id="SimToolReal-Inspire-Franka-DynamicTabletopTransport-DirectResidual-Teacher-Direct-v0",
     entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
     disable_env_checker=True,
@@ -2369,6 +4035,45 @@ gym.register(
         "env_cfg_entry_point": (
             f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
             "InspireUnifiedFallingBatonBenchmarkTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedFalling-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedFallingTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedFallingCartesian-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedFallingCartesianTeacherEnvCfg"
+        ),
+        "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="SimToolReal-Inspire-Franka-RH56BFXFaithfulUnifiedFallingMeasuredCartesian-Teacher-Direct-v0",
+    entry_point=f"{__name__}.dynamic_dexterous_grasp_env:DynamicDexterousGraspEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.dynamic_dexterous_grasp_env_cfg:"
+            "InspireRH56BFXFaithfulUnifiedFallingMeasuredCartesianTeacherEnvCfg"
         ),
         "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_teacher_ppo_cfg.yaml",
     },

@@ -44,6 +44,15 @@ ACTION_CONTRACTS: dict[str, ActionContract] = {
         normalized=True,
         description="7 Franka arm deltas/targets + 6 Revo2 semantic hand fractions.",
     ),
+    "revo2_cartesian_wrist_12d": ActionContract(
+        name="revo2_cartesian_wrist_12d",
+        hand=HandEmbodiment.REVO2,
+        action_dim=12,
+        arm_dim=6,
+        hand_dim=6,
+        normalized=True,
+        description="World-frame Cartesian wrist delta + 6 Revo2 semantic hand fractions.",
+    ),
     "revo2_physical_18d": ActionContract(
         name="revo2_physical_18d",
         hand=HandEmbodiment.REVO2,
@@ -70,6 +79,15 @@ ACTION_CONTRACTS: dict[str, ActionContract] = {
         hand_dim=6,
         normalized=True,
         description="7 Franka arm targets + 6 Inspire active hand commands.",
+    ),
+    "inspire_cartesian_wrist_12d": ActionContract(
+        name="inspire_cartesian_wrist_12d",
+        hand=HandEmbodiment.INSPIRE,
+        action_dim=12,
+        arm_dim=6,
+        hand_dim=6,
+        normalized=True,
+        description="World-frame Cartesian wrist delta + 6 Inspire active hand commands.",
     ),
 }
 

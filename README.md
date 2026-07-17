@@ -68,6 +68,8 @@ export PYTHONPATH=$SIMTOOLREAL_LAB_ROOT/source/simtoolreal_lab:$PYTHONPATH
 export PYTHON=${SIMTOOLREAL_LAB_PYTHON:-python}
 
 $PYTHON scripts/list_tasks.py
+
+scripts/setup_inspire_rh56bfx_asset.sh
 ```
 
 `SIMTOOLREAL_ROOT` is used for external robot assets that are not duplicated here:
@@ -75,10 +77,36 @@ $PYTHON scripts/list_tasks.py
 ```text
 $SIMTOOLREAL_ROOT/assets/generated/franka_brainco_revo2_right/franka_brainco_revo2_right.urdf
 $SIMTOOLREAL_ROOT/assets/generated/franka_brainco_revo2_right_v699/franka_brainco_revo2_right.urdf
-$SIMTOOLREAL_ROOT/assets/embodiments/franka-inspire-z180/franka_inspire_z180.urdf
+$SIMTOOLREAL_ROOT/assets/embodiments/franka-inspire-z180/meshes/
 ```
 
-The generated baton and tabletop affordance assets used by the new IsaacLab tasks are stored in this repo under `assets/generated/`. The local `assets/urdf` symlink points back to the original `simtoolreal` asset tree and is ignored by Git.
+The generated baton and tabletop affordance assets used by the new IsaacLab tasks are stored in this repo under `assets/generated/`. The local `assets/urdf` and RH56BFX mesh links point back to the original `simtoolreal` asset tree and are ignored by Git.
+
+## Inspire RH56BFX Physical Contract
+
+The validated Inspire route is a 12-joint, 6-actuator hand. Its deployable action is always:
+
+```text
+[thumb_yaw, thumb_flex, index, middle, ring, pinky]
+```
+
+`assets/embodiments/franka-inspire-rh56bfx-mimic/franka_inspire_rh56bfx_mimic.urdf` restores the six source-URDF mimic constraints. Four intermediate finger joints follow their proximal joints; thumb intermediate and distal joints follow thumb pitch. Only the six active joints receive actuator targets. The fixed `*_tip` links remain kinematic sample frames and have no collision geometry; contact and force checks use the visible distal/intermediate mesh links.
+
+Self-collision remains enabled. Collision filtering is limited to adjacent and same-kinematic-chain links whose meshes overlap by construction; cross-finger and hand-object collisions remain active.
+
+Before training an Inspire policy, run the physical positive control:
+
+```bash
+$PYTHON scripts/search_inspire_hand_closure.py \
+  --task SimToolReal-Inspire-Franka-PhysicalAudit-Mimic-Teacher-Direct-v0 \
+  --num-envs 1 \
+  --inspire-close-target cfg \
+  --fixed-hand-fraction 1 1 1 1 1 1 \
+  --headless \
+  --device cuda:0
+```
+
+The task must show legal joint motion, visible mesh contact, lift, and final stable force hold before rolling or falling RL is accepted. The legacy 12-independent-servo task is retained only for diagnosis and checkpoint provenance; it is not the RH56BFX training contract.
 
 ## Task Families
 

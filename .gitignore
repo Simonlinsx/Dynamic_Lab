@@ -34,6 +34,8 @@ events.out.tfevents.*
 .nvidia-omniverse/
 omni/logs/
 assets/urdf
+assets/embodiments/franka-inspire-rh56bfx-mimic/franka_description
+assets/embodiments/franka-inspire-rh56bfx-mimic/meshes
 
 # Editor / OS
 .env

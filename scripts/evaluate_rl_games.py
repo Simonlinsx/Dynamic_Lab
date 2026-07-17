@@ -18,6 +18,8 @@ if str(EXT_SOURCE) not in sys.path:
     sys.path.insert(0, str(EXT_SOURCE))
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
+from debug_video_artifacts import write_debug_video_artifacts
+
 VIDEO_CAMERA_PRESETS = {
     "tabletop_student_rgbd_20260712": {
         "eye": (1.25, -1.05, 0.72),
@@ -42,6 +44,12 @@ from isaaclab.app import AppLauncher
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--task", default="SimToolReal-Revo2-Franka-StaticBall-Grasp-Direct-v0", help="Gym task id.")
 parser.add_argument("--checkpoint", required=True, help="rl_games .pth checkpoint.")
+parser.add_argument(
+    "--teacher-state-encoder",
+    choices=("flat", "structured", "finger_residual"),
+    default="flat",
+    help="Network architecture used by the checkpoint being evaluated.",
+)
 parser.add_argument("--num-envs", "--num_envs", dest="num_envs", type=int, default=64, help="Eval env count.")
 parser.add_argument("--episodes", type=int, default=128, help="Number of completed eval episodes.")
 parser.add_argument("--seed", type=int, default=42, help="Deterministic environment/evaluation seed.")
@@ -53,9 +61,21 @@ parser.add_argument(
     help="Include verbose per-environment episode metrics in summary.json.",
 )
 parser.add_argument(
-    "--object-contact-force-diagnostics",
+    "--save-vector-contact-trace",
     action="store_true",
-    help="Record filtered PhysX fingertip-to-object forces alongside geometric contact metrics.",
+    help=(
+        "Save a compact NPZ trace of per-step fingertip-to-object forces and object/palm motion "
+        "during vector evaluation. This is a diagnostic only and does not change task behavior."
+    ),
+)
+parser.add_argument(
+    "--object-contact-force-diagnostics",
+    action=argparse.BooleanOptionalAction,
+    default=None,
+    help=(
+        "Enable or disable filtered PhysX fingertip-to-object forces. "
+        "By default the task configuration is preserved."
+    ),
 )
 parser.add_argument(
     "--object-contact-force-threshold",
@@ -76,6 +96,33 @@ parser.add_argument(
     type=float,
     default=None,
     help="Override dynamic speed curriculum alpha for evaluation. Use 1.0 for full-speed eval.",
+)
+parser.add_argument(
+    "--clean-grasp-curriculum-alpha",
+    type=float,
+    default=1.0,
+    help=(
+        "Clean-contact curriculum alpha for evaluation. Defaults to 1.0 so reported "
+        "success always uses the strict final contact contract."
+    ),
+)
+parser.add_argument(
+    "--canonical-reset-alpha",
+    type=float,
+    default=1.0,
+    help=(
+        "Canonical static reset alpha. Defaults to 1.0 so final evaluation starts "
+        "from the official upright Franka home pose."
+    ),
+)
+parser.add_argument(
+    "--canonical-reset-arm-pos-noise",
+    type=float,
+    default=None,
+    help=(
+        "Override canonical static reset arm-joint noise in radians for evaluation. "
+        "Use 0 for an exact-home environment-count diagnostic."
+    ),
 )
 parser.add_argument(
     "--dynamic-tabletop-speed-range",
@@ -114,6 +161,36 @@ parser.add_argument(
     type=float,
     default=None,
     help="Override the fixed moving-object interception lead distance.",
+)
+parser.add_argument(
+    "--scripted-tabletop-object-relative-pregrasp-lead-time",
+    type=float,
+    default=None,
+    help="Override velocity look-ahead for the object-relative AnyDex arm target.",
+)
+parser.add_argument(
+    "--scripted-hand-proximity-position-threshold",
+    type=float,
+    default=None,
+    help="Override the hand-base position-error threshold that starts AnyDex closure.",
+)
+parser.add_argument(
+    "--scripted-hand-proximity-rotation-threshold",
+    type=float,
+    default=None,
+    help="Override the hand-base rotation-error threshold that starts AnyDex closure.",
+)
+parser.add_argument(
+    "--scripted-hand-proximity-ramp-steps",
+    type=int,
+    default=None,
+    help="Override the number of control steps used for proximity-triggered hand closure.",
+)
+parser.add_argument(
+    "--scripted-action-prior-lift-grasp-delay-steps",
+    type=int,
+    default=None,
+    help="Override the force-grasp settling delay before a relative AnyDex lift begins.",
 )
 parser.add_argument(
     "--scripted-action-prior-active-residual-scale",
@@ -158,9 +235,102 @@ parser.add_argument(
     help="Override the calibrated extra-close fraction applied to the post-grasp hand target.",
 )
 parser.add_argument(
+    "--tabletop-arm-lift-baseline-grasp-streak",
+    type=int,
+    default=None,
+    help="Override consecutive strict/force grasp steps required before the lift pose and hand target latch.",
+)
+parser.add_argument(
     "--diagnostic-post-grasp-scripted-lift",
     action="store_true",
     help="After the lift baseline latches, replace policy actions with a fixed lift/close action for physics diagnosis.",
+)
+parser.add_argument(
+    "--diagnostic-post-grasp-relative-lift-target-scale",
+    type=float,
+    default=None,
+    help=(
+        "After the lift baseline latches, hold the captured 7-DoF arm pose and add this multiple "
+        "of the task's calibrated lift delta. The policy hand action is preserved."
+    ),
+)
+parser.add_argument(
+    "--diagnostic-post-grasp-cartesian-lift-height",
+    type=float,
+    default=None,
+    help=(
+        "After the lift baseline latches, use damped least-squares IK to move the palm this many "
+        "meters upward while preserving its latched orientation. The policy hand action is preserved."
+    ),
+)
+parser.add_argument(
+    "--diagnostic-post-grasp-cartesian-lift-damping",
+    type=float,
+    default=0.08,
+    help="Damping used by the diagnostic post-grasp Cartesian lift IK.",
+)
+parser.add_argument(
+    "--diagnostic-post-grasp-cartesian-lift-max-joint-delta",
+    type=float,
+    default=0.04,
+    help="Maximum per-step joint correction in radians for the diagnostic Cartesian lift IK.",
+)
+parser.add_argument(
+    "--diagnostic-post-grasp-min-episode-step",
+    type=int,
+    default=0,
+    help=(
+        "Do not start a post-grasp diagnostic controller before this control step. "
+        "This supports grasp-then-lift protocols without changing policy actions during grasping."
+    ),
+)
+parser.add_argument(
+    "--diagnostic-hand-open-until-step",
+    type=int,
+    default=0,
+    help=(
+        "Keep only the policy hand commands fully open before this episode step while preserving "
+        "the policy arm commands. This diagnoses premature closure without changing training."
+    ),
+)
+parser.add_argument(
+    "--diagnostic-hand-close-from-step",
+    type=int,
+    default=-1,
+    help=(
+        "From this episode step onward, replace only the deployable hand commands with a "
+        "fixed semantic close action. Negative values disable the diagnostic."
+    ),
+)
+parser.add_argument(
+    "--diagnostic-hand-close-action",
+    type=float,
+    default=1.0,
+    help="Semantic six-motor hand action used by --diagnostic-hand-close-from-step.",
+)
+parser.add_argument(
+    "--diagnostic-hold-arm-while-closing",
+    action=argparse.BooleanOptionalAction,
+    default=False,
+    help="Set arm actions to zero while the diagnostic hand-close override is active.",
+)
+parser.add_argument(
+    "--diagnostic-zero-arm-after-hover-latch",
+    action=argparse.BooleanOptionalAction,
+    default=False,
+    help=(
+        "After the tabletop hover target latches, set only the Franka policy action to zero "
+        "while preserving the learned hand action. This is an evaluator-only stability probe."
+    ),
+)
+parser.add_argument(
+    "--diagnostic-replay-actions-trace",
+    type=Path,
+    default=None,
+    help=(
+        "Replay per-step policy actions from an evaluate_rl_games trace before applying other "
+        "diagnostic overrides. Intended for controlled single-environment physics comparisons."
+    ),
 )
 parser.add_argument(
     "--diagnostic-post-grasp-arm-action",
@@ -176,10 +346,28 @@ parser.add_argument(
     help="Semantic hand action used with --diagnostic-post-grasp-scripted-lift.",
 )
 parser.add_argument(
+    "--diagnostic-post-grasp-force-hand-action",
+    action="store_true",
+    help=(
+        "During any post-grasp diagnostic lift, replace the policy hand command "
+        "with --diagnostic-post-grasp-hand-action. This is a physics probe only."
+    ),
+)
+parser.add_argument(
     "--dynamic-success-hold-steps",
     type=int,
     default=None,
     help="Override consecutive stable steps required before success latches.",
+)
+parser.add_argument(
+    "--tabletop-success-requires-force-grasp",
+    action=argparse.BooleanOptionalAction,
+    default=None,
+    help=(
+        "Override whether tabletop task success requires the filtered distal "
+        "fingertip force-grasp signal on every hold step. This changes only "
+        "the evaluation contract and is recorded in summary.json."
+    ),
 )
 parser.add_argument(
     "--tabletop-post-success-hand-close-fraction",
@@ -412,6 +600,21 @@ parser.add_argument(
 )
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
+diagnostic_replay_actions: list[list[float]] = []
+if args_cli.diagnostic_replay_actions_trace is not None:
+    replay_payload = json.loads(args_cli.diagnostic_replay_actions_trace.read_text(encoding="utf-8"))
+    diagnostic_replay_actions = [item["action"] for item in replay_payload.get("trace", [])]
+    if not diagnostic_replay_actions:
+        parser.error("--diagnostic-replay-actions-trace does not contain a non-empty trace")
+diagnostic_controller_count = sum(
+    (
+        args_cli.diagnostic_post_grasp_cartesian_lift_height is not None,
+        args_cli.diagnostic_post_grasp_relative_lift_target_scale is not None,
+        bool(args_cli.diagnostic_post_grasp_scripted_lift),
+    )
+)
+if diagnostic_controller_count > 1:
+    parser.error("Select only one diagnostic post-grasp controller.")
 if args_cli.video_camera_preset != "none":
     preset = VIDEO_CAMERA_PRESETS[args_cli.video_camera_preset]
     args_cli.video_camera_eye = tuple(preset["eye"])
@@ -434,6 +637,7 @@ import imageio.v2 as imageio  # noqa: E402
 import numpy as np  # noqa: E402
 import omni.usd  # noqa: E402
 import torch  # noqa: E402
+from isaaclab.utils.math import compute_pose_error, matrix_from_quat, quat_rotate_inverse  # noqa: E402
 from isaaclab_tasks.utils.parse_cfg import load_cfg_from_registry, parse_env_cfg  # noqa: E402
 from isaaclab_rl.rl_games import RlGamesVecEnvWrapper  # noqa: E402
 from rl_games.algos_torch import torch_ext  # noqa: E402
@@ -445,6 +649,13 @@ from simtoolreal_lab.teacher_student.evaluation import (  # noqa: E402
     EpisodeFunnelTracker,
     flatten_numeric_metrics,
 )
+from simtoolreal_lab.teacher_student.structured_state_network import (  # noqa: E402
+    configure_static_finger_relation_residual_network,
+    configure_static_structured_state_network,
+    register_structured_state_network,
+)
+
+register_structured_state_network()
 
 
 def _trace(message: str) -> None:
@@ -472,15 +683,25 @@ def _maybe_init_wandb(checkpoint: Path, output_dir: Path):
         config={
             "task": args_cli.task,
             "checkpoint": str(checkpoint),
+            "teacher_state_encoder": args_cli.teacher_state_encoder,
             "num_envs": args_cli.num_envs,
             "episodes": args_cli.episodes,
             "seed": args_cli.seed,
             "success_threshold": args_cli.success_threshold,
             "include_per_env_stats": bool(args_cli.include_per_env_stats),
-            "object_contact_force_diagnostics": bool(args_cli.object_contact_force_diagnostics),
+            "object_contact_force_diagnostics_override": args_cli.object_contact_force_diagnostics,
             "object_contact_force_threshold": float(args_cli.object_contact_force_threshold),
+            "tabletop_success_requires_force_grasp_override": (
+                args_cli.tabletop_success_requires_force_grasp
+            ),
+            "diagnostic_zero_arm_after_hover_latch": bool(
+                args_cli.diagnostic_zero_arm_after_hover_latch
+            ),
             "deterministic": bool(args_cli.deterministic),
             "dynamic_curriculum_alpha": args_cli.dynamic_curriculum_alpha,
+            "clean_grasp_curriculum_alpha": args_cli.clean_grasp_curriculum_alpha,
+            "canonical_reset_alpha": args_cli.canonical_reset_alpha,
+            "canonical_reset_arm_pos_noise": args_cli.canonical_reset_arm_pos_noise,
             "dynamic_tabletop_speed_range": args_cli.dynamic_tabletop_speed_range,
             "tabletop_asset_curriculum_alpha": args_cli.tabletop_asset_curriculum_alpha,
             "tabletop_motion_curriculum_alpha": args_cli.tabletop_motion_curriculum_alpha,
@@ -556,6 +777,26 @@ def _make_env(task: str, agent_cfg: dict, num_envs: int, render_mode: str | None
         env_cfg, "dynamic_grasp_speed_curriculum_override_alpha"
     ):
         env_cfg.dynamic_grasp_speed_curriculum_override_alpha = float(args_cli.dynamic_curriculum_alpha)
+    if args_cli.clean_grasp_curriculum_alpha is not None and hasattr(
+        env_cfg, "tabletop_clean_grasp_curriculum_override_alpha"
+    ):
+        env_cfg.tabletop_clean_grasp_curriculum_override_alpha = float(
+            args_cli.clean_grasp_curriculum_alpha
+        )
+    if args_cli.canonical_reset_alpha is not None and hasattr(
+        env_cfg, "canonical_reset_curriculum_override_alpha"
+    ):
+        env_cfg.canonical_reset_curriculum_override_alpha = float(
+            args_cli.canonical_reset_alpha
+        )
+    if args_cli.canonical_reset_arm_pos_noise is not None and hasattr(
+        env_cfg, "canonical_reset_arm_pos_noise"
+    ):
+        if args_cli.canonical_reset_arm_pos_noise < 0.0:
+            raise ValueError("--canonical-reset-arm-pos-noise must be non-negative")
+        env_cfg.canonical_reset_arm_pos_noise = float(
+            args_cli.canonical_reset_arm_pos_noise
+        )
     if args_cli.dynamic_tabletop_speed_range is not None and hasattr(
         env_cfg, "dynamic_tabletop_initial_speed_range"
     ):
@@ -588,6 +829,36 @@ def _make_env(task: str, agent_cfg: dict, num_envs: int, render_mode: str | None
         env_cfg, "dynamic_tabletop_pregrasp_ahead_distance"
     ):
         env_cfg.dynamic_tabletop_pregrasp_ahead_distance = float(args_cli.tabletop_pregrasp_ahead_distance)
+    if args_cli.scripted_tabletop_object_relative_pregrasp_lead_time is not None and hasattr(
+        env_cfg, "scripted_tabletop_object_relative_pregrasp_lead_time"
+    ):
+        env_cfg.scripted_tabletop_object_relative_pregrasp_lead_time = float(
+            args_cli.scripted_tabletop_object_relative_pregrasp_lead_time
+        )
+    if args_cli.scripted_hand_proximity_position_threshold is not None and hasattr(
+        env_cfg, "scripted_action_prior_hand_proximity_position_threshold"
+    ):
+        env_cfg.scripted_action_prior_hand_proximity_position_threshold = float(
+            args_cli.scripted_hand_proximity_position_threshold
+        )
+    if args_cli.scripted_hand_proximity_rotation_threshold is not None and hasattr(
+        env_cfg, "scripted_action_prior_hand_proximity_rotation_threshold"
+    ):
+        env_cfg.scripted_action_prior_hand_proximity_rotation_threshold = float(
+            args_cli.scripted_hand_proximity_rotation_threshold
+        )
+    if args_cli.scripted_hand_proximity_ramp_steps is not None and hasattr(
+        env_cfg, "scripted_action_prior_hand_proximity_ramp_steps"
+    ):
+        env_cfg.scripted_action_prior_hand_proximity_ramp_steps = int(
+            args_cli.scripted_hand_proximity_ramp_steps
+        )
+    if args_cli.scripted_action_prior_lift_grasp_delay_steps is not None and hasattr(
+        env_cfg, "scripted_action_prior_lift_grasp_delay_steps"
+    ):
+        env_cfg.scripted_action_prior_lift_grasp_delay_steps = int(
+            args_cli.scripted_action_prior_lift_grasp_delay_steps
+        )
     if args_cli.scripted_action_prior_active_residual_scale is not None and hasattr(
         env_cfg, "scripted_action_prior_active_residual_scale"
     ):
@@ -616,10 +887,23 @@ def _make_env(task: str, agent_cfg: dict, num_envs: int, render_mode: str | None
         env_cfg.tabletop_lift_hand_target_close_fraction = float(
             args_cli.tabletop_lift_hand_target_close_fraction
         )
+    if args_cli.tabletop_arm_lift_baseline_grasp_streak is not None:
+        env_cfg.tabletop_arm_lift_progress_baseline_grasp_streak = int(
+            args_cli.tabletop_arm_lift_baseline_grasp_streak
+        )
     if args_cli.dynamic_success_hold_steps is not None and hasattr(
         env_cfg, "dynamic_success_hold_steps"
     ):
         env_cfg.dynamic_success_hold_steps = int(args_cli.dynamic_success_hold_steps)
+    if args_cli.tabletop_success_requires_force_grasp is not None and hasattr(
+        env_cfg, "tabletop_success_requires_force_grasp"
+    ):
+        env_cfg.tabletop_success_requires_force_grasp = bool(
+            args_cli.tabletop_success_requires_force_grasp
+        )
+    args_cli.resolved_tabletop_success_requires_force_grasp = bool(
+        getattr(env_cfg, "tabletop_success_requires_force_grasp", False)
+    )
     if args_cli.tabletop_post_success_hand_close_fraction is not None:
         env_cfg.tabletop_post_success_hand_close_fraction = float(
             args_cli.tabletop_post_success_hand_close_fraction
@@ -629,10 +913,17 @@ def _make_env(task: str, agent_cfg: dict, num_envs: int, render_mode: str | None
             args_cli.stability_target_latch_min_success_streak
         )
     if hasattr(env_cfg, "object_contact_force_diagnostics_enabled"):
-        env_cfg.object_contact_force_diagnostics_enabled = bool(
-            args_cli.object_contact_force_diagnostics
+        if args_cli.object_contact_force_diagnostics is not None:
+            env_cfg.object_contact_force_diagnostics_enabled = bool(
+                args_cli.object_contact_force_diagnostics
+            )
+            env_cfg.object_contact_force_threshold = float(args_cli.object_contact_force_threshold)
+        args_cli.resolved_object_contact_force_diagnostics = bool(
+            env_cfg.object_contact_force_diagnostics_enabled
         )
-        env_cfg.object_contact_force_threshold = float(args_cli.object_contact_force_threshold)
+        args_cli.resolved_object_contact_force_threshold = float(
+            env_cfg.object_contact_force_threshold
+        )
     if render_mode == "rgb_array" and hasattr(env_cfg, "video_camera_enabled"):
         env_cfg.video_camera_enabled = True
         if hasattr(env_cfg, "video_camera"):
@@ -733,6 +1024,18 @@ def _make_player(agent_cfg: dict, wrapped_env: RlGamesVecEnvWrapper, checkpoint:
     config["num_actors"] = wrapped_env.num_envs
     config["env_info"] = wrapped_env.get_env_info()
     config["vec_env"] = wrapped_env
+    if args_cli.teacher_state_encoder == "structured":
+        configure_static_structured_state_network(
+            params["network"],
+            observation_dim=int(wrapped_env.unwrapped.cfg.observation_space),
+            action_dim=int(wrapped_env.unwrapped.cfg.action_space),
+        )
+    elif args_cli.teacher_state_encoder == "finger_residual":
+        configure_static_finger_relation_residual_network(
+            params["network"],
+            observation_dim=int(wrapped_env.unwrapped.cfg.observation_space),
+            action_dim=int(wrapped_env.unwrapped.cfg.action_space),
+        )
     config.setdefault("player", {})
     config["player"]["deterministic"] = bool(args_cli.deterministic)
     config["player"]["print_stats"] = False
@@ -774,7 +1077,362 @@ def _tensor_float(extras: dict, key: str, num_envs: int, device: str, default: f
     return value[:num_envs].float()
 
 
-def _run_vector_eval(agent_cfg: dict, checkpoint: Path) -> dict:
+def _arm_joint_targets_to_actions(env, target_arm_pos: torch.Tensor) -> torch.Tensor:
+    """Convert absolute Franka joint targets to the task's normalized action contract."""
+
+    arm_ids = env._arm_joint_ids
+    arm_lower = env._joint_lower_limits[arm_ids].unsqueeze(0)
+    arm_upper = env._joint_upper_limits[arm_ids].unsqueeze(0)
+    arm_center = torch.clamp(env._default_joint_pos[:, arm_ids], arm_lower, arm_upper)
+    target_arm_pos = torch.clamp(target_arm_pos, arm_lower, arm_upper)
+    # The environment blends raw action targets with its previous target.
+    # Invert that blend so the post-smoothing target is the IK request rather
+    # than a mixture with the policy's pre-latch arm command.
+    current_arm_target = env._joint_targets[:, arm_ids]
+    blend = max(float(env.cfg.arm_moving_average), 1.0e-6)
+    raw_arm_target = torch.clamp(
+        (target_arm_pos - (1.0 - blend) * current_arm_target) / blend,
+        arm_lower,
+        arm_upper,
+    )
+    target_delta = raw_arm_target - arm_center
+    positive_span = torch.clamp(arm_upper - arm_center, min=1.0e-6)
+    negative_span = torch.clamp(arm_center - arm_lower, min=1.0e-6)
+    target_action = torch.where(
+        target_delta >= 0.0,
+        target_delta / positive_span,
+        target_delta / negative_span,
+    )
+    return torch.clamp(target_action, -1.0, 1.0)
+
+
+def _cartesian_lift_arm_targets(env, lift_height: float) -> torch.Tensor:
+    """Solve a palm-frame vertical lift from each environment's latched grasp pose."""
+
+    robot = env.robot
+    arm_ids = env._arm_joint_ids
+    palm_body_id = int(env._palm_body_id)
+    palm_jacobian_id = palm_body_id - 1
+    jacobian = robot.root_physx_view.get_jacobians()[
+        :, palm_jacobian_id, :, arm_ids
+    ].clone()
+
+    # PhysX reports link Jacobians at the center of mass. Shift the linear
+    # rows to the same palm point used by the task's reward and success gates.
+    palm_pose_w = robot.data.body_state_w[:, palm_body_id, :7]
+    link_rotation_w = matrix_from_quat(palm_pose_w[:, 3:7])
+    com_pos_link = robot.data.com_pos_b[:, palm_body_id]
+    palm_offset_link = env._palm_body_offset.expand_as(com_pos_link)
+    palm_from_com_w = torch.bmm(
+        link_rotation_w,
+        (palm_offset_link - com_pos_link).unsqueeze(-1),
+    ).squeeze(-1)
+    angular_columns_w = jacobian[:, 3:, :].transpose(1, 2)
+    jacobian[:, :3, :] += torch.cross(
+        angular_columns_w,
+        palm_from_com_w.unsqueeze(1).expand_as(angular_columns_w),
+        dim=-1,
+    ).transpose(1, 2)
+
+    root_rotation_inv = matrix_from_quat(robot.data.root_quat_w).transpose(1, 2)
+    jacobian[:, :3, :] = torch.bmm(root_rotation_inv, jacobian[:, :3, :])
+    jacobian[:, 3:, :] = torch.bmm(root_rotation_inv, jacobian[:, 3:, :])
+
+    target_pos_w = env._tabletop_lift_palm_baseline_pos_w.clone()
+    target_pos_w[:, 2] += float(lift_height)
+    position_error_w, rotation_error_w = compute_pose_error(
+        env._palm_pos_w,
+        env._palm_quat_w,
+        target_pos_w,
+        env._tabletop_lift_palm_baseline_quat_w,
+        rot_error_type="axis_angle",
+    )
+    position_error_b = torch.bmm(root_rotation_inv, position_error_w.unsqueeze(-1)).squeeze(-1)
+    rotation_error_b = torch.bmm(root_rotation_inv, rotation_error_w.unsqueeze(-1)).squeeze(-1)
+    pose_error_b = torch.cat((position_error_b, rotation_error_b), dim=-1)
+
+    damping = max(float(args_cli.diagnostic_post_grasp_cartesian_lift_damping), 1.0e-4)
+    jacobian_t = jacobian.transpose(1, 2)
+    regularizer = (damping * damping) * torch.eye(
+        6, dtype=jacobian.dtype, device=jacobian.device
+    ).unsqueeze(0)
+    correction = torch.bmm(
+        jacobian_t,
+        torch.linalg.solve(
+            torch.bmm(jacobian, jacobian_t) + regularizer,
+            pose_error_b.unsqueeze(-1),
+        ),
+    ).squeeze(-1)
+    correction = torch.nan_to_num(correction)
+    max_joint_delta = max(
+        float(args_cli.diagnostic_post_grasp_cartesian_lift_max_joint_delta), 0.0
+    )
+    if max_joint_delta > 0.0:
+        correction = torch.clamp(correction, -max_joint_delta, max_joint_delta)
+    current_arm_pos = robot.data.joint_pos[:, arm_ids]
+    return current_arm_pos + correction
+
+
+def _apply_diagnostic_action_override(actions: torch.Tensor, wrapped_env) -> torch.Tensor:
+    """Apply hand-timing and one mutually exclusive post-grasp diagnostic controller."""
+
+    if not torch.is_tensor(actions):
+        return actions
+    actions = actions.detach().clone()
+    env = wrapped_env.unwrapped
+    if diagnostic_replay_actions:
+        episode_steps = env.episode_length_buf[: actions.shape[0]].detach().cpu().tolist()
+        for env_id, episode_step in enumerate(episode_steps):
+            replay_action = diagnostic_replay_actions[
+                min(int(episode_step), len(diagnostic_replay_actions) - 1)
+            ]
+            if len(replay_action) != actions.shape[-1]:
+                raise ValueError(
+                    "Diagnostic replay action width does not match the current task "
+                    f"({len(replay_action)} != {actions.shape[-1]})."
+                )
+            actions[env_id] = torch.as_tensor(
+                replay_action, dtype=actions.dtype, device=actions.device
+            )
+
+    hand_open_until_step = max(int(args_cli.diagnostic_hand_open_until_step), 0)
+    if hand_open_until_step > 0:
+        open_mask = env.episode_length_buf[: actions.shape[0]] < hand_open_until_step
+        if torch.any(open_mask):
+            arm_action_width = int(env._policy_arm_action_dim())
+            actions[open_mask, arm_action_width:] = -1.0
+
+    hand_close_from_step = int(args_cli.diagnostic_hand_close_from_step)
+    if hand_close_from_step >= 0:
+        close_mask = env.episode_length_buf[: actions.shape[0]] >= hand_close_from_step
+        if torch.any(close_mask):
+            arm_action_width = int(env._policy_arm_action_dim())
+            actions[close_mask, arm_action_width:] = float(
+                args_cli.diagnostic_hand_close_action
+            )
+            if bool(args_cli.diagnostic_hold_arm_while_closing):
+                actions[close_mask, :arm_action_width] = 0.0
+
+    lift_mask = env._tabletop_arm_lift_baseline_latched[: actions.shape[0]]
+    min_episode_step = max(int(args_cli.diagnostic_post_grasp_min_episode_step), 0)
+    if min_episode_step > 0:
+        lift_mask = lift_mask & (
+            env.episode_length_buf[: actions.shape[0]] >= min_episode_step
+        )
+    if not torch.any(lift_mask):
+        return actions
+
+    if args_cli.diagnostic_post_grasp_cartesian_lift_height is not None:
+        target_arm_pos = _cartesian_lift_arm_targets(
+            env, float(args_cli.diagnostic_post_grasp_cartesian_lift_height)
+        )
+        target_action = _arm_joint_targets_to_actions(env, target_arm_pos)
+        actions[lift_mask, :7] = target_action[lift_mask]
+    elif args_cli.diagnostic_post_grasp_relative_lift_target_scale is not None:
+        arm_ids = env._arm_joint_ids
+        arm_lower = env._joint_lower_limits[arm_ids].unsqueeze(0)
+        arm_upper = env._joint_upper_limits[arm_ids].unsqueeze(0)
+        target_arm_pos = torch.clamp(
+            env._tabletop_arm_lift_baseline_pos
+            + float(args_cli.diagnostic_post_grasp_relative_lift_target_scale) * env._lift_arm_delta,
+            arm_lower,
+            arm_upper,
+        )
+        target_action = _arm_joint_targets_to_actions(env, target_arm_pos)
+        actions[lift_mask, :7] = target_action[lift_mask]
+    elif bool(args_cli.diagnostic_post_grasp_scripted_lift):
+        arm_action = torch.tensor(
+            args_cli.diagnostic_post_grasp_arm_action,
+            dtype=actions.dtype,
+            device=actions.device,
+        )
+        actions[lift_mask, :7] = arm_action
+        actions[lift_mask, 7:] = float(args_cli.diagnostic_post_grasp_hand_action)
+    if bool(args_cli.diagnostic_post_grasp_force_hand_action):
+        arm_action_width = int(env._policy_arm_action_dim())
+        actions[lift_mask, arm_action_width:] = float(
+            args_cli.diagnostic_post_grasp_hand_action
+        )
+    if bool(args_cli.diagnostic_zero_arm_after_hover_latch):
+        hover_mask = env._object_hover_target_latched[: actions.shape[0]]
+        if torch.any(hover_mask):
+            arm_action_width = int(env._policy_arm_action_dim())
+            actions[hover_mask, :arm_action_width] = 0.0
+    return actions
+
+
+def _contact_trace_tensor(value, num_envs: int, device: torch.device, width: int | None = None):
+    if not torch.is_tensor(value):
+        shape = (num_envs,) if width is None else (num_envs, width)
+        value = torch.zeros(shape, dtype=torch.float32, device=device)
+    value = value[:num_envs]
+    if width is not None:
+        value = value[..., :width]
+    return value.detach().cpu().numpy()
+
+
+def _append_vector_contact_trace(
+    trace_frames: list[dict[str, np.ndarray]],
+    wrapped_env: RlGamesVecEnvWrapper,
+    actions: torch.Tensor,
+    rewards: torch.Tensor,
+    dones: torch.Tensor,
+    extras: dict,
+    step: int,
+) -> None:
+    env = wrapped_env.unwrapped
+    num_envs = wrapped_env.num_envs
+    device = env.device
+    tip_forces = getattr(env, "_object_fingertip_contact_forces", None)
+    tip_count = int(tip_forces.shape[-1]) if torch.is_tensor(tip_forces) else 0
+    object_pos = getattr(env, "_object_pos_w", None)
+    palm_pos = getattr(env, "_palm_pos_w", None)
+    object_minus_palm = (
+        object_pos[:num_envs] - palm_pos[:num_envs]
+        if torch.is_tensor(object_pos) and torch.is_tensor(palm_pos)
+        else None
+    )
+    episode_step = getattr(env, "episode_length_buf", None)
+    trace_frames.append(
+        {
+            "global_step": np.asarray(step, dtype=np.int32),
+            "episode_step": _contact_trace_tensor(episode_step, num_envs, device).astype(np.int32),
+            "done": dones[:num_envs].detach().cpu().numpy().astype(np.bool_),
+            "reward": rewards[:num_envs].detach().cpu().numpy().astype(np.float32),
+            "action": actions[:num_envs].detach().cpu().numpy().astype(np.float32),
+            "tip_object_force": _contact_trace_tensor(
+                tip_forces, num_envs, device, tip_count
+            ).astype(np.float32),
+            "tip_net_force": _contact_trace_tensor(
+                getattr(env, "_fingertip_net_contact_forces", None), num_envs, device, tip_count
+            ).astype(np.float32),
+            "surface_dist": _contact_trace_tensor(
+                getattr(env, "_surface_dist", None), num_envs, device, tip_count
+            ).astype(np.float32),
+            "strict_true_grasp": _contact_trace_tensor(
+                getattr(env, "_strict_true_grasp", None), num_envs, device
+            ).astype(np.bool_),
+            "strict_opposing_contact": _contact_trace_tensor(
+                getattr(env, "_strict_opposing_contact", None), num_envs, device
+            ).astype(np.bool_),
+            "arm_clearance_ok": _contact_trace_tensor(
+                getattr(env, "_tabletop_arm_clearance_ok", None), num_envs, device
+            ).astype(np.bool_),
+            "force_thumb_contact": _tensor_bool(
+                extras, "force_thumb_contact_env", num_envs, device
+            ).detach().cpu().numpy().astype(np.bool_),
+            "force_multifinger_contact": _tensor_bool(
+                extras, "force_multifinger_contact_env", num_envs, device
+            ).detach().cpu().numpy().astype(np.bool_),
+            "force_grasp": _tensor_bool(
+                extras, "force_grasp_env", num_envs, device
+            ).detach().cpu().numpy().astype(np.bool_),
+            "force_grasp_streak": _tensor_float(
+                extras, "force_grasp_streak_env", num_envs, device
+            ).detach().cpu().numpy().astype(np.int32),
+            "clean_grasp_candidate": _tensor_bool(
+                extras, "tabletop_clean_grasp_candidate_env", num_envs, device
+            ).detach().cpu().numpy().astype(np.bool_),
+            "clean_grasp_latched": _tensor_bool(
+                extras, "tabletop_clean_grasp_latched_env", num_envs, device
+            ).detach().cpu().numpy().astype(np.bool_),
+            "unclean_lift": _tensor_bool(
+                extras, "tabletop_unclean_lift_env", num_envs, device
+            ).detach().cpu().numpy().astype(np.bool_),
+            "object_palm_rel_vel": _tensor_float(
+                extras, "object_palm_rel_vel_env", num_envs, device
+            ).detach().cpu().numpy().astype(np.float32),
+            "object_height_delta": _contact_trace_tensor(
+                getattr(env, "_object_height_delta", None), num_envs, device
+            ).astype(np.float32),
+            "object_minus_palm": _contact_trace_tensor(
+                object_minus_palm, num_envs, device, 3
+            ).astype(np.float32),
+        }
+    )
+
+
+def _summarize_vector_contact_trace(
+    arrays: dict[str, np.ndarray], stable_velocity_threshold: float
+) -> dict:
+    force_grasp = arrays["force_grasp"].astype(np.bool_)
+    force_thumb = arrays["force_thumb_contact"].astype(np.bool_)
+    force_multifinger = arrays["force_multifinger_contact"].astype(np.bool_)
+    streak = arrays["force_grasp_streak"].astype(np.int64)
+    rel_vel = arrays["object_palm_rel_vel"].astype(np.float64)
+    object_minus_palm = arrays["object_minus_palm"].astype(np.float64)
+    tip_force = arrays["tip_object_force"].astype(np.float64)
+    done = arrays["done"].astype(np.bool_)
+    clean_grasp_candidate = arrays.get(
+        "clean_grasp_candidate", np.zeros_like(force_grasp)
+    ).astype(np.bool_)
+    clean_grasp_latched = arrays.get(
+        "clean_grasp_latched", np.zeros_like(force_grasp)
+    ).astype(np.bool_)
+    unclean_lift = arrays.get("unclean_lift", np.zeros_like(force_grasp)).astype(np.bool_)
+    num_steps, num_envs = force_grasp.shape
+
+    one_step_gap = np.zeros_like(force_grasp)
+    if num_steps >= 3:
+        one_step_gap[1:-1] = force_grasp[:-2] & ~force_grasp[1:-1] & force_grasp[2:]
+        one_step_gap[1:-1] &= ~done[:-2] & ~done[1:-1]
+    stable_one_step_gap = one_step_gap & (rel_vel < float(stable_velocity_threshold))
+    if num_steps >= 3:
+        bridge_drift = np.linalg.norm(object_minus_palm[2:] - object_minus_palm[:-2], axis=-1)
+        stable_one_step_gap[1:-1] &= bridge_drift < 0.002
+
+    env_summaries = []
+    for env_id in range(num_envs):
+        raw = force_grasp[:, env_id]
+        transitions = int(np.count_nonzero(raw[1:] != raw[:-1])) if num_steps > 1 else 0
+        env_summaries.append(
+            {
+                "env_id": int(env_id),
+                "force_grasp_frames": int(np.count_nonzero(raw)),
+                "force_thumb_frames": int(np.count_nonzero(force_thumb[:, env_id])),
+                "force_multifinger_frames": int(np.count_nonzero(force_multifinger[:, env_id])),
+                "raw_max_streak": int(streak[:, env_id].max(initial=0)),
+                "force_grasp_transitions": transitions,
+                "one_step_bridge_gaps": int(np.count_nonzero(one_step_gap[:, env_id])),
+                "stable_one_step_bridge_gaps": int(
+                    np.count_nonzero(stable_one_step_gap[:, env_id])
+                ),
+                "max_tip_object_force_n": float(tip_force[:, env_id].max(initial=0.0)),
+                "min_rel_vel_during_force_grasp": (
+                    float(rel_vel[raw, env_id].min()) if np.any(raw) else None
+                ),
+                "mean_rel_vel_during_force_grasp": (
+                    float(rel_vel[raw, env_id].mean()) if np.any(raw) else None
+                ),
+            }
+        )
+    env_summaries.sort(
+        key=lambda item: (item["raw_max_streak"], item["force_grasp_frames"]), reverse=True
+    )
+    return {
+        "steps": int(num_steps),
+        "num_envs": int(num_envs),
+        "stable_velocity_threshold_mps": float(stable_velocity_threshold),
+        "force_grasp_frame_count": int(np.count_nonzero(force_grasp)),
+        "one_step_bridge_gap_count": int(np.count_nonzero(one_step_gap)),
+        "stable_one_step_bridge_gap_count": int(np.count_nonzero(stable_one_step_gap)),
+        "envs_with_force_grasp": int(np.count_nonzero(force_grasp.any(axis=0))),
+        "envs_with_streak_ge_2": int(np.count_nonzero(streak.max(axis=0) >= 2)),
+        "envs_with_streak_ge_3": int(np.count_nonzero(streak.max(axis=0) >= 3)),
+        "envs_with_clean_grasp_candidate": int(
+            np.count_nonzero(clean_grasp_candidate.any(axis=0))
+        ),
+        "envs_with_clean_grasp_latched": int(
+            np.count_nonzero(clean_grasp_latched.any(axis=0))
+        ),
+        "envs_with_unclean_lift": int(np.count_nonzero(unclean_lift.any(axis=0))),
+        "top_envs": env_summaries[: min(num_envs, 16)],
+    }
+
+
+def _run_vector_eval(
+    agent_cfg: dict, checkpoint: Path, contact_trace_path: Path | None = None
+) -> dict:
     wrapped_env = _make_env(args_cli.task, agent_cfg, args_cli.num_envs, render_mode=None)
     try:
         player = _make_player(agent_cfg, wrapped_env, checkpoint)
@@ -834,23 +1492,19 @@ def _run_vector_eval(agent_cfg: dict, checkpoint: Path) -> dict:
             device=device,
         )
         target_episodes_per_env[: int(args_cli.episodes) % num_envs] += 1
+        contact_trace_frames: list[dict[str, np.ndarray]] | None = (
+            [] if contact_trace_path is not None else None
+        )
 
         for step in range(max_steps):
             with torch.no_grad():
                 actions = player.get_action(obs, is_deterministic=args_cli.deterministic)
-            if torch.is_tensor(actions):
-                actions = actions.detach().clone()
-            if bool(args_cli.diagnostic_post_grasp_scripted_lift):
-                lift_mask = wrapped_env.unwrapped._tabletop_arm_lift_baseline_latched[:num_envs]
-                if torch.any(lift_mask):
-                    arm_action = torch.tensor(
-                        args_cli.diagnostic_post_grasp_arm_action,
-                        dtype=actions.dtype,
-                        device=actions.device,
-                    )
-                    actions[lift_mask, :7] = arm_action
-                    actions[lift_mask, 7:] = float(args_cli.diagnostic_post_grasp_hand_action)
+            actions = _apply_diagnostic_action_override(actions, wrapped_env)
             obs, rewards, dones, extras = wrapped_env.step(actions)
+            if contact_trace_frames is not None:
+                _append_vector_contact_trace(
+                    contact_trace_frames, wrapped_env, actions, rewards, dones, extras, step
+                )
             episode_success |= _tensor_bool(extras, "success_env", num_envs, device)
             episode_true_grasp |= _tensor_bool(extras, "true_grasp_env", num_envs, device)
             episode_lifted |= _tensor_bool(extras, "lifted_env", num_envs, device)
@@ -1005,24 +1659,32 @@ def _run_vector_eval(agent_cfg: dict, checkpoint: Path) -> dict:
             }
         per_env_summary = []
         if bool(args_cli.include_per_env_stats):
+            scene = getattr(wrapped_env.unwrapped, "scene", None)
+            env_origins = getattr(scene, "env_origins", None)
+            env_origins_cpu = (
+                env_origins.detach().cpu() if torch.is_tensor(env_origins) else None
+            )
             for env_id in range(num_envs):
                 episodes = int(per_env_episodes[env_id].item())
                 denom = max(float(episodes), 1.0)
-                per_env_summary.append(
-                    {
-                        "env_id": int(env_id),
-                        "episodes": episodes,
-                        "success_count": int(per_env_success[env_id].item()),
-                        "success_rate": float(per_env_success[env_id].item() / denom),
-                        "true_grasp_episode_rate": float(per_env_true_grasp[env_id].item() / denom),
-                        "lifted_episode_rate": float(per_env_lifted[env_id].item() / denom),
-                        "stable_hold_episode_rate": float(per_env_stable_hold[env_id].item() / denom),
-                        "mean_max_height_delta": float(per_env_max_height_sum[env_id].item() / denom),
-                        "max_height_delta": (
-                            float(per_env_max_height_max[env_id].item()) if episodes > 0 else None
-                        ),
-                    }
-                )
+                env_summary = {
+                    "env_id": int(env_id),
+                    "episodes": episodes,
+                    "success_count": int(per_env_success[env_id].item()),
+                    "success_rate": float(per_env_success[env_id].item() / denom),
+                    "true_grasp_episode_rate": float(per_env_true_grasp[env_id].item() / denom),
+                    "lifted_episode_rate": float(per_env_lifted[env_id].item() / denom),
+                    "stable_hold_episode_rate": float(per_env_stable_hold[env_id].item() / denom),
+                    "mean_max_height_delta": float(per_env_max_height_sum[env_id].item() / denom),
+                    "max_height_delta": (
+                        float(per_env_max_height_max[env_id].item()) if episodes > 0 else None
+                    ),
+                }
+                if env_origins_cpu is not None and env_id < env_origins_cpu.shape[0]:
+                    env_summary["env_origin"] = [
+                        float(value) for value in env_origins_cpu[env_id].tolist()
+                    ]
+                per_env_summary.append(env_summary)
         summary = {
             "episodes": int(completed),
             "episode_sampling": "balanced_per_env",
@@ -1040,6 +1702,19 @@ def _run_vector_eval(agent_cfg: dict, checkpoint: Path) -> dict:
             "asset_stats": asset_summary,
             "failure_funnel": funnel_accumulator.summary(),
         }
+        if contact_trace_frames is not None and contact_trace_path is not None:
+            contact_trace_path.parent.mkdir(parents=True, exist_ok=True)
+            trace_arrays = {
+                key: np.stack([frame[key] for frame in contact_trace_frames], axis=0)
+                for key in contact_trace_frames[0]
+            }
+            np.savez_compressed(contact_trace_path, **trace_arrays)
+            contact_trace_summary = _summarize_vector_contact_trace(
+                trace_arrays,
+                float(getattr(wrapped_env.unwrapped.cfg, "stable_object_palm_vel", 0.10)),
+            )
+            contact_trace_summary["path"] = str(contact_trace_path)
+            summary["contact_trace"] = contact_trace_summary
         if per_env_summary:
             summary["per_env_stats"] = per_env_summary
         return summary
@@ -1110,6 +1785,21 @@ def _trace_vec_tensor(unwrapped_env, name: str, num_envs: int, width: int, defau
     return value[..., :width]
 
 
+def _policy_arm_action_width(unwrapped_env, action_width: int | None = None) -> int:
+    """Resolve the arm/hand split from the environment's active action contract."""
+
+    resolver = getattr(unwrapped_env, "_policy_arm_action_dim", None)
+    if callable(resolver):
+        arm_width = int(resolver())
+    elif str(getattr(unwrapped_env.cfg, "policy_action_interface", "")) == "cartesian_wrist_delta":
+        arm_width = 6
+    else:
+        arm_width = len(getattr(unwrapped_env, "_arm_joint_ids", ())) or 7
+    if action_width is not None:
+        arm_width = min(max(arm_width, 0), int(action_width))
+    return arm_width
+
+
 def _append_video_trace(
     wrapped_env: RlGamesVecEnvWrapper,
     traces_by_env: list[list[dict]],
@@ -1124,7 +1814,8 @@ def _append_video_trace(
         actions_cpu = actions[:num_envs].detach().cpu()
     else:
         actions_cpu = None
-    hand_action_start = min(7, int(actions_cpu.shape[-1])) if actions_cpu is not None and actions_cpu.ndim == 2 else 7
+    action_width = int(actions_cpu.shape[-1]) if actions_cpu is not None and actions_cpu.ndim == 2 else None
+    hand_action_start = _policy_arm_action_width(unwrapped_env, action_width)
 
     hand_joint_names = list(getattr(unwrapped_env, "_sim_hand_joint_names", []))
     hand_joint_ids = list(getattr(unwrapped_env, "_control_hand_joint_ids", []))
@@ -1195,6 +1886,8 @@ def _append_video_trace(
     success_streak = _trace_tensor(unwrapped_env, "_success_streak", num_envs)
     object_pos_w = _trace_vec_tensor(unwrapped_env, "_object_pos_w", num_envs, 3)
     palm_pos_w = _trace_vec_tensor(unwrapped_env, "_palm_pos_w", num_envs, 3)
+    palm_quat_w = _trace_vec_tensor(unwrapped_env, "_palm_quat_w", num_envs, 4)
+    object_pos_palm = quat_rotate_inverse(palm_quat_w, object_pos_w - palm_pos_w)
     object_lin_vel_w = _trace_vec_tensor(unwrapped_env, "_object_lin_vel_w", num_envs, 3)
     object_ang_vel_w = _trace_vec_tensor(unwrapped_env, "_object_ang_vel_w", num_envs, 3)
     hover_target_pos_w = _trace_vec_tensor(unwrapped_env, "_object_hover_target_pos_w", num_envs, 3)
@@ -1232,10 +1925,55 @@ def _append_video_trace(
     strict_thumb_contact = _tensor_bool(extras, "strict_thumb_contact_env", num_envs, device)
     strict_true_grasp = _tensor_bool(extras, "strict_true_grasp_env", num_envs, device)
     strict_opposing_contact = _tensor_bool(extras, "strict_opposing_contact_env", num_envs, device)
+    clean_grasp_candidate = _tensor_bool(
+        extras, "tabletop_clean_grasp_candidate_env", num_envs, device
+    )
+    clean_grasp_latched = _tensor_bool(
+        extras, "tabletop_clean_grasp_latched_env", num_envs, device
+    )
+    unclean_lift = _tensor_bool(extras, "tabletop_unclean_lift_env", num_envs, device)
     finger_contacts = _tensor_float(extras, "finger_contacts_env", num_envs, device)
     non_thumb_contacts = _tensor_float(extras, "non_thumb_contacts_env", num_envs, device)
     strict_finger_contacts = _tensor_float(extras, "strict_finger_contacts_env", num_envs, device)
     strict_non_thumb_contacts = _tensor_float(extras, "strict_non_thumb_contacts_env", num_envs, device)
+    force_thumb_contact = _tensor_bool(extras, "force_thumb_contact_env", num_envs, device)
+    force_multifinger_contact = _tensor_bool(
+        extras, "force_multifinger_contact_env", num_envs, device
+    )
+    force_grasp = _tensor_bool(extras, "force_grasp_env", num_envs, device)
+    force_stable_grasp = _tensor_bool(extras, "force_stable_grasp_env", num_envs, device)
+    force_stable_hold = _tensor_bool(extras, "force_stable_hold_env", num_envs, device)
+    force_grasp_streak = _tensor_float(extras, "force_grasp_streak_env", num_envs, device)
+    object_fingertip_force_sum = _tensor_float(
+        extras, "object_fingertip_force_sum_env", num_envs, device
+    )
+    object_fingertip_force_max = _tensor_float(
+        extras, "object_fingertip_force_max_env", num_envs, device
+    )
+    fingertip_net_contact_force_sum = _tensor_float(
+        extras, "fingertip_net_contact_force_sum_env", num_envs, device
+    )
+    fingertip_net_contact_force_max = _tensor_float(
+        extras, "fingertip_net_contact_force_max_env", num_envs, device
+    )
+    tabletop_arm_lift_progress = _tensor_float(
+        extras, "tabletop_arm_lift_progress_env", num_envs, device
+    )
+    tabletop_relative_palm_lift = _tensor_float(
+        extras, "tabletop_relative_palm_lift_env", num_envs, device
+    )
+    tabletop_relative_palm_lift_progress = _tensor_float(
+        extras, "tabletop_relative_palm_lift_progress_env", num_envs, device
+    )
+    tabletop_object_palm_drift = _tensor_float(
+        extras, "tabletop_object_palm_drift_env", num_envs, device
+    )
+    tabletop_palm_object_up_vel_rew = _tensor_float(
+        extras, "tabletop_palm_object_up_vel_rew_env", num_envs, device
+    )
+    tabletop_lift_action_prior = _tensor_float(
+        extras, "tabletop_lift_action_prior_env", num_envs, device
+    )
     min_surface_dist = _tensor_float(extras, "min_surface_dist_env", num_envs, device)
     tabletop_clearance_ok = _tensor_bool(extras, "tabletop_arm_clearance_ok_env", num_envs, device)
     tabletop_clearance_penalty = _tensor_float(
@@ -1335,6 +2073,8 @@ def _append_video_trace(
     hover_target_pos_w_cpu = hover_target_pos_w.detach().cpu()
     object_pos_w_cpu = object_pos_w.detach().cpu()
     palm_pos_w_cpu = palm_pos_w.detach().cpu()
+    palm_quat_w_cpu = palm_quat_w.detach().cpu()
+    object_pos_palm_cpu = object_pos_palm.detach().cpu()
     env_origins_cpu = env_origins.detach().cpu()
     true_grasp_cpu = true_grasp.detach().cpu()
     lifted_cpu = lifted.detach().cpu()
@@ -1349,10 +2089,31 @@ def _append_video_trace(
     strict_thumb_contact_cpu = strict_thumb_contact.detach().cpu()
     strict_true_grasp_cpu = strict_true_grasp.detach().cpu()
     strict_opposing_contact_cpu = strict_opposing_contact.detach().cpu()
+    clean_grasp_candidate_cpu = clean_grasp_candidate.detach().cpu()
+    clean_grasp_latched_cpu = clean_grasp_latched.detach().cpu()
+    unclean_lift_cpu = unclean_lift.detach().cpu()
     finger_contacts_cpu = finger_contacts.detach().cpu()
     non_thumb_contacts_cpu = non_thumb_contacts.detach().cpu()
     strict_finger_contacts_cpu = strict_finger_contacts.detach().cpu()
     strict_non_thumb_contacts_cpu = strict_non_thumb_contacts.detach().cpu()
+    force_thumb_contact_cpu = force_thumb_contact.detach().cpu()
+    force_multifinger_contact_cpu = force_multifinger_contact.detach().cpu()
+    force_grasp_cpu = force_grasp.detach().cpu()
+    force_stable_grasp_cpu = force_stable_grasp.detach().cpu()
+    force_stable_hold_cpu = force_stable_hold.detach().cpu()
+    force_grasp_streak_cpu = force_grasp_streak.detach().cpu()
+    object_fingertip_force_sum_cpu = object_fingertip_force_sum.detach().cpu()
+    object_fingertip_force_max_cpu = object_fingertip_force_max.detach().cpu()
+    fingertip_net_contact_force_sum_cpu = fingertip_net_contact_force_sum.detach().cpu()
+    fingertip_net_contact_force_max_cpu = fingertip_net_contact_force_max.detach().cpu()
+    tabletop_arm_lift_progress_cpu = tabletop_arm_lift_progress.detach().cpu()
+    tabletop_relative_palm_lift_cpu = tabletop_relative_palm_lift.detach().cpu()
+    tabletop_relative_palm_lift_progress_cpu = (
+        tabletop_relative_palm_lift_progress.detach().cpu()
+    )
+    tabletop_object_palm_drift_cpu = tabletop_object_palm_drift.detach().cpu()
+    tabletop_palm_object_up_vel_rew_cpu = tabletop_palm_object_up_vel_rew.detach().cpu()
+    tabletop_lift_action_prior_cpu = tabletop_lift_action_prior.detach().cpu()
     min_surface_dist_cpu = min_surface_dist.detach().cpu()
     tabletop_clearance_ok_cpu = tabletop_clearance_ok.detach().cpu()
     tabletop_clearance_penalty_cpu = tabletop_clearance_penalty.detach().cpu()
@@ -1381,6 +2142,8 @@ def _append_video_trace(
             "object_z": float(object_pos_w_cpu[env_id, 2].item()),
             "object_pos_w": [float(value) for value in object_pos_w_cpu[env_id].tolist()],
             "palm_pos_w": [float(value) for value in palm_pos_w_cpu[env_id].tolist()],
+            "palm_quat_w": [float(value) for value in palm_quat_w_cpu[env_id].tolist()],
+            "object_pos_palm": [float(value) for value in object_pos_palm_cpu[env_id].tolist()],
             "object_pos_local": [
                 float(value) for value in (object_pos_w_cpu[env_id] - env_origins_cpu[env_id]).tolist()
             ],
@@ -1401,6 +2164,37 @@ def _append_video_trace(
             "strict_finger_contacts": float(strict_finger_contacts_cpu[env_id].item()),
             "strict_non_thumb_contacts": float(strict_non_thumb_contacts_cpu[env_id].item()),
             "strict_opposing_contact": bool(strict_opposing_contact_cpu[env_id].item()),
+            "clean_grasp_candidate": bool(clean_grasp_candidate_cpu[env_id].item()),
+            "clean_grasp_latched": bool(clean_grasp_latched_cpu[env_id].item()),
+            "unclean_lift": bool(unclean_lift_cpu[env_id].item()),
+            "force_thumb_contact": bool(force_thumb_contact_cpu[env_id].item()),
+            "force_multifinger_contact": bool(force_multifinger_contact_cpu[env_id].item()),
+            "force_grasp": bool(force_grasp_cpu[env_id].item()),
+            "force_stable_grasp": bool(force_stable_grasp_cpu[env_id].item()),
+            "force_stable_hold": bool(force_stable_hold_cpu[env_id].item()),
+            "force_grasp_streak": int(force_grasp_streak_cpu[env_id].item()),
+            "object_fingertip_force_sum": float(object_fingertip_force_sum_cpu[env_id].item()),
+            "object_fingertip_force_max": float(object_fingertip_force_max_cpu[env_id].item()),
+            "fingertip_net_contact_force_sum": float(
+                fingertip_net_contact_force_sum_cpu[env_id].item()
+            ),
+            "fingertip_net_contact_force_max": float(
+                fingertip_net_contact_force_max_cpu[env_id].item()
+            ),
+            "tabletop_arm_lift_progress": float(tabletop_arm_lift_progress_cpu[env_id].item()),
+            "tabletop_relative_palm_lift": float(
+                tabletop_relative_palm_lift_cpu[env_id].item()
+            ),
+            "tabletop_relative_palm_lift_progress": float(
+                tabletop_relative_palm_lift_progress_cpu[env_id].item()
+            ),
+            "tabletop_object_palm_drift": float(
+                tabletop_object_palm_drift_cpu[env_id].item()
+            ),
+            "tabletop_palm_object_up_vel_rew": float(
+                tabletop_palm_object_up_vel_rew_cpu[env_id].item()
+            ),
+            "tabletop_lift_action_prior": float(tabletop_lift_action_prior_cpu[env_id].item()),
             "min_surface_dist": float(min_surface_dist_cpu[env_id].item()),
             "tabletop_arm_clearance_ok": bool(tabletop_clearance_ok_cpu[env_id].item()),
             "tabletop_arm_clearance_penalty": float(tabletop_clearance_penalty_cpu[env_id].item()),
@@ -1517,6 +2311,7 @@ def _write_video_trace(
     trace_payload = {
         "video_path": str(video_path),
         "attempt": int(attempt),
+        "seed": int(args_cli.seed) + int(attempt),
         "env_id": int(env_id),
         "frame_count": int(frame_count),
         "camera_track_object": bool(args_cli.video_camera_track_object),
@@ -1549,6 +2344,30 @@ def _write_video_trace(
     trace_path = video_path.with_suffix(".trace.json")
     trace_path.write_text(json.dumps(trace_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return trace_path
+
+
+def _write_eval_video_sidecars(
+    video_path: Path,
+    trace_path: Path,
+    env_cfg,
+    checkpoint: Path,
+    method: str,
+) -> dict[str, str]:
+    trace_payload = json.loads(trace_path.read_text(encoding="utf-8"))
+    compact_metrics = {
+        key: value
+        for key, value in trace_payload.items()
+        if key not in {"trace", "trials"}
+    }
+    return write_debug_video_artifacts(
+        video_path,
+        method=method,
+        args=args_cli,
+        env_cfg=env_cfg,
+        checkpoint=checkpoint,
+        metrics=compact_metrics,
+        extra={"trace_path": str(trace_path)},
+    )
 
 
 def _post_success_trace_passes(
@@ -1666,7 +2485,15 @@ def _save_success_videos(agent_cfg: dict, checkpoint: Path, output_dir: Path) ->
         for attempt in range(args_cli.video_attempts):
             if len(video_paths) >= args_cli.save_success_videos:
                 break
-            _trace(f"video attempt {attempt:03d} reset")
+            # Rendering setup consumes global RNG state. Reseed each attempt
+            # after the rendered environment exists so video search is both
+            # reproducible and covers distinct reset conditions.
+            attempt_seed = int(args_cli.seed) + int(attempt)
+            np.random.seed(attempt_seed)
+            torch.manual_seed(attempt_seed)
+            if hasattr(wrapped_env.unwrapped, "seed"):
+                wrapped_env.unwrapped.seed(attempt_seed)
+            _trace(f"video attempt {attempt:03d} reset (seed={attempt_seed})")
             obs = wrapped_env.reset()
             _trace(f"video attempt {attempt:03d} reset done")
             _set_video_camera_poses(wrapped_env.env.unwrapped)
@@ -1692,6 +2519,13 @@ def _save_success_videos(agent_cfg: dict, checkpoint: Path, output_dir: Path) ->
                 )
                 imageio.mimsave(video_path, frames, fps=args_cli.video_fps, macro_block_size=16)
                 trace_path = _write_video_trace(video_path, traces_by_env[env_id], attempt, env_id, len(frames))
+                _write_eval_video_sidecars(
+                    video_path,
+                    trace_path,
+                    wrapped_env.unwrapped.cfg,
+                    checkpoint,
+                    "rl_games_teacher_success_rollout",
+                )
                 video_paths.append(str(video_path))
                 saved_env_ids.add(env_id)
                 _trace(f"saved success video: {video_path} (env_id={env_id}, trace={trace_path})")
@@ -1701,6 +2535,7 @@ def _save_success_videos(agent_cfg: dict, checkpoint: Path, output_dir: Path) ->
                     if step % max(args_cli.video_stride, 1) == 0:
                         _capture_video_frames(wrapped_env, frames_by_env)
                     actions = player.get_action(obs, is_deterministic=args_cli.deterministic)
+                    actions = _apply_diagnostic_action_override(actions, wrapped_env)
                     obs, _, dones, extras = wrapped_env.step(actions)
                     _append_video_trace(wrapped_env, traces_by_env, extras, step)
                     success_now = _tensor_bool(extras, "success_env", video_envs, wrapped_env.device)
@@ -1799,6 +2634,13 @@ def _save_success_videos(agent_cfg: dict, checkpoint: Path, output_dir: Path) ->
                         imageio.mimsave(debug_path, frames, fps=args_cli.video_fps, macro_block_size=16)
                         trace_path = _write_video_trace(
                             debug_path, traces_by_env[debug_env_id], attempt, debug_env_id, len(frames)
+                        )
+                        _write_eval_video_sidecars(
+                            debug_path,
+                            trace_path,
+                            wrapped_env.unwrapped.cfg,
+                            checkpoint,
+                            "rl_games_teacher_failure_rollout",
                         )
                         rollout_video_paths.append(str(debug_path))
                         _trace(
@@ -1931,6 +2773,7 @@ def _save_trial_sequence_videos(agent_cfg: dict, checkpoint: Path, output_dir: P
                             if step % stride == 0:
                                 _capture_video_frames(wrapped_env, frames_by_env)
                             actions = player.get_action(obs, is_deterministic=args_cli.deterministic)
+                            actions = _apply_diagnostic_action_override(actions, wrapped_env)
                             obs, _, dones, extras = wrapped_env.step(actions)
                             _append_video_trace(wrapped_env, traces_by_env, extras, step)
                             success_now = _tensor_bool(extras, "success_env", video_envs, wrapped_env.device)
@@ -2007,6 +2850,13 @@ def _save_trial_sequence_videos(agent_cfg: dict, checkpoint: Path, output_dir: P
                 continue
             tmp_path.replace(final_path)
             trace_path = _write_trial_sequence_trace(final_path, trials, frame_count)
+            _write_eval_video_sidecars(
+                final_path,
+                trace_path,
+                wrapped_env.unwrapped.cfg,
+                checkpoint,
+                "rl_games_teacher_trial_sequence",
+            )
             sequence_paths.append(str(final_path))
             trace_paths.append(str(trace_path))
             _trace(f"saved trial sequence video: {final_path} (trace={trace_path})")
@@ -2043,7 +2893,12 @@ def main() -> None:
             }
             vector_passed = True
         else:
-            eval_summary = _run_vector_eval(agent_cfg, checkpoint)
+            contact_trace_path = (
+                output_dir / "vector_contact_trace.npz"
+                if bool(args_cli.save_vector_contact_trace)
+                else None
+            )
+            eval_summary = _run_vector_eval(agent_cfg, checkpoint, contact_trace_path)
             vector_passed = eval_summary["success_rate"] >= args_cli.success_threshold
         video_paths, rollout_video_paths = (
             _save_success_videos(agent_cfg, checkpoint, output_dir) if vector_passed else ([], [])
@@ -2090,8 +2945,12 @@ def main() -> None:
             "device": args_cli.device,
             "rl_device": args_cli.rl_device or args_cli.device,
             "deterministic": bool(args_cli.deterministic),
+            "teacher_state_encoder": args_cli.teacher_state_encoder,
             "seed": int(args_cli.seed),
             "dynamic_curriculum_alpha": args_cli.dynamic_curriculum_alpha,
+            "clean_grasp_curriculum_alpha": args_cli.clean_grasp_curriculum_alpha,
+            "canonical_reset_alpha": args_cli.canonical_reset_alpha,
+            "canonical_reset_arm_pos_noise": args_cli.canonical_reset_arm_pos_noise,
             "dynamic_tabletop_speed_range": (
                 list(args_cli.dynamic_tabletop_speed_range)
                 if args_cli.dynamic_tabletop_speed_range is not None
@@ -2102,6 +2961,21 @@ def main() -> None:
             "tabletop_motion_curriculum_alpha": args_cli.tabletop_motion_curriculum_alpha,
             "tabletop_pregrasp_lead_time": args_cli.tabletop_pregrasp_lead_time,
             "tabletop_pregrasp_ahead_distance": args_cli.tabletop_pregrasp_ahead_distance,
+            "scripted_tabletop_object_relative_pregrasp_lead_time": (
+                args_cli.scripted_tabletop_object_relative_pregrasp_lead_time
+            ),
+            "scripted_hand_proximity_position_threshold": (
+                args_cli.scripted_hand_proximity_position_threshold
+            ),
+            "scripted_hand_proximity_rotation_threshold": (
+                args_cli.scripted_hand_proximity_rotation_threshold
+            ),
+            "scripted_hand_proximity_ramp_steps": (
+                args_cli.scripted_hand_proximity_ramp_steps
+            ),
+            "scripted_action_prior_lift_grasp_delay_steps": (
+                args_cli.scripted_action_prior_lift_grasp_delay_steps
+            ),
             "scripted_action_prior_active_residual_scale": (
                 args_cli.scripted_action_prior_active_residual_scale
             ),
@@ -2113,20 +2987,82 @@ def main() -> None:
             "tabletop_lift_hand_target_close_fraction": (
                 args_cli.tabletop_lift_hand_target_close_fraction
             ),
+            "tabletop_arm_lift_baseline_grasp_streak": (
+                args_cli.tabletop_arm_lift_baseline_grasp_streak
+            ),
             "diagnostic_post_grasp_scripted_lift": bool(
                 args_cli.diagnostic_post_grasp_scripted_lift
             ),
+            "diagnostic_post_grasp_relative_lift_target_scale": (
+                args_cli.diagnostic_post_grasp_relative_lift_target_scale
+            ),
+            "diagnostic_post_grasp_cartesian_lift_height": (
+                args_cli.diagnostic_post_grasp_cartesian_lift_height
+            ),
+            "diagnostic_post_grasp_cartesian_lift_damping": float(
+                args_cli.diagnostic_post_grasp_cartesian_lift_damping
+            ),
+            "diagnostic_post_grasp_cartesian_lift_max_joint_delta": float(
+                args_cli.diagnostic_post_grasp_cartesian_lift_max_joint_delta
+            ),
+            "diagnostic_post_grasp_min_episode_step": int(
+                args_cli.diagnostic_post_grasp_min_episode_step
+            ),
+            "diagnostic_hand_open_until_step": int(
+                args_cli.diagnostic_hand_open_until_step
+            ),
+            "diagnostic_hand_close_from_step": int(
+                args_cli.diagnostic_hand_close_from_step
+            ),
+            "diagnostic_hand_close_action": float(
+                args_cli.diagnostic_hand_close_action
+            ),
+            "diagnostic_hold_arm_while_closing": bool(
+                args_cli.diagnostic_hold_arm_while_closing
+            ),
+            "diagnostic_zero_arm_after_hover_latch": bool(
+                args_cli.diagnostic_zero_arm_after_hover_latch
+            ),
+            "diagnostic_replay_actions_trace": (
+                str(args_cli.diagnostic_replay_actions_trace)
+                if args_cli.diagnostic_replay_actions_trace is not None
+                else None
+            ),
             "diagnostic_post_grasp_arm_action": list(args_cli.diagnostic_post_grasp_arm_action),
             "diagnostic_post_grasp_hand_action": float(args_cli.diagnostic_post_grasp_hand_action),
+            "diagnostic_post_grasp_force_hand_action": bool(
+                args_cli.diagnostic_post_grasp_force_hand_action
+            ),
             "dynamic_success_hold_steps": args_cli.dynamic_success_hold_steps,
+            "tabletop_success_requires_force_grasp": bool(
+                args_cli.resolved_tabletop_success_requires_force_grasp
+            ),
+            "tabletop_success_requires_force_grasp_override": (
+                args_cli.tabletop_success_requires_force_grasp
+            ),
             "tabletop_post_success_hand_close_fraction": (
                 args_cli.tabletop_post_success_hand_close_fraction
             ),
             "stability_target_latch_min_success_streak": (
                 args_cli.stability_target_latch_min_success_streak
             ),
-            "object_contact_force_diagnostics": bool(args_cli.object_contact_force_diagnostics),
-            "object_contact_force_threshold": float(args_cli.object_contact_force_threshold),
+            "object_contact_force_diagnostics": bool(
+                getattr(
+                    args_cli,
+                    "resolved_object_contact_force_diagnostics",
+                    args_cli.object_contact_force_diagnostics,
+                )
+            ),
+            "object_contact_force_diagnostics_override": (
+                args_cli.object_contact_force_diagnostics
+            ),
+            "object_contact_force_threshold": float(
+                getattr(
+                    args_cli,
+                    "resolved_object_contact_force_threshold",
+                    args_cli.object_contact_force_threshold,
+                )
+            ),
             "success_threshold": float(args_cli.success_threshold),
             "video_post_success_steps": int(args_cli.video_post_success_steps),
             "video_post_success_min_stable_frac": float(args_cli.video_post_success_min_stable_frac),

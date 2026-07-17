@@ -1,6 +1,6 @@
 # Teacher-Student Dynamic Dexterous Grasping Migration
 
-Last updated: 2026-07-02
+Last updated: 2026-07-15
 
 This is the IsaacLab-side contract for migrating the dynamic dexterous grasping
 line from `/data1/linsixu/simtoolreal` into `simtoolreal_lab`.
@@ -173,6 +173,24 @@ scripts/audit_teacher_student_migration.py
 ## Action Contracts
 
 Do not silently mix these interfaces:
+
+```text
+Current global deployment rule (2026-07-15):
+  Revo2 and Inspire must use the same Franka action semantics.
+  Candidate A = 7D measured-bounded joint absolute target.
+  Candidate B = 6D base-frame measured EEF delta + torque Cartesian impedance.
+  Revo2 hand = 6D physical-motor absolute target.
+  Inspire hand = 6D physical-motor absolute target.
+```
+
+The static from-scratch A/B selects one Franka candidate globally. It is not
+valid to retain JointTarget for one hand and Cartesian for the other. The
+selected arm contract must then be used unchanged by both rolling/falling
+teachers, dataset metadata, student actor outputs, evaluation, and real-robot
+execution. Hand-specific motor limits and mimic kinematics remain embodiment
+properties, not different policy action semantics.
+
+Historical contracts below remain readable for artifact migration only:
 
 ```text
 Revo2 semantic IsaacLab static grasp:

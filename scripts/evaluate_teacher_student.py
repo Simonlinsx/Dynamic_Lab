@@ -14,6 +14,8 @@ EXT_SOURCE = Path(__file__).resolve().parents[1] / "source" / "simtoolreal_lab"
 if str(EXT_SOURCE) not in sys.path:
     sys.path.insert(0, str(EXT_SOURCE))
 
+from debug_video_artifacts import write_debug_video_artifacts
+
 from isaaclab.app import AppLauncher
 
 parser = argparse.ArgumentParser(description=__doc__)
@@ -33,8 +35,12 @@ parser.add_argument(
 parser.add_argument("--success-threshold", type=float, default=0.0)
 parser.add_argument(
     "--object-contact-force-diagnostics",
-    action="store_true",
-    help="Record filtered PhysX fingertip-to-object forces alongside geometric contact metrics.",
+    action=argparse.BooleanOptionalAction,
+    default=None,
+    help=(
+        "Enable or disable filtered PhysX fingertip-to-object forces. "
+        "By default the task configuration is preserved."
+    ),
 )
 parser.add_argument(
     "--object-contact-force-threshold",
@@ -594,10 +600,17 @@ def _make_env(task: str, num_envs: int, render_mode: str | None, pointcloud_sour
             args_cli.tabletop_pregrasp_ahead_distance
         )
     if hasattr(env_cfg, "object_contact_force_diagnostics_enabled"):
-        env_cfg.object_contact_force_diagnostics_enabled = bool(
-            args_cli.object_contact_force_diagnostics
+        if args_cli.object_contact_force_diagnostics is not None:
+            env_cfg.object_contact_force_diagnostics_enabled = bool(
+                args_cli.object_contact_force_diagnostics
+            )
+            env_cfg.object_contact_force_threshold = float(args_cli.object_contact_force_threshold)
+        args_cli.resolved_object_contact_force_diagnostics = bool(
+            env_cfg.object_contact_force_diagnostics_enabled
         )
-        env_cfg.object_contact_force_threshold = float(args_cli.object_contact_force_threshold)
+        args_cli.resolved_object_contact_force_threshold = float(
+            env_cfg.object_contact_force_threshold
+        )
 
     if pointcloud_source == "rgbd_projected_mask":
         if not hasattr(env_cfg, "student_camera_enabled"):
@@ -1533,6 +1546,30 @@ def _write_video_trace(
     return trace_path
 
 
+def _write_student_video_sidecars(
+    video_path: Path,
+    trace_path: Path,
+    env_cfg,
+    method: str,
+    extra: dict | None = None,
+) -> dict[str, str]:
+    trace_payload = json.loads(trace_path.read_text(encoding="utf-8"))
+    compact_metrics = {
+        key: value
+        for key, value in trace_payload.items()
+        if key not in {"trace", "trials"}
+    }
+    return write_debug_video_artifacts(
+        video_path,
+        method=method,
+        args=args_cli,
+        env_cfg=env_cfg,
+        checkpoint=Path(args_cli.checkpoint),
+        metrics=compact_metrics,
+        extra={"trace_path": str(trace_path), **(extra or {})},
+    )
+
+
 def _post_success_trace_passes(
     trace: list[dict],
     success_step: int,
@@ -1711,6 +1748,21 @@ def _save_success_videos(
                     len(frames),
                     pointcloud_video_path,
                 )
+                _write_student_video_sidecars(
+                    video_path,
+                    trace_path,
+                    unwrapped.cfg,
+                    "rgbd_student_success_rollout",
+                    {"pointcloud_video": str(pointcloud_video_path) if pointcloud_video_path else None},
+                )
+                if pointcloud_video_path is not None:
+                    _write_student_video_sidecars(
+                        pointcloud_video_path,
+                        trace_path,
+                        unwrapped.cfg,
+                        "rgbd_student_pointcloud_success_rollout",
+                        {"scene_video": str(video_path)},
+                    )
                 video_paths.append(str(video_path))
                 saved_env_ids.add(env_id)
                 _trace(f"saved success video: {video_path} (trace={trace_path})")
@@ -1885,6 +1937,25 @@ def _save_success_videos(
                             len(frames),
                             debug_pointcloud_path,
                         )
+                        _write_student_video_sidecars(
+                            debug_path,
+                            trace_path,
+                            unwrapped.cfg,
+                            "rgbd_student_failure_rollout",
+                            {
+                                "pointcloud_video": (
+                                    str(debug_pointcloud_path) if debug_pointcloud_path else None
+                                )
+                            },
+                        )
+                        if debug_pointcloud_path is not None:
+                            _write_student_video_sidecars(
+                                debug_pointcloud_path,
+                                trace_path,
+                                unwrapped.cfg,
+                                "rgbd_student_pointcloud_failure_rollout",
+                                {"scene_video": str(debug_path)},
+                            )
                         _trace(f"saved debug rollout video: {debug_path} (trace={trace_path})")
             with progress_path.open("a", encoding="utf-8") as progress_file:
                 progress_file.write(
@@ -2333,6 +2404,21 @@ def _save_trial_sequence_videos(
                 bool(getattr(model, "input_normalization", None) is not None),
                 pointcloud_final_path,
             )
+            _write_student_video_sidecars(
+                final_path,
+                trace_path,
+                unwrapped.cfg,
+                "rgbd_student_trial_sequence",
+                {"pointcloud_video": str(pointcloud_final_path) if pointcloud_final_path else None},
+            )
+            if pointcloud_final_path is not None:
+                _write_student_video_sidecars(
+                    pointcloud_final_path,
+                    trace_path,
+                    unwrapped.cfg,
+                    "rgbd_student_pointcloud_trial_sequence",
+                    {"scene_video": str(final_path)},
+                )
             sequence_paths.append(str(final_path))
             trace_paths.append(str(trace_path))
             _trace(f"saved trial sequence video: {final_path} (trace={trace_path})")
@@ -2503,8 +2589,21 @@ def main() -> None:
         "action_rate_limit": float(args_cli.action_rate_limit),
         "history_bootstrap": str(args_cli.history_bootstrap),
         "first_episode_per_env": bool(args_cli.first_episode_per_env),
-        "object_contact_force_diagnostics": bool(args_cli.object_contact_force_diagnostics),
-        "object_contact_force_threshold": float(args_cli.object_contact_force_threshold),
+        "object_contact_force_diagnostics": bool(
+            getattr(
+                args_cli,
+                "resolved_object_contact_force_diagnostics",
+                args_cli.object_contact_force_diagnostics,
+            )
+        ),
+        "object_contact_force_diagnostics_override": args_cli.object_contact_force_diagnostics,
+        "object_contact_force_threshold": float(
+            getattr(
+                args_cli,
+                "resolved_object_contact_force_threshold",
+                args_cli.object_contact_force_threshold,
+            )
+        ),
         "rgbd_clean_fallback": bool(args_cli.rgbd_clean_fallback),
         "rgbd_temporal_fallback": bool(args_cli.rgbd_temporal_fallback),
         "trial_sequence_seed_mode": str(args_cli.trial_sequence_seed_mode),

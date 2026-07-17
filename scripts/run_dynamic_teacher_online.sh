@@ -14,6 +14,10 @@ MINIBATCH_SIZE=${MINIBATCH_SIZE:-16384}
 MINI_EPOCHS=${MINI_EPOCHS:-5}
 SAVE_FREQUENCY=${SAVE_FREQUENCY:-50}
 CHECKPOINT=${CHECKPOINT:-}
+SIGMA=${SIGMA:-}
+ACTIVE_RESIDUAL_SCALE=${ACTIVE_RESIDUAL_SCALE:-}
+ZERO_POLICY_MEAN_INIT=${ZERO_POLICY_MEAN_INIT:-0}
+LEARNING_RATE=${LEARNING_RATE:-}
 EXPERIMENT_NAME=${EXPERIMENT_NAME:-revo2_falling_baton_easy_teacher_metrics_online_512env_1200ep_20260701}
 WANDB_PROJECT=${WANDB_PROJECT:-simtoolreal_lab}
 WANDB_ENTITY=${WANDB_ENTITY:-simonlsx}
@@ -28,12 +32,28 @@ cd "${ROOT}"
 echo "[RUN] task=${TASK}"
 echo "[RUN] gpu=${GPU_ID} num_envs=${NUM_ENVS} max_epochs=${MAX_EPOCHS} seed=${SEED}"
 echo "[RUN] checkpoint=${CHECKPOINT:-<none>}"
+echo "[RUN] sigma=${SIGMA:-<config>} active_residual_scale=${ACTIVE_RESIDUAL_SCALE:-<config>}"
+echo "[RUN] zero_policy_mean_init=${ZERO_POLICY_MEAN_INIT} learning_rate=${LEARNING_RATE:-<config>}"
 echo "[RUN] wandb=${WANDB_PROJECT}/${WANDB_RUN_NAME}"
 echo "[RUN] log=${LOG_PATH}"
 
 CHECKPOINT_ARGS=()
 if [[ -n "${CHECKPOINT}" ]]; then
   CHECKPOINT_ARGS=(--checkpoint "${CHECKPOINT}")
+fi
+
+TRAIN_OVERRIDE_ARGS=()
+if [[ -n "${SIGMA}" ]]; then
+  TRAIN_OVERRIDE_ARGS+=(--sigma "${SIGMA}")
+fi
+if [[ -n "${ACTIVE_RESIDUAL_SCALE}" ]]; then
+  TRAIN_OVERRIDE_ARGS+=(--scripted-action-prior-active-residual-scale "${ACTIVE_RESIDUAL_SCALE}")
+fi
+if [[ "${ZERO_POLICY_MEAN_INIT}" == "1" ]]; then
+  TRAIN_OVERRIDE_ARGS+=(--zero-policy-mean-init)
+fi
+if [[ -n "${LEARNING_RATE}" ]]; then
+  TRAIN_OVERRIDE_ARGS+=(--learning-rate "${LEARNING_RATE}")
 fi
 
 TASK_TAG="dynamic_grasp"
@@ -59,6 +79,7 @@ CUDA_VISIBLE_DEVICES="${GPU_ID}" "${PYTHON}" scripts/train_rl_games.py \
   --save-frequency "${SAVE_FREQUENCY}" \
   --experiment-name "${EXPERIMENT_NAME}" \
   "${CHECKPOINT_ARGS[@]}" \
+  "${TRAIN_OVERRIDE_ARGS[@]}" \
   --wandb-project "${WANDB_PROJECT}" \
   --wandb-entity "${WANDB_ENTITY}" \
   --wandb-group "${WANDB_GROUP}" \

@@ -5,8 +5,10 @@ from __future__ import annotations
 
 import argparse
 import copy
+import json
 import os
 import sys
+import traceback
 from datetime import datetime
 from pathlib import Path
 
@@ -65,12 +67,52 @@ parser.add_argument(
     action="store_true",
     help="Reset checkpoint epoch/frame/best-reward counters after loading weights.",
 )
-parser.add_argument("--sigma", type=float, default=None, help="Optional fixed policy sigma override.")
+parser.add_argument(
+    "--sigma",
+    type=float,
+    default=None,
+    help=(
+        "Optional fixed policy log-standard-deviation override for continuous_a2c_logstd "
+        "(for example, 0 gives std=1 and -0.7 gives std approximately 0.50)."
+    ),
+)
+parser.add_argument(
+    "--zero-policy-mean-init",
+    action="store_true",
+    help="Initialize the continuous actor mean head at exactly zero.",
+)
+parser.add_argument(
+    "--teacher-state-encoder",
+    choices=("flat", "structured", "finger_residual"),
+    default="flat",
+    help=(
+        "Teacher state architecture. structured applies a parameter-matched semantic encoder "
+        "to the unchanged static privileged observation."
+    ),
+)
 parser.add_argument(
     "--dynamic-curriculum-alpha",
     type=float,
     default=None,
     help="Override dynamic speed curriculum alpha during training. Useful for fixed-difficulty fine-tuning.",
+)
+parser.add_argument(
+    "--clean-grasp-curriculum-alpha",
+    type=float,
+    default=None,
+    help=(
+        "Override the clean-contact curriculum during training. Leave unset for the "
+        "configured frame schedule; 1.0 applies the strict final gate."
+    ),
+)
+parser.add_argument(
+    "--canonical-reset-alpha",
+    type=float,
+    default=None,
+    help=(
+        "Override the canonical static reset curriculum: 0.0 is the collision-free "
+        "object-aligned pregrasp and 1.0 is the official upright home pose."
+    ),
 )
 parser.add_argument(
     "--tabletop-asset-curriculum-alpha",
@@ -125,6 +167,18 @@ parser.add_argument(
     type=int,
     default=None,
     help="Override consecutive stable steps required before success latches.",
+)
+parser.add_argument(
+    "--tabletop-lift-hand-target-close-fraction",
+    type=float,
+    default=None,
+    help="Override the calibrated extra-close fraction applied to the post-grasp hand target.",
+)
+parser.add_argument(
+    "--tabletop-arm-lift-baseline-grasp-streak",
+    type=int,
+    default=None,
+    help="Override consecutive strict/force grasp steps required before the lift pose and hand target latch.",
 )
 parser.add_argument(
     "--tabletop-post-success-hand-close-fraction",
@@ -195,6 +249,71 @@ parser.add_argument(
     default=1.0,
     help="Per-action anchor weight for indices from --behavior-anchor-hand-start-index onward.",
 )
+parser.add_argument(
+    "--behavior-anchor-arm-release-gate-obs-index",
+    type=int,
+    default=None,
+    help=(
+        "Optional raw-observation phase gate. Before it activates, arm and hand use their "
+        "configured anchor weights; afterward the arm anchor is released while the hand remains anchored."
+    ),
+)
+parser.add_argument(
+    "--behavior-anchor-arm-release-gate-threshold",
+    type=float,
+    default=0.5,
+    help="Activation threshold for --behavior-anchor-arm-release-gate-obs-index.",
+)
+parser.add_argument(
+    "--privileged-action-target-coef",
+    type=float,
+    default=0.0,
+    help=(
+        "Auxiliary teacher-only MSE weight that regresses policy means to an action target "
+        "stored in raw observations. The environment action and PPO objective remain active."
+    ),
+)
+parser.add_argument(
+    "--privileged-action-target-obs-index",
+    type=int,
+    default=None,
+    help="First raw-observation index of the privileged action target.",
+)
+parser.add_argument(
+    "--privileged-action-target-gate-obs-index",
+    type=int,
+    default=None,
+    help="Raw-observation index that enables the auxiliary target loss when above the gate threshold.",
+)
+parser.add_argument(
+    "--privileged-action-target-gate-threshold",
+    type=float,
+    default=0.5,
+    help="Activation threshold for --privileged-action-target-gate-obs-index.",
+)
+parser.add_argument(
+    "--privileged-action-target-action-index",
+    type=int,
+    default=0,
+    help="First policy-action index supervised by the privileged target.",
+)
+parser.add_argument(
+    "--privileged-action-target-dim",
+    type=int,
+    default=7,
+    help="Number of consecutive policy action means supervised by the privileged target.",
+)
+parser.add_argument(
+    "--train-only-actor-input-columns",
+    type=int,
+    nargs=2,
+    metavar=("START", "END"),
+    default=None,
+    help=(
+        "Freeze the loaded model except for this half-open column range of the actor MLP's "
+        "first weight matrix. Intended for zero-initialized privileged observation adapters."
+    ),
+)
 parser.add_argument("--rl-device", default=None, help="Device for the policy. Defaults to --device.")
 parser.add_argument("--wandb-project", default=None, help="Enable W&B logging under this project.")
 parser.add_argument("--wandb-entity", default=None, help="Optional W&B entity/team.")
@@ -225,6 +344,13 @@ from rl_games.common.algo_observer import IsaacAlgoObserver  # noqa: E402
 from rl_games.torch_runner import Runner  # noqa: E402
 
 import simtoolreal_lab  # noqa: F401,E402
+from simtoolreal_lab.teacher_student.structured_state_network import (  # noqa: E402
+    configure_static_finger_relation_residual_network,
+    configure_static_structured_state_network,
+    register_structured_state_network,
+)
+
+register_structured_state_network()
 
 
 def _trace(message: str) -> None:
@@ -261,11 +387,14 @@ def _maybe_init_wandb(args: argparse.Namespace, agent_cfg: dict, run_dir: Path, 
             "device": args.device,
             "rl_device": args.rl_device or args.device,
             "checkpoint": args.checkpoint,
+            "teacher_state_encoder": args.teacher_state_encoder,
+            "zero_policy_mean_init": args.zero_policy_mean_init,
             "reset_optimizer_on_load": args.reset_optimizer_on_load,
             "reset_epoch_on_load": args.reset_epoch_on_load,
             "freeze_input_running_stats": args.freeze_input_running_stats,
             "freeze_value_running_stats": args.freeze_value_running_stats,
             "dynamic_curriculum_alpha": args.dynamic_curriculum_alpha,
+            "clean_grasp_curriculum_alpha": args.clean_grasp_curriculum_alpha,
             "tabletop_asset_curriculum_alpha": args.tabletop_asset_curriculum_alpha,
             "tabletop_motion_curriculum_alpha": args.tabletop_motion_curriculum_alpha,
             "tabletop_pregrasp_lead_time": args.tabletop_pregrasp_lead_time,
@@ -275,6 +404,12 @@ def _maybe_init_wandb(args: argparse.Namespace, agent_cfg: dict, run_dir: Path, 
             "scripted_action_prior_lift_steps": args.scripted_action_prior_lift_steps,
             "episode_length_s": args.episode_length_s,
             "dynamic_success_hold_steps": args.dynamic_success_hold_steps,
+            "tabletop_lift_hand_target_close_fraction": (
+                args.tabletop_lift_hand_target_close_fraction
+            ),
+            "tabletop_arm_lift_baseline_grasp_streak": (
+                args.tabletop_arm_lift_baseline_grasp_streak
+            ),
             "tabletop_post_success_hand_close_fraction": (
                 args.tabletop_post_success_hand_close_fraction
             ),
@@ -287,6 +422,19 @@ def _maybe_init_wandb(args: argparse.Namespace, agent_cfg: dict, run_dir: Path, 
             "behavior_anchor_hand_start_index": args.behavior_anchor_hand_start_index,
             "behavior_anchor_arm_weight": args.behavior_anchor_arm_weight,
             "behavior_anchor_hand_weight": args.behavior_anchor_hand_weight,
+            "behavior_anchor_arm_release_gate_obs_index": (
+                args.behavior_anchor_arm_release_gate_obs_index
+            ),
+            "behavior_anchor_arm_release_gate_threshold": (
+                args.behavior_anchor_arm_release_gate_threshold
+            ),
+            "privileged_action_target_coef": args.privileged_action_target_coef,
+            "privileged_action_target_obs_index": args.privileged_action_target_obs_index,
+            "privileged_action_target_gate_obs_index": args.privileged_action_target_gate_obs_index,
+            "privileged_action_target_gate_threshold": args.privileged_action_target_gate_threshold,
+            "privileged_action_target_action_index": args.privileged_action_target_action_index,
+            "privileged_action_target_dim": args.privileged_action_target_dim,
+            "train_only_actor_input_columns": args.train_only_actor_input_columns,
             "agent_config": agent_cfg,
             "max_epochs": config.get("max_epochs"),
             "horizon_length": config.get("horizon_length"),
@@ -303,6 +451,25 @@ def _configure_agent(agent_cfg: dict, env, args: argparse.Namespace) -> tuple[di
     agent_cfg = copy.deepcopy(agent_cfg)
     params = agent_cfg["params"]
     config = params["config"]
+
+    if args.teacher_state_encoder == "structured":
+        configure_static_structured_state_network(
+            params["network"],
+            observation_dim=int(env.cfg.observation_space),
+            action_dim=int(env.cfg.action_space),
+        )
+    elif args.teacher_state_encoder == "finger_residual":
+        configure_static_finger_relation_residual_network(
+            params["network"],
+            observation_dim=int(env.cfg.observation_space),
+            action_dim=int(env.cfg.action_space),
+        )
+
+    if args.zero_policy_mean_init:
+        params["network"]["space"]["continuous"]["mu_init"] = {
+            "name": "const_initializer",
+            "val": 0.0,
+        }
 
     rl_device = args.rl_device or args.device
     config["device"] = rl_device
@@ -350,6 +517,182 @@ def _configure_agent(agent_cfg: dict, env, args: argparse.Namespace) -> tuple[di
     return agent_cfg, train_dir, experiment_name
 
 
+def _write_run_manifest(
+    run_dir: Path,
+    agent_cfg: dict,
+    env,
+    args: argparse.Namespace,
+) -> Path:
+    run_dir.mkdir(parents=True, exist_ok=True)
+    manifest = {
+        "schema_version": 1,
+        "task": args.task,
+        "experiment_name": agent_cfg["params"]["config"]["full_experiment_name"],
+        "teacher_state_encoder": args.teacher_state_encoder,
+        "network_name": agent_cfg["params"]["network"]["name"],
+        "observation_dim": int(env.cfg.observation_space),
+        "action_dim": int(env.cfg.action_space),
+        "action_contract": getattr(env.cfg, "action_contract", None),
+        "policy_action_interface": getattr(env.cfg, "policy_action_interface", None),
+        "benchmark_protocol": getattr(env.cfg, "benchmark_protocol", None),
+        "canonical_static": {
+            "enabled": bool(getattr(env.cfg, "canonical_static_reward_enabled", False)),
+            "reset_curriculum_enabled": bool(
+                getattr(env.cfg, "canonical_reset_curriculum_enabled", False)
+            ),
+            "reset_curriculum_mode": getattr(
+                env.cfg, "canonical_reset_curriculum_mode", "frames"
+            ),
+            "reset_curriculum_metric": getattr(
+                env.cfg, "canonical_reset_curriculum_metric", None
+            ),
+            "reset_curriculum_start_success": getattr(
+                env.cfg, "canonical_reset_curriculum_start_success", None
+            ),
+            "reset_curriculum_full_success": getattr(
+                env.cfg, "canonical_reset_curriculum_full_success", None
+            ),
+            "reset_curriculum_ema_alpha": getattr(
+                env.cfg, "canonical_reset_curriculum_ema_alpha", None
+            ),
+            "reset_curriculum_alpha_rise": getattr(
+                env.cfg, "canonical_reset_curriculum_alpha_rise", None
+            ),
+            "reset_curriculum_allow_decrease": bool(
+                getattr(
+                    env.cfg,
+                    "canonical_reset_curriculum_allow_decrease",
+                    False,
+                )
+            ),
+            "reset_start_frames": getattr(
+                env.cfg, "canonical_reset_curriculum_start_frames", None
+            ),
+            "reset_end_frames": getattr(
+                env.cfg, "canonical_reset_curriculum_end_frames", None
+            ),
+            "pregrasp_anchor_fraction": getattr(
+                env.cfg, "canonical_reset_curriculum_pregrasp_anchor_fraction", None
+            ),
+            "hard_anchor_fraction": getattr(
+                env.cfg, "canonical_reset_curriculum_hard_anchor_fraction", None
+            ),
+            "reset_arm_pos_noise": getattr(
+                env.cfg, "canonical_reset_arm_pos_noise", None
+            ),
+            "arm_action_mode": getattr(env.cfg, "joint_target_arm_action_mode", None),
+            "arm_delta_scale": getattr(env.cfg, "joint_target_arm_delta_scale", None),
+            "arm_max_delta": getattr(env.cfg, "joint_target_arm_max_delta", None),
+            "hand_action_semantics": getattr(env.cfg, "hand_action_semantics", None),
+            "hover_goal_reward_scale": getattr(
+                env.cfg, "canonical_hover_goal_rew_scale", None
+            ),
+            "hover_stable_reward_scale": getattr(
+                env.cfg, "canonical_hover_stable_rew_scale", None
+            ),
+            "success_now_reward_scale": getattr(
+                env.cfg, "canonical_success_now_rew_scale", None
+            ),
+            "hold_progress_reward_scale": getattr(
+                env.cfg, "canonical_hold_progress_rew_scale", None
+            ),
+            "success_lift_height": getattr(
+                env.cfg, "tabletop_success_lift_height", None
+            ),
+            "success_hold_steps": getattr(env.cfg, "dynamic_success_hold_steps", None),
+        },
+        "dynamic_curriculum": {
+            "enabled": bool(
+                getattr(env.cfg, "dynamic_grasp_speed_curriculum", False)
+            ),
+            "mode": getattr(
+                env.cfg, "dynamic_grasp_speed_curriculum_mode", None
+            ),
+            "metric": getattr(
+                env.cfg, "dynamic_grasp_speed_curriculum_metric", None
+            ),
+            "start_success": getattr(
+                env.cfg, "dynamic_grasp_speed_curriculum_start_success", None
+            ),
+            "full_success": getattr(
+                env.cfg, "dynamic_grasp_speed_curriculum_full_success", None
+            ),
+            "ema_alpha": getattr(
+                env.cfg, "dynamic_grasp_speed_curriculum_ema_alpha", None
+            ),
+            "alpha_rise": getattr(
+                env.cfg, "dynamic_grasp_speed_curriculum_alpha_rise", None
+            ),
+            "min_canonical_reset_alpha": getattr(
+                env.cfg,
+                "dynamic_speed_curriculum_min_canonical_reset_alpha",
+                0.0,
+            ),
+            "start_speed_range_mps": getattr(
+                env.cfg, "dynamic_tabletop_start_speed_range", None
+            ),
+            "target_speed_range_mps": getattr(
+                env.cfg, "dynamic_tabletop_initial_speed_range", None
+            ),
+            "heading_range_rad": getattr(
+                env.cfg, "dynamic_tabletop_heading_range", None
+            ),
+            "asset_curriculum_enabled": bool(
+                getattr(env.cfg, "tabletop_asset_curriculum", False)
+            ),
+            "asset_curriculum_mode": getattr(
+                env.cfg, "tabletop_asset_curriculum_mode", None
+            ),
+        },
+        "clean_grasp_curriculum": {
+            "enabled": bool(
+                getattr(env.cfg, "tabletop_clean_grasp_curriculum_enabled", False)
+            ),
+            "override_alpha": getattr(
+                env.cfg,
+                "tabletop_clean_grasp_curriculum_override_alpha",
+                None,
+            ),
+            "start_frames": getattr(
+                env.cfg,
+                "tabletop_clean_grasp_curriculum_start_frames",
+                None,
+            ),
+            "end_frames": getattr(
+                env.cfg,
+                "tabletop_clean_grasp_curriculum_end_frames",
+                None,
+            ),
+            "start_contact_distance": getattr(
+                env.cfg,
+                "tabletop_clean_grasp_curriculum_start_contact_distance",
+                None,
+            ),
+            "final_contact_distance": getattr(
+                env.cfg,
+                "tabletop_clean_grasp_contact_distance",
+                None,
+            ),
+            "start_hold_steps": getattr(
+                env.cfg,
+                "tabletop_clean_grasp_curriculum_start_hold_steps",
+                None,
+            ),
+            "final_hold_steps": getattr(
+                env.cfg,
+                "tabletop_clean_grasp_hold_steps",
+                None,
+            ),
+        },
+        "num_envs": int(env.num_envs),
+        "seed": int(agent_cfg["params"]["seed"]),
+        "agent_config": agent_cfg,
+    }
+    path = run_dir / "resolved_run_config.json"
+    path.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
+    return path
+
+
 def _maybe_freeze_running_stats(args: argparse.Namespace):
     if not args.freeze_input_running_stats and not args.freeze_value_running_stats:
         return None
@@ -383,63 +726,188 @@ def _maybe_freeze_running_stats(args: argparse.Namespace):
     return original_forward
 
 
-def _maybe_patch_behavior_anchor(args: argparse.Namespace):
-    if args.behavior_anchor_coef <= 0.0:
+def _maybe_patch_policy_auxiliary_losses(args: argparse.Namespace):
+    anchor_coef = float(args.behavior_anchor_coef)
+    target_coef = float(args.privileged_action_target_coef)
+    if anchor_coef <= 0.0 and target_coef <= 0.0:
         return None
 
     anchor_checkpoint = args.behavior_anchor_checkpoint or args.checkpoint
-    if not anchor_checkpoint:
+    if anchor_coef > 0.0 and not anchor_checkpoint:
         raise RuntimeError("--behavior-anchor-coef > 0 requires --checkpoint or --behavior-anchor-checkpoint")
+    if target_coef > 0.0:
+        if args.privileged_action_target_obs_index is None:
+            raise RuntimeError(
+                "--privileged-action-target-coef > 0 requires --privileged-action-target-obs-index"
+            )
+        if args.privileged_action_target_gate_obs_index is None:
+            raise RuntimeError(
+                "--privileged-action-target-coef > 0 requires "
+                "--privileged-action-target-gate-obs-index"
+            )
+        if args.privileged_action_target_dim <= 0:
+            raise RuntimeError("--privileged-action-target-dim must be positive")
 
     from rl_games.algos_torch import a2c_continuous
     from rl_games.common import common_losses
 
     original_init = a2c_continuous.A2CAgent.__init__
     original_calc_gradients = a2c_continuous.A2CAgent.calc_gradients
-    anchor_path = str(Path(anchor_checkpoint).expanduser())
-    anchor_coef = float(args.behavior_anchor_coef)
+    anchor_path = str(Path(anchor_checkpoint).expanduser()) if anchor_checkpoint else ""
     anchor_mode = args.behavior_anchor_mode
     hand_start_index = args.behavior_anchor_hand_start_index
     arm_weight = float(args.behavior_anchor_arm_weight)
     hand_weight = float(args.behavior_anchor_hand_weight)
+    anchor_arm_release_gate_obs_index = args.behavior_anchor_arm_release_gate_obs_index
+    anchor_arm_release_gate_threshold = float(
+        args.behavior_anchor_arm_release_gate_threshold
+    )
+    target_obs_index = args.privileged_action_target_obs_index
+    target_gate_obs_index = args.privileged_action_target_gate_obs_index
+    target_gate_threshold = float(args.privileged_action_target_gate_threshold)
+    target_action_index = int(args.privileged_action_target_action_index)
+    target_dim = int(args.privileged_action_target_dim)
+    actor_input_adapter_columns = args.train_only_actor_input_columns
 
-    def init_with_behavior_anchor(self, base_name, params):
+    def init_with_policy_auxiliary_losses(self, base_name, params):
         original_init(self, base_name, params)
-        checkpoint = torch_ext.safe_filesystem_op(torch.load, anchor_path, map_location=self.ppo_device)
-        anchor_model = copy.deepcopy(self.model)
-        anchor_model.load_state_dict(checkpoint["model"])
-        anchor_model.to(self.ppo_device)
-        anchor_model.eval()
-        for param in anchor_model.parameters():
-            param.requires_grad_(False)
-        self.behavior_anchor_model = anchor_model
         self.behavior_anchor_coef = anchor_coef
         self.behavior_anchor_mode = anchor_mode
         self.behavior_anchor_hand_start_index = hand_start_index
         self.behavior_anchor_arm_weight = arm_weight
         self.behavior_anchor_hand_weight = hand_weight
+        self.behavior_anchor_arm_release_gate_obs_index = anchor_arm_release_gate_obs_index
+        self.behavior_anchor_arm_release_gate_threshold = anchor_arm_release_gate_threshold
         self.behavior_anchor_last_loss = torch.zeros((), device=self.ppo_device)
         self.behavior_anchor_last_metric = torch.zeros((), device=self.ppo_device)
-        _trace(
-            "loaded frozen behavior anchor: "
-            f"path={anchor_path}, coef={anchor_coef:g}, mode={anchor_mode}, "
-            f"hand_start={hand_start_index}, arm_weight={arm_weight:g}, hand_weight={hand_weight:g}"
-        )
+        if anchor_coef > 0.0:
+            checkpoint = torch_ext.safe_filesystem_op(torch.load, anchor_path, map_location=self.ppo_device)
+            anchor_model = copy.deepcopy(self.model)
+            anchor_model.load_state_dict(checkpoint["model"])
+            anchor_model.to(self.ppo_device)
+            anchor_model.eval()
+            for param in anchor_model.parameters():
+                param.requires_grad_(False)
+            self.behavior_anchor_model = anchor_model
+            _trace(
+                "loaded frozen behavior anchor: "
+                f"path={anchor_path}, coef={anchor_coef:g}, mode={anchor_mode}, "
+                f"hand_start={hand_start_index}, arm_weight={arm_weight:g}, hand_weight={hand_weight:g}, "
+                f"arm_release_gate_obs={anchor_arm_release_gate_obs_index}"
+            )
 
-    def _weighted_mu_mse(self, mu: torch.Tensor, ref_mu: torch.Tensor) -> torch.Tensor:
+        self.privileged_action_target_coef = target_coef
+        self.privileged_action_target_obs_index = target_obs_index
+        self.privileged_action_target_gate_obs_index = target_gate_obs_index
+        self.privileged_action_target_gate_threshold = target_gate_threshold
+        self.privileged_action_target_action_index = target_action_index
+        self.privileged_action_target_dim = target_dim
+        self.privileged_action_target_last_loss = torch.zeros((), device=self.ppo_device)
+        self.privileged_action_target_last_gate_fraction = torch.zeros((), device=self.ppo_device)
+        self.privileged_action_target_last_mae = torch.zeros((), device=self.ppo_device)
+        if target_coef > 0.0:
+            _trace(
+                "enabled privileged action-target loss: "
+                f"coef={target_coef:g}, obs=[{target_obs_index}:{target_obs_index + target_dim}], "
+                f"actions=[{target_action_index}:{target_action_index + target_dim}], "
+                f"gate_obs={target_gate_obs_index}, gate_threshold={target_gate_threshold:g}"
+            )
+
+        if actor_input_adapter_columns is not None:
+            column_start, column_end = (int(value) for value in actor_input_adapter_columns)
+            candidates = [
+                (name, param)
+                for name, param in self.model.named_parameters()
+                if name.endswith("a2c_network.actor_mlp.0.weight")
+            ]
+            if len(candidates) != 1:
+                raise RuntimeError(
+                    "Expected exactly one actor first-layer weight, found "
+                    f"{[name for name, _ in candidates]}"
+                )
+            parameter_name, adapter_parameter = candidates[0]
+            if not 0 <= column_start < column_end <= adapter_parameter.shape[1]:
+                raise RuntimeError(
+                    "--train-only-actor-input-columns is out of bounds: "
+                    f"[{column_start}:{column_end}] for {parameter_name} shape "
+                    f"{tuple(adapter_parameter.shape)}"
+                )
+            for parameter in self.model.parameters():
+                parameter.requires_grad_(False)
+            adapter_parameter.requires_grad_(True)
+            gradient_mask = torch.zeros_like(adapter_parameter)
+            gradient_mask[:, column_start:column_end] = 1.0
+            self.actor_input_adapter_gradient_mask = gradient_mask
+            self.actor_input_adapter_gradient_hook = adapter_parameter.register_hook(
+                lambda gradient: gradient * self.actor_input_adapter_gradient_mask
+            )
+            _trace(
+                "froze model except actor input adapter columns: "
+                f"parameter={parameter_name}, columns=[{column_start}:{column_end}]"
+            )
+
+    def _phase_conditioned_anchor_weights(
+        self,
+        template: torch.Tensor,
+        raw_obs: torch.Tensor,
+    ) -> torch.Tensor:
+        weights = torch.full_like(template, self.behavior_anchor_arm_weight)
+        start = max(0, min(int(self.behavior_anchor_hand_start_index), template.shape[-1]))
+        if start < template.shape[-1]:
+            weights[..., start:] = self.behavior_anchor_hand_weight
+        gate_index = self.behavior_anchor_arm_release_gate_obs_index
+        if gate_index is not None and start > 0:
+            gate_index = int(gate_index)
+            if gate_index < 0 or gate_index >= raw_obs.shape[-1]:
+                raise RuntimeError(
+                    f"behavior anchor arm-release gate index {gate_index} is out of bounds "
+                    f"for obs dim {raw_obs.shape[-1]}"
+                )
+            release_gate = (
+                raw_obs[..., gate_index] > self.behavior_anchor_arm_release_gate_threshold
+            ).to(dtype=weights.dtype)
+            weights[..., :start] *= 1.0 - release_gate.unsqueeze(-1)
+        return weights
+
+    def _weighted_mu_mse(
+        self,
+        mu: torch.Tensor,
+        ref_mu: torch.Tensor,
+        raw_obs: torch.Tensor,
+    ) -> torch.Tensor:
         squared_error = (mu - ref_mu.detach()) ** 2
         if self.behavior_anchor_hand_start_index is not None and squared_error.shape[-1] > 0:
-            weights = torch.full_like(squared_error, self.behavior_anchor_arm_weight)
-            start = max(0, min(int(self.behavior_anchor_hand_start_index), squared_error.shape[-1]))
-            if start < squared_error.shape[-1]:
-                weights[..., start:] = self.behavior_anchor_hand_weight
+            weights = _phase_conditioned_anchor_weights(self, squared_error, raw_obs)
             weighted = squared_error * weights
             normalizer = weights.mean(dim=-1).clamp_min(1e-6)
             return weighted.mean(dim=-1) / normalizer
         return squared_error.mean(dim=-1)
 
-    def calc_gradients_with_behavior_anchor(self, input_dict):
-        if not hasattr(self, "behavior_anchor_model"):
+    def _weighted_policy_kl(
+        self,
+        mu: torch.Tensor,
+        sigma: torch.Tensor,
+        ref_mu: torch.Tensor,
+        ref_sigma: torch.Tensor,
+        raw_obs: torch.Tensor,
+    ) -> torch.Tensor:
+        ref_mu = ref_mu.detach()
+        ref_sigma = ref_sigma.detach()
+        per_action_kl = (
+            torch.log(ref_sigma / sigma + 1e-5)
+            + (sigma**2 + (ref_mu - mu) ** 2) / (2.0 * (ref_sigma**2 + 1e-5))
+            - 0.5
+        )
+        if self.behavior_anchor_hand_start_index is not None and per_action_kl.shape[-1] > 0:
+            weights = _phase_conditioned_anchor_weights(self, per_action_kl, raw_obs)
+            # Keep the original summed-KL scale while changing only the relative
+            # arm/hand contribution.
+            normalizer = weights.mean(dim=-1).clamp_min(1e-6)
+            return (per_action_kl * weights).sum(dim=-1) / normalizer
+        return per_action_kl.sum(dim=-1)
+
+    def calc_gradients_with_policy_auxiliary_losses(self, input_dict):
+        if not hasattr(self, "privileged_action_target_coef"):
             return original_calc_gradients(self, input_dict)
 
         value_preds_batch = input_dict["old_values"]
@@ -449,8 +917,8 @@ def _maybe_patch_behavior_anchor(args: argparse.Namespace):
         old_sigma_batch = input_dict["sigma"]
         return_batch = input_dict["returns"]
         actions_batch = input_dict["actions"]
-        obs_batch = input_dict["obs"]
-        obs_batch = self._preproc_obs(obs_batch)
+        raw_obs_batch = input_dict["obs"]
+        obs_batch = self._preproc_obs(raw_obs_batch)
 
         lr_mul = 1.0
         curr_e_clip = self.e_clip
@@ -478,26 +946,67 @@ def _maybe_patch_behavior_anchor(args: argparse.Namespace):
             mu = res_dict["mus"]
             sigma = res_dict["sigmas"]
 
-            anchor_batch_dict = {
-                "is_train": True,
-                "prev_actions": actions_batch,
-                "obs": obs_batch,
-            }
-            if self.is_rnn:
-                anchor_batch_dict["rnn_states"] = input_dict["rnn_states"]
-                anchor_batch_dict["seq_length"] = self.seq_length
-                if self.zero_rnn_on_done:
-                    anchor_batch_dict["dones"] = input_dict["dones"]
+            if hasattr(self, "behavior_anchor_model"):
+                anchor_batch_dict = {
+                    "is_train": True,
+                    "prev_actions": actions_batch,
+                    "obs": obs_batch,
+                }
+                if self.is_rnn:
+                    anchor_batch_dict["rnn_states"] = input_dict["rnn_states"]
+                    anchor_batch_dict["seq_length"] = self.seq_length
+                    if self.zero_rnn_on_done:
+                        anchor_batch_dict["dones"] = input_dict["dones"]
 
-            with torch.no_grad():
-                ref_res_dict = self.behavior_anchor_model(anchor_batch_dict)
-                ref_mu = ref_res_dict["mus"]
-                ref_sigma = ref_res_dict["sigmas"]
+                with torch.no_grad():
+                    ref_res_dict = self.behavior_anchor_model(anchor_batch_dict)
+                    ref_mu = ref_res_dict["mus"]
+                    ref_sigma = ref_res_dict["sigmas"]
 
-            if self.behavior_anchor_mode == "kl":
-                anchor_loss_per_sample = torch_ext.policy_kl(mu, sigma, ref_mu.detach(), ref_sigma.detach(), reduce=False)
+                if self.behavior_anchor_mode == "kl":
+                    anchor_loss_per_sample = _weighted_policy_kl(
+                        self, mu, sigma, ref_mu, ref_sigma, raw_obs_batch
+                    )
+                else:
+                    anchor_loss_per_sample = _weighted_mu_mse(
+                        self, mu, ref_mu, raw_obs_batch
+                    )
             else:
-                anchor_loss_per_sample = _weighted_mu_mse(self, mu, ref_mu)
+                anchor_loss_per_sample = torch.zeros_like(mu[..., 0])
+
+            if self.privileged_action_target_coef > 0.0:
+                obs_start = int(self.privileged_action_target_obs_index)
+                action_start = int(self.privileged_action_target_action_index)
+                dim = int(self.privileged_action_target_dim)
+                if obs_start < 0 or obs_start + dim > raw_obs_batch.shape[-1]:
+                    raise RuntimeError(
+                        "privileged action target observation slice is out of bounds: "
+                        f"[{obs_start}:{obs_start + dim}] for obs dim {raw_obs_batch.shape[-1]}"
+                    )
+                if action_start < 0 or action_start + dim > mu.shape[-1]:
+                    raise RuntimeError(
+                        "privileged action target output slice is out of bounds: "
+                        f"[{action_start}:{action_start + dim}] for action dim {mu.shape[-1]}"
+                    )
+                gate_index = int(self.privileged_action_target_gate_obs_index)
+                if gate_index < 0 or gate_index >= raw_obs_batch.shape[-1]:
+                    raise RuntimeError(
+                        f"privileged action target gate index {gate_index} is out of bounds "
+                        f"for obs dim {raw_obs_batch.shape[-1]}"
+                    )
+                target = raw_obs_batch[..., obs_start : obs_start + dim].detach()
+                predicted = mu[..., action_start : action_start + dim]
+                target_gate = (
+                    raw_obs_batch[..., gate_index] > self.privileged_action_target_gate_threshold
+                ).to(dtype=predicted.dtype)
+                target_squared_error = ((predicted - target) ** 2).mean(dim=-1)
+                target_absolute_error = (predicted - target).abs().mean(dim=-1)
+                target_loss_per_sample = target_squared_error * target_gate
+                target_mae_per_sample = target_absolute_error * target_gate
+            else:
+                target_gate = torch.zeros_like(mu[..., 0])
+                target_loss_per_sample = torch.zeros_like(target_gate)
+                target_mae_per_sample = torch.zeros_like(target_gate)
 
             a_loss = self.actor_loss_func(
                 old_action_log_probs_batch, action_log_probs, advantage, self.ppo, curr_e_clip
@@ -522,10 +1031,15 @@ def _maybe_patch_behavior_anchor(args: argparse.Namespace):
                     entropy.unsqueeze(1),
                     b_loss.unsqueeze(1),
                     anchor_loss_per_sample.unsqueeze(1),
+                    target_loss_per_sample.unsqueeze(1),
+                    target_mae_per_sample.unsqueeze(1),
+                    target_gate.unsqueeze(1),
                 ],
                 rnn_masks,
             )
-            a_loss, c_loss, entropy, b_loss, anchor_loss = losses
+            a_loss, c_loss, entropy, b_loss, anchor_loss, target_loss, target_mae, target_gate_fraction = losses
+            target_loss = target_loss / target_gate_fraction.clamp_min(1.0e-6)
+            target_mae = target_mae / target_gate_fraction.clamp_min(1.0e-6)
 
             loss = (
                 a_loss
@@ -533,6 +1047,7 @@ def _maybe_patch_behavior_anchor(args: argparse.Namespace):
                 - entropy * self.entropy_coef
                 + b_loss * self.bounds_loss_coef
                 + anchor_loss * self.behavior_anchor_coef
+                + target_loss * self.privileged_action_target_coef
             )
 
             if self.multi_gpu:
@@ -550,15 +1065,37 @@ def _maybe_patch_behavior_anchor(args: argparse.Namespace):
             if rnn_masks is not None:
                 kl_dist = (kl_dist * rnn_masks).sum() / rnn_masks.numel()
 
-            if self.behavior_anchor_mode == "kl":
-                anchor_metric = anchor_loss.detach()
-            else:
-                anchor_metric = torch_ext.policy_kl(mu.detach(), sigma.detach(), ref_mu.detach(), ref_sigma.detach(), True)
-            self.behavior_anchor_last_loss = anchor_loss.detach()
-            self.behavior_anchor_last_metric = anchor_metric.detach()
-            if getattr(self, "global_rank", 0) == 0:
+            if hasattr(self, "behavior_anchor_model"):
+                if self.behavior_anchor_mode == "kl":
+                    anchor_metric = anchor_loss.detach()
+                else:
+                    anchor_metric = torch_ext.policy_kl(
+                        mu.detach(), sigma.detach(), ref_mu.detach(), ref_sigma.detach(), True
+                    )
+                self.behavior_anchor_last_loss = anchor_loss.detach()
+                self.behavior_anchor_last_metric = anchor_metric.detach()
+            self.privileged_action_target_last_loss = target_loss.detach()
+            self.privileged_action_target_last_gate_fraction = target_gate_fraction.detach()
+            self.privileged_action_target_last_mae = target_mae.detach()
+            if getattr(self, "global_rank", 0) == 0 and hasattr(self, "behavior_anchor_model"):
                 self.writer.add_scalar("losses/behavior_anchor", self.behavior_anchor_last_loss.item(), self.frame)
                 self.writer.add_scalar("diagnostics/behavior_anchor_kl", self.behavior_anchor_last_metric.item(), self.frame)
+            if getattr(self, "global_rank", 0) == 0 and self.privileged_action_target_coef > 0.0:
+                self.writer.add_scalar(
+                    "losses/privileged_action_target",
+                    self.privileged_action_target_last_loss.item(),
+                    self.frame,
+                )
+                self.writer.add_scalar(
+                    "diagnostics/privileged_action_target_gate_fraction",
+                    self.privileged_action_target_last_gate_fraction.item(),
+                    self.frame,
+                )
+                self.writer.add_scalar(
+                    "diagnostics/privileged_action_target_mae",
+                    self.privileged_action_target_last_mae.item(),
+                    self.frame,
+                )
 
         self.diagnostics.mini_batch(
             self,
@@ -585,9 +1122,10 @@ def _maybe_patch_behavior_anchor(args: argparse.Namespace):
             b_loss,
         )
 
-    a2c_continuous.A2CAgent.__init__ = init_with_behavior_anchor
-    a2c_continuous.A2CAgent.calc_gradients = calc_gradients_with_behavior_anchor
-    _trace(f"enabled behavior-anchor PPO patch: checkpoint={anchor_path}, coef={anchor_coef:g}, mode={anchor_mode}")
+    a2c_continuous.A2CAgent.__init__ = init_with_policy_auxiliary_losses
+    a2c_continuous.A2CAgent.calc_gradients = calc_gradients_with_policy_auxiliary_losses
+    if anchor_coef > 0.0:
+        _trace(f"enabled behavior-anchor PPO patch: checkpoint={anchor_path}, coef={anchor_coef:g}, mode={anchor_mode}")
     return original_init, original_calc_gradients
 
 
@@ -604,6 +1142,26 @@ def main() -> None:
     ):
         env_cfg.dynamic_grasp_speed_curriculum_override_alpha = float(args_cli.dynamic_curriculum_alpha)
         _trace(f"overriding dynamic curriculum alpha: {env_cfg.dynamic_grasp_speed_curriculum_override_alpha:g}")
+    if args_cli.clean_grasp_curriculum_alpha is not None and hasattr(
+        env_cfg, "tabletop_clean_grasp_curriculum_override_alpha"
+    ):
+        env_cfg.tabletop_clean_grasp_curriculum_override_alpha = float(
+            args_cli.clean_grasp_curriculum_alpha
+        )
+        _trace(
+            "overriding clean-grasp curriculum alpha: "
+            f"{env_cfg.tabletop_clean_grasp_curriculum_override_alpha:g}"
+        )
+    if args_cli.canonical_reset_alpha is not None and hasattr(
+        env_cfg, "canonical_reset_curriculum_override_alpha"
+    ):
+        env_cfg.canonical_reset_curriculum_override_alpha = float(
+            args_cli.canonical_reset_alpha
+        )
+        _trace(
+            "overriding canonical reset alpha: "
+            f"{env_cfg.canonical_reset_curriculum_override_alpha:g}"
+        )
     if args_cli.tabletop_asset_curriculum_alpha is not None and hasattr(
         env_cfg, "tabletop_asset_curriculum_override_alpha"
     ):
@@ -659,6 +1217,22 @@ def main() -> None:
     ):
         env_cfg.dynamic_success_hold_steps = int(args_cli.dynamic_success_hold_steps)
         _trace(f"overriding dynamic success hold steps: {env_cfg.dynamic_success_hold_steps}")
+    if args_cli.tabletop_lift_hand_target_close_fraction is not None:
+        env_cfg.tabletop_lift_hand_target_close_fraction = float(
+            args_cli.tabletop_lift_hand_target_close_fraction
+        )
+        _trace(
+            "overriding post-grasp hand close fraction: "
+            f"{env_cfg.tabletop_lift_hand_target_close_fraction:g}"
+        )
+    if args_cli.tabletop_arm_lift_baseline_grasp_streak is not None:
+        env_cfg.tabletop_arm_lift_progress_baseline_grasp_streak = int(
+            args_cli.tabletop_arm_lift_baseline_grasp_streak
+        )
+        _trace(
+            "overriding lift baseline grasp streak: "
+            f"{env_cfg.tabletop_arm_lift_progress_baseline_grasp_streak}"
+        )
     if args_cli.tabletop_post_success_hand_close_fraction is not None:
         env_cfg.tabletop_post_success_hand_close_fraction = float(
             args_cli.tabletop_post_success_hand_close_fraction
@@ -685,6 +1259,12 @@ def main() -> None:
     try:
         agent_cfg = load_cfg_from_registry(args_cli.task, "rl_games_cfg_entry_point")
         agent_cfg, train_dir, experiment_name = _configure_agent(agent_cfg, env.unwrapped, args_cli)
+        _trace(
+            "teacher state encoder: "
+            f"{args_cli.teacher_state_encoder} ({agent_cfg['params']['network']['name']})"
+        )
+        if args_cli.zero_policy_mean_init:
+            _trace("initializing policy mean head at zero")
         config = agent_cfg["params"]["config"]
         env_block = agent_cfg["params"]["env"]
         rl_device = args_cli.rl_device or args_cli.device
@@ -709,6 +1289,8 @@ def main() -> None:
         )
 
         run_dir = train_dir / experiment_name
+        manifest_path = _write_run_manifest(run_dir, agent_cfg, env.unwrapped, args_cli)
+        _trace(f"resolved run config: {manifest_path}")
         wandb_run = _maybe_init_wandb(args_cli, agent_cfg, run_dir, experiment_name)
         if wandb_run is not None:
             _trace(f"wandb run: {wandb_run.url or wandb_run.name}")
@@ -720,7 +1302,7 @@ def main() -> None:
             f"mini_epochs={config['mini_epochs']}"
         )
         original_rms_forward = _maybe_freeze_running_stats(args_cli)
-        original_behavior_anchor_patch = _maybe_patch_behavior_anchor(args_cli)
+        original_policy_auxiliary_patch = _maybe_patch_policy_auxiliary_losses(args_cli)
         runner = Runner(algo_observer=IsaacAlgoObserver())
         runner.load(agent_cfg)
         runner.reset()
@@ -755,10 +1337,10 @@ def main() -> None:
                 from rl_games.algos_torch import running_mean_std
 
                 running_mean_std.RunningMeanStd.forward = original_rms_forward
-            if original_behavior_anchor_patch is not None:
+            if original_policy_auxiliary_patch is not None:
                 from rl_games.algos_torch import a2c_continuous
 
-                original_init, original_calc_gradients = original_behavior_anchor_patch
+                original_init, original_calc_gradients = original_policy_auxiliary_patch
                 a2c_continuous.A2CAgent.__init__ = original_init
                 a2c_continuous.A2CAgent.calc_gradients = original_calc_gradients
 
@@ -776,5 +1358,10 @@ def main() -> None:
 if __name__ == "__main__":
     try:
         main()
+    except BaseException:
+        # Isaac Sim may terminate the process from close(), so emit the original
+        # training exception before shutdown instead of silently returning 0.
+        traceback.print_exc()
+        raise
     finally:
         simulation_app.close()

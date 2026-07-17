@@ -396,6 +396,11 @@ class Revo2StaticGraspEnvCfg(DirectRLEnvCfg):
     hand_joint_names = REVO2_HAND_JOINT_NAMES
     fingertip_body_names = REVO2_TOUCH_BODY_NAMES
     touch_body_names = REVO2_TOUCH_BODY_NAMES
+    robot_collision_disabled_body_names: tuple[str, ...] = ()
+    robot_extra_self_collision_filter_pairs: tuple[tuple[str, str], ...] = ()
+    robot_mimic_natural_frequency: float | None = None
+    robot_mimic_damping_ratio: float | None = None
+    robot_mimic_offset_overrides_deg: tuple[tuple[str, float], ...] = ()
     palm_body_name = "revo2_right_base_link"
     palm_offset = (0.0, 0.0, 0.0)
     fingertip_body_offsets = (
@@ -436,10 +441,15 @@ class Revo2StaticGraspEnvCfg(DirectRLEnvCfg):
     initial_no_contact_steps = 96
     scripted_action_prior_enabled = False
     scripted_action_prior_residual_scale = 1.0
+    scripted_action_prior_active_residual_scale: float | None = None
+    scripted_action_prior_active_arm_residual_scale: float | None = None
+    scripted_action_prior_active_hand_residual_scale: float | None = None
+    scripted_action_prior_post_grasp_arm_residual_scale: float | None = None
     scripted_action_prior_hand_start_step = 100
     scripted_action_prior_lift_start_step = 150
     scripted_action_prior_lift_steps = 140
     scripted_action_prior_hand_action = 1.0
+    scripted_action_prior_hand_action_vector: tuple[float, ...] | None = None
     scripted_action_prior_hand_ramp_steps = 0
     scripted_action_prior_lift_action = V327_LIFT_ACTION_PRIOR
     scripted_action_prior_lift_requires_grasp = False
